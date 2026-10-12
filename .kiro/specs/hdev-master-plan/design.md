@@ -232,26 +232,28 @@ Source: `year-and-day-simulation-problem.md`. This is the least-settled area; be
 
 ### 3B. Three concrete options
 
-For each: how consumption feeds charging, SOC carry-over, how annual totals / worst day / P10–P50–P90 come out, cache keys, and what must be **timed first**.
+For each: how consumption feeds charging, SOC carry-over, how annual totals / worst day / **the day-to-day distribution of daily results across the weather year** come out, cache keys, and what must be **timed first**.
+
+> **Terminology (Decided — Bob, this session):** the spread of daily results across the real operating dates of a weather year is the **weather spread** — report it as *daily-result percentiles across the weather year* (e.g. "90th-percentile day"). It is **not** "P10/P90 of the result"; that term is reserved for **Monte Carlo input uncertainty** (JCGM 101:2008, perturbing uncertain inputs). The two spreads are kept separate and never share a label. (year/day §2, §4(4).)
 
 #### Option 1 — Compute every operating date directly (no grouping)
 - **Consumption → charging:** for each real operating date, run G/I/W/J/consumption with that date's (T, wind) and the day's mass, giving that date's kWh and a per-session energy need. Feed the dated sequence of sessions straight into the charging simulation.
 - **SOC carry-over:** natural — the charging simulation walks the real date sequence; each session starts at the previous session's ending SOC. Weekends and overnight are just longer sessions.
-- **Annual totals:** sum over all operating dates. **Worst day:** the max-kWh date (already its own case). **P10/P50/P90:** percentiles over the per-date kWh distribution directly (no reconstruction).
+- **Annual totals:** sum over all operating dates. **Worst day:** the max-kWh date (already its own case). **Weather spread:** daily-result percentiles over the per-date kWh distribution directly, no reconstruction (and labelled as weather spread, not result P-values).
 - **Cache keys:** per date = (route/day-type id, T, wind, mass). Dates with identical (day-type, T-rounded, wind-rounded, mass) hit the same cache entry — grouping becomes an *implementation detail of the cache*, not a modelling choice.
-- **Timed first:** the per-year cost of ~250 vectorised date-runs. If cheap, this is the simplest correct option and needs no bin choices. year/day §5 explicitly asks whether (a) computing every date directly beats binning.
+- **Timed first:** the per-year cost of the vectorised date-runs (consumption) **and** one year of charging at a **coarse and a fine `dt`** (§3G). If cheap, this is the simplest correct option and needs no bin choices. year/day §5 asks whether computing every date directly beats binning; the fine-`dt` charging timing also decides how affordable sub-minute ancillary-service resolution is over a full year.
 
 #### Option 2 — Bin by weather (day-type × temperature × wind bins)
 - **Consumption → charging:** run the pipeline once per unique (day-type × T-bin × wind-bin), multiply by how many dates fall in that bin for annual totals (year/day §2 "group").
 - **SOC carry-over:** **this is the weak point** — binning throws away the real date order, so SOC cannot carry across the real sequence. Charging then needs a representative structure (Option 3) layered on top; binning alone does not give correct cross-day SOC.
-- **Annual totals:** Σ (bin kWh × bin count). **Worst day:** must keep the extreme date(s) *outside* the bins (year/day §2 "worst day kept as its own case") or binning hides them. **P10/P50/P90:** percentiles over the bin distribution weighted by counts — **approximate**, resolution set by bin width.
+- **Annual totals:** Σ (bin kWh × bin count). **Worst day:** must keep the extreme date(s) *outside* the bins (year/day §2 "worst day kept as its own case") or binning hides them. **Weather spread:** daily-result percentiles over the bin distribution weighted by counts — **approximate**, resolution set by bin width (still a weather spread, not result P-values).
 - **Cache keys:** (day-type, T-bin, wind-bin, mass). Fewer runs than Option 1.
 - **Timed first:** nothing to time for cost (it is cheaper by construction); instead the open question is **how to choose bins defensibly without inventing numbers** (year/day §5). Bin edges must be a labelled choice or sourced — there is no VECTO source for weather bins, so they are HDEV ASSUMPTION. Also: hourly weather (option C) breaks binning because almost no two days are identical (year/day §4(2)).
 
 #### Option 3 — Hybrid: exact extremes + binned rest + representative charging weeks (Suggestion)
 - **Consumption → charging:** compute the **worst day(s)** and any extreme days exactly (Option 1 style, for sizing); bin the remaining ordinary days (Option 2 style, for annual totals); and for **charging**, simulate one **representative week per temperature bin** (year/day §3 Claude suggestion: 2,016 steps at 5 min, run two weeks, keep the second so Monday starts at a realistic SOC).
 - **SOC carry-over:** handled inside each representative week (7-day sequence incl. weekend); the only rollover is a real shortfall at departure (year/day §3, May-2026 "representative week not representative day"). Ending SOC ≠ starting SOC is reported as a real finding.
-- **Annual totals:** binned ordinary days (Σ bin kWh × count) + exact extreme days. **Worst day:** exact, from the extreme set. **P10/P50/P90:** from the binned distribution for the bulk, with exact tails for the extremes.
+- **Annual totals:** binned ordinary days (Σ bin kWh × count) + exact extreme days. **Worst day:** exact, from the extreme set. **Weather spread:** daily-result percentiles from the binned distribution for the bulk, with exact tails for the extremes (weather spread, not result P-values).
 - **Cache keys:** extremes keyed per date (as Option 1); bins keyed per (day-type, T-bin, wind-bin, mass); charging keyed per (T-bin, week-pattern, battery, charger, policy, site cap).
 - **Timed first:** (i) the per-date cost (shared with Option 1, to know if "exact for extremes" is cheap); (ii) one representative-week charging run at 5 min (year/day §5: "is one continuous year-long run cheap enough, or representative weeks scaled up?"). "2,016 steps", "5 min", "two weeks" are the **Suggestion's** numbers from the doc — labelled Claude's suggestion, not sourced; Bob chooses.
 
@@ -264,14 +266,35 @@ The hand-over object (Suggestion): per plug-in session, `{arrival_time, departur
 | 4(1) | Per-date vs bins vs representative weeks don't combine into one annual number | **Resolved by choosing an option.** Opt 1 uses per-date throughout; Opt 3 defines the combination explicitly (binned bulk + exact extremes for totals/worst-day; representative weeks for charging). Opt 2 alone is **rejected** for charging (no SOC carry-over). The recommendation (3E) is one consistent story. |
 | 4(2) | Hourly weather breaks binning | **Resolved as a dependency:** if hourly (option C) is chosen, binning for consumption stops working, so Option 1 (compute every date directly) is the consistent partner for hourly. Decide B vs C by timing one year both ways (year/day §2). **Open** until timed. |
 | 4(3) | Consumption-days vs charging-weeks hand-over not designed | **Resolved by 3C** (the session hand-over object). **Suggestion** — Bob confirms the fields. |
-| 4(4) | Monte Carlo placement | **Listed Open.** MC draws sit *above* the structure: each draw perturbs inputs (payload, coincidence) then reruns from the first changed step via the rerun table. MC suits coincidence factor / peak charging more than payload (year/day §4(4)). Not designed further here — **Open**, needs Bob. |
+| 4(4) | Monte Carlo placement | **Partly resolved (Bob, this session):** MC input uncertainty and the day-to-day weather spread are **two separate spreads, never conflated** — only MC produces "P10/P50/P90 of the result" (JCGM 101:2008); the weather year produces *daily-result percentiles across the weather year*. MC draws sit *above* the structure: each draw perturbs uncertain inputs (payload, coincidence) then reruns from the first changed step via the rerun table. MC suits coincidence factor / peak charging more than payload (year/day §4(4)). The detailed MC machinery stays **Open** (needs Bob), but the labelling rule is Decided. |
 | 4(5) | Departure clock time missing | **Resolved as a schema hook:** add an optional `departure_time` to routes/calendar; option C and JIT/EDF need it; daily (option A) ignores it. **Open** whether to add now — tie to the B-vs-C decision. |
 
-### 3E. Recommendation (Suggestion — Bob decides)
-**Start with Option 1 (compute every operating date directly), time it, and only fall back to Option 3 (hybrid) if Option 1 is too slow for sweeps/Monte Carlo.** Reasoning:
-- Option 1 is the only one that needs **no invented bin numbers** and gives correct SOC carry-over and exact percentiles for free — it best fits the "no invented numbers" and "worst day is its own case" rules (year/day §6, §2).
-- It is also the consistent partner if hourly weather (option C) is later chosen, which binning cannot support (§4(2)).
-- The one risk is cost; year/day §5 explicitly says to time "compute every date directly" first. If ~250 vectorised date-runs × scenarios × MC draws is too slow, Option 3 adds binning for the ordinary-day bulk while keeping extremes exact — a smaller, numbers-labelled step, not a redesign.
-- Under all options the VECTO-equivalent case is a **single** day-type with declaration weather, so it is reproduced identically regardless (year/day §6).
+### 3E. Decision (Decided — Bob, this session)
+**Option 1 (compute every operating date directly) is chosen. Option 3 (hybrid) is kept only as a fallback, used only if the timing gate (3F) shows Option 1 is too slow for sweeps/Monte Carlo.** Reasoning Bob accepted:
+- Option 1 is the only one that needs **no invented bin numbers** and gives correct SOC carry-over and an exact day-to-day weather spread for free — it best fits the "no invented numbers" and "worst day is its own case" rules (year/day §6, §2).
+- It is the consistent partner if hourly weather (option C) is later chosen, which binning cannot support (§4(2)).
+- The one risk is cost, which the timing gate measures before any structure code is written.
+- Under both options the VECTO-equivalent case is a **single** day-type with declaration weather, so it is reproduced identically regardless (year/day §6).
 
-What to **time first** (the deciding measurement, no numbers assumed): one year of per-date vectorised runs (Option 1 cost) and one representative-week charging run at 5-min steps (Option 3 charging cost). The result of these two timings picks Option 1 vs Option 3 and B vs C. This is marked **Open** pending Bob running the timing.
+### 3F. Timing gate — runs FIRST, before any M2 structure code (Decided — Bob, this session)
+Before building the calendar/annual path, measure:
+1. **One year of consumption per date** (Option 1 consumption cost).
+2. **One year of charging** (Option 1 charging cost) — run at **a coarse step and a fine step** (see §4.3 on `dt`), so the cost of fine-grained charging over a full year is known.
+
+Option 1 proceeds only if these are fast enough for sweeps/Monte Carlo; otherwise fall back to Option 3 (binning for the ordinary-day bulk, extremes kept exact — a smaller, numbers-labelled step, not a redesign). No cost numbers are assumed here; the measurement decides. The same timing run also informs the **B-vs-C weather decision** (§3B/§3D(4(2))), which stays deferred until after the gate.
+
+Note the fallback's "2,016 steps / 5 min / two weeks" figures in Option 3 remain Claude's unsourced **Suggestion** — if Option 3 is ever used, those are choices to confirm, and the charging step there is also the `dt` argument of §3G, never a hard-coded 5 min.
+
+### 3G. Charging time resolution and the year loop (Decided — Bob, this session)
+The charging time step `dt` is an **argument**, not a fixed 5 min; finer steps are needed for ancillary-service products later (requirements §4.3).
+
+**How a finer `dt` affects the year loop.** The year loop over operating dates (Option 1) hands each plug-in session to the charging simulation (the §3C hand-over object). Consumption/physics cost per date does **not** depend on `dt` — only the **charging** simulation does. Halving `dt` roughly **doubles** the number of charging steps per session, so a full-year charging pass scales ~linearly with `1/dt`. The driving-side year loop (G/I/W/J/consumption at 1 s rows) is unchanged by `dt`. So `dt` is a lever on charging cost only; this is exactly why the timing gate (§3F) times a full year of charging at a **coarse** and a **fine** step.
+
+**Option evaluated — base step for the year, finer step only inside activation/event windows (two-resolution charging).**
+- **Idea:** run the whole year at a coarse base `dt_base` (cheap), and switch to a fine `dt_fine` **only inside activation/event windows** (e.g. an ancillary-service activation), where sub-minute behaviour matters. Outside those windows the coarse step is enough because SOC moves smoothly.
+- **How it fits Option 1:** the year loop is unchanged; within a session, the charging stepper advances at `dt_base` until it enters a flagged window, steps at `dt_fine` through the window, then returns to `dt_base`. SOC carry-over is continuous across the switch (the state is the same SOC/temperature vector; only the step length changes). Energy accounting integrates each sub-step with its own `dt`, so totals stay exact.
+- **Cost:** total steps ≈ coarse steps for the year **+** extra steps for the fraction of time inside fine windows. Far cheaper than running the whole year at `dt_fine`, while keeping fine resolution where a product needs it.
+- **Requires:** a way to mark activation/event windows on the session timeline. **The window definitions and the two resolutions themselves are product parameters — "from Energinet product specs, to be sourced"**, not invented here. Until sourced, the engine supports the two-resolution mechanism with `dt_base`, `dt_fine` and a window list all passed as arguments (neutral default: `dt_fine == dt_base`, i.e. single-resolution, reproducing the plain fixed-`dt` run).
+- **Alternative (noted, not chosen):** one uniform fine `dt` for the whole year — simplest, but the timing gate will show whether it is affordable; if not, the two-resolution option above is the fallback. Neither invents a resolution number.
+
+Neutral-default rule (consistent with `engine-rules.md` §3): with `dt_fine = dt_base` and no windows, the two-resolution path reduces exactly to a single fixed-`dt` charging run, so nothing changes for the VECTO-equivalent and ordinary cases until a sourced product resolution is supplied.
