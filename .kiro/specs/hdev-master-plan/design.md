@@ -298,3 +298,163 @@ The charging time step `dt` is an **argument**, not a fixed 5 min; finer steps a
 - **Alternative (noted, not chosen):** one uniform fine `dt` for the whole year — simplest, but the timing gate will show whether it is affordable; if not, the two-resolution option above is the fallback. Neither invents a resolution number.
 
 Neutral-default rule (consistent with `engine-rules.md` §3): with `dt_fine = dt_base` and no windows, the two-resolution path reduces exactly to a single fixed-`dt` charging run, so nothing changes for the VECTO-equivalent and ordinary cases until a sourced product resolution is supplied.
+
+---
+
+## Part 4 — Multi-party simulation: stages, slots, comparison, TCO
+
+Source: Bob's product intent (requirements §8–§11). **Planning only — hooks and contracts, no behaviour built now.** This part builds entirely on the existing hooks (§6: base+change-set, operational/equipment split, `{value, source, date, label}`, provenance) and the rerun table (§1). It must not break the engine-purity rules (`engine-rules.md` §7): all of this lives in `runner.py` / the resolver / the report — **engines stay pure functions and never see slots, locks, or stages.**
+
+### 4A. Stage map (Decided)
+
+```
+                      ┌──── sizing (L) ────┐          ┌──── sweep (N) ────┐
+                      │  around any stage  │          │ around any stage  │
+   consumption ──▶ charging ──▶ flexibility ──▶ TCO/CO₂
+      (G/I/W/J      (M, OCV+Ri,   (setpoints,     (O, cost model)
+       /consume)     site cap)     markets)
+```
+- The four **stages** run left-to-right by default, but **any stage or any subset** (contiguous or not) can be selected (req §8.1). `sizing` and `sweep` are **operations** wrapped around stages, not stages themselves.
+- Example partial runs: *charging-only* (feed a session list); *flexibility-only* (feed a load profile + capabilities); *TCO-only* (feed annual energy + peak); *TCO + flexibility* (feed charging/load profile, skip consumption+charging-physics).
+- `runner.run(base, changes)` chooses the **start stage** from what the project provides (§4C), not from a flag.
+
+### 4B. Stage entry-contract table (Decided fields; resolution rule Open per req §8.5)
+
+Each stage can be fed by the **previous stage** or by **user-supplied data in this shape**. SI inside engines; UI-boundary units converted once (`engine-rules.md` §5). "Resolution" = the stage's native time step.
+
+| Stage | Entry contract (field : unit : shape) | Native resolution | Fed by previous stage via | If supplied by user |
+|---|---|---|---|---|
+| **consumption** | project JSON: `vehicles`, `routes` (→ waypoints), `calendar_environment` | 1 s rows | — (chain head) | the full project (or "skip a step": user kWh/km per route, req §2.6 — now a *supplied consumption output*, §4D) |
+| **charging** | **session list**: `[{arrival:ISO, departure:ISO, energy_need_kWh:kWh, arrival_SOC:–}]` + battery slots (OCV, Ri, limits, capacity, SoC window) + charger slots + site cap kW | `dt` arg (§3G) | consumption → the §3C hand-over object (one per plug-in session) | user pastes the session list + equipment slots |
+| **flexibility** | **charging/load profile**: `[{t:ISO, p_kW:kW}]` (or per-session power traces) + equipment **capability** slots (smart-charging, bidirectional, min/max power, connectors) + market/product slots | product `dt` (to-be-sourced, §3G) | charging → power traces + site peak | user pastes a load profile + capabilities |
+| **TCO/CO₂** | `{annual_energy_kWh:kWh, peak_power_kW:kW, equipment:[…], prices:[slots], tariffs:[slots]}` | annual / ToU series | charging+flexibility → annual energy, peak, flexibility revenue | user pastes annual energy + peak + prices (req §11.2) |
+
+Notes:
+- The **charging entry = the existing session hand-over object** (design §3C) — so "feed charging from consumption" and "feed charging from a user session list" are the **same shape**. This is the generalisation of "skip a step" (req §2.6 → §8.3).
+- `sizing` entry = `{annual_kWh | worst-day kWh, mass/kWh mode inputs}` (req §4.1); `sweep` entry = finite option lists (req §4.4). Both wrap stages.
+- **Resolution mismatch (Open, req §8.5)** — options the design offers, **no rule invented**:
+  - **(opt-R1) resample** supplied data to the stage's native step (state the method: mean/sum/interp; energy-conserving for power→energy);
+  - **(opt-R2) reject** with a clear message if resolution ≠ native (strict, audit-safe);
+  - **(opt-R3) flag** — accept at the supplied resolution, run the stage at that step, and record "ran at supplied resolution X, not native Y" in the report.
+  Recommendation to Bob: **opt-R2 for charging↔flexibility** (resolution matters for ancillary products) and **opt-R1 (energy-conserving) for TCO** (annual aggregates). **Open** — Bob picks per stage.
+
+### 4C. `runner.run(base, changes)` — stage selection and refusal (Decided; engines untouched)
+
+```
+runner.run(base_json, changes=None):
+    project = apply_change_sets(base_json, changes)          # slot fills/overrides (§4D)
+    start   = select_start_stage(project)                    # first stage whose entry contract is satisfiable
+    missing = check_entry_contract(project, start)           # per §4B required fields
+    if missing: refuse(f"cannot start at {start}: missing {missing}")   # req §8.4 — NO silent default
+    results = run_from(start, project)                       # calls the pure engines in order
+    report  = build_assumptions(project, start, results)     # which stages simulated vs supplied (§4F)
+    return {results, report, provenance}
+```
+- `select_start_stage` picks the **earliest** stage all of whose inputs are present (either the project has the raw inputs for an earlier stage, or the user supplied this stage's entry contract). A **non-contiguous** request (e.g. TCO + flexibility, skipping charging physics) is expressed by supplying both stages' entry contracts and leaving the skipped stage's output supplied.
+- **Refusal lists exactly what is missing** (req §8.4); no stage silently defaults entry data (`engine-rules.md` §6).
+- This is **orchestration only** — `select_start_stage`, `check_entry_contract`, `apply_change_sets` live in `runner.py`/resolver; the engines (crosswind, driver, force, power_step, consumption, battery, charging) remain pure and unaware of stages. The FastAPI swap (design §5) is unaffected: same `runner.run`, same JSON.
+
+### 4D. Slot schema + slot registry (Decided; extends the §6.3 hook)
+
+**Slot shape** (extends the design §6.3 `{value, source, date, label}`):
+```jsonc
+{
+  "value":       <scalar | array | table | ISO-string>,
+  "unit":        "kW" | "kWh" | "kg" | "m^2" | "V" | ... | null,   // SI-convertible
+  "source":      "<citation or product doc>",
+  "date":        "YYYY-MM-DD",
+  "label":       "VECTO" | "REG" | "literature" | "HDEV ASSUMPTION" | "user-supplied" | "OEM-supplied" | "CPO-supplied" | ...,
+  "provided_by": "client" | "OEM" | "CPO" | "aggregator" | "consultant" | "Bob",
+  "locked":      false,            // §4E lock flag
+  "version":     "<data file version>" | null   // for prices/tariffs (req §11.1)
+}
+```
+- Backward-compatible with `defaults.py`: a default is a slot with `label ∈ {VECTO, REG, literature, HDEV ASSUMPTION}`, `provided_by = Bob`, `locked = false`.
+
+**Slot registry (Decided — req §9.3):** a declarative map, **not** a fixed schema. Each engine/stage **declares the slot keys it reads** (and unit + whether a default exists):
+```python
+# registry.py (resolver layer, NOT an engine) — Suggestion for the shape:
+STAGE_SLOTS = {
+  "consumption": {"vehicle.CdxA": {"unit":"m^2","default":"defaults.cdxa"}, "vehicle.mass_curb": {...}, "aux.ES": {...}, ...},
+  "charging":    {"battery.ocv_table": {"unit":"V","default":None}, "battery.ri_table": {...}, "charger.rated_kW": {"default":None}, ...},
+  "flexibility": {"charger.smart_charging": {"unit":None,"default":"defaults.cap_false"}, "market.min_bid_kW": {"default":None, "note":"Energinet, to be sourced"}, ...},
+  "tco":         {"price.vehicle": {"default":None}, "tariff.electricity_series": {...}, ...},
+}
+```
+Registry behaviour (req §9.3a–c):
+- **(a) provided-but-unused:** a supplied slot whose key is in **no** stage's registry → accepted, stored, and reported **"provided, not used by any model"** (not an error).
+- **(b) needed-but-empty:** a slot a selected stage reads but nobody filled → use `defaults.<...>` if the registry gives one; else the stage **refuses** (§4C, req §8.4).
+- **(c) add a slot later:** register the key + unit (+ default) under the stage, and give that stage the physics to read it. **No schema redesign** — the project JSON is open (slots are a dict), and the registry is additive.
+- Reporting hooks: `slots_used`, `slots_defaulted`, `slots_provided_unused`, `slots_missing` lists come straight from diffing provided slots against the registry for the selected stages.
+
+### 4E. Change-sets + lock flag (Decided; built on §6.1/§6.2)
+
+- A **change-set** is a list of slot writes `[{key, slot}]` applied over the base (design §6.1 `runner.run(base, changes)`). Each write records `provided_by`. Applying it reruns **from the first affected stage** via the rerun table (§1) — e.g. a `charger.rated_kW` write reruns charging onward, not consumption.
+- **Lock flag (req §9.4):** operational slots (routes, calendar, consumption outputs, `grid.connection_limit`) carry `locked = true` in a **bid-comparison** base; equipment and price slots stay open. A change-set write to a locked slot is **rejected with a clear message**. This is the **operational-vs-equipment split** (design §6.2) expressed per-slot. **No role system** — just the flag (req §9.4). Who may unlock is out of scope.
+- The VECTO-equivalent and ordinary single-party runs set no locks and supply no change-set → identical to today.
+
+### 4F. Capability gating (Decided rule + Suggestions — req §9.5)
+
+Capability flags are slots that **gate** which policies/behaviours are available. The gate lives in the **resolver/runner** (it narrows the policy set before charging runs); the charging engine still just executes the chosen policy (stays pure).
+
+| capability slot | state | gate (Decided unless marked) | report line |
+|---|---|---|---|
+| `charger.smart_charging` (OCPP smart charging / external setpoint) | **false** | **policy restricted to ASAP**; JIT, cheapest-first, flexibility **unavailable** | "charger X has no smart-charging capability → ASAP only; JIT/cheapest-first/flexibility disabled" |
+| `charger.smart_charging` | true | all policies available | — |
+| `charger.bidirectional` (V2G) | false | **Suggestion:** discharge/export disabled (no V2G revenue) | "charger X not bidirectional → no export/V2G" |
+| `charger.connectors` = n | — | **Suggestion:** at most n simultaneous sessions per charger | — |
+| `charger.min_power_kW` | — | **Suggestion:** modulation below min_power not allowed | — |
+
+Only the **ASAP-only** rule is Decided; the rest are Suggestions for Bob. The report always **says why** a behaviour was disabled (req §9.5, C.2).
+
+### 4G. Sanity checks on supplied slots (Decided — physical/logical only, req §9.6)
+
+Checks run in the resolver on every supplied slot; **no invented plausibility ranges**:
+- **non-negative** where physical (power, energy, mass, capacity, price ≥ 0);
+- **SoC window** within `[0,1]`, and `SoC_min ≤ SoC_max`;
+- **min ≤ max** for any min/max pair (power, current, voltage);
+- **units convertible** to the registry's SI unit for that key (else reject with the expected unit);
+- **monotonic** where physically required (OCV table SoC strictly increasing — matches `03-battery.md` §2 lookup).
+A value that is physical but "unusual" (e.g. a very large battery) is **accepted** — HDEV never second-guesses a real spec sheet (`vecto-grounding.md` no-invented-numbers).
+
+### 4H. Comparison / fit output (Decided — req §10)
+
+```jsonc
+{
+  "base":   { "metrics": {…}, "assumptions": {slots_used, slots_defaulted, …} },
+  "changes": [
+    { "provided_by": "OEM-A",
+      "metrics": { /* same keys/units as base */ },
+      "fit": {
+        "shortfall_at_departure": { "any": true, "kWh": 12.4 },
+        "site_peak_vs_limit":     { "peak_kW": 410, "limit_kW": 400, "ok": false },
+        "payload_lost_to_battery":{ "kg": 850 },
+        "soc_window_violations":  { "count": 0 },
+        "policy_restrictions":    [ "ASAP only: charger has no smart-charging" ],
+        "tco_difference":         { "vs_base": "+3%", "note": "LATER stage" }
+      },
+      "slots_supplied": [ "charger.rated_kW", "battery.capacity_kWh", … ],
+      "slots_defaulted":[ "vehicle.CdxA", … ]
+    }
+  ]
+}
+```
+- **Same metric keys, units, and assumptions lists** for base and every change-set (req §10.1).
+- Every **fit** field is **built only from simulated results** (req §10.2); **pass/fail limits are client slots** (e.g. `grid.connection_limit`, a client-set `max_shortfall_kWh`) — HDEV invents no threshold. If a limit slot is empty, the fit field reports the number with `"ok": null` ("no client limit set").
+- Per change-set `slots_supplied` / `slots_defaulted` (req §10.3) come from §4D.
+- **Suggestion (req §10.4):** an **inverse/fit sweep** — reuse `sweep.py` (design §2, req §4.4) to answer "smallest battery/charger that makes every fit field pass". Marked Suggestion.
+
+### 4I. TCO data model (Decided as a contract — req §11; built LATER)
+
+- **Entry (A.2 / §4B):** `{annual_energy_kWh, peak_power_kW, equipment:[slots], prices:[slots], tariffs:[slots]}` — TCO runs **without** consumption/charging if these are supplied.
+- **Price/tariff slots (req §11.1):** each is a slot that is a **scalar OR a time series**, with `source + date + version` (design §6.4 versioned dated files). Electricity spot and ToU tariffs are **time-series** slots; vehicle price, interest, residual % are **scalar** slots. All start empty or as a to-be-sourced default — **no COWI number is a default** (they are unsourced, `tco-and-reference-excels.md`).
+- **Method (structure only, from COWI — req §11.3):** financing = **PMT annuity + residual balloon**; **lost-production cost** (EV) = monthly fixed × (public-charging h ÷ daily operating h); **breakeven** = capex difference ÷ avg monthly operating saving; **lademeter** = TCO/km ÷ 13.6 m; **DSO connection fee** = base + per-A (DSO-specific slot, e.g. Radius formula); **electricity** = mean of the cheapest N hours/day × ToU. These are **formula shapes**; every coefficient is a to-be-sourced slot.
+- **Output (Open — req §11.4):** headline metrics (TCO/km, breakeven, monthly cost, CO₂/km) and how they feed the fit verdict (§4H `tco_difference`) — proposed here, Bob confirms.
+- **CO₂:** LCA factors (ICCT/T&E/IVL/Energistyrelsen) are slots with their own `source+date`; grid emission factor is a time series (declining curve) — all to-be-sourced, structure from COWI LCA sheet.
+
+### 4J. How this preserves engine purity (Decided)
+- **Engines** (crosswind, driver_model, force_engine, weather_for_rows, power_step, p_aux, consumption, battery_ocv_ri, charging env, allocators, sizing, sweep) take **plain SI arguments and return plain values** — they never read slots, locks, stages, labels, or provenance (`engine-rules.md` §1/§7).
+- **Resolver** (`defaults.py`, `registry.py`, `resolve*.py`, `calendar.py`) turns slots → the plain arguments each engine expects, applies sanity checks (§4G), capability gates (§4F), and the registry (§4D).
+- **runner.py** does stage selection, change-set application, rerun routing, and report assembly (§4C–§4H).
+- **Transport** (`app_local.py` / later `app_fastapi.py`) only moves JSON (design §5).
+So Requirements A–D are entirely **resolver + runner + report** work. The only engine-touching consequence is **physics new slots need** (classified in req §9A) — those are ordinary engine tasks (e.g. M3.3 OCV+Ri), not changes to this plumbing.

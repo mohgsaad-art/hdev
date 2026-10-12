@@ -2,6 +2,8 @@
 
 VECTO source: `mohgsaad-art/VECTO` @ `stable` / `d16ba783c` (v5.1.3). Tags: **[VECTO]** / **[INFERRED]**. Serves **task M0.12** (grade/altitude).
 
+> **⚠ CORRECTION (see `13-followups.md` §1):** §4's conclusion "declaration cycles use `<grad>` directly; no secant needed; M0.12 matches VECTO" is **WRONG**. The force balance uses an **altitude secant per step** (`DistanceBasedDrivingCycle.cs:412-433`): `<grad>` is integrated into an altitude profile at load, then grade is re-derived as `atan((altitude(prev+ds)−altitude(prev))/ds)` each step. **M0.12 is NOT resolved.** Read §4 and the Top-10 item with this correction.
+
 ---
 
 ## 1. Declaration mission cycles  [VECTO]
