@@ -1,5 +1,5 @@
 # STATUS: NOT WRITTEN (stub). Pasted by Bob 12 Oct 2026.
-# The VECTO BEV lorry auxiliary logic is fully traced in docs/decisions/session-closeout-2026-10-08-paux.md:
+# The VECTO BEV lorry auxiliary logic is fully traced in docs/decisions/2026-10-08_session-closeout-paux.md:
 #   P_aux(t) = P_ES + P_HVAC + P_PS + P_SP * [vehicle moving] + P_cond * [electric motor on]
 # All five are electric, drawn from the traction battery, DC/DC efficiency = 1.0 in VECTO Declaration Mode.
 # Design decisions still pending (Bob): default technologies, blank-cell handling, function structure, non-VECTO extras

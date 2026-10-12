@@ -1,5 +1,5 @@
 # STATUS: DONE and verified (step F). Pasted by Bob 12 Oct 2026.
-# Verified: max 0.006% difference vs VECTO Cdv_Generator Excel (docs/decisions/crosswind-verification-2026-10-06.md).
+# Verified: max 0.006% difference vs VECTO Cdv_Generator Excel (docs/decisions/2026-10-06_crosswind-verification.md).
 # Output: W1, W2 tables (rows = wind speeds v_ref, columns = vehicle speeds). CdxA_eff = CdxA(0)*W1 + W2 (VECTO AirDrag.cs).
 # beta_limit_deg = 10 is an HDEV decision (NOT VECTO). None = VECTO behaviour. Must be stated in every client report.
 import numpy as np

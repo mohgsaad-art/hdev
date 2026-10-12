@@ -1,5 +1,5 @@
 # STATUS: DONE and tested (step H). payload_engine pasted by Bob 12 Oct 2026.
-# fill_payload is copied from docs/decisions/session-closeout-2026-10-08-payload-force.md (it was not in the 12 Oct paste;
+# fill_payload is copied from docs/decisions/2026-10-08_session-closeout-payload-force.md (it was not in the 12 Oct paste;
 # Bob to confirm it is still the current version in the notebook).
 # Design: see docs/design/payload-stop-rows-then-fill.md
 import numpy as np

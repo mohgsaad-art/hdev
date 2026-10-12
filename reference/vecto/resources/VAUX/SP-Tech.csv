@@ -1,0 +1,9 @@
+Technology                             ,conventional ,P-HEV ,S-HEV ,PEV ,fully electric ,UF    ,B     ,S
+Fixed displacement                     ,           1 ,    1 ,    0 ,  0 ,             0 ,1     ,1     ,1
+Fixed displacement with elec. control  ,           1 ,    1 ,    0 ,  0 ,             0 ,0.95  ,1     ,1
+Dual displacement                      ,           1 ,    1 ,    0 ,  0 ,             0 ,0.85  ,0.85  ,0.85
+Dual displacement with elec. control   ,           1 ,    1 ,    0 ,  0 ,             0 ,0.80  ,0.85  ,0.85
+Variable displacement mech. controlled ,           1 ,    1 ,    0 ,  0 ,             0 ,0.75  ,0.75  ,0.75
+Variable displacement elec. controlled ,           1 ,    1 ,    0 ,  0 ,             0 ,0.6   ,0.6   ,0.6
+Electric driven pump                   ,           1 ,    1 ,    1 ,  1 ,             1 ,0.857 ,0.857 ,0.857
+Full electric steering gear            ,           1 ,    1 ,    1 ,  1 ,             1 ,0     ,0.143 ,1.429
