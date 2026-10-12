@@ -35,6 +35,6 @@ Source: `KIRO_PROMPT_1_STEERING.md` tech facts, #[[file:docs/context/input-layer
 - **Network and disk access live in separate fetch functions, never inside engines** (e.g. the DMI code must split into `fetch_dmi(...)` and a pure `build_weather(...)` — see `structure.md`).
 
 ## Vectorisation rule
-- The engine is a set of **pure functions**. Row-wise steps are **vectorised with numpy** — store rows as numpy arrays per column (not lists of `Row` objects), so steps like `force_coeffs`, weather, the power step and consumption run with no Python loop (e.g. `np.where(P>0, P/eta, P*eta_regen)`).
+- The engine is a set of **pure functions**. Row-wise steps are **vectorised with numpy** — store rows as numpy arrays per column (not lists of `Row` objects), so steps like `force_engine` (step I), weather, the power step and consumption run with no Python loop (e.g. `np.where(P>0, P/eta, P*eta_regen)`).
 - The **driver model** and the **charging simulation** stay loops, because each step depends on the previous one.
 - **Row storage — target end-state (Decided, not yet done):** rows are stored as **numpy arrays per column**. The driver model currently returns a **list of dicts**; converting it to arrays-per-column is agreed but **not yet implemented**. See `structure.md` and #[[file:docs/design/status-and-known-contradictions.md]] §4(3).

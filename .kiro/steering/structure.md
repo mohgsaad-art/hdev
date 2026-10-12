@@ -17,7 +17,7 @@ hdev/
     context/                        product scope, input layer/JSON, business model, reference Excels
   reference/                        READ-ONLY. Never edit.
     excel/                          3 Excel tools (later TCO/CO2/coincidence phases)
-    vecto/ADD_THESE_FILES.md        VECTO C# + resource files to add (NOT yet present)
+    vecto/                          VECTO C# + resource files (PRESENT; cs/, cs/declaration/, resources/)
     regulation/ADD_THESE_FILES.md   Reg. 2017/2400 + methodology extracts to add (NOT yet present)
   src/
     engine/
