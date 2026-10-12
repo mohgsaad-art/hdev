@@ -33,7 +33,7 @@ Acceptance criteria — the fixed `DriverModel.driver_model(vacc, dt_s=1.0)` mus
 9. **(Decided)** Add `'payload'` to every emitted row (driving rows `current.payload`, stopped rows `target.payload`, first-waypoint stop loop `waypoints[0].payload`), fed by `fill_payload` output. Done-when: no row lacks a numeric payload; integrates with H. Source: §3, payload-force §2, payload-stop-rows-then-fill.
 10. **(Decided — Bob, this session: record as flagged gap, defer)** PTO stop time for MunicipalUtility is missing: real stop = file `StoppingTime` + PTO cycle `Duration` (declaration `MunicipalUtility_PTO_generic.vptoc` → Duration 23 s; 2 s file stop → 25 s per stop; 96 stops ≈ +36.8 min). Affects **time** (charging) and PTO energy, not driving energy or payload placement. **Not fixed in M0**; recorded as a flagged gap for later. Done-when: the gap is listed in the assumptions report and `status.md`'s known-gaps intent, not implemented. Source: §3, payload-force §3; Bob's decision.
 11. **(Decided — Bob, this session: record as flagged gap, defer)** Power limit at high mass (VECTO can limit acceleration for a heavy vehicle) is not modelled; the driver model is payload-blind. **Not modelled in M0**; recorded as a flagged gap for later (needs `Driver.cs`/`DefaultDriverStrategy.cs` review — both present in `reference/vecto/cs/`). Done-when: the gap is listed in the assumptions report / known gaps, not implemented. Source: §3, payload-force §2/§6; Bob's decision.
-12. **(Open)** Grade: the model uses the segment's flat `grade_pct`; VECTO interpolates **altitude** linearly between waypoints and derives grade as a secant (step-size dependent) — pending `DrivingCycleData.cs` (present in `reference/vecto/cs/`). Decide whether to match VECTO's altitude-secant grade now. Done-when: either grade matches VECTO's secant derivation on a reference cycle, or the difference is recorded as a flagged gap. Needs Bob's decision. Source: §3.
+12. **(Open — CONFIRMED by research, still needs Bob's decision)** Grade: the model uses the segment's flat `grade_pct`; VECTO uses an **altitude secant per step**, now **verified in the clone**: at load the `<grad>` column is integrated into an altitude profile (`DrivingCycleDataReader.cs:236`), then each step uses `grade = atan((altitude(prev+ds) − altitude(prev))/ds)` with altitude interpolated between the bracketing sample points (`DistanceBasedDrivingCycle.cs:412-433`, exceptions only when `ds==0` or left==right distance). That secant grade feeds `Vehicle.SlopeResistance`/`RollingResistance`. **This corrects research file `08`, which wrongly said "`<grad>` used directly, no secant needed" — see `docs/research/vecto/13-followups.md` §1.** M0.12 is **NOT resolved**. Decide whether to match VECTO's altitude-secant grade now. Done-when: either grade matches VECTO's secant derivation on a reference cycle, or the difference is recorded as a flagged gap. Needs Bob's decision. Source: §3; `13-followups.md` §1.
 13. **(Open)** The model should use VECTO's official `Truck.vacc` (`reference/vecto/resources/VACC/Truck.vacc`). Done-when: the reference run uses `Truck.vacc` and the loader is tested. Needs Bob to confirm this replaces his current `.vacc`. Source: §3.
 
 > **Note (Decided, `vecto-grounding.md` working-style):** the audit must **never rename Bob's existing variables** and must keep his comment style. Kiro proposes diffs; Bob applies them.
@@ -87,7 +87,7 @@ Acceptance criteria:
 1. **(Decided)** Vectorised `np.where(P>0, P/η, P·η_regen)` + P_aux, summed. Done-when: matches a loop reference on the reference cycle. Source: 6 Oct §3, tech.md.
 2. **(Decided)** η, η_regen, P_aux are arguments; efficiencies default to the **placeholder** 0.95/0.95/0.98 **labelled a model gap, not a VECTO value** (`vecto-grounding.md`, §5). Fix the `regen_effeiciency` spelling noted in the docs when the real code arrives. Done-when: review + a note in the assumptions output. Source: §2 consumption row, §5.
 3. **(Open)** The consumption code exists in Bob's notebook but is **not in the bundle**. Kiro must not plan around unseen code; Bob pastes it (or confirms a clean rewrite) before M0 consumption tasks start. Needs Bob. Source: §6.
-4. **(Decided — gaps to flag, not fix)** No motor/inverter/gearbox efficiency map (Annex Xb placeholder), no battery internal-resistance loss while driving, no regen power cap — all flagged in the report, not invented. Done-when: the assumptions report lists them. Source: §5, `vecto-grounding.md`.
+4. **(Decided — gaps to flag, not fix)** No motor/inverter/gearbox efficiency map, no battery internal-resistance loss while driving, no regen power cap — all flagged in the report, not invented. The efficiency gap wording is now fixed (research): the **0.95 motor / 0.95 inverter / 0.98 gearbox** placeholders have **no VECTO equivalent** — VECTO uses a **speed×torque → electrical-power map** for the electric machine (inverter folded in), not scalar efficiencies; VECTO's only EM-side scalars are the 0.98 efficiency-clamp fallback and the 0.98/0.96 ADC factors (`01-electric-machine.md` §2/§7, `13-followups.md` §5). The report must say "HDEV placeholder with no VECTO equivalent; VECTO uses a speed×torque electrical-power map". It stays a gap; adopting the map is a decision for Bob. Done-when: the assumptions report lists them with this wording. Source: §5, `vecto-grounding.md`, `13-followups.md` §5, `01-electric-machine.md`.
 
 ---
 
@@ -193,7 +193,7 @@ This is the hardest, least-settled area. Full requirement detail and the three c
 
 1. **(Decided)** With VECTO declaration inputs — one mission cycle, declaration wind **3 m/s at 4 m**, constant VECTO reference payload, neutral `β=1`/`θ_red=0`, VECTO aux defaults — the pipeline reproduces the VECTO-equivalent result; passing the VECTO values must reproduce the auditable case exactly. Done-when: a reference run matches the target within a stated tolerance (crosswind already verified to 0.006 %). Source: `vecto-grounding.md` deviations, crosswind-verification, year/day §6.
 2. **(Decided)** The crosswind engine stays verified vs the VECTO Excel (0.006 %). Done-when: the existing verification test still passes. Source: crosswind-verification, status.md.
-3. **(Open)** A full end-to-end VECTO consumption reference number to compare against (beyond crosswind) requires a VECTO run output or the Annex Xb electric-machine map; the regulation extract is **missing** and the consumption code is not in the bundle. Needs Bob to supply a VECTO reference result and the consumption code. Source: §5, §6, `vecto-grounding.md`.
+3. **(Open — task defined for Bob)** A full end-to-end VECTO consumption reference number to compare against (beyond crosswind) requires a VECTO run output; VECTO **could not be built in the sandbox** (NuGet restore blocked, `11-validation-data.md` §3). **Bob runs it off-sandbox** (official VECTO release) on `Generic Vehicles/Declaration Mode/PEV/GenericVehicleE2/BEV_E2.vecto` and brings back per-mission `kWh/km` (+ `kWh/(t·km)`), `REESS_StartSoC`/`EndSoC`, and `E_REESS_LOSS` from the `.vsum` (and `.vmod` SoC/`P_REESS_T`/`U_0_REESS`/`I_REESS` for a row-level check). Component-level anchors (battery SoC-step, usable energy, overload loss; EM-map torque) are usable **now** from the shipped `GenericBattery.vbat`/`GenericEMotor.vem` (`11` §2). The consumption code is still not in the bundle. Source: §5, §6, `vecto-grounding.md`, `11-validation-data.md`, `13-followups.md` §4.
 4. **(Decided)** Every non-VECTO deviation used in a validation run is listed in that run's assumptions report (yaw clamp etc.). Done-when: §5.5 report check passes for the reference run. Source: `vecto-grounding.md`.
 
 ---
@@ -231,3 +231,90 @@ Kiro's own review of the requirements above, per the task. These are the things 
 18. The **timing gate** (runs first, before M2 structure code): one year of consumption per date + one year of charging **at a coarse step and a fine step** (§3.6a, §4.3; design §3F/§3G). Picks Option 1 vs the Option 3 fallback, informs B vs C, and sizes fine-`dt` charging cost.
 19. Daily vs hourly weather (one year each way) — §3.5, decided after the timing gate.
 20. Payload-shape rerun cost (a shape change needs a driver-model rerun) — payload design.
+
+---
+
+## 8. Requirement A — Stage entry points (multi-party, partial-chain runs)
+
+**Product intent (Decided — Bob):** HDEV serves several parties on **one shared simulation**. A client defines its operation (routes, calendar, consumption, depot, grid limit, prices it pays); OEMs, charger makers, CPOs, aggregators, banks or consultants plug their **exact** data into the same project to show their product fits, or the client compares bids like-for-like. Users may want only part of the chain (only charging, only flexibility, only TCO, TCO + flexibility, …) without rerunning consumption. Nothing is built now; the **design and data contracts must make this possible without a later redesign**.
+
+**User story:** As any party, I want to run any stage — or any combination of stages — of the chain **consumption → charging → flexibility → TCO/CO₂** (with sizing and sweep around them), fed either by the previous stage or by my own data in that stage's format, so I never recompute what I already have.
+
+Acceptance criteria:
+1. **(Decided)** The chain is **consumption → charging → flexibility → TCO/CO₂**, with **sizing** and **sweep** as cross-cutting operations around them. **Any stage, or any contiguous OR non-contiguous combination** (e.g. TCO + flexibility, skipping charging), can be run alone. Done-when: design.md's stage map lists each stage and shows that any subset can be selected. Source: Bob's intent.
+2. **(Decided)** Each stage has a documented **ENTRY CONTRACT** (fields, units, shapes, time resolution). A stage can be fed by the previous stage **or** by user-supplied data in that format. Examples (not exhaustive): charging-only ← session list `{arrival, departure, energy_need_kWh, arrival_SOC}`; flexibility-only ← charging/load profile + equipment capabilities; TCO-only ← annual energy + peak power + equipment and price data. Done-when: design.md has an entry-contract table (stage → required fields/units/shape/resolution → what can feed it). Source: Bob's intent; ties to the existing session hand-over object (design §3C) and "skip a step" override (req §2.6).
+3. **(Decided)** User-supplied stage inputs are labelled **"user-supplied"** with source + date in the assumptions report (this **generalises** the existing "skip a step" rule, req §2.6). The report must state **which stages were simulated and which were supplied**. Done-when: a run that starts mid-chain lists, per stage, simulated-vs-supplied with source+date. Source: Bob's intent; req §2.6, §5.
+4. **(Decided)** `runner.run` **selects the start stage** from what the project provides, and **refuses with a clear message** if a stage's entry contract is incomplete — listing **exactly what is missing**. **No silent defaults for missing entry data** (consistent with `engine-rules.md` §6, no silent defaults in engines). Done-when: a project missing a required entry field gets a refusal naming that field; a complete one runs. Source: Bob's intent; `engine-rules.md` §6.
+5. **(Open — options, pick after design)** Time resolution: each entry contract states its time step. When supplied data has a **different** resolution than the stage needs, the rule is **not invented** — design.md proposes options (resample / reject / flag) and marks this **Open**. Done-when: design.md lists the options with trade-offs and Bob picks one per stage. Source: Bob's intent; `vecto-grounding.md` no-invented-rules.
+
+---
+
+## 9. Requirement B — Open parameter slots (slot registry)
+
+**User story:** As any party, I want every input to be an open, labelled **slot** I can fill or override, with the model telling me what it reads, what it ignores, and what is still missing, so I can plug my exact product data into a shared project without a schema redesign.
+
+Acceptance criteria:
+1. **(Decided)** Every input in every section (vehicles/battery, chargers, depot/grid, operation, prices/costs, markets) is a **SLOT**: `{value, unit, source, date, label, provided_by}`. `label ∈ {VECTO, REG, literature, HDEV ASSUMPTION, user-supplied, OEM-supplied, …}` (open vocabulary, extends the fixed defaults vocabulary of req §5.2); `provided_by ∈ {client, OEM, CPO, aggregator, consultant, Bob}`. Done-when: design.md defines the slot schema and shows it extends the existing `{value, source, date, label}` hook (design §6.3, req §2.5). Source: Bob's intent.
+2. **(Decided)** Slots start as **labelled generic defaults** (from `defaults.py`) or **empty**. Any party's **change-set** can fill or override slots; results **rerun from the first affected stage** (the existing rerun table, design §1). Done-when: design.md ties slot overrides to the rerun entry points. Source: Bob's intent; design §1 rerun table, §6.1.
+3. **(Decided)** The slot list is **OPEN-ENDED**, not a fixed spec-sheet list → a **slot registry**: each engine/stage **declares which slots it reads**. Consequences the design must handle:
+   a. A supplied value for a slot **no stage reads** is accepted but reported **"provided, not used by any model"**.
+   b. A slot a stage **needs but nobody filled** uses the labelled default, **or** the stage **refuses** (per A.4) if no default exists.
+   c. Adding a new slot later = **registering it + giving a stage the physics to use it**; no schema redesign.
+   Done-when: design.md specifies the registry (how a stage declares slots; how "not used" and "missing" are reported). Source: Bob's intent.
+4. **(Decided — lock flag only; roles later)** **Operational** slots (routes, calendar, consumption, grid limit) are **LOCKED** for bidders in a bid-comparison run; **equipment and price** slots are open to them. Roles/permissions are out of scope; design only the **lock flag**. Done-when: design.md defines a per-slot (or per-section) `locked` flag and the bid-comparison semantics; no role system. Source: Bob's intent; ties to design §6.2 operational-vs-equipment split.
+5. **(Decided + Suggestions)** **Capability flags are slots** and can **GATE** behaviour. **Decided rule:** a charger without smart-charging capability (no OCPP smart charging / no external setpoint) **restricts policy to ASAP**; JIT, cheapest-first and flexibility are **unavailable** for it, and the report says why. **Suggestion rules to evaluate:** bidirectional/V2G capability gates discharge/export; connector count gates simultaneous sessions; min-power gates deep modulation. Done-when: design.md lists the gating rules (ASAP-only Decided; others Suggestion) and how the report explains a restriction. Source: Bob's intent; charging policy set (req §4.2), `04-charging.md`.
+6. **(Decided — physical/logical checks only)** Sanity checks on supplied values are **only physical/logical**: non-negative where physical, SoC window within 0–1, `min ≤ max`, units convertible. **No invented plausibility ranges.** Done-when: design.md lists the check set; a value failing a physical check is rejected with a clear message; an out-of-"typical"-but-physical value is **accepted**. Source: Bob's intent; `vecto-grounding.md` no-invented-numbers.
+
+### 9A. Candidate slots — classification (used NOW / needs NEW physics / LATER), with research citation
+**(Decided as the starting registry; open-ended per B.3.)** Each slot marked: **NOW** = an existing/planned M0–M3 engine already reads it; **NEW** = needs engine physics not yet planned; **LATER** = TCO/flexibility stage. Research file cited where VECTO covers it. `[no VECTO]` = HDEV/market data, not a VECTO quantity.
+
+**Vehicle / battery:**
+| slot | NOW/NEW/LATER | research |
+|---|---|---|
+| nominal & usable capacity, SoC window | NOW | `03-battery.md` §5 |
+| OCV(SoC) table | NEW (M3.3) | `03-battery.md` §2 |
+| Ri(SoC, pulse) table | NEW (M3.3) | `03-battery.md` §3 |
+| max charge/discharge current or power (curve vs SoC) | NEW (M3.3) | `03-battery.md` §4 |
+| OEM published charge curve | NEW (charging) | `03`/`04` (not a VECTO quantity; map to Ri+limits) |
+| curb mass, GVW, axle config | NOW (M0.20) | `09-vehicle-data-and-defaults.md` §3–4 |
+| CdxA | NOW | `09` §1 (`SegmentTable.csv`), `13-followups.md` §... (CdxA default verified) |
+| tyre RRC & dimensions | NOW (single-Crr) / NEW (load-dependent) | `09` §5–6 |
+| motor full-load & generation curves | NEW | `01-electric-machine.md` §3 |
+| efficiency map (speed×torque→P_el) | NEW | `01` §2 (replaces 0.95/0.95 placeholder) |
+| gearbox/axle losses | NOW (0.98 placeholder) / NEW (map) | `02-transmission-axle.md` |
+| aux technologies (ES/HVAC/PS/SP/Cond) | NOW (M0.15) | `06-auxiliaries-all.md`, paux doc |
+| PTO type/cycle | NEW (deferred, M0.10) | `07-pto-all.md` |
+| battery mass | NOW (sizing) | `03`/sizing |
+| warranty cycles / degradation data | LATER (TCO) | `[no VECTO]` |
+
+**Charger:** rated power, min power, power per connector, connector count, ramp rate, efficiency (curve), standby power, voltage/current range, comms/OCPP version & smart-charging support, bidirectional capability, cable/plug type — **all NEW (charging) or capability-flag slots; `[no VECTO]`** (VECTO has no charger model — `04-charging.md` §1). The 500/250/100 kW OVC-HEV accounting values are **not** charger defaults (`13-followups.md` §3).
+
+**Depot / grid:** connection limit (kW/A), existing site load profile, DSO, tariff structure, transformer limits, metering point — **NEW (charging/site cap) or LATER (TCO tariffs); `[no VECTO]`.**
+
+**Prices & costs (TCO):** vehicle price, residual value, financing (rate/term), maintenance, insurance, charger hardware+installation, grid connection fee (DSO-specific), electricity spot series, grid tariffs (ToU), taxes/duties, road tax, subsidies, contract types, demand/capacity charges, diesel reference — **all LATER (TCO); `[no VECTO]`;** structure from `tco-and-reference-excels.md` (COWI), never its unsourced numbers.
+
+**Flexibility / markets:** product parameters (resolution, activation duration, minimum bid), market prices/revenues, aggregator fees — **LATER (flexibility); `[no VECTO]`; all "from Energinet product specs, to be sourced", never invented** (req §4.3.3).
+
+---
+
+## 10. Requirement C — Comparison output (base vs change-sets, fit verdict)
+
+**User story:** As a client (or bidder), I want the base run and each change-set shown side by side with identical metrics and a fit verdict built only from simulated results, so I can compare bids like-for-like without invented thresholds.
+
+Acceptance criteria:
+1. **(Decided)** Base run vs each change-set shown **side by side** with **identical metrics, units and assumptions lists**. Done-when: design.md defines the comparison output structure (one column per change-set, same rows). Source: Bob's intent; design §6.1 base+change-set hook.
+2. **(Decided)** Each change-set shows a **FIT verdict with reasons, built only from simulated results**: shortfall at departure (yes/no, kWh), site peak vs grid limit, payload lost to battery mass, SoC-window violations, policy restrictions from capability flags (req B.5), TCO difference. **No invented thresholds** — the client sets any pass/fail limits as **slots**. Done-when: design.md lists the verdict fields, each traceable to a simulated quantity, and shows pass/fail limits are client-supplied slots. Source: Bob's intent.
+3. **(Decided)** The report lists, per change-set, **which slots that party supplied and which defaults remained**. Done-when: the comparison output carries a per-change-set provenance list (ties to B.1 `provided_by`). Source: Bob's intent; req §5.
+4. **(Suggestion)** Inverse question — **"what is the smallest battery / charger that fits this operation?"** via the existing sweep (design §2 `sweep.py`, req §4.4). Mark Suggestion. Done-when: design.md notes the sweep can be run as an inverse/fit search; Bob decides. Source: Bob's intent (Suggestion).
+
+---
+
+## 11. Requirement D — TCO data model (contract, not built now)
+
+**User story:** As an analyst, I want TCO runnable from supplied energy/peak data with prices and tariffs as versioned slots, so costs can be compared without rerunning consumption or charging.
+
+Acceptance criteria:
+1. **(Decided)** Prices and tariffs are **slots** that can be **scalars OR time series**, each with **source + date + version** (ties to the versioned dated data-file rule, product.md impl. 8 / design §6.4). Done-when: design.md's TCO data model shows scalar-or-series slots with version metadata. Source: Bob's intent.
+2. **(Decided)** TCO must be **runnable from supplied annual energy + peak** without running consumption/charging (this is Requirement A applied to the TCO stage). Done-when: the TCO entry contract (A.2) lists `{annual_energy_kWh, peak_power_kW, equipment, prices}` and `runner.run` can start at TCO. Source: Bob's intent; req §8.
+3. **(Decided — reference only)** Reuse the **STRUCTURE** of `docs/context/tco-and-reference-excels.md` (COWI `eltiltrucks-beregner-ark.xlsx`) — sheet/formula method (PMT annuity + residual balloon, lost-production cost, breakeven, lademeter, DSO connection fee formula, ToU electricity method) — **never its unsourced numbers** (truck prices, interest, operating days, kWh/km, etc. are explicitly unsourced). Done-when: design.md's TCO model cites COWI structure and marks every number as a to-be-sourced slot. Source: Bob's intent; `tco-and-reference-excels.md`.
+4. **(Open)** Which TCO outputs are the headline metrics (TCO/km, breakeven, monthly cost, CO₂) and how they combine with the fit verdict (C.2) — propose in design, Bob confirms. Source: Bob's intent.

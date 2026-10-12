@@ -104,3 +104,54 @@ Weather, power, consumption:
 - **M5.3** 🔒 Compare M5.2 output to a VECTO consumption reference within a stated tolerance · test · done-when: within tolerance · depends: M5.2 · decision: Bob supplies a VECTO reference number + consumption code; Annex Xb map **missing** — req §7.3.
 - **M5.4** Assert the reference run's assumptions report lists every deviation used + flagged gaps · test · done-when: report lists yaw clamp, in-cycle payload, DMI wind, edited-VDRI, §5 gaps · depends: M1.7, M5.2.
 - **M5.5** Property tests: neutral defaults reproduce simple equation; `fill_payload` never leaves NaN; zero wind → W1=1,W2=0 · tests · done-when: all pass · depends: M0.19, H, F · (write only when Bob asks).
+
+---
+
+## M5 addendum — VECTO full reference (off-sandbox)
+
+- **M5.6** 🔒 **Bob runs VECTO off-sandbox** for the M5.3 anchor · (no HDEV code) · done-when: an official VECTO release runs `Generic Vehicles/Declaration Mode/PEV/GenericVehicleE2/BEV_E2.vecto` and Bob brings back per-mission **kWh/km** (+ kWh/t·km), **REESS_StartSoC/EndSoC**, **E_REESS_LOSS** from the `.vsum` (and `.vmod` SoC/`P_REESS_T`/`U_0_REESS`/`I_REESS` for a row check) · depends: — · decision/action: Bob (VECTO could not build in the sandbox — `13-followups.md` §4; feeds M5.3).
+
+---
+
+## M6 — Multi-party: stages, slots, comparison, TCO (contracts + hooks; engines untouched)
+
+**All of M6 is resolver + runner + report work.** Engines stay pure (design §4J). Nothing here adds physics except where a candidate slot needs it (those are the existing M0–M3 engine tasks, cited). One function per task; dependency-ordered. 🔒 = needs a Bob decision first.
+
+### M6.0 — Stage framework
+- **M6.1** Define the **stage map** + stage enum (`consumption, charging, flexibility, tco`; `sizing`/`sweep` as operations) · design note / `src/server/stages.py` docstrings · done-when: the four stages + two operations are named and ordered per design §4A · depends: — · (Decided — req §8.1).
+- **M6.2** Write the **entry-contract table** as data (`src/resolver/entry_contracts.py`): per stage, required fields + unit + shape + native resolution · done-when: every stage in design §4B is represented with required-field lists · depends: M6.1 · (Decided — req §8.2).
+- **M6.3** `check_entry_contract(project, stage)` → list of missing fields · `src/server/runner.py` · done-when: a project missing a required field returns exactly that field; a complete one returns `[]` · depends: M6.2 · (Decided — req §8.4).
+- **M6.4** `select_start_stage(project)` → earliest satisfiable stage · `runner.py` · done-when: a project with only a session list selects `charging`; a full project selects `consumption`; a non-contiguous (TCO+flex) selection is expressible · depends: M6.3 · (Decided — req §8.1).
+- **M6.5** Wire `runner.run(base, changes)` to **select start + refuse on incomplete entry** (no silent default) · `runner.py` · done-when: incomplete start refuses with the missing list; complete runs from the chosen stage · depends: M6.4, M4.1 · (Decided — req §8.4).
+- **M6.6** 🔒 **Resolution-mismatch handling** per stage (resample / reject / flag) · `entry_contracts.py` + `runner.py` · done-when: the chosen rule per stage is implemented and the report states resolution used · depends: M6.2 · decision: req §8.5 (opt-R1/R2/R3; design §4B recommends R2 charging↔flex, R1 energy-conserving for TCO).
+
+### M6.1 — Slots + registry
+- **M6.7** 🔒 Define the **slot schema** `{value,unit,source,date,label,provided_by,locked,version}` (extends the `{value,source,date,label}` hook) · `src/resolver/slots.py` · done-when: schema defined; a `defaults.py` entry is expressible as a slot; label/provided_by vocab test · depends: M1.1, M1.4 · decision: confirm the field shape (req §9.1; design §4D).
+- **M6.8** Build the **slot registry** `STAGE_SLOTS` (each stage declares the slot keys it reads + unit + default-or-None) · `src/resolver/registry.py` · done-when: the §9A candidate slots are registered to their stages with units; adding a key is additive · depends: M6.1, M6.7 · (Decided — req §9.3).
+- **M6.9** `classify_slots(project, selected_stages)` → `{used, defaulted, provided_unused, missing}` · `registry.py` · done-when: a supplied slot no stage reads lands in `provided_unused`; a needed empty slot with a default lands in `defaulted`, without a default in `missing` · depends: M6.8 · (Decided — req §9.3a–c).
+- **M6.10** `resolve_slot(key, project)` → plain SI argument for the engine (default fallback or raise) · `registry.py`/`resolve.py` · done-when: fills from slot or `defaults.py`; raises (not silent) when needed-but-empty-and-no-default · depends: M6.8 · (Decided — req §9.3b; `engine-rules.md` §6).
+- **M6.11** **Sanity checks** on supplied slots (non-negative, SoC∈[0,1], min≤max, units convertible, OCV monotone) — physical/logical only · `src/resolver/slot_checks.py` · done-when: a negative power / inverted min-max / non-convertible unit rejects with a clear message; an unusual-but-physical value is accepted · depends: M6.7 · (Decided — req §9.6; no invented ranges).
+
+### M6.2 — Change-sets + locks
+- **M6.12** `apply_change_sets(base, changes)` → merged project with per-slot `provided_by` recorded · `runner.py` · done-when: an empty change-set returns the base unchanged; a write fills/overrides the slot and records who · depends: M6.7, M4.1 · (Decided — req §9.2; design §6.1/§4E).
+- **M6.13** Route a change-set to the **rerun entry point** (first affected stage) via the rerun table · `runner.py` · done-when: a `charger.rated_kW` write reruns charging-onward only; a `vehicle.CdxA` write reruns from weather/power · depends: M6.12, M6.5 · (Decided — design §1 rerun table).
+- **M6.14** **Lock flag** enforcement: a change-set write to a `locked` slot is rejected · `runner.py` · done-when: in a bid-comparison base (operational slots locked) a bidder write to a route/calendar/grid-limit slot is rejected with a clear message; equipment/price writes pass · depends: M6.12 · (Decided — req §9.4; no role system).
+
+### M6.3 — Capability gating
+- **M6.15** **Capability gate: ASAP-only when no smart-charging** · `src/resolver/capability_gates.py` · done-when: a charger slot `smart_charging=false` narrows the policy set to ASAP and records the reason; `true` leaves all policies · depends: M6.8, M3.5 · (Decided — req §9.5).
+- **M6.16** 🔒 Additional gates (bidirectional→no export; connectors→max simultaneous; min_power→no deep modulation) · `capability_gates.py` · done-when: each implemented gate narrows behaviour + records why · depends: M6.15 · decision: req §9.5 (Suggestions — Bob picks which to build).
+
+### M6.4 — Assumptions report (stage-aware)
+- **M6.17** Extend the assumptions report: **which stages were simulated vs supplied**, each supplied input labelled user-supplied with source+date · `src/server/report.py` · done-when: a mid-chain run lists simulated-vs-supplied per stage · depends: M1.7, M6.5, M6.9 · (Decided — req §8.3).
+- **M6.18** Report the slot provenance lists (`used`/`defaulted`/`provided_unused`/`missing`) · `report.py` · done-when: the report carries all four lists per run · depends: M6.9, M6.17 · (Decided — req §9.3, §10.3).
+
+### M6.5 — Comparison / fit
+- **M6.19** `compare(base_result, change_results)` → side-by-side, identical metric keys/units · `src/server/compare.py` · done-when: base and each change-set share metric keys/units/assumptions structure · depends: M6.12, M4.1 · (Decided — req §10.1).
+- **M6.20** 🔒 `fit_verdict(result, limits)` from simulated results only (shortfall, site-peak-vs-limit, payload-lost, SoC violations, policy restrictions, TCO diff); pass/fail limits are **client slots** · `compare.py` · done-when: every fit field traces to a simulated quantity; an empty limit slot yields `ok=null`; no invented threshold · depends: M6.19, M6.15 · decision: req §10.2 (confirm the fit-field set).
+- **M6.21** 🔒 **Suggestion:** inverse/fit sweep — reuse `sweep.py` to find the smallest battery/charger that makes every fit field pass · `src/charging/sweep.py` wrapper · done-when: a sweep returns the minimal passing combo (or "none feasible") · depends: M6.20, M3.10 · decision: req §10.4 (Suggestion — Bob decides).
+
+### M6.6 — TCO data model (contract; built LATER)
+- **M6.22** TCO **entry contract** `{annual_energy_kWh, peak_power_kW, equipment, prices, tariffs}` registered as a stage · `entry_contracts.py`, `registry.py` · done-when: `runner.run` can start at `tco` from supplied energy+peak without consumption/charging · depends: M6.2, M6.8 · (Decided — req §11.2).
+- **M6.23** Price/tariff **slot shape**: scalar OR time series, each with source+date+version · `slots.py` · done-when: a scalar price and a ToU time-series tariff are both expressible as slots with version metadata · depends: M6.7 · (Decided — req §11.1).
+- **M6.24** 🔒 TCO **method skeleton** (PMT annuity + residual balloon, lost-production, breakeven, lademeter, DSO fee, cheapest-N-hours electricity) — **structure only, every coefficient a to-be-sourced slot** · `src/server/tco.py` (LATER) · done-when: the formula shapes exist with no COWI number as a default; outputs flagged to-be-sourced · depends: M6.22, M6.23 · decision: req §11.4 (confirm headline metrics + fit coupling; sources needed before any number).
+- **M6.25** 🔒 CO₂/LCA **slot set** (vehicle/battery production, grid emission-factor time series) — structure from COWI LCA, numbers to-be-sourced · `tco.py` (LATER) · done-when: LCA factors are slots with source+date; grid factor is a time series; no number defaulted · depends: M6.24 · decision: req §11 (sources needed).

@@ -3,6 +3,8 @@
 VECTO source: `mohgsaad-art/VECTO` @ `stable` / `d16ba783c` (v5.1.3). Tags: **[VECTO]** / **[INFERRED]**.
 
 > The HDEV `reference/` bundle has small/old copies of some of these CSVs. The authoritative versions are the embedded resources under `VectoCore/VectoCore/Resources/Declaration/` in the clone — cite those.
+>
+> **⚠ CORRECTION (see `13-followups.md` §2):** the claim here (and in §5 / the Payloads parenthetical) that `reference/vecto/resources/Payloads.csv` is "small/old / may differ" is **WRONG** — it is **byte-identical** to the clone resource (md5 match). Either path may be cited.
 
 ---
 

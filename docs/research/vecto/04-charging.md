@@ -2,6 +2,8 @@
 
 VECTO source: `mohgsaad-art/VECTO` @ `stable` / `d16ba783c` (v5.1.3). Tags: **[VECTO]** / **[INFERRED]**.
 
+> **⚠ CORRECTION (see `13-followups.md` §3):** §4/§6/§8 suggest the `StationaryChargingPower.csv` values (500/250/100 kW, 0.5 h/event) as "reference charger defaults for sizing/sweep". **Do NOT use them as charger defaults.** They are VECTO's **OVC-HEV / IMC energy-accounting table**, not a charger specification. Label them "VECTO OVC-HEV accounting table, not a charger specification" wherever referenced.
+
 ---
 
 ## 1. Short answer
