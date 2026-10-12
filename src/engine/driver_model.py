@@ -1,5 +1,5 @@
 # STATUS: CURRENT (canonical driver model, post-14 April rewrite). Pasted by Bob 12 Oct 2026.
-# PIPELINE STEP: G (driver model). Under audit: 6 known bugs + extra items, see docs/decisions/session-closeout-2026-10-08-payload-force.md section 6.
+# PIPELINE STEP: G (driver model). Under audit: 6 known bugs + extra items, see docs/decisions/2026-10-08_session-closeout-payload-force.md section 6.
 # NOTE: rows are list of dicts (time, distance, speed, accel, grade, dt_s). Payload column not yet added (decided 8 Oct).
 # NOTE: needs `import`s and a Waypoint/vacc structure from the notebook; not standalone.
 

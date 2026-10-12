@@ -1,11 +1,11 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: "src/**/*.py"
+fileMatchPattern: "src/engine/**/*.py"
 ---
 
 # Engine rules — how every engine function must be written
 
-Applies to all Python in `src/`. Source: `KIRO_PROMPT_1_STEERING.md`, #[[file:docs/decisions/2026-10-06_session-closeout-precompute-architecture.md]], #[[file:docs/decisions/2026-10-08_session-closeout-payload-force.md]], #[[file:docs/decisions/2026-10-08_session-closeout-paux.md]]. These rules exist so the engine stays country-agnostic, cache-ready and VECTO-auditable.
+Applies to the pure engine functions in `src/engine/`. Source: `KIRO_PROMPT_1_STEERING.md`, #[[file:docs/decisions/2026-10-06_session-closeout-precompute-architecture.md]], #[[file:docs/decisions/2026-10-08_session-closeout-payload-force.md]], #[[file:docs/decisions/2026-10-08_session-closeout-paux.md]]. These rules exist so the engine stays country-agnostic, cache-ready and VECTO-auditable.
 
 ## 1. Every parameter is an argument
 - Every physics parameter — coefficients, `Crr`, `v_ref`, `h_ref`, heights, efficiencies, `g`, pressure, `r_dyn`, `theta_red`, etc. — is **passed in as an argument**. Nothing physical is hard-coded inside an engine.

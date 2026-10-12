@@ -6,6 +6,10 @@ inclusion: manual
 
 Built only from the docs and code. References, not copies. Primary source: #[[file:docs/design/status-and-known-contradictions.md]].
 
+## Reference material
+- **VECTO source + resources — present.** Every file listed in #[[file:reference/vecto/ADD_THESE_FILES.md]] has been copied into `reference/vecto/` (`cs/`, `cs/declaration/`, `resources/` with `MissionCycles/`, `VACC/`, `VAUX/`) from the VECTO repo branch `stable`, commit `d16ba783c` (v5.1.3). None missing. READ-ONLY. See `vecto-grounding.md`.
+- **Regulation extracts — still missing.** `reference/regulation/` holds only `ADD_THESE_FILES.md`; the Regulation (EU) 2017/2400 markdown extracts are not yet present.
+
 ## Done (verified or tested)
 - **F crosswind_engine** — verified vs VECTO Excel (0.006 %). #[[file:src/engine/crosswind_engine.py]], #[[file:docs/decisions/2026-10-06_crosswind-verification.md]].
 - **H payload_engine + fill_payload** — tested. #[[file:src/engine/payload_engine.py]], #[[file:docs/design/payload-stop-rows-then-fill.md]].

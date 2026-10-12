@@ -39,10 +39,10 @@ hdev/
       charging_physics_engine_exponential.py
       simulate_driver_alt.py
 ```
-`reference/vecto/` and `reference/regulation/` currently hold **only** `ADD_THESE_FILES.md` — the actual VECTO/regulation files are **missing** (see `vecto-grounding.md`).
+`reference/vecto/` now holds the VECTO source and resources (copied from branch `stable`, commit `d16ba783c`, v5.1.3 — in `cs/`, `cs/declaration/`, `resources/`). `reference/regulation/` still holds **only** `ADD_THESE_FILES.md` — the regulation extracts are **still missing** (see `vecto-grounding.md`).
 
 ## The pipeline (order, inputs → outputs, status)
-Claude's reading of the 8 Oct decisions in #[[file:docs/design/status-and-known-contradictions.md]] §1; **Bob to confirm**. Letters are the step labels from the close-outs.
+Order per the 8 Oct decisions in #[[file:docs/design/status-and-known-contradictions.md]] §1 — **Decided**: payload runs on the waypoints before the driver model. Letters are the step labels from the close-outs.
 
 ```
 A  Inputs (project JSON: vehicles, routes, assignments, calendar/environment)
@@ -54,7 +54,7 @@ F  crosswind_engine (W1, W2 per vehicle; independent of route)
 G  driver model (1 s rows; copies grade and payload from waypoints)
 I  force_engine (k_lin, k_roll, k_rot, L, v_avg)   [6 Oct notes call this "force_coeffs"]
 W  weather_for_rows (rho_rows, cdxa_rows; 60-105 km/h clamp lives here)
-J  power step: P_wheel = m*k_lin + m^beta*k_roll + k_rot + rho*CdxA_eff*L  [6 Oct notes call this "force_engine"]
+J  power_step: P_wheel = m*k_lin + m^beta*k_roll + k_rot + rho*CdxA_eff*L  [name = power_step; 6 Oct notes called this "force_engine"]
    P_aux (5 VECTO BEV terms, state-switched)
    consumption: battery power by sign (P/eta or P*eta_regen) + P_aux -> kWh
 D/E Calendar + group (day-type x weather) -> annual totals
@@ -69,7 +69,7 @@ Where things enter the pipeline: **weather enters at W, mass enters at J.** Ever
 ## What each written step takes in and returns
 - **F `crosswind_engine`** — #[[file:src/engine/crosswind_engine.py]]. In: `vehicle_height, v_ref, h_ref, a1, a2, a3, wind_exp, dh, dphi_deg, v_veh_kmh, beta_limit_deg`. Out: `W1, W2` tables (rows = wind speeds, columns = vehicle speeds). `CdxA_eff = CdxA(0)*W1 + W2`.
 - **H `payload_engine` + `fill_payload`** — #[[file:src/engine/payload_engine.py]]. `payload_engine(stop, shape, payload_start, payload_end, payload_custom)` → payload column (value on row 0 and stop rows, NaN elsewhere). `fill_payload(payload)` forward-fills; raises if row 0 is NaN. Design: #[[file:docs/design/payload-stop-rows-then-fill.md]].
-- **G `driver_model`** — #[[file:src/engine/driver_model.py]]. `DriverModel(waypoints).driver_model(vacc, dt_s=1.0)` → list of dict rows `{time, distance, speed, accel, grade, dt_s}`. Payload column **not yet added**.
+- **G `driver_model`** — #[[file:src/engine/driver_model.py]]. `DriverModel(waypoints).driver_model(vacc, dt_s=1.0)` → row set `{time, distance, speed, accel, grade, dt_s}`. Payload column **not yet added**. **Row storage:** currently a list of dicts; the agreed **target end-state is numpy arrays per column** (one array per field) so the row-wise steps (I, W, J=`power_step`, consumption) vectorise. That conversion is **not yet done**. See `tech.md` and #[[file:docs/design/status-and-known-contradictions.md]] §4(3).
 - **I `force_engine`** — #[[file:src/engine/force_engine.py]]. In: `g, Crr, speed, accel, dt_s, grade, r_dyn, theta_red`. Out: `k_lin, k_roll, k_rot, L, v_avg`. Neutral defaults (`beta=1`, `theta_red=0`) reproduce the simple equation.
 - **M charging** — env #[[file:src/charging/ev_charging_env.py]] (physics only); setpoints #[[file:src/charging/flexibility_setpoints.py]] (JIT/ASAP + feasibility); allocators #[[file:src/charging/allocators_edf_es.py]] (EDF, ES split); runner #[[file:src/charging/run_allocator_21h.py]].
 
@@ -84,7 +84,7 @@ From #[[file:docs/design/status-and-known-contradictions.md]] §2.
 | P_aux | VECTO logic fully traced; **function not written**; design decisions pending | #[[file:src/engine/p_aux.py]], #[[file:docs/decisions/2026-10-08_session-closeout-paux.md]] |
 | G driver model | **EXISTS, under audit**: 6 known bugs + extra items | #[[file:src/engine/driver_model.py]] |
 | W weather_for_rows | **NOT WRITTEN** (design decided) | 6 Oct §4–5, 8 Oct §5 |
-| J power step | **NOT WRITTEN** as a separate function (equation decided) | 8 Oct §4 |
+| J `power_step` | **NOT WRITTEN** as a separate function (equation decided) | 8 Oct §4 |
 | consumption | older code exists in Bob's notebook (not in bundle); placeholder efficiencies 0.95/0.95/0.98; `regen_effeiciency` typo noted | ask Bob |
 | C resolver / typed input | Sept version exists; payload part superseded | not in bundle — ask Bob |
 | defaults.py | **NOT WRITTEN** (values collected in the 7 Oct defaults doc) | #[[file:docs/decisions/2026-10-07_vecto-declaration-defaults.md]] |
