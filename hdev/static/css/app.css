@@ -448,6 +448,42 @@ h3 {
   color: var(--ink-soft);
 }
 
+/* the Step 6 typing indicator bubble: muted + italic while the /api/chat reply is in flight; its
+   text is replaced by the server reply once /api/chat returns. */
+.msg--typing {
+  font-style: italic;
+  color: var(--ink-soft);
+  letter-spacing: 0.15em;
+}
+
+/* the §4.4 suggestion buttons wrap in the suggestions area and keep a comfortable target size. */
+.suggestion-btn {
+  flex: 0 1 auto;
+  text-align: left;
+}
+
+/* the editable shift-end control inside the operation input card. a plain label + <select> row. */
+.field-edit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.field-edit__label {
+  font-weight: 600;
+  color: var(--ink);
+}
+.field-edit__select {
+  min-height: 36px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  color: var(--ink);
+  font: inherit;
+}
+
 /* a fillable section card during the §5.3 fill. the active card gets a blue glow RING plus a left
    accent bar, so the active state is not carried by colour alone. */
 .section-card--fillable {

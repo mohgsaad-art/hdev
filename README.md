@@ -148,6 +148,75 @@ As everywhere else, the browser does no maths: it only draws the numbers the ser
 
 ---
 
+## Assistant (demo mode) — Step 6
+
+In **demo mode** the assistant becomes interactive once results exist. It answers the eight suggestion buttons, typed questions, and the shift-end field edit. Everything is server-decided: the browser posts only raw text or an action identifier and renders the server's reply plus any action it returns. **The JS does no keyword matching, generates no reply text and computes no number** — all replies come from the `explain/` templates and the §4.3 number-check, and all routing/lever decisions come from the server.
+
+**`POST /api/chat`** is **demo-mode only** (real mode returns `404` with `{"available": false, ...}`; the real LLM assistant is Step 10). It **never** calls an AI provider and touches no network.
+
+**Request shape:**
+
+```
+{
+  "message": "...",            # a raw typed question (optional)
+  "action": "...",             # a suggestion-button id or "edit_field" (optional)
+  "target": "operation.schedule.shift_end",   # for action == "edit_field"
+  "value": "18:00",            # for action == "edit_field" (raw HH:MM)
+  "levers": { ... },           # the current client-facing lever set
+  "current_results": { ... }   # the current §3.3 results payload
+}
+```
+
+**Response shape:**
+
+```
+{
+  "reply": "...",              # the assistant text (from explain/ templates; number-checked)
+  "action": {                   # optional
+    "open_tab": "charging",     # a tab to open (maps 1:1 to the UI tab ids)
+    "lever": { ... },           # a lever the assistant changed (echoed)
+    "results": { ... },         # fresh §3.3 results after a rerun
+    "expand_section": "operation",  # (Show me the inputs) open Inputs with the operation card visible
+    "run_id": 7                 # the audit run number for a shift-end edit
+  },
+  "run_id": 7                   # mirrored for a shift-end edit
+}
+```
+
+**The eight suggestion buttons** (fixed UI labels), the action id each posts, and the tab/lever each drives:
+
+| Button label | Action id | Opens tab | Lever change |
+|---|---|---|---|
+| Compare charging strategies | `compare_strategies` | Charging | — (no rerun) |
+| What if electricity costs more? | `price_up` | Costs (TCO) | `electricity_price = high` |
+| Add 4 more trucks | `more_trucks` | Grid & flexibility | `fleet_size = base + 4` |
+| Cold winter | `cold_winter` | Energy | `weather_year = cold_winter` |
+| Save as scenario | `save_scenario` | Scenarios | — (persistence is Step 7) |
+| Show me the inputs | `show_inputs` | Inputs | — (operation card expanded) |
+| Show the audit trail | `show_audit` | Audit trail | — (full audit is Step 7) |
+| Make the report | `make_report` | Report | — (export is Step 8) |
+
+Each button posts a user bubble with its label, shows a typing-indicator bubble, posts its action id to `/api/chat`, and renders the returned reply + applies the returned action (open the tab, update the scenario bar for a changed lever, redraw the results). A lever change from the assistant is **visible** in the scenario bar: for example *Add 4 more trucks* moves the trucks slider by 4, *What if electricity costs more?* activates the **High** electricity-price segment, and *Cold winter* activates the **Cold winter** weather segment.
+
+**Typed-question keyword router** (server-side only — the JS sends the raw text and matches nothing):
+
+| Keywords (substring, lower-cased) | Behaviour |
+|---|---|
+| `strategy` / `compare` / `charg` | same as *Compare charging strategies* (open Charging, no rerun) |
+| `price` / `cost` / `expens` | same as *What if electricity costs more?* |
+| `truck` / `add` / `more` | same as *Add 4 more trucks* (`fleet_size + 4`) |
+| `cold` / `winter` / `weather` | same as *Cold winter* |
+| a method/how/why question | the method-deflection reply, no action |
+| anything else | the exact unmatched-fallback reply, no action |
+
+**Shift-end field edit.** The Inputs tab surfaces an editable shift-end `<select>` (HH:MM) in the operation input card. Changing it posts `{"action": "edit_field", "target": "operation.schedule.shift_end", "value": "<HH:MM>", ...}` to `/api/chat`. The server validates the value, reruns, updates the scenario bar and shows a reply that ends with **"Logged as run #N in the audit trail."** with a concrete `N` (also returned as `run_id`). An invalid value returns `400` with a plain-language reply (no results). **Step 7's run log aligns with this same run counter** so run numbers stay consistent across the audit trail. The browser computes nothing from the new value — it posts the raw string and renders only the server reply/action.
+
+**`explain/` templates and the §4.3 number-check.** Every reply is built by the `explain/` templates **from the results JSON** (and the registry only for a field label); no number is computed in a template. The §4.3 number-check then scans each reply: any number that is **not** present in the current results JSON or the registry is blocked and the reply is replaced by the safe fallback template, so a drifting reply can never surface an invented figure. Per method-hiding (§8), no parameter/coefficient/formula/physics-source/internal-strategy name and no collapsed/hidden field name ever appears in a reply; charging approaches use only the three client-facing labels **Lowest cost / Grid-friendly / Ready earliest**, and the owner is referred to only as **Bob**.
+
+**Demo mode never calls an AI provider**, and the JS does no maths or keyword logic: all of that lives in Python (`hdev/chat_api.py` + `explain/`), and the browser is a dumb client that posts raw text/action ids and draws the server's strings and actions.
+
+---
+
 Every file below says what it is and **why it is here**. Status words: DONE (verified/tested), CURRENT (in use), DRAFT, DEPRECATED (history only), NOT WRITTEN.
 
 ---
