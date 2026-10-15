@@ -358,6 +358,105 @@ In real mode the endpoint does not 404: it still returns a report, but with `ill
 
 ---
 
+## Engine functions (Step 9)
+
+Step 9 builds the §6 engine functions behind the demo surface and wires **real mode** to a real pipeline. Every engine function is **pure**: every physics parameter is an argument, there is no hard-coded constant, and no engine does any I/O, disk or network. The neutral VECTO defaults reduce the equations to their simple form (`beta=1`, `theta_red=0`). Functions fail loudly on missing or invalid input, and lookup tables never extrapolate (they raise). SI units live inside the engines; km/h and tonnes only at the UI edge. Where a value has no source it is left `None` and **flagged**, never invented. The real-mode results keep the **same** client-facing names and plain words as demo (method-hiding, §8): engine-internal names (coefficients, formula names, physics/VECTO source names, charging-strategy names, per-row intermediate values) never reach a client surface.
+
+### The engine pipeline A → O
+
+The pipeline is the Decided-8-Oct order from `.kiro/specs/hdev-master-plan/design.md` §1. Payload runs on the waypoints **before** the driver model. "Precompute" is everything above the weather stage, computed once and reused; weather enters at W and mass enters at J.
+
+| Stage | What it does |
+|---|---|
+| **A - Inputs** | the project JSON: vehicles, routes, assignments (count), calendar / environment (equipment and operational data kept separate) |
+| **B - Validate** | Pydantic validation (lands later, with FastAPI) |
+| **C - Resolve** | `defaults.py` plus a typed / GPS / AI resolver turns inputs into waypoints `{distance_m, target_speed_kmh, grade, stop_s, payload}` |
+| **H - Payload** | `payload_engine` writes payload on the start and stop rows, then `fill_payload` forward-fills so every waypoint has a payload |
+| **F - Crosswind** | `crosswind_engine` builds the W1 / W2 effective-drag tables (winds x 60-105 km/h), once per vehicle, route-independent |
+| **G - Driver model** | `driver_model` expands the waypoints into one-second rows `{time, distance, speed, accel, grade, dt_s, payload}`; this is the list-of-dicts -> numpy per-column conversion point |
+| **I - Force** | `force_engine` gives the mass-, temperature- and drag-independent per-row coefficients `k_lin, k_roll, k_rot, L, v_avg` |
+| **W - Weather** | `weather_for_rows` builds `rho_rows` (air density inline) and `cdxa_rows` (`CdxA_eff = CdxA(0)*W1 + W2`), clamping 60-105 km/h and raising on extrapolation |
+| **J - Power step** | `P_wheel = m*k_lin + m^beta*k_roll + k_rot + rho*CdxA_eff*L`, with `m = vehicle + body + payload` |
+| **Consumption** | battery power by sign (`P_batt = P_wheel/eta` when driving, `P_wheel*eta_regen` when regenerating) plus `P_aux`, summed over `dt` to kWh per row and per day |
+| **D/E - Calendar / Group** | one row per date (operating?, day-type, temperature, wind), then group unique day-type x weather bins into annual totals (consumption does not read the calendar) |
+| **L - Battery sizing** | mode A (datasheet, no loop) or mode B (glider + kWh/kg + payload, iterate) |
+| **M - Charging** | per plug-in session (arrival -> next departure); OCV + Ri battery; setpoint; EDF / equal-share split of the site target; the site cap couples vehicles and SOC carries over |
+| **N - Sweep** | battery x charger kW x policy x site limit over finite real lists, skipping impossible combinations |
+| **O - Costs / CO₂ / report** | TCO category sums, CO₂, and the assumptions report (defaults, deviations, gaps) |
+
+### Per-function status (§6 items 1 → 20)
+
+Status words: **WRITTEN with tests** (pure function, VECTO or hand-checked tests); **STUB blocked-by-&lt;item&gt;** (interface only, raises `NotImplementedError("blocked by <item>")`, surfaces as `null`); **WRAPPED-existing** (a pure function over existing thesis logic); **ALREADY-DONE-at-app-layer** (built in an earlier step).
+
+| §6 item | File | Status |
+|---|---|---|
+| 1. Waypoint + `.vacc` parser | `src/resolver/waypoint_parser.py` | WRITTEN with tests |
+| 2. `defaults.py` | `src/resolver/defaults.py` | WRITTEN with tests (CdxA default left empty + flagged, 🔒 M1.1) |
+| 3. Typed-input resolver | `src/resolver/resolve_typed.py` | WRITTEN with tests |
+| 4. Driver model audit | `src/engine/driver_model.py` | WRITTEN with tests (fixes listed below; grade handling 🔒 M0.12, untouched) |
+| 5. `weather_for_rows` | `src/engine/weather_for_rows.py` | WRITTEN with tests |
+| 6. Power step | `src/engine/power_step.py` | WRITTEN with tests |
+| 7. `p_aux` | `src/engine/p_aux.py` | WRITTEN with tests (weather-on-aux layer is a STUB until the W/°C source arrives) |
+| 8. Consumption | `src/engine/consumption.py` | WRITTEN with tests (HDEV placeholder efficiencies `0.95 / 0.95 / 0.98` flagged, 🔒 M0.21) |
+| 9. Calendar expand | `src/resolver/calendar.py` | WRITTEN with tests |
+| 10. Session hand-over | `src/resolver/session_handover.py` | WRITTEN with tests |
+| 11. Battery sizing | `src/charging/sizing.py` | WRITTEN with tests (mode A full; mode B structure, source-flagged 🔒 M3.2) |
+| 12. AI waypoint adapter | `src/resolver/ai_waypoint_adapter.py` | STUB blocked (map provider not chosen) |
+| 13. Charging sizing + simulation | `src/charging/charging_sim.py` + `src/charging/battery_ocv_ri.py` | WRITTEN with tests (`dt` required, no default; cheapest-first price series flagged 🔒 M3.8) |
+| 14. Year-long depot run | `src/charging/year_depot_run.py` | WRITTEN with tests (pure wrapper; adaptation planned in `docs/design/year-depot-run-adaptation.md`) |
+| 15. `runner.run(base, changes)` | `src/server/runner.py` | WRITTEN with tests |
+| 16. Flexibility per-hour | `src/charging/flexibility.py` | WRAPPED-existing (pure function over `flexibility_setpoints`) |
+| 17. TCO | `src/server/tco.py` | WRITTEN with tests (data model + category sums only; coefficients to-be-sourced 🔒 M6.24) |
+| 18. CO₂ | `src/server/co2.py` | STUB blocked-by-M6.25 |
+| 19. `explain/` templates | `explain/templates.py` | ALREADY-DONE-at-app-layer (Step 6) |
+| 20. `audit/` source tracking + run log | `audit/sources.py` + `audit/run_log.py` | ALREADY-DONE-at-app-layer (Step 7) |
+
+**Driver model fixes (item 4).** The audit fixed the known bugs in `driver_model.py` and listed each fix in its commit; grade handling is **🔒 M0.12** and was left exactly as Bob wrote it and flagged, never rewritten silently.
+
+### Live vs stubbed
+
+**Live** (real numbers flow end to end): the resolver (items 1-3), the row pipeline (driver model, force, weather, power step, p_aux, consumption - items 4-8), calendar and session hand-over (items 9-10), battery sizing mode A (item 11), charging sizing + simulation (item 13), the year depot run (item 14), the runner (item 15), flexibility (item 16), and the TCO category sums (item 17, with coefficient slots empty).
+
+**Stubbed** (interface present, returns `null` so the UI shows **"Not yet available"**): the AI waypoint adapter (item 12), battery sizing mode B's unsourced parts (item 11, 🔒 M3.2), the weather-on-aux layer inside `p_aux` (item 7), the TCO coefficients (item 17, 🔒 M6.24), and CO₂ (item 18, 🔒 M6.25).
+
+### How to run real mode
+
+Real mode is selected with the `HDEV_MODE` env var, read once at startup:
+
+```
+HDEV_MODE=real make run
+# equivalently:
+HDEV_MODE=real .venv/bin/python -m hdev.app
+```
+
+In real mode `POST /api/run` with a project base calls `runner.run(base, changes)` and returns the real **§3.3-shaped** results - the same client-facing shape the demo emits. `runner.run` selects the start stage from what changed and reruns only the downstream stages. A stage that is still a stub returns `null` fields, and the UI renders **"Not yet available"** for those. If the entry contract is incomplete, the run is **refused** with a plain-worded message that lists the missing project inputs (for example `vehicles`, `routes`, `calendar_environment`); no partial results are returned. **Demo mode is unchanged** - `HDEV_MODE=demo` (the default) still runs the illustrative sample case through `demo/demo_engine.py` and never touches the real pipeline.
+
+### HDEV placeholder efficiencies (the consumption flag)
+
+Consumption converts wheel power to battery kWh using three efficiencies - drive `0.95`, regen `0.95`, and auxiliary `0.98`. These are **HDEV placeholders with no VECTO equivalent**: VECTO has no single matching number, so HDEV supplies its own until a sourced value exists. They are passed as **explicit arguments** (never hard-coded in the engine), and every result that used them carries `placeholder_efficiencies=True` together with the message **"contains HDEV placeholder efficiencies (no VECTO equivalent)"**, so no efficiency-derived number is ever presented as if it were sourced. This is 🔒 M0.21: the structure is in place and flagged, the sourced value is pending.
+
+### 🔒 Locked items touched, and how each was handled
+
+Per the engine rules a locked item is **never decided**: it gets an interface plus a stub or an explicit flag, and where it surfaces to the UI the field is `null` so the UI shows "Not yet available".
+
+| Item | How it was handled |
+|---|---|
+| **M0.12** - driver-model grade handling | left exactly as Bob wrote it, untouched, and flagged in the audit; no other fix changed grade behaviour |
+| **M0.21** - consumption efficiencies | placeholder structure built, the three values passed as explicit arguments and flagged with `placeholder_efficiencies=True` (see above) |
+| **M1.1** - CdxA default | `defaults.py` leaves the CdxA default **empty** and flagged; no number invented |
+| **M2.6** - session hand-over object | the `{arrival, departure, energy_need_kWh, arrival_SOC}` object was written per the master-prompt "decided" note; `tasks.md` still marks it 🔒, which is recorded as a deviation to confirm |
+| **M3.2** - battery sizing mode B | mode A is full; mode B's unsourced parts are a structure only, source-flagged, returning `null` where unsourced |
+| **M3.8** - charging `dt` and price series | `dt` is a **required** argument with no default (the value must come from Energinet specs); the cheapest-first price series is flagged, pending a sourced price input |
+| **M6.24** - TCO coefficients | the data model and category sums exist; every coefficient is a to-be-sourced `None` slot, surfaced as "Not yet available" |
+| **M6.25** - CO₂ | interface + stub raising `NotImplementedError("blocked by M6.25")` |
+| **M5.6** - full VECTO reference run | Bob's off-sandbox job (VECTO cannot build in the sandbox); tests use captured reference numbers where present (for example crosswind `0.006 %` and p_aux `2938.9 / 2537 / 1937 W`) and otherwise hand-checked cases with the arithmetic written into the test |
+
+### Note for Step 10 (the real AI assistant)
+
+The real AI assistant will consume **the real §3.3 results JSON plus the `explain/` templates**. As in demo mode (§4.3), the assistant rephrases the template text with the LLM but takes **numbers only from the results JSON** - it never computes a figure and the §4.3 number-check still blocks any number that is not in the current results or registry. So Step 9's job for the assistant is done once real mode returns a §3.3 payload: Step 10 swaps the LLM in behind the same templates and the same number guard.
+
+---
+
 Every file below says what it is and **why it is here**. Status words: DONE (verified/tested), CURRENT (in use), DRAFT, DEPRECATED (history only), NOT WRITTEN.
 
 ---
