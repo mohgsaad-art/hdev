@@ -1,0 +1,21 @@
+<!doctype html>
+<!--
+  STATUS: NEW (PR 2) - MINIMAL PLACEHOLDER. FEAT-002 (Step 2 UI shell) replaces this with the real
+  header, assistant column and empty workspace per master prompt §5.1-§5.2, plus self-hosted fonts.
+  it exists only so the server serves a valid index.html at / and the server test can assert the
+  literal tool-name placeholder below. nothing about sections/counts is hard-coded here: the shell
+  will fetch /api/inputs and draw from the registry. the tool name shown is the literal string below.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>[TOOL NAME]</title>
+  </head>
+  <body>
+    <main>
+      <h1>[TOOL NAME]</h1>
+      <p>Local UI shell is being set up. Data is served from <code>/api/inputs</code>.</p>
+    </main>
+  </body>
+</html>

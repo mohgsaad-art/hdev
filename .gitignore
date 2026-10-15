@@ -2,3 +2,7 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+
+# virtualenv for the local UI server (Step 2); global site-packages is read-only in the sandbox
+.venv/
+*.egg-info/
