@@ -186,3 +186,16 @@ def test_mode_b_requires_the_locked_source_args_and_fails_loudly():
             glider_mass_kg=10000.0, pack_kwh_per_kg=0.001, payload_kg=0.0,
             energy_per_km_per_kg=0.01, range_km=300.0,
         )
+
+
+# ---------------------------------------------------------------------------
+# ITEM 12 - AI waypoint adapter (interface + stub only, map provider not chosen)
+# ---------------------------------------------------------------------------
+
+from src.resolver.ai_waypoint_adapter import ai_waypoints_from_descriptions
+
+
+def test_ai_waypoint_adapter_is_a_stub():
+    with pytest.raises(NotImplementedError) as exc:
+        ai_waypoints_from_descriptions([{"description": "depot"}])
+    assert "map provider not chosen" in str(exc.value)
