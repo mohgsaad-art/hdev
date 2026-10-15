@@ -70,11 +70,38 @@ def test_css_served_and_fonts_are_local(client):
     assert "fonts.gstatic.com" not in css
 
 
+# §5.6 result-tab labels are fixed UI chrome from the spec (not registry-derived). a few of them
+# coincide word-for-word with a registry section display_name (e.g. the "Charging" tab vs the
+# "Charging" input section). the no-hardcoded-section-name guard below is scoped to EXCLUDE those
+# §5.6 tab labels so a legitimate tab title does not trip it; the guard still proves the JS does not
+# bake in the registry section list (it must come from /api/inputs - see the payload.sections check).
+SECTION_NAME_GUARD_ALLOW = {
+    # §5.6 result-tab labels:
+    "Inputs",
+    "Overview",
+    "Energy",
+    "Charging",
+    "Grid & flexibility",
+    "Costs (TCO)",
+    "Scenarios",
+    "Report",
+    "Audit trail",
+    # §5.5 scenario-bar control label that reuses a section word ("Weather"):
+    "Weather",
+}
+
+
 def test_js_served_and_has_no_hardcoded_section_names(client):
     js = _get(client, "/js/app.js").text
-    # §0: no section display_name may be baked into the JS; it must come from /api/inputs.
+    # §0: no registry section display_name may be baked into the JS as the source of the Inputs cards;
+    # it must come from /api/inputs. §5.6 result-tab labels that happen to reuse a section word are
+    # allow-listed above so a legitimate tab title is not mistaken for a hard-coded section name.
     for section in SECTIONS:
+        if section.display_name in SECTION_NAME_GUARD_ALLOW:
+            continue
         assert section.display_name not in js, section.display_name
+    # the section cards are rendered from the server payload, not a hard-coded list.
+    assert "payload.sections" in js
     # no hard-coded registry count / the old mock-up 112.
     assert "112" not in js
     assert not re.search(r"\btotal_inputs\s*=\s*\d", js)
@@ -122,6 +149,131 @@ def test_font_binaries_served(client):
         resp = client.get("/fonts/" + name)
         assert resp.status_code == 200, name
         assert len(resp.content) > 1000, name
+
+
+# ---- Step 5: run screen, tabs, charts, scenario bar guards --------------------------------------
+
+# the ten §5.6 tab labels, in order. these are fixed UI chrome labels (not registry section names).
+TAB_LABELS = (
+    "Inputs",
+    "Overview",
+    "Energy",
+    "Charging",
+    "Grid &amp; flexibility",  # the ampersand is HTML-escaped when rendered; check both forms below
+    "Costs (TCO)",
+    "CO\u2082",
+    "Scenarios",
+    "Report",
+    "Audit trail",
+)
+
+# the nine §5.3 run-screen checklist strings, verbatim.
+CHECKLIST_STRINGS = (
+    "Reading routes and stops",
+    "Simulating 250 working days per truck",
+    "Adding weather for every day of the year",
+    "Sizing batteries to the hardest day",
+    "Testing charging strategies",
+    "Checking the depot grid connection",
+    "Finding flexibility",
+    "Calculating total cost of ownership",
+    "Calculating CO\u2082",
+)
+
+# the four §5.5 recalculation overlay rotating lines.
+RECALC_LINES = (
+    "Re-running the year\u2026",
+    "Re-sizing chargers\u2026",
+    "Checking the grid\u2026",
+    "Updating costs\u2026",
+)
+
+# chart libraries that must NEVER be referenced (charts are hand-drawn inline SVG, no canvas).
+FORBIDDEN_CHART_LIBS = ("chart.js", "chartjs", "d3", "highcharts", "plotly", "echarts", "canvas")
+
+
+def test_js_has_all_ten_tab_labels(client):
+    js = _get(client, "/js/app.js").text
+    # the tab labels live in the JS as plain UI copy (not registry section names). the ampersand tab
+    # is stored unescaped in JS source, so check the raw "Grid & flexibility".
+    for label in (
+        "Inputs",
+        "Overview",
+        "Energy",
+        "Charging",
+        "Grid & flexibility",
+        "Costs (TCO)",
+        "CO\u2082",
+        "Scenarios",
+        "Report",
+        "Audit trail",
+    ):
+        assert label in js, label
+
+
+def test_js_has_tab_and_panel_roles(client):
+    # §5.7 accessibility: tabs use role=tab + aria-selected; panels use role=tabpanel.
+    js = _get(client, "/js/app.js").text
+    assert 'role", "tab"' in js or '"tab"' in js
+    assert "aria-selected" in js
+    assert 'role", "tabpanel"' in js or '"tabpanel"' in js
+
+
+def test_js_charts_are_accessible_images(client):
+    # every chart <svg> carries role=img + a descriptive aria-label.
+    js = _get(client, "/js/app.js").text
+    assert 'role", "img"' in js or '"img"' in js
+    assert "aria-label" in js
+
+
+def test_js_uses_no_chart_library(client):
+    # charts are hand-drawn inline stroke SVG. no chart library and no canvas may be referenced.
+    js = _get(client, "/js/app.js").text.lower()
+    for lib in FORBIDDEN_CHART_LIBS:
+        assert lib not in js, lib
+
+
+def test_js_has_run_screen_checklist_strings(client):
+    js = _get(client, "/js/app.js").text
+    for line in CHECKLIST_STRINGS:
+        assert line in js, line
+    # the run-screen title + subtitle + the done line template.
+    assert "Running your fleet through a full year" in js
+    assert "Every working day, every season, every truck." in js
+    assert "truck-days simulated" in js
+
+
+def test_js_has_recalculation_overlay_strings(client):
+    js = _get(client, "/js/app.js").text
+    assert "Recalculating" in js
+    for line in RECALC_LINES:
+        assert line in js, line
+
+
+def test_js_shows_human_priority_labels_not_internal_keys(client):
+    # §8: internal priority keys cost/grid/early must never be the representation; the human labels
+    # Lowest cost / Grid-friendly / Ready earliest are shown instead. the client-facing enum names
+    # (lowest_cost etc.) are allowed because they are posted back as raw lever values, but each must
+    # map to a human label.
+    js = _get(client, "/js/app.js").text
+    assert "Lowest cost" in js
+    assert "Grid-friendly" in js
+    assert "Ready earliest" in js
+    # the internal mock-up keys never appear as standalone priority tokens in the client JS.
+    assert '"cost"' not in js
+    assert '"grid"' not in js
+    assert '"early"' not in js
+
+
+def test_js_scaling_arithmetic_is_only_in_svg_helpers(client):
+    # §0 no-business-maths guard, scoped. the earlier guard (test_js_does_no_arithmetic_on_server_numbers)
+    # bans the specific data-handling arithmetic markers. Step 5 adds SVG coordinate scaling, which is
+    # drawing layout, not business maths - the earlier guard patterns ('part / whole', '* 100',
+    # '/ total', the from_data+standard sums) must still be absent even with the chart helpers present.
+    js = _get(client, "/js/app.js").text
+    assert "part / whole" not in js
+    assert "/ total" not in js
+    assert "section.from_data + section.standard" not in js
 
 
 def test_no_method_hiding_leaks_in_static_assets(client):

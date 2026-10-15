@@ -80,6 +80,12 @@
 
   /* minimum touch target for interactive controls */
   --touch: 44px;
+
+  /* ---- chart colour tokens (Step 5) ---- */
+  /* every series/limit colour is ALWAYS paired with a text label in the legend, never colour alone. */
+  --chart-electric: #1F5FD1; /* signal blue: the electric series */
+  --chart-diesel: #9AA5B8;   /* diesel grey: the diesel series */
+  --chart-limit: #F2A93B;    /* amber: limits / standard / warnings */
 }
 
 * {
@@ -524,6 +530,504 @@ h3 {
   flex: 0 1 auto;
 }
 
+/* =========================================================================
+   STEP 5: run screen, tab bar, KPI tiles, charts, strategy table, scenario
+   bar and the recalculation overlay. all meaning is paired with text/shape;
+   no colour-only states; no emoji; no external URLs.
+   ========================================================================= */
+
+/* the results panel is the positioning context for the recalculation overlay. */
+.results-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---- §5.3 run screen ---- */
+.run-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  text-align: center;
+}
+.run-card__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+.run-card__subtitle {
+  margin: 6px 0 18px;
+  color: var(--ink-soft);
+}
+.run-card__done {
+  margin-top: 16px;
+  font-weight: 600;
+  color: var(--brand-strong);
+}
+
+/* a generic progress bar (run screen + overlay). */
+.progress {
+  height: 10px;
+  width: 100%;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress__fill {
+  height: 100%;
+  width: 100%;
+  background: var(--brand);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.2s ease;
+}
+.progress__fill--indeterminate {
+  width: 40%;
+  transform: none;
+  animation: progress-slide 1.1s ease-in-out infinite;
+}
+@keyframes progress-slide {
+  0% { margin-left: 0%; width: 20%; }
+  50% { margin-left: 50%; width: 40%; }
+  100% { margin-left: 100%; width: 10%; }
+}
+
+/* the nine checklist lines. the tick state is a shape (check mark) + colour, never colour alone. */
+.checklist {
+  list-style: none;
+  margin: 20px auto 0;
+  padding: 0;
+  max-width: 420px;
+  text-align: left;
+}
+.checklist__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  color: var(--ink-soft);
+}
+.checklist__tick {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  flex: none;
+  position: relative;
+}
+.checklist__item--done {
+  color: var(--ink);
+}
+.checklist__item--done .checklist__tick {
+  border-color: var(--brand);
+  background: var(--brand);
+}
+.checklist__item--done .checklist__tick::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* ---- §5.6 tab bar ---- */
+.tabbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-bottom: 2px solid var(--border);
+}
+.tab {
+  min-height: var(--touch);
+  padding: 0 14px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.tab:hover {
+  color: var(--brand-strong);
+}
+.tab[aria-selected="true"] {
+  color: var(--brand-strong);
+  border-bottom-color: var(--brand);
+}
+.tab:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 2px;
+}
+
+/* ---- tab panels ---- */
+.tabpanel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-top: 4px;
+}
+
+/* ---- KPI tiles ---- */
+.kpi-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.kpi {
+  flex: 1 1 160px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+}
+/* blue = good, amber = warning; each tile also carries a text note so meaning is never colour alone. */
+.kpi--good {
+  border-left-color: var(--chart-electric);
+}
+.kpi--warn {
+  border-left-color: var(--chart-limit);
+}
+.kpi__label {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.kpi__value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.7rem;
+  line-height: 1.15;
+  color: var(--ink);
+}
+.kpi__note {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+/* ---- charts: side-by-side grid, stacks under 340px ---- */
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  min-width: 0;
+}
+.chart-card__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+.chart-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+.chart-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.chart-legend__swatch {
+  width: 14px;
+  height: 10px;
+  border-radius: 2px;
+  flex: none;
+}
+.chart-legend__swatch--dashed {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--chart-limit) 0,
+    var(--chart-limit) 4px,
+    transparent 4px,
+    transparent 7px
+  ) !important;
+}
+
+/* ---- verdict card (Overview) ---- */
+.verdict-card {
+  background: var(--navy);
+  color: var(--navy-ink);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+}
+.verdict-card__eyebrow {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+  font-weight: 600;
+}
+.verdict-card__headline {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: var(--navy-ink);
+  margin: 4px 0 8px;
+}
+.verdict-card__reason {
+  margin: 0;
+  opacity: 0.92;
+}
+.based-on {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.based-on__item {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ---- electrification plan ---- */
+.plan-list {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.plan-list__item {
+  padding-left: 4px;
+}
+.plan-list__when {
+  font-weight: 700;
+  color: var(--brand-strong);
+  margin-right: 8px;
+}
+
+/* ---- strategy / scenario / audit tables ---- */
+.strategy-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+.strategy-table th,
+.strategy-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.strategy-table th {
+  background: var(--surface-muted);
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.strategy-table__row--current {
+  background: rgba(31, 95, 209, 0.08);
+}
+.badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.badge--cheapest {
+  background: rgba(31, 95, 209, 0.14);
+  color: var(--brand-strong);
+  border: 1px solid var(--chart-electric);
+}
+.badge--current {
+  background: var(--accent-amber-bg);
+  color: var(--accent-amber);
+  border: 1px solid var(--accent-amber);
+}
+
+/* ---- placeholder notes + report thumbnails ---- */
+.placeholder-note {
+  background: var(--surface-muted);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+.report-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+.report-card__hint {
+  color: var(--ink-soft);
+}
+.report-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+.report-thumb {
+  aspect-ratio: 3 / 4;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.report-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ---- §5.5 scenario bar ---- */
+.scenario-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+}
+.scenario-ctrl {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.scenario-ctrl--save {
+  margin-left: auto;
+  justify-content: flex-end;
+}
+.scenario-ctrl__label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.scenario-ctrl__sliderrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.scenario-slider {
+  min-height: var(--touch);
+  width: 160px;
+}
+.scenario-ctrl__readout {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  min-width: 24px;
+  text-align: center;
+}
+.segmented {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.segmented__btn {
+  min-height: var(--touch);
+  min-width: var(--touch);
+  padding: 0 12px;
+  border: none;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.segmented__btn:last-child {
+  border-right: none;
+}
+.segmented__btn:hover {
+  background: var(--surface-muted);
+}
+.segmented__btn--active {
+  background: var(--brand);
+  color: #ffffff;
+}
+.segmented__btn:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: -2px;
+}
+
+/* ---- §5.5 recalculation overlay (over the results panel only) ---- */
+.recalc-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(244, 246, 250, 0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  border-radius: var(--radius-lg);
+}
+.recalc-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px 28px;
+  min-width: 260px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(16, 35, 63, 0.18);
+}
+.recalc-box__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+}
+.recalc-box__line {
+  margin: 12px 0 0;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
 /* ---- responsive: stack below 900px ---- */
 @media (max-width: 900px) {
   .app-body {
@@ -535,5 +1039,12 @@ h3 {
   }
   .input-counter {
     margin-left: 0;
+  }
+}
+
+/* charts stack vertically on narrow panels (§5.1). */
+@media (max-width: 340px) {
+  .chart-grid {
+    grid-template-columns: 1fr;
   }
 }
