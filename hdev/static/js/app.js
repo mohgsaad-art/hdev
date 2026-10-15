@@ -30,13 +30,14 @@
     }
   }
 
-  // header counter: both numbers come from the server payload only. nothing is hard-coded.
-  // "filled" is whatever the server reports as already filled (0 in the shell, since nothing is yet);
-  // "total" is the registry-derived total_inputs the server computed.
+  // header counter: both numbers come from the server payload only. nothing is hard-coded and the
+  // client invents nothing. "filled" is whatever the server reports (filled_inputs, 0 in the shell
+  // since nothing is filled yet); "total" is the registry-derived total_inputs. a missing value
+  // renders the unavailable marker rather than a client-side default.
   function renderCounter(payload) {
     var total = typeof payload.total_inputs === "number" ? payload.total_inputs : null;
     var filled =
-      typeof payload.filled_inputs === "number" ? payload.filled_inputs : 0;
+      typeof payload.filled_inputs === "number" ? payload.filled_inputs : null;
     setCounterPart("filled", filled);
     setCounterPart("total", total);
   }

@@ -18,6 +18,9 @@
 #   {
 #     "mode": "demo" | "real",            # from HDEV_MODE; UI shows the demo pill when "demo"
 #     "tool_name": "[TOOL NAME]",         # literal placeholder string shown in the UI (never a brand)
+#     "filled_inputs": int,               # how many inputs are filled; 0 in the shell (nothing filled
+#                                         # yet). server-driven so the UI never invents the count;
+#                                         # later steps update it server-side.
 #     "total_inputs": int,                # registry-derived open+collapsed total (hidden excluded)
 #     "visibility_totals": {"open": int, "collapsed": int},   # overall, hidden deliberately omitted
 #     "sections": [
@@ -116,6 +119,10 @@ def build_inputs_payload(mode: str = DEFAULT_MODE) -> Dict[str, Any]:
     return {
         "mode": mode if mode in MODES else DEFAULT_MODE,
         "tool_name": TOOL_NAME,
+        # nothing is filled in the shell yet, so this is a literal 0. it is emitted server-side so the
+        # dumb client renders the "filled" counter from the payload instead of inventing it; later
+        # steps update this count server-side without touching the client.
+        "filled_inputs": 0,
         # registry-derived total: open + collapsed (hidden is never counted). NOT a literal.
         "total_inputs": totals["open"] + totals["collapsed"],
         "visibility_totals": {"open": totals["open"], "collapsed": totals["collapsed"]},

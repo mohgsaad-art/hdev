@@ -32,8 +32,9 @@ def create_app() -> FastAPI:
 
     @app.get("/api/inputs")
     def api_inputs():
-        # registry-derived, client-safe inputs payload. built per-request so a future mode flip or
-        # registry reload is reflected without reconstructing the app; the mode is the startup value.
+        # registry-derived, client-safe inputs payload, built per-request. the mode is the startup
+        # value captured on app.state.mode (read once in create_app); it is not re-read here, so
+        # there is no runtime mode switching - a mode change requires restarting the app.
         return build_inputs_payload(app.state.mode)
 
     # serve the static UI shell at /. html=True makes GET / return static/index.html.

@@ -73,6 +73,14 @@ def test_counts_are_registry_derived(client):
             assert g["count"] == counts[section.id]["subgroups"][g["name"]]
 
 
+def test_filled_inputs_is_server_driven_zero_in_shell(client):
+    # §0: the "filled" counter is server-driven, not invented by the client. nothing is filled in the
+    # shell, so the server emits a literal 0 (later steps update it server-side).
+    payload = client.get("/api/inputs").json()
+    assert "filled_inputs" in payload
+    assert payload["filled_inputs"] == 0
+
+
 def test_total_inputs_is_registry_derived(client):
     payload = client.get("/api/inputs").json()
     totals = visibility_counts()
