@@ -191,9 +191,9 @@ In **demo mode** the assistant becomes interactive once results exist. It answer
 | What if electricity costs more? | `price_up` | Costs (TCO) | `electricity_price = high` |
 | Add 4 more trucks | `more_trucks` | Grid & flexibility | `fleet_size = base + 4` |
 | Cold winter | `cold_winter` | Energy | `weather_year = cold_winter` |
-| Save as scenario | `save_scenario` | Scenarios | — (persistence is Step 7) |
+| Save as scenario | `save_scenario` | Scenarios | — (persists via `/api/scenarios`, Step 7) |
 | Show me the inputs | `show_inputs` | Inputs | — (operation card expanded) |
-| Show the audit trail | `show_audit` | Audit trail | — (full audit is Step 7) |
+| Show the audit trail | `show_audit` | Audit trail | — (counts-only source table + run log, Step 7) |
 | Make the report | `make_report` | Report | — (export is Step 8) |
 
 Each button posts a user bubble with its label, shows a typing-indicator bubble, posts its action id to `/api/chat`, and renders the returned reply + applies the returned action (open the tab, update the scenario bar for a changed lever, redraw the results). A lever change from the assistant is **visible** in the scenario bar: for example *Add 4 more trucks* moves the trucks slider by 4, *What if electricity costs more?* activates the **High** electricity-price segment, and *Cold winter* activates the **Cold winter** weather segment.
@@ -214,6 +214,94 @@ Each button posts a user bubble with its label, shows a typing-indicator bubble,
 **`explain/` templates and the §4.3 number-check.** Every reply is built by the `explain/` templates **from the results JSON** (and the registry only for a field label); no number is computed in a template. The §4.3 number-check then scans each reply: any number that is **not** present in the current results JSON or the registry is blocked and the reply is replaced by the safe fallback template, so a drifting reply can never surface an invented figure. Per method-hiding (§8), no parameter/coefficient/formula/physics-source/internal-strategy name and no collapsed/hidden field name ever appears in a reply; charging approaches use only the three client-facing labels **Lowest cost / Grid-friendly / Ready earliest**, and the owner is referred to only as **Bob**.
 
 **Demo mode never calls an AI provider**, and the JS does no maths or keyword logic: all of that lives in Python (`hdev/chat_api.py` + `explain/`), and the browser is a dumb client that posts raw text/action ids and draws the server's strings and actions.
+
+---
+
+## Scenarios, audit trail & run log — Step 7
+
+Step 7 adds a **server-side project store**, saved **scenarios**, the counts-only **audit trail** source table and the append-only **run log**, all behind thin FastAPI routes over pure chokepoints. As always the JS client is dumb: it renders only server JSON, does no maths and hard-codes no counts/names/numbers.
+
+### Project store (runtime JSON, gitignored)
+
+The mutable project state (the monotonic run counter, the append-only run log, and the saved scenarios) is persisted to **one JSON file on a gitignored runtime path**:
+
+- Default location: **`.hdev_runtime/project.json`** (under the repo root; `.hdev_runtime/` is gitignored, so the populated file is **never committed**).
+- Override with the env var **`HDEV_PROJECT_STORE`** (an absolute path, or a path relative to the repo root).
+- It is **runtime-only, disposable state** — writes are atomic (temp file + `os.replace`), the directory is created lazily on first write, and in **demo mode each fresh app launch resets it** so a new session starts with run numbering at **1** and an empty run log/scenarios list. (This is what lets each `TestClient(create_app())` test start clean.)
+
+### Unified run counter
+
+There is **one** monotonic run number `N`, owned by `hdev/run_api.build_run_payload`. **Every** genuine demo run — a scenario-bar `/api/run`, an assistant rerun button, and the shift-end field edit — allocates exactly one `N` from the project store and appends exactly one run-log entry. The shift-edit reply ("Logged as run #N in the audit trail.") simply **reads back** the number the run returned, so there is a single increasing sequence with **no double-counting**. Quote-only reruns (used to source a number for a no-rerun reply) pass `log_run=False` and neither consume a number nor append an entry. Every successful `/api/run` now also returns `results["run_number"]` (the audit `N`) alongside the deterministic string `results["run_id"]` hash.
+
+### `GET` / `POST /api/scenarios` (save · list · compare)
+
+Demo-mode only (real mode returns `404 {"available": false, ...}`).
+
+- **`POST /api/scenarios`** — save the current run as a named scenario. Body: `{"name": "...", "results": <current §3.3 results>}` (or `{"name": "...", "run_id": <N>}`). When a `results` body is sent, the saved scenario's `run_id` is read from `results["run_number"]` so it matches the run log — **send the whole current results payload** so the two line up.
+  Response: `{"ok": true, "scenario": <row>}`.
+- **`GET /api/scenarios`** — the saved-scenarios table with the mock-up columns:
+  `{"scenarios": [{name, run_id, settings: {trucks, charging_approach, electricity_price, weather}, battery_kwh, depot_peak_kw, tco_saving_dkk, co2_saved_t_per_year}], "count": N}`. All names are **client-facing** (`Lowest cost` / `Grid-friendly` / `Ready earliest`, `Normal year` / `Cold winter`, `Low` / `Expected` / `High`) — never an internal lever key.
+- **`POST /api/scenarios/compare`** — a §4.2 side-by-side diff. Body `{"names": [...]}` or `{"run_ids": [...]}`; with **no** ids/names it compares **all** saved scenarios. Response: `{"scenarios": [rows], "diff": [{field, values: [...], same: bool}], "count": N}`.
+
+The **Save scenario** button in the scenario bar and the assistant **Save as scenario** action both persist through this endpoint and then refresh the Scenarios table.
+
+### `GET /api/audit` (source counts + run log)
+
+Demo-mode only (real mode returns `404 {"available": false, ...}`). Response:
+
+```
+{
+  "available": true,
+  "mode": "demo",
+  "source_table": {
+    "rows": [ {"source_type": "fuel_log_2025.xlsx", "count": 7, "status": "From your files"}, ... ],
+    "total": 106
+  },
+  "note": "Every value can be changed. Changes are logged with who and when.",
+  "run_log": [ <§3.4 entries, newest-first> ]
+}
+```
+
+**Counts-only, never field names (§8).** The "Where every input came from" table lists **source types and counts only** — one row per file name, plus *Your message*, *Standard Danish values* and *Missing* — each with a plain-word status. The client computes **no total** (the `total` is a server number) and **no registry field id or label ever appears** anywhere in the audit payload. (`tests/test_scenarios_audit.py` proves this by iterating every registry field id and label and asserting none appears in the audit JSON.)
+
+### §3.4 run-log entry shape
+
+Each run-log entry is:
+
+```
+{
+  "run_id": N,                       # the audit run number (monotonic)
+  "timestamp": "<ISO>",             # deterministic in demo (from the results)
+  "settings_summary": {              # client-facing names + plain words
+    "trucks", "charging_approach", "electricity_price", "weather", "years_kept", "shift_end"
+  },
+  "changed_from_previous": [ {"field", "from", "to"}, ... ],   # plain-word diff vs the previous run ([] for the first)
+  "key_result_summary": {            # the four Scenarios KPIs
+    "battery_kwh", "depot_peak_kw", "tco_saving_dkk", "co2_saved_t_per_year"
+  },
+  "mode": "demo",
+  "engine_version": "demo"           # stub constant; the real engine version lands in Step 9
+}
+```
+
+`charging_approach` uses the client-facing labels **Lowest cost / Grid-friendly / Ready earliest**; no internal lever key or method/parameter name ever appears.
+
+### Demo acceptance & the Playwright test
+
+Two Step-7 tests cover the whole flow:
+
+- **`tests/test_demo_acceptance_flow.py`** — a fully **offline** `TestClient` drive of the entire path (inputs → intake → use standard values → run → every suggestion button → shift edit → save scenario → audit → report), asserting no error and `illustrative: true` throughout. This is the browser-free guarantee and always runs.
+- **`tests/test_demo_acceptance_playwright.py`** — a real headless-Chromium **click-through** of the same flow (add sample files, send, use standard values, click each suggestion button, change the shift-end select, Save scenario, open Audit, open Report), asserting the **"illustrative values"** pill stays visible and no uncaught page error.
+
+**Running the Playwright test.** It is **optional** and auto-skips when the browser is absent, so the core suite stays green without it. To run it:
+
+```bash
+.venv/bin/pip install playwright
+.venv/bin/python -m playwright install chromium
+.venv/bin/python -m pytest tests/test_demo_acceptance_playwright.py -q
+```
+
+The skip-guard lives **inside** the test module: `pytest.importorskip("playwright.sync_api")` skips if playwright is not installed, and the browser launch is wrapped so a missing browser binary (or any launch error) becomes a `pytest.skip`, never a failure. The core suite never imports playwright at collection time, and `playwright` is **not** a core `requirements.txt` dependency (it is listed there only as a commented optional note).
 
 ---
 

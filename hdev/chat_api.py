@@ -29,6 +29,7 @@ from typing import Any, Dict, Mapping, Optional, Tuple
 
 import explain
 from src.validate import validate_lever
+from .project_store import get_store
 
 # the shift-end edit target: the open + editable_in_demo registry field (an 'HH:MM' value). its plain
 # label is read from the registry so the reply never hard-codes a field name.
@@ -214,8 +215,21 @@ def _tab_button(action: str, body: Mapping[str, Any]) -> Tuple[int, Dict[str, An
     # the no-rerun tab buttons. each opens a tab and says a short plain line; later steps fill them in.
     results = _base_results(body)
     if action == "save_scenario":
-        reply = "I will put this scenario in the list. Saving scenarios lands in a later step."
-        act: Dict[str, Any] = {"open_tab": _TAB_SCENARIOS}
+        # persist the CURRENT run as a saved scenario via the scenarios chokepoint (the single owner of
+        # the project store write), then open the Scenarios tab. the client refreshes the table off the
+        # action.saved_scenario flag. the reply names only the saved scenario (plain words, §4.3/§8-safe
+        # - no result number is quoted). the scenario name is a plain UI label, not a result figure.
+        from .scenarios_api import build_scenarios_payload
+
+        name = body.get("scenario_name")
+        if not isinstance(name, str) or not name.strip():
+            store_count = len(get_store().list_scenarios())
+            name = "Scenario " + str(store_count + 1)
+        build_scenarios_payload("demo", "save", {"name": name, "results": results})
+        # the reply names no number (a scenario name like "Scenario 2" would be read as a figure by the
+        # §4.3 number-check and blocked); it points the client at the Scenarios tab instead.
+        reply = "I have added this to your scenarios list. You can see it on the Scenarios tab."
+        act: Dict[str, Any] = {"open_tab": _TAB_SCENARIOS, "saved_scenario": True}
     elif action == "show_inputs":
         reply = "Here are the inputs. I have opened the Operation section for you."
         act = {"open_tab": _TAB_INPUTS, "expand_section": "operation"}
