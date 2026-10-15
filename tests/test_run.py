@@ -99,22 +99,72 @@ def test_bad_enum_value_rejected(client):
     assert "kpis" not in resp.json()
 
 
-def test_real_mode_not_available_and_no_results(monkeypatch):
-    # real mode: the demo engine must not run. endpoint returns 404 + available:false, no results.
+# a real-mode base project that satisfies the consumption entry contract (design §4B). real mode runs
+# the real pipeline and returns the §3.3 shape with nulls where stages are stubbed/blocked.
+REAL_BODY = {
+    "project": {
+        "vehicles": [{"id": "T1"}],
+        "routes": [{"id": "R1"}],
+        "calendar_environment": {"days": []},
+        "fleet_size": 6,
+        "charging_priority": "lowest_cost",
+        "electricity_price": "expected",
+        "weather_year": "normal",
+        "ownership_years": 10,
+        "shift_end": "15:00",
+    }
+}
+
+
+def test_real_mode_returns_real_results_with_nulls(monkeypatch):
+    # NEW CONTRACT (Step 9): real mode returns 200 with a §3.3-shaped results dict, mode='real', and
+    # NULLS where stages are stubbed/blocked (consumption energy, charging, grid, tco metrics, co2).
     monkeypatch.setenv("HDEV_MODE", "real")
     c = TestClient(create_app())
-    resp = c.post("/api/run", json=VALID_BODY)
-    assert resp.status_code == 404
+    resp = c.post("/api/run", json=REAL_BODY)
+    assert resp.status_code == 200
     r = resp.json()
-    assert r["available"] is False
     assert r["mode"] == "real"
-    # no results fields leaked.
-    for key in ("energy", "kpis", "tco", "charging", "grid", "co2"):
-        assert key not in r
+    assert r.get("illustrative") in (False, None)
+    # the §3.3 landmark keys exist (same client-facing shape as demo).
+    for key in ("energy", "kpis", "charging", "grid", "tco", "co2", "settings"):
+        assert key in r
+    # stubbed/blocked fields are null -> UI shows "Not yet available".
+    assert r["energy"]["avg_day_kwh"] is None
+    assert r["charging"]["soc_profile"] is None
+    assert r["grid"]["load_24h_kw"] is None
+    assert r["co2"]["diesel_t_per_year"] is None
+    assert r["kpis"]["break_even_year"] is None
+    # the TCO data model still carries the six client-facing category names, with null totals.
+    assert [cat["name"] for cat in r["tco"]["categories"]] == [
+        "Owning", "Running", "Infrastructure", "Policy & taxes", "Hidden costs", "Climate",
+    ]
+
+
+def test_real_mode_refuses_incomplete_contract(monkeypatch):
+    # a real body that satisfies NO stage entry contract -> 400 refusal naming the missing fields.
+    monkeypatch.setenv("HDEV_MODE", "real")
+    c = TestClient(create_app())
+    resp = c.post("/api/run", json={"project": {"fleet_size": 6}})
+    assert resp.status_code == 400
+    r = resp.json()
+    assert r["ok"] is False
+    assert "vehicles" in r["error"]
+    assert set(r["missing"]) == {"vehicles", "routes", "calendar_environment"}
+
+
+def test_real_results_no_banned_internal_term(monkeypatch):
+    # §8 guard end-to-end: no engine-internal term appears in the real results JSON string.
+    monkeypatch.setenv("HDEV_MODE", "real")
+    c = TestClient(create_app())
+    blob = c.post("/api/run", json=REAL_BODY).text
+    for term in ("ASAP", "JIT", "EDF", "k_lin", "CdxA", "VECTO", "P_wheel", "P_aux", "eta_drive"):
+        assert term not in blob, "banned internal term leaked: %r" % term
 
 
 def test_real_mode_does_not_call_demo_engine(monkeypatch):
-    # prove demo_engine.run_scenario is NOT called in real mode by making it blow up if invoked.
+    # prove demo_engine.run_scenario is NOT called in real mode by making it blow up if invoked. the
+    # status is now the NEW 200/real contract (not the old 404), but the never-call intent is kept.
     import demo.demo_engine as engine
 
     def _boom(*a, **k):
@@ -123,6 +173,6 @@ def test_real_mode_does_not_call_demo_engine(monkeypatch):
     monkeypatch.setenv("HDEV_MODE", "real")
     monkeypatch.setattr(engine, "run_scenario", _boom)
     c = TestClient(create_app())
-    resp = c.post("/api/run", json=VALID_BODY)
-    assert resp.status_code == 404
-    assert resp.json()["available"] is False
+    resp = c.post("/api/run", json=REAL_BODY)
+    assert resp.status_code == 200
+    assert resp.json()["mode"] == "real"

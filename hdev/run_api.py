@@ -6,8 +6,10 @@
 # JSON this returns and does no maths.
 #
 # behaviour by mode:
-#   - real mode: return a not-yet-available payload {available: False, mode, reason} mirroring
-#     intake_api's shape. the real runner is Step 9; demo.demo_engine is NEVER called in real mode.
+#   - real mode (Step 9): call src.server.runner.run(base, changes) and return the real §3.3-shaped
+#     results (200), with null fields where a stage is still a stub/blocked (-> UI "Not yet available").
+#     an incomplete entry contract refuses with a 400 naming the missing fields. demo.demo_engine is
+#     NEVER called in real mode. runner is imported LAZILY so demo imports stay numpy-free.
 #   - demo mode: validate every lever in the body via src.validate.validate_lever (which already rejects
 #     any lever/value not in LEVERS, any out-of-range value, and accepts the open+editable_in_demo
 #     field operation.schedule.shift_end). on the FIRST failure, return an error payload carrying the
@@ -38,13 +40,35 @@ def build_run_payload(
     body = body or {}
 
     if mode != "demo":
-        # real mode: running is not available yet. mirror intake_api's not-available payload. the real
-        # pipeline (runner.run) arrives in Step 9; demo_engine must NOT run here.
-        return 404, {
-            "available": False,
-            "mode": mode,
-            "reason": "Running is only available in demo mode in this build.",
-        }
+        # REAL MODE (Step 9 wiring). call the real pipeline runner.run(base, changes) and return the
+        # §3.3-shaped results with nulls where a stage is still a stub/blocked (so the UI shows "Not yet
+        # available"). demo.demo_engine is NEVER imported or called on this path.
+        #
+        # LAZY IMPORT: src.server.runner is imported HERE, inside the real branch, not at module top, so
+        # importing hdev.run_api for the numpy-free demo tests never forces numpy/gym at import time.
+        from src.server.runner import run as runner_run, RefusalError
+
+        # the real base project + change-sets. accept the project under "project" (preferred) or fall
+        # back to the body itself, and the change-sets under "changes" (design §6.1 base+change-set).
+        base = body.get("project")
+        if not isinstance(base, Mapping):
+            base = {k: v for k, v in body.items() if k not in ("changes", "mode")}
+        changes = body.get("changes")
+
+        try:
+            results = runner_run(base, changes)
+        except RefusalError as refusal:
+            # an incomplete entry contract: refuse with a clear 400 naming exactly what is missing.
+            # §8-safe plain words (the message lists plain field names only, no engine-internal term).
+            return 400, {
+                "mode": mode,
+                "ok": False,
+                "error": str(refusal),
+                "missing": refusal.missing,
+                "stage": refusal.stage,
+            }
+
+        return 200, results
 
     project = body.get("project") if isinstance(body.get("project"), Mapping) else {}
     levers = body.get("levers")
