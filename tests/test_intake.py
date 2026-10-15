@@ -132,6 +132,43 @@ def test_per_section_tallies_sum_to_section_total(client):
         assert s["from_data"] + s["standard"] + s["missing"] == s["total"]
 
 
+def test_server_computes_per_section_found_and_meter_widths(client):
+    # §0: the client does no maths. the server now sends per-section `found`, a running
+    # `cumulative_found`, and the two meter segment widths (from_data_pct / standard_pct). assert each
+    # is derived from the section counts (NOT literals) and consistent.
+    p = client.get("/api/intake").json()
+    running = 0
+    for s in p["sections"]:
+        # per-section found == from_data + standard (registry/fixture-derived counts).
+        assert s["found"] == s["from_data"] + s["standard"]
+        # the running cumulative tally equals the sum of per-section found up to and including this
+        # section, so the client can set the header counter to a server number at each step.
+        running += s["found"]
+        assert s["cumulative_found"] == running
+        # meter widths are percentages of the section total, computed server-side.
+        if s["total"]:
+            assert s["from_data_pct"] == round((s["from_data"] / s["total"]) * 100)
+            assert s["standard_pct"] == round((s["standard"] / s["total"]) * 100)
+        else:
+            assert s["from_data_pct"] == 0
+            assert s["standard_pct"] == 0
+        # widths are plain non-negative percentages.
+        assert 0 <= s["from_data_pct"] <= 100
+        assert 0 <= s["standard_pct"] <= 100
+    # the last section's cumulative tally lands exactly on the overall found total.
+    assert p["sections"][-1]["cumulative_found"] == p["found"]
+
+
+def test_opening_line_only_lives_server_side(client):
+    # drift guard mirror of tests/test_static: the EXACT §4 opening string is served from the payload
+    # and the served JS must not duplicate it as a literal.
+    p = client.get("/api/intake").json()
+    assert p["assistant"]["opening"] == OPENING_LINE
+    js = client.get("/js/app.js").text
+    assert OPENING_LINE not in js
+    assert OPENING_LINE.replace("\u2013", "\\u2013") not in js
+
+
 def test_no_maps_to_leaks(client):
     blob = json.dumps(client.get("/api/intake").json())
     assert "maps_to" not in blob

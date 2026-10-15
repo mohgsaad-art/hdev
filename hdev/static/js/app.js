@@ -178,7 +178,8 @@
     return bubble;
   }
 
-  // post the EXACT §4 opening line once (server-provided; fall back to a literal only if absent).
+  // post the opening line once. the text is server-provided only (no exact §4 string is kept in JS);
+  // when it is absent/unreachable we render the "Not yet available" marker, per the dumb-client rule.
   function postOpening(openingText) {
     if (intake.openingPosted) {
       return;
@@ -236,31 +237,24 @@
     return card;
   }
 
-  // compute a percentage width (display formatting only - a ratio of two server numbers, not a
-  // domain calculation; the counts themselves are all server-provided).
-  function pct(part, whole) {
-    if (!whole) {
-      return 0;
-    }
-    return Math.round((part / whole) * 100);
-  }
-
   // apply the final filled state to one card from its section payload. sets meter widths, the
-  // "F of T" counter and the "N missing" line - all from server numbers.
+  // "F of T" counter and the "N missing" line - ALL from server numbers. the client does no maths:
+  // the meter widths (from_data_pct / standard_pct) and the per-section `found` are computed by the
+  // server; this only assigns them to style.width / text.
   function applyCardFill(card, section) {
     var total = section.total;
     var fromData = section.from_data;
     var standard = section.standard;
     var missing = section.missing;
-    var filled = fromData + standard; // sum of two server numbers; not a domain calculation
+    var filled = section.found; // server-computed from_data + standard for this section
 
     var segData = card.querySelector('[data-role="seg-data"]');
     var segStd = card.querySelector('[data-role="seg-standard"]');
     if (segData) {
-      segData.style.width = pct(fromData, total) + "%";
+      segData.style.width = section.from_data_pct + "%";
     }
     if (segStd) {
-      segStd.style.width = pct(standard, total) + "%";
+      segStd.style.width = section.standard_pct + "%";
     }
 
     var count = card.querySelector('[data-role="count"]');
@@ -352,7 +346,6 @@
     }
 
     var total = typeof payload.total_inputs === "number" ? payload.total_inputs : 0;
-    var filledSoFar = 0;
     var i = 0;
 
     function step() {
@@ -374,9 +367,9 @@
       var entry = cards[i];
       entry.card.classList.add("section-card--active");
       applyCardFill(entry.card, entry.section);
-      // tick the header counter up by this section's filled count (server numbers only).
-      filledSoFar += entry.section.from_data + entry.section.standard;
-      setCounterPart("filled", filledSoFar);
+      // set the header counter to this section's server-computed running total (cumulative_found).
+      // the client never sums server counts: the running tally is a server number at each step.
+      setCounterPart("filled", entry.section.cumulative_found);
       i += 1;
       window.setTimeout(step, 420);
     }
@@ -502,8 +495,9 @@
         render(payload);
         // demo mode: post the opening line and wire the composer for the intake flow.
         if (payload.mode === "demo") {
-          // use the server-provided opening line from /api/intake if reachable; otherwise the
-          // literal exact line below (kept in sync with the server constant).
+          // the opening line is rendered ONLY from the server payload (§0 dumb client: no exact §4
+          // string is duplicated in JS). if /api/intake is unreachable, show the "Not yet available"
+          // fallback rather than inventing the line.
           fetch("/api/intake")
             .then(function (r) {
               return r.ok ? r.json() : null;
@@ -512,11 +506,11 @@
               var opening =
                 meta && meta.assistant && meta.assistant.opening
                   ? meta.assistant.opening
-                  : OPENING_FALLBACK;
+                  : null;
               postOpening(opening);
             })
             .catch(function () {
-              postOpening(OPENING_FALLBACK);
+              postOpening(null);
             });
           wireComposer(payload);
         }
@@ -525,11 +519,6 @@
         renderUnavailable();
       });
   }
-
-  // EXACT §4 opening line, used only as an offline fallback if /api/intake is unreachable at load.
-  var OPENING_FALLBACK =
-    "Hi. Drop in whatever you have \u2013 fuel logs, route lists, spreadsheets \u2013 " +
-    "and tell me what you want to find out. No GPS needed.";
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", load);

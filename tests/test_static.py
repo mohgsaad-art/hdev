@@ -13,6 +13,7 @@ import re
 import pytest
 from fastapi.testclient import TestClient
 
+from hdev.intake_api import OPENING_LINE
 from hdev.server import create_app
 from src.registry import (
     SECTIONS,
@@ -77,6 +78,31 @@ def test_js_served_and_has_no_hardcoded_section_names(client):
     # no hard-coded registry count / the old mock-up 112.
     assert "112" not in js
     assert not re.search(r"\btotal_inputs\s*=\s*\d", js)
+
+
+def test_js_does_not_duplicate_the_opening_line(client):
+    # §0 dumb client: the exact §4 opening string lives ONLY in hdev/intake_api.OPENING_LINE and is
+    # rendered from the server payload. the served JS must NOT carry a duplicate literal (which could
+    # drift from the server constant). check both the raw line and its \u-escaped form, plus the
+    # distinctive tail, so a re-introduced OPENING_FALLBACK is caught.
+    js = _get(client, "/js/app.js").text
+    assert OPENING_LINE not in js
+    escaped = OPENING_LINE.replace("\u2013", "\\u2013")
+    assert escaped not in js
+    # the distinctive closing sentence of the opening line must not be baked in as a JS literal.
+    assert "No GPS needed." not in js
+
+
+def test_js_does_no_arithmetic_on_server_numbers(client):
+    # §0: the client must not derive displayed numbers. the removed helpers were a pct(part/whole*100)
+    # ratio and a per-section (from_data + standard) running sum for the header tick; both are now
+    # server numbers (from_data_pct / standard_pct / cumulative_found). guard against their return.
+    js = _get(client, "/js/app.js").text
+    assert "part / whole" not in js
+    assert "* 100" not in js
+    assert "/ total" not in js
+    assert "from_data + section.standard" not in js
+    assert "section.from_data + section.standard" not in js
 
 
 def test_fonts_ofl_licence_served(client):

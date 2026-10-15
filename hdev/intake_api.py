@@ -50,6 +50,14 @@
 #       {
 #         "id": str, "display_name": str,
 #         "from_data": int, "standard": int, "missing": int, "total": int,
+#         "found": int,                  # from_data + standard for THIS section (server-computed)
+#         "cumulative_found": int,       # running overall found AFTER this section fills, in registry
+#                                        #   order; the client sets the header counter to this at each
+#                                        #   animation step so it never sums server numbers itself.
+#                                        #   the last section's cumulative_found == payload.found.
+#         "from_data_pct": int,          # meter blue-segment width % = round(from_data/total*100),
+#         "standard_pct": int,           #   amber-segment width % = round(standard/total*100); both
+#                                        #   are server-computed so the client only sets style.width.
 #         "fields": [                    # OPEN fields only (id+label+value allowed); [] if none
 #           {"id": str, "label": str, "type": str, "unit": str|None,
 #            "value": any|None, "source": str|None, "class": "from_data"|"standard"|"missing",
@@ -58,6 +66,11 @@
 #       }, ...
 #     ],
 #   }
+#
+# NOTE on §0 "the JS client does no maths": every number the UI renders is computed HERE. the per-
+# section `found`, the `cumulative_found` running tally for the header counter, and the two meter
+# segment widths (`from_data_pct` / `standard_pct`) are all server numbers; the client only assigns
+# them to text / style.width and never computes a ratio or sums counts itself.
 import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -139,6 +152,14 @@ def _empty_tally() -> Dict[str, int]:
     return {CLASS_FROM_DATA: 0, CLASS_STANDARD: 0, CLASS_MISSING: 0, "total": 0}
 
 
+def _pct(part: int, whole: int) -> int:
+    # meter segment width as a whole-number percent of the section total. computed server-side so the
+    # client only assigns the result to style.width (§0: the JS does no maths). zero total -> 0%.
+    if not whole:
+        return 0
+    return round((part / whole) * 100)
+
+
 def build_intake_payload(mode: str) -> Dict[str, Any]:
     # the single chokepoint for /api/intake. the caller passes the resolved mode (demo|real). in real
     # mode the demo fixture is NOT exposed - real intake is a later step. pure function otherwise:
@@ -197,6 +218,14 @@ def build_intake_payload(mode: str) -> Dict[str, Any]:
         for key in (CLASS_FROM_DATA, CLASS_STANDARD, CLASS_MISSING, "total"):
             overall[key] += tally[key]
 
+        # per-section and running numbers, all computed here so the client never does maths. the
+        # section `found` is from_data+standard; `cumulative_found` is the overall found AFTER this
+        # section fills (registry order), so the UI can set the header counter to a server number at
+        # each animation step without summing. the two meter widths are percentages of the section
+        # total.
+        section_found = tally[CLASS_FROM_DATA] + tally[CLASS_STANDARD]
+        cumulative_found = overall[CLASS_FROM_DATA] + overall[CLASS_STANDARD]
+
         sections.append(
             {
                 "id": section.id,
@@ -205,6 +234,10 @@ def build_intake_payload(mode: str) -> Dict[str, Any]:
                 "standard": tally[CLASS_STANDARD],
                 "missing": tally[CLASS_MISSING],
                 "total": tally["total"],
+                "found": section_found,
+                "cumulative_found": cumulative_found,
+                "from_data_pct": _pct(tally[CLASS_FROM_DATA], tally["total"]),
+                "standard_pct": _pct(tally[CLASS_STANDARD], tally["total"]),
                 "fields": open_fields,
             }
         )
