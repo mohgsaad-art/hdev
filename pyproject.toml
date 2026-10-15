@@ -1,0 +1,23 @@
+# STATUS: NEW (PR 2, Bob to review). minimal packaging so `python -m hdev.app` runs the local UI server.
+# mirrors requirements.txt; no engine deps (the engine/registry are stdlib-only).
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hdev"
+version = "0.1.0"
+description = "HDEV local UI server (Step 2): FastAPI shell + registry-derived /api/inputs"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.143",
+    "uvicorn[standard]>=0.54",
+    "httpx>=0.27",
+]
+
+[tool.setuptools]
+# the hdev package plus the static assets it serves (index.html, css, js, fonts).
+packages = ["hdev"]
+
+[tool.setuptools.package-data]
+hdev = ["static/**/*"]

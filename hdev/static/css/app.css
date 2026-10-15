@@ -1,0 +1,427 @@
+/*
+  STATUS: NEW (PR 2, Bob to review). the §5.1 LOOK stylesheet for the Step 2 UI shell.
+  self-hosted fonts only (loaded from /fonts via @font-face below); no CDN, no external font URL,
+  no chart library, no emoji. meaning is never carried by colour alone - every state is paired with
+  text or shape. interactive controls keep a 44px minimum touch target. all tokens are CSS custom
+  properties so later steps extend the palette without touching components.
+*/
+
+/* ---- self-hosted fonts (local paths only; works fully offline) ---- */
+@font-face {
+  font-family: "Barlow";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/Barlow-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Barlow";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/Barlow-Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Barlow";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/Barlow-SemiBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/BarlowCondensed-SemiBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/BarlowCondensed-Bold.ttf") format("truetype");
+}
+
+/* ---- §5.1 look tokens ---- */
+:root {
+  /* navy header + brand palette */
+  --navy: #10233f;          /* header background; white text on it is ~13:1 */
+  --navy-ink: #f5f8ff;      /* text on navy */
+  --brand: #1f5fbf;         /* primary accent */
+  --brand-strong: #16417f;  /* hover / pressed */
+  --accent-amber: #b26a00;  /* demo pill + assistant status dot (paired with text/shape) */
+  --accent-amber-bg: #fff3e0;
+
+  /* neutral surfaces */
+  --bg: #f4f6fa;            /* app background */
+  --surface: #ffffff;       /* cards */
+  --surface-muted: #eef1f6; /* subtle fills */
+  --border: #c9d2e0;        /* hairline borders */
+  --border-strong: #94a3b8; /* dashed drop zones */
+
+  /* text (all >= 4.5:1 on their surface) */
+  --ink: #16202e;           /* primary text on light surfaces (~14:1) */
+  --ink-soft: #4a5568;      /* secondary text (~7:1) */
+
+  /* fonts */
+  --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Barlow Condensed", "Barlow", system-ui, sans-serif;
+
+  /* radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* layout */
+  --body-max: 1240px;
+  --assistant-min: 360px;
+  --assistant-max: 420px;
+
+  /* minimum touch target for interactive controls */
+  --touch: 44px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+/* ---- header (§5.2) ---- */
+.app-header {
+  background: var(--navy);
+  color: var(--navy-ink);
+}
+.app-header__inner {
+  max-width: var(--body-max);
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.app-header__logo {
+  display: inline-flex;
+  color: var(--navy-ink);
+  flex: none;
+}
+.app-header__logo svg {
+  display: block;
+}
+.app-header__titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.app-header__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.app-header__tagline {
+  font-size: 0.9rem;
+  color: var(--navy-ink);
+  opacity: 0.85;
+}
+
+/* demo pill: amber + an explicit text label and a dot shape, never colour alone */
+.demo-pill {
+  margin-left: auto;
+  display: none; /* shown by JS only when mode == demo */
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-amber-bg);
+  color: var(--accent-amber);
+  border: 1px solid var(--accent-amber);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.demo-pill[data-visible="true"] {
+  display: inline-flex;
+}
+.demo-pill__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent-amber);
+  flex: none;
+}
+
+/* ---- body / two-column layout (§5.2) ---- */
+.app-body {
+  max-width: var(--body-max);
+  margin: 0 auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: minmax(var(--assistant-min), var(--assistant-max)) 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ---- left assistant column (sticky) ---- */
+.assistant {
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  max-height: calc(100vh - 40px);
+}
+.assistant__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.assistant__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+}
+/* amber status dot paired with the "Assistant" word, never colour alone */
+.assistant__status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-amber);
+  flex: none;
+}
+.assistant__messages {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px;
+  min-height: 160px;
+}
+.assistant__suggestions {
+  padding: 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.assistant__composer {
+  border-top: 1px solid var(--border);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* drop zone */
+.dropzone {
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.composer__row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.composer__input {
+  flex: 1 1 auto;
+  min-height: var(--touch);
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+.composer__input:focus {
+  outline: 2px solid var(--brand);
+  outline-offset: 1px;
+}
+
+/* buttons - all keep a 44px minimum touch target */
+.btn {
+  min-height: var(--touch);
+  min-width: var(--touch);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--brand);
+  background: var(--brand);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.btn:hover {
+  background: var(--brand-strong);
+  border-color: var(--brand-strong);
+}
+.btn--ghost {
+  background: var(--surface);
+  color: var(--brand-strong);
+}
+.btn--ghost:hover {
+  background: var(--surface-muted);
+  color: var(--brand-strong);
+}
+.btn--icon {
+  padding: 0;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 2px;
+}
+
+/* ---- right workspace column ---- */
+.workspace {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.workspace__titlebar {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.workspace__heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.6rem;
+}
+.workspace__tabs {
+  display: flex;
+  gap: 14px;
+  color: var(--ink-soft);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.workspace__tab[aria-current="true"] {
+  color: var(--brand-strong);
+}
+.input-counter {
+  margin-left: auto;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* section cards rendered by JS from /api/inputs */
+.section-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.section-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+.section-card__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.section-card__name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+}
+.section-card__count {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.section-card__subgroups {
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.subgroup-chip {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+/* empty workspace drop-card state */
+.empty-state {
+  background: var(--surface);
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--ink-soft);
+}
+.empty-state__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--ink);
+}
+.empty-state__hint {
+  margin-top: 8px;
+  font-size: 0.95rem;
+}
+
+/* graceful fallback text when a value is unavailable (never invent data) */
+.unavailable {
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+/* ---- responsive: stack below 900px ---- */
+@media (max-width: 900px) {
+  .app-body {
+    grid-template-columns: 1fr;
+  }
+  .assistant {
+    position: static;
+    max-height: none;
+  }
+  .input-counter {
+    margin-left: 0;
+  }
+}

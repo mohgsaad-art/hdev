@@ -4,6 +4,42 @@
 
 Open this folder as a Kiro workspace. Then paste `KIRO_PROMPT_1_STEERING.md` into Kiro **chat** (not Spec mode).
 
+---
+
+## Running the local UI (Step 2)
+
+The local UI is a FastAPI server that serves the static shell **and** a registry-derived `/api/inputs` endpoint from one process. It binds **`127.0.0.1` only** (loopback), so it is never reachable from the network.
+
+**One-time setup** (the global site-packages is read-only here, so a virtualenv is required):
+
+```
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+```
+
+**One start command:**
+
+```
+make run
+# equivalently:
+.venv/bin/python -m hdev.app
+```
+
+Then open <http://127.0.0.1:8000/>. The port can be overridden with `HDEV_PORT` (default `8000`); the host is fixed to `127.0.0.1` and cannot be widened.
+
+**Mode switch — `HDEV_MODE=demo|real` (default `demo`):** read once at startup and returned in `/api/inputs` as `mode` so the UI can show the demo pill.
+
+- `demo` (default): the sample-case walkthrough with illustrative values (built in later steps).
+- `real`: the real engine pipeline (wired in later steps).
+
+```
+HDEV_MODE=real make run
+```
+
+**Sections and counts are registry-driven.** All section names, subgroup names, per-section counts and the `total_inputs` header counter come from `/api/inputs`, which derives everything from the registry (`src/registry`). Nothing about the sections or any count is hard-coded in JS — the browser is a dumb client that draws only what the server sends. Per method-hiding, `/api/inputs` never emits a field's internal mapping, never names a counted-only (`collapsed`) field, and never includes hidden fields; only `open` fields expose a label.
+
+**Tests** (offline, no network): `make test` or `.venv/bin/python -m pytest tests/ -q`.
+
 Every file below says what it is and **why it is here**. Status words: DONE (verified/tested), CURRENT (in use), DRAFT, DEPRECATED (history only), NOT WRITTEN.
 
 ---
