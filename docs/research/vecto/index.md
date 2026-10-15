@@ -19,6 +19,7 @@ Research mapping everything in **VECTO (stable, commit `d16ba783c`, v5.1.3)** th
 | `10-outputs-and-reporting.md` | `.vmod` BEV columns (SoC, U0, I, P_reess_*, P_em_*), `.vsum` battery columns, MRF/CIF/VIF kWh/km·(t·km)·(m³·km) per mission/payload + weighted, GraphDrawer. |
 | `11-validation-data.md` | Generic BEV lorry jobs + unit-test numeric anchors (battery SoC-step, usable energy, overload loss; EM map torque; overload buffer); headless-run blocked. **M5.3**. |
 | `12-cross-check.md` | Every number in the paux + defaults decision docs vs v5.1.3: **all match, no differences**; two open items resolved. **M1.1**. |
+| `14-pto-aux-followups.md` | PTO & aux follow-ups: 4 PTOActivity states incl. PTO-while-driving; stop = StoppingTime + PTO Duration; electric PTO energy ∫P_PTO_el·dt (0.14993 kWh/activation); SP ×0.7 = alternator efficiency, UF/B/S = unloaded&friction/banking/steering; Conditioning = electric-propulsion-component thermal mgmt; no lorry aux temperature dependence; BEV aux tech lists; Wheels r_dyn=d·F/(2π). Confirms/corrects 07. |
 
 ## Spec task → finding → file
 | spec task / req | finding | file |
