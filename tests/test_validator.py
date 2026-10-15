@@ -91,7 +91,7 @@ def test_fraction_field_bounded_0_to_1():
     frac = Field(
         id="vehicles.battery.state_of_charge", section="vehicles", subgroup="battery",
         label="Battery charge level", type="number", unit=None, visibility="collapsed",
-        editable_in_demo=False,
+        editable_in_demo=False, maps_to="pending p_aux (stub)",
     )
     assert not _validator._sanity_number(frac, 1.5)   # SoC > 1 rejected
     assert not _validator._sanity_number(frac, -0.1)  # SoC < 0 rejected

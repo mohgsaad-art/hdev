@@ -10,8 +10,10 @@ pure-Python stdlib only.
 
 - `slot.py` — the `Slot` class.
 - `fields.py` — the `Field` structure and the section / type / visibility enums.
-- `registry.py` — the full registry: 8 sections, 112 fields, §5.4 subgroup names and counts, plus
-  section metadata and lookup helpers.
+- `registry.py` — the full registry: 8 sections with their §5.4 subgroup names, plus section metadata
+  and lookup helpers. The field total and the per-subgroup counts are whatever the registry holds
+  (registry-derived), not a fixed 112. Every field carries an internal `maps_to` naming the engine input
+  / pipeline step / source document it feeds.
 - `levers.py` — `LEVERS`, verbatim from user §3.2.
 
 ## Open 🔒 items touched
@@ -45,5 +47,10 @@ three client-facing names (`lowest_cost` / `grid_friendly` / `ready_earliest`).
 
 ## Registry vs mock-up counts
 
-The §5.4 subgroup counts total exactly 112 and the registry matches them exactly, so there is no
-registry-vs-mock-up discrepancy. If one ever appears, the registry wins and the UI follows (§5.4).
+The §5.4 subgroup counts (and the 112 total) were **mock-up placeholders, not requirements**. The
+registry is the single source of truth and the UI follows it: section/subgroup membership and all counts
+are **computed from the registry**, never hard-coded. Fields that existed only to hit a mock-up count,
+with no engine input or source document behind them, were removed rather than kept as padding. Every
+field now carries an internal `maps_to` naming the engine input / pipeline step / source document it
+feeds (internal metadata, never shown to the client, so not subject to the §8 plain-words rule). The
+real total is whatever that mapping yields.
