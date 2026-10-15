@@ -1,5 +1,5 @@
-// STATUS: UPDATED (PR 5, Bob to review). the dumb-client renderer, extended for the Step 5 run
-// screen, result tabs, hand-drawn SVG charts and scenario bar.
+// STATUS: UPDATED (PR 6, Bob to review). the dumb-client renderer, extended for the Step 6 demo
+// assistant (suggestion buttons, typed-send to /api/chat, shift-end field edit, applyChatAction).
 //
 // §0: this file does NO business maths and holds NO section names, counts, defaults, strategy keys or
 // calculation logic. it fetches /api/inputs once, GETs /api/intake for the fill animation, and POSTs
@@ -9,6 +9,13 @@
 // helpers (mapping a data value to a pixel position is drawing layout, not business maths); no
 // DISPLAYED figure is ever derived here - every number shown comes verbatim from the payload. on any
 // fetch failure or missing/null value it renders "Not yet available" rather than inventing data.
+//
+// STEP 6 ADDITIONS (demo assistant): the §4.4 suggestion buttons, a typed-message send path and the
+// shift-end field edit all POST to /api/chat and render the server reply + apply the server action
+// (open a tab, update the scenario bar for a changed lever, render new results). the client sends
+// ONLY raw typed text or an action identifier; it does NO keyword matching, generates NO reply text,
+// and computes NO number. every reply string and every routing/lever decision comes from the server
+// (explain/ templates + the §4.3 number-check); the client just draws what it is handed.
 
 (function () {
   "use strict";
@@ -491,10 +498,18 @@
         if (input) {
           input.value = "";
         }
-        // if the results are already revealed, treat Send as a request to re-run with the current
-        // levers (and the lighter overlay). otherwise run the intake fill animation first.
+        // post-run: Send a typed question to the assistant. the RAW text is POSTed to /api/chat; the
+        // server does the keyword routing and returns the reply + any action. pre-run: run the intake
+        // fill animation as before. (Step 6: the typed-send path replaces the old scenario re-run.)
         if (results.payload) {
-          rerunWithOverlay();
+          if (!text) {
+            return;
+          }
+          askAssistant({
+            message: text,
+            levers: results.levers,
+            current_results: results.payload,
+          });
         } else {
           startIntake();
         }
@@ -1136,6 +1151,9 @@
     selectTab("overview");
     // ensure the demo pill stays visible on the results screen.
     renderDemoPill(payload);
+    // Step 6: once results exist, replace any pre-run intake buttons with the §4.4 assistant
+    // suggestion buttons. these drive /api/chat (server-decided replies + actions).
+    renderAssistantSuggestions();
   }
 
   function renderTabBar() {
@@ -1249,6 +1267,84 @@
     if (!alreadyPopulated && inputsState.payload) {
       renderSections(inputsState.payload);
     }
+    // Step 6: surface the editable shift-end control in the operation section so the §4.4 field-edit
+    // flow is reachable. the control's change handler POSTs the raw new value to /api/chat; the client
+    // computes nothing from it. it is added once (idempotent across re-renders).
+    ensureShiftEndControl();
+  }
+
+  // HH:MM shift-end options for the editable operation-schedule field. these are fixed UI chrome (plain clock
+  // strings), exactly like the TABS labels and the scenario-bar segment labels - not registry data and
+  // not derived from any result. the server validates the posted value and reruns; JS does no maths.
+  var SHIFT_END_OPTIONS = [
+    "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00",
+  ];
+
+  // find the operation section card (keyed by the server-provided data-section-id) and, if present,
+  // make sure it is expanded/visible and carries one editable shift-end <select>. the select posts an
+  // edit_field action to /api/chat on change. idempotent: it will not add a second control.
+  function ensureShiftEndControl() {
+    var host = byId("section-cards");
+    if (!host) {
+      return;
+    }
+    var card = host.querySelector('[data-section-id="operation"]');
+    if (!card) {
+      // the intake fill cards may be absent on a direct results entry path; the editable shift-end
+      // control is only surfaced when the operation card is present. nothing to add otherwise.
+      return;
+    }
+    // keep the operation card visible/expanded (Show-me-the-inputs opens it).
+    card.classList.add("section-card--active");
+    if (card.querySelector('[data-role="shift-end-edit"]')) {
+      return; // already added
+    }
+    var row = el("div", "field-edit");
+    row.setAttribute("data-role", "shift-end-edit");
+    // the field's plain label comes from the server registry payload; fall back to a neutral word.
+    var label = el("label", "field-edit__label", shiftEndFieldLabel());
+    var select = el("select", "field-edit__select");
+    select.setAttribute("aria-label", shiftEndFieldLabel());
+    var current = results.shiftEnd || null;
+    SHIFT_END_OPTIONS.forEach(function (value) {
+      var opt = el("option", null, value);
+      opt.value = value;
+      if (current && String(current) === value) {
+        opt.selected = true;
+      }
+      select.appendChild(opt);
+    });
+    select.addEventListener("change", function () {
+      // POST the RAW new value to /api/chat as a field edit. the server validates, reruns and returns
+      // the reply (ending with 'Logged as run #N in the audit trail.') plus the new results.
+      editShiftEnd(select.value);
+    });
+    row.appendChild(label);
+    row.appendChild(select);
+    card.appendChild(row);
+  }
+
+  // read the shift-end field label from the /api/inputs payload (server registry), so the
+  // control never hard-codes a field name. falls back to a neutral word if the payload is unavailable.
+  function shiftEndFieldLabel() {
+    var payload = inputsState.payload;
+    var sections = payload && Array.isArray(payload.sections) ? payload.sections : [];
+    var i, j, k;
+    for (i = 0; i < sections.length; i += 1) {
+      if (sections[i].id !== "operation") {
+        continue;
+      }
+      var subs = Array.isArray(sections[i].subgroups) ? sections[i].subgroups : [];
+      for (j = 0; j < subs.length; j += 1) {
+        var fields = Array.isArray(subs[j].fields) ? subs[j].fields : [];
+        for (k = 0; k < fields.length; k += 1) {
+          if (fields[k].id === "operation.schedule.shift_end") {
+            return fields[k].label || "Shift end";
+          }
+        }
+      }
+    }
+    return "Shift end";
   }
 
   function p() {
@@ -1830,6 +1926,189 @@
       overlay.setAttribute("aria-hidden", "true");
       overlay.textContent = "";
     }
+  }
+
+  // ===========================================================================
+  // STEP 6: demo assistant wiring. the client posts raw text / action ids to /api/chat and renders
+  // the server reply + applies the server action. NO reply text, NO keyword logic and NO maths here.
+  // ===========================================================================
+
+  // map the server-returned tab ids (action.open_tab) to the TABS ids used by the tab bar. the two
+  // sets already align 1:1 for the assistant tabs; this is an explicit, data-only mapping (no logic).
+  var CHAT_TAB_MAP = {
+    charging: "charging",
+    tco: "tco",
+    gridflex: "gridflex",
+    energy: "energy",
+    scenarios: "scenarios",
+    inputs: "inputs",
+    audit: "audit",
+    report: "report",
+    overview: "overview",
+    co2: "co2",
+  };
+
+  // the §4.4 suggestion buttons: EXACT labels (fixed UI chrome, like the TABS labels) paired with the
+  // server action id each posts. order is fixed per the spec.
+  var SUGGESTIONS = [
+    { label: "Compare charging strategies", action: "compare_strategies" },
+    { label: "What if electricity costs more?", action: "price_up" },
+    { label: "Add 4 more trucks", action: "more_trucks" },
+    { label: "Cold winter", action: "cold_winter" },
+    { label: "Save as scenario", action: "save_scenario" },
+    { label: "Show me the inputs", action: "show_inputs" },
+    { label: "Show the audit trail", action: "show_audit" },
+    { label: "Make the report", action: "make_report" },
+  ];
+
+  var TYPING_INDICATOR_ID = "assistant-typing";
+  var typingSeq = 0;
+
+  // post a transient "typing" assistant bubble before the /api/chat reply resolves. returns the bubble
+  // id so the caller can replace its text with the server reply. reuses the postBubble id-replacement
+  // pattern used for the intake "Reading…" indicator.
+  function showTypingIndicator() {
+    typingSeq += 1;
+    var id = TYPING_INDICATOR_ID + "-" + typingSeq;
+    var bubble = postBubble("assistant", "\u2026", { id: id });
+    if (bubble) {
+      bubble.classList.add("msg--typing");
+    }
+    return id;
+  }
+
+  // replace the typing bubble's text with the final reply (or the unavailable marker). if the bubble
+  // is gone, append a fresh assistant bubble instead so a reply is never lost.
+  function resolveTypingIndicator(id, text) {
+    var bubble = id ? byId(id) : null;
+    if (bubble) {
+      bubble.classList.remove("msg--typing");
+      if (text === null || text === undefined) {
+        bubble.textContent = UNAVAILABLE;
+        bubble.classList.add("unavailable");
+      } else {
+        bubble.textContent = text;
+      }
+      bubble.removeAttribute("id");
+      return;
+    }
+    postBubble("assistant", text === null || text === undefined ? UNAVAILABLE : text);
+  }
+
+  // POST the given body to /api/chat and return the parsed JSON. mirrors postRun. on a non-ok response
+  // or a fetch failure it rejects, so callers render the "Not yet available" marker (dumb-client rule:
+  // the client never invents a reply). the body is sent verbatim - raw text / action ids only.
+  function sendChat(body) {
+    return fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body || {}),
+    }).then(function (resp) {
+      // a 400 (e.g. an invalid shift-end value) still carries a plain server reply we should show.
+      return resp.json().then(function (payload) {
+        if (!resp.ok && !(payload && typeof payload.reply === "string")) {
+          throw new Error("chat failed: " + resp.status);
+        }
+        return payload;
+      });
+    });
+  }
+
+  // apply a /api/chat response verbatim: render the server reply, then apply the server action (new
+  // results -> update scenario bar + active tab; a changed lever -> keep results.levers/shiftEnd in
+  // sync; open_tab -> open that tab; expand_section -> open Inputs with the operation card visible).
+  // the client decides nothing - it only draws what the server returned.
+  function applyChatAction(payload, typingId) {
+    if (!payload || typeof payload.reply !== "string") {
+      resolveTypingIndicator(typingId, UNAVAILABLE);
+      return;
+    }
+    resolveTypingIndicator(typingId, payload.reply);
+
+    var action = payload.action && typeof payload.action === "object" ? payload.action : null;
+    if (!action) {
+      return;
+    }
+
+    // a changed lever echoed by the server. for the shift-end target keep results.shiftEnd in sync so
+    // later re-runs preserve it; other levers are covered by syncLeversFromPayload below.
+    if (action.lever && typeof action.lever === "object") {
+      if (typeof action.lever["operation.schedule.shift_end"] === "string") {
+        results.shiftEnd = action.lever["operation.schedule.shift_end"];
+      }
+    }
+
+    // fresh results from a rerun: adopt them, resync the lever set, and redraw the scenario bar + the
+    // active tab so an assistant-driven lever change VISIBLY updates the controls and the KPIs/charts.
+    if (action.results && typeof action.results === "object") {
+      results.payload = action.results;
+      syncLeversFromPayload(action.results);
+      renderScenarioBar();
+      renderActiveTab();
+      renderDemoPill(action.results);
+    }
+
+    // open the named tab. expand_section (Show me the inputs) opens the Inputs tab with the operation
+    // card expanded/visible via renderInputsTab -> ensureShiftEndControl.
+    if (action.expand_section) {
+      selectTab("inputs");
+      ensureShiftEndControl();
+    } else if (action.open_tab) {
+      var mapped = CHAT_TAB_MAP[action.open_tab];
+      if (mapped) {
+        selectTab(mapped);
+      }
+    }
+  }
+
+  // common send path for a typed message or a suggestion-button/edit action: show the typing bubble,
+  // POST to /api/chat, then applyChatAction. on failure render the unavailable marker (no invented
+  // reply). the caller is responsible for posting the user bubble (its label / typed text).
+  function askAssistant(body) {
+    var typingId = showTypingIndicator();
+    sendChat(body)
+      .then(function (payload) {
+        applyChatAction(payload, typingId);
+      })
+      .catch(function () {
+        resolveTypingIndicator(typingId, UNAVAILABLE);
+      });
+  }
+
+  // the shift-end field edit (§4.4): POST the RAW new HH:MM value as an edit_field action. the server
+  // validates, reruns and returns the reply ending with 'Logged as run #N in the audit trail.'.
+  function editShiftEnd(value) {
+    askAssistant({
+      action: "edit_field",
+      target: "operation.schedule.shift_end",
+      value: value,
+      levers: results.levers,
+      current_results: results.payload,
+    });
+  }
+
+  // render the §4.4 suggestion buttons into #assistant-suggestions once results exist. each button
+  // posts a user bubble with its label, shows the typing indicator and posts its action id to
+  // /api/chat. this replaces any pre-run intake buttons in the same area.
+  function renderAssistantSuggestions() {
+    var host = byId("assistant-suggestions");
+    if (!host) {
+      return;
+    }
+    host.textContent = "";
+    SUGGESTIONS.forEach(function (item) {
+      var btn = el("button", "btn btn--ghost suggestion-btn", item.label);
+      btn.type = "button";
+      btn.addEventListener("click", function () {
+        postBubble("user", item.label);
+        askAssistant({
+          action: item.action,
+          levers: results.levers,
+          current_results: results.payload,
+        });
+      });
+      host.appendChild(btn);
+    });
   }
 
   function load() {
