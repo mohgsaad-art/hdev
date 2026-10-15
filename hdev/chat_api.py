@@ -25,11 +25,11 @@
 #
 # the handler returns (status_code, payload) so the thin server route in hdev/server.py only wraps it
 # in a JSONResponse - the HTTP mapping stays in one place while the logic stays pure.
-import itertools
 from typing import Any, Dict, Mapping, Optional, Tuple
 
 import explain
 from src.validate import validate_lever
+from .project_store import get_store
 
 # the shift-end edit target: the open + editable_in_demo registry field (an 'HH:MM' value). its plain
 # label is read from the registry so the reply never hard-codes a field name.
@@ -47,19 +47,14 @@ _DEFAULT_LEVERS = {
 }
 
 # ---------------------------------------------------------------------------
-# server-side RUN COUNTER for 'Logged as run #N'.
-# a process-wide monotonically increasing counter seeded at 1. it is minimal on purpose; Step 7's run
-# log (§3.4) MUST adopt/align with THIS SAME counter so run numbers are consistent across the audit
-# trail (a scenario rerun logged by the assistant and the same run recorded in the project's run log
-# must share one N). when Step 7 lands a persistent run log, replace this module-level counter with the
-# project-scoped counter and keep the 'next number' semantics identical.
+# RUN COUNTER (Step 7 unification).
+# the run number for 'Logged as run #N' is now the PROJECT-SCOPED monotonic counter owned by
+# hdev.run_api.build_run_payload: every successful demo run (scenario-bar /api/run, the assistant
+# rerun buttons, and the shift-end edit below) allocates exactly one N and appends exactly one §3.4
+# run-log entry THERE. this module no longer owns a counter; the shift-edit path simply READS BACK the
+# 'run_number' the run returned. this guarantees one monotonic sequence across the whole audit trail
+# and no double-counting (the module-level itertools.count that used to live here is gone).
 # ---------------------------------------------------------------------------
-_RUN_COUNTER = itertools.count(1)
-
-
-def _next_run_number() -> int:
-    return next(_RUN_COUNTER)
-
 
 # the human labels for the tabs the UI opens (ids match the §5.6 workspace tabs the UI already renders).
 _TAB_CHARGING = "charging"
@@ -72,18 +67,21 @@ _TAB_AUDIT = "audit"
 _TAB_REPORT = "report"
 
 
-def _rerun(levers: Mapping[str, Any], project: Mapping[str, Any]) -> Tuple[int, Dict[str, Any]]:
+def _rerun(levers: Mapping[str, Any], project: Mapping[str, Any], log_run: bool = True) -> Tuple[int, Dict[str, Any]]:
     # rerun through the SAME chokepoint as /api/run so the assistant and the scenario bar share one
-    # path and one validation. returns (status, results-or-error-payload).
+    # path and one validation. returns (status, results-or-error-payload). `log_run` controls the Step
+    # 7 run-counter side effect: a genuine rerun (a button / the shift-edit) logs and counts; a
+    # quote-only rerun (to read a number for a no-rerun reply) passes log_run=False so it does not.
     from .run_api import build_run_payload
 
-    return build_run_payload("demo", {"levers": dict(levers), "project": dict(project)})
+    return build_run_payload("demo", {"levers": dict(levers), "project": dict(project)}, log_run=log_run)
 
 
 def _base_results(body: Mapping[str, Any]) -> Dict[str, Any]:
     # resolve a results dict to quote from for the NO-RERUN replies. prefer the caller's
     # current_results; else run a default scenario so a reply always has a source (§4.3: numbers must
-    # come from a results dict, so one is always produced).
+    # come from a results dict, so one is always produced). this is a QUOTE-ONLY rerun - log_run=False
+    # so it never consumes a run number or appends a run-log entry (no-rerun replies are not runs).
     current = body.get("current_results")
     if isinstance(current, Mapping) and current.get("kpis"):
         return dict(current)
@@ -91,7 +89,7 @@ def _base_results(body: Mapping[str, Any]) -> Dict[str, Any]:
     if not isinstance(levers, Mapping):
         levers = _DEFAULT_LEVERS
     project = body.get("project") if isinstance(body.get("project"), Mapping) else {}
-    status, payload = _rerun(levers, project)
+    status, payload = _rerun(levers, project, log_run=False)
     return payload if status == 200 else {}
 
 
@@ -217,8 +215,21 @@ def _tab_button(action: str, body: Mapping[str, Any]) -> Tuple[int, Dict[str, An
     # the no-rerun tab buttons. each opens a tab and says a short plain line; later steps fill them in.
     results = _base_results(body)
     if action == "save_scenario":
-        reply = "I will put this scenario in the list. Saving scenarios lands in a later step."
-        act: Dict[str, Any] = {"open_tab": _TAB_SCENARIOS}
+        # persist the CURRENT run as a saved scenario via the scenarios chokepoint (the single owner of
+        # the project store write), then open the Scenarios tab. the client refreshes the table off the
+        # action.saved_scenario flag. the reply names only the saved scenario (plain words, §4.3/§8-safe
+        # - no result number is quoted). the scenario name is a plain UI label, not a result figure.
+        from .scenarios_api import build_scenarios_payload
+
+        name = body.get("scenario_name")
+        if not isinstance(name, str) or not name.strip():
+            store_count = len(get_store().list_scenarios())
+            name = "Scenario " + str(store_count + 1)
+        build_scenarios_payload("demo", "save", {"name": name, "results": results})
+        # the reply names no number (a scenario name like "Scenario 2" would be read as a figure by the
+        # §4.3 number-check and blocked); it points the client at the Scenarios tab instead.
+        reply = "I have added this to your scenarios list. You can see it on the Scenarios tab."
+        act: Dict[str, Any] = {"open_tab": _TAB_SCENARIOS, "saved_scenario": True}
     elif action == "show_inputs":
         reply = "Here are the inputs. I have opened the Operation section for you."
         act = {"open_tab": _TAB_INPUTS, "expand_section": "operation"}
@@ -253,8 +264,11 @@ def _edit_field(body: Mapping[str, Any]) -> Tuple[int, Dict[str, Any]]:
     if status != 200:
         return status, {"ok": False, "reply": results.get("error", "That change could not be applied.")}
 
-    # assign the real run number N (server-side counter; Step 7's run log must align with it).
-    run_number = _next_run_number()
+    # read back the run number the SHARED run path allocated and logged (Step 7). build_run_payload
+    # owns allocation + §3.4 run-log append for every demo run, so the shift-edit must NOT allocate its
+    # own N - it quotes the one the rerun returned. this keeps a single monotonic sequence and avoids
+    # double-counting.
+    run_number = results.get("run_number")
     changed_label = _field_label(target)
     reply = explain.shift_edit_reply(results, run_number, changed_label, old_value, new_value)
     reply = _guard(reply, results)

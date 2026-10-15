@@ -19,10 +19,13 @@ from fastapi.staticfiles import StaticFiles
 
 from fastapi import Request
 
+from .audit_api import build_audit_payload
 from .chat_api import build_chat_payload
 from .inputs_api import build_inputs_payload, normalize_mode
 from .intake_api import build_intake_payload
 from .run_api import build_run_payload
+from .scenarios_api import build_scenarios_payload
+from . import project_store
 
 # the static dir sits next to this module: hdev/static/{index.html,css,js,fonts}.
 STATIC_DIR = Path(__file__).resolve().parent / "static"
@@ -35,6 +38,13 @@ def create_app() -> FastAPI:
 
     app = FastAPI(title="HDEV local UI", docs_url=None, redoc_url=None)
     app.state.mode = mode
+
+    # Step 7 project store: each fresh app starts from a clean project store in demo mode so run
+    # numbering restarts at 1 and the run log / saved scenarios are isolated. TestClient tests build a
+    # new create_app() per test and rely on this reset; the single-user demo server likewise starts a
+    # fresh session on each launch. the runtime JSON file (gitignored) is removed by the reset.
+    if mode == "demo":
+        project_store.reset_for_tests()
 
     @app.get("/api/inputs")
     def api_inputs():
@@ -87,6 +97,49 @@ def create_app() -> FastAPI:
         if not isinstance(body, dict):
             body = {}
         status, payload = build_chat_payload(app.state.mode, body)
+        return JSONResponse(status_code=status, content=payload)
+
+    @app.get("/api/scenarios")
+    def api_scenarios_list():
+        # DEMO-mode: list the saved scenarios for the §5.6 Scenarios table through the pure chokepoint
+        # (hdev/scenarios_api.py). in real mode the chokepoint returns {"available": false, ...} with
+        # 404. no network, no AI provider.
+        status, payload = build_scenarios_payload(app.state.mode, "list")
+        return JSONResponse(status_code=status, content=payload)
+
+    @app.post("/api/scenarios")
+    async def api_scenarios_save(request: Request):
+        # DEMO-mode: save the current run as a named scenario. the body carries the name and optionally
+        # a results dict or a run_id to snapshot. real mode -> 404 available:false.
+        try:
+            body = await request.json()
+        except Exception:
+            body = {}
+        if not isinstance(body, dict):
+            body = {}
+        status, payload = build_scenarios_payload(app.state.mode, "save", body)
+        return JSONResponse(status_code=status, content=payload)
+
+    @app.post("/api/scenarios/compare")
+    async def api_scenarios_compare(request: Request):
+        # DEMO-mode: compare saved scenarios side by side (§4.2 diff table). the body may carry a list
+        # of scenario names or run_ids; absent, all saved scenarios are compared. real mode -> 404.
+        try:
+            body = await request.json()
+        except Exception:
+            body = {}
+        if not isinstance(body, dict):
+            body = {}
+        status, payload = build_scenarios_payload(app.state.mode, "compare", body)
+        return JSONResponse(status_code=status, content=payload)
+
+    @app.get("/api/audit")
+    def api_audit():
+        # DEMO-mode: the §5.6 Audit-trail payload - the source-type counts table (counts only, never a
+        # field name, §8) plus the §3.4 run log newest-first - through the pure chokepoint
+        # (hdev/audit_api.py). in real mode the chokepoint returns {"available": false, ...} with 404
+        # (the real engine/intake and their audit trail are Steps 9/10). no network, no AI provider.
+        status, payload = build_audit_payload(app.state.mode)
         return JSONResponse(status_code=status, content=payload)
 
     # serve the static UI shell at /. html=True makes GET / return static/index.html.

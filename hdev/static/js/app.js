@@ -1720,19 +1720,163 @@
     return note;
   }
 
+  // Scenarios tab (§5.6): GET /api/scenarios and draw the saved-scenarios table with the mock-up
+  // columns, plus a compare view when >=2 scenarios exist. EVERY value is a verbatim server string;
+  // the client computes nothing and invents no count/name/number. an async GET fills the panel once
+  // it resolves (the panel is drawn empty-then-filled, like the other data-driven views).
   function renderScenariosTab(panel) {
     panel.appendChild(el("h3", "section-title", "Saved scenarios"));
-    panel.appendChild(placeholderNote("Not yet available \u2013 saving and comparing scenarios arrives in a later step."));
+    var host = el("div", "scenarios-host");
+    panel.appendChild(host);
+    host.appendChild(el("p", "unavailable", UNAVAILABLE));
+
+    fetch("/api/scenarios")
+      .then(function (resp) {
+        if (!resp.ok) {
+          throw new Error("scenarios request failed: " + resp.status);
+        }
+        return resp.json();
+      })
+      .then(function (payload) {
+        drawScenarios(host, payload);
+      })
+      .catch(function () {
+        host.textContent = "";
+        host.appendChild(el("p", "unavailable", UNAVAILABLE));
+      });
+  }
+
+  // draw the saved-scenarios table (+ compare view) from a /api/scenarios list payload. the empty
+  // state is driven by the server count, not an invented number.
+  function drawScenarios(host, payload) {
+    host.textContent = "";
+    var rows = payload && Array.isArray(payload.scenarios) ? payload.scenarios : [];
+    var count = payload && typeof payload.count === "number" ? payload.count : rows.length;
+
+    if (!count) {
+      host.appendChild(el("p", "scenarios-empty", "No saved scenarios yet"));
+      return;
+    }
+
     var table = el("table", "strategy-table");
     var thead = el("thead");
     var hr = el("tr");
-    ["Scenario", "Trucks", "Priority", "Break-even", "Cost difference"].forEach(function (h) {
+    // fixed UI column headers (chrome copy, like the TABS labels); the VALUES all come from the server.
+    [
+      "Scenario",
+      "Trucks",
+      "Charging approach",
+      "Electricity price",
+      "Weather",
+      "Battery (kWh)",
+      "Depot peak (kW)",
+      "TCO saving (DKK)",
+      "CO\u2082 saved (t/year)",
+    ].forEach(function (h) {
       hr.appendChild(el("th", null, h));
     });
     thead.appendChild(hr);
     table.appendChild(thead);
-    table.appendChild(el("tbody"));
-    panel.appendChild(table);
+
+    var tbody = el("tbody");
+    rows.forEach(function (row) {
+      var settings = row && row.settings ? row.settings : {};
+      var tr = el("tr");
+      [
+        row.name,
+        settings.trucks,
+        settings.charging_approach,
+        settings.electricity_price,
+        settings.weather,
+        row.battery_kwh,
+        row.depot_peak_kw,
+        row.tco_saving_dkk,
+        row.co2_saved_t_per_year,
+      ].forEach(function (value) {
+        tr.appendChild(el("td", null, orUnavailable(value)));
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    host.appendChild(table);
+
+    // a compare view is offered once >=2 scenarios exist. clicking it POSTs /api/scenarios/compare
+    // (no ids -> compare all) and renders the server-returned diff table verbatim.
+    if (count >= 2) {
+      var compareBtn = el("button", "btn btn--ghost", "Compare scenarios");
+      compareBtn.type = "button";
+      compareBtn.setAttribute("aria-label", "Compare scenarios");
+      var compareHost = el("div", "scenarios-compare");
+      compareBtn.addEventListener("click", function () {
+        fetch("/api/scenarios/compare", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({}),
+        })
+          .then(function (resp) {
+            if (!resp.ok) {
+              throw new Error("compare failed: " + resp.status);
+            }
+            return resp.json();
+          })
+          .then(function (cmp) {
+            drawScenarioCompare(compareHost, cmp);
+          })
+          .catch(function () {
+            compareHost.textContent = "";
+            compareHost.appendChild(el("p", "unavailable", UNAVAILABLE));
+          });
+      });
+      host.appendChild(compareBtn);
+      host.appendChild(compareHost);
+    }
+  }
+
+  // draw the §4.2 compare diff table from a /api/scenarios/compare payload. columns = one per chosen
+  // scenario; rows = the server diff entries. a row whose values all agree is marked "same"; one that
+  // differs is highlighted. all cells are verbatim server strings.
+  function drawScenarioCompare(host, cmp) {
+    host.textContent = "";
+    var scenarios = cmp && Array.isArray(cmp.scenarios) ? cmp.scenarios : [];
+    var diff = cmp && Array.isArray(cmp.diff) ? cmp.diff : [];
+    if (!scenarios.length || !diff.length) {
+      host.appendChild(el("p", "unavailable", UNAVAILABLE));
+      return;
+    }
+
+    host.appendChild(el("h4", "section-subtitle", "Compare"));
+    var table = el("table", "strategy-table");
+    var thead = el("thead");
+    var hr = el("tr");
+    hr.appendChild(el("th", null, ""));
+    scenarios.forEach(function (s) {
+      hr.appendChild(el("th", null, orUnavailable(s.name)));
+    });
+    thead.appendChild(hr);
+    table.appendChild(thead);
+
+    var tbody = el("tbody");
+    diff.forEach(function (entry) {
+      var tr = el("tr");
+      if (entry && entry.same === false) {
+        tr.className = "strategy-table__row--diff";
+      }
+      tr.appendChild(el("th", null, orUnavailable(entry.field)));
+      var values = entry && Array.isArray(entry.values) ? entry.values : [];
+      values.forEach(function (value) {
+        tr.appendChild(el("td", null, orUnavailable(value)));
+      });
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    host.appendChild(table);
+  }
+
+  // re-render the Scenarios tab if it is the active tab (used after a save so the new row shows).
+  function refreshScenariosIfActive() {
+    if (results.activeTab === "scenarios") {
+      renderActiveTab();
+    }
   }
 
   function renderReportTab(panel) {
@@ -1762,19 +1906,143 @@
     panel.appendChild(card);
   }
 
+  // Audit tab (§5.6/§8): GET /api/audit and draw (1) the counts-only "Where every input came from"
+  // source table + the server total row, (2) the exact server note, and (3) the §3.4 run log
+  // newest-first. the client NAMES NO field, computes NO total and invents NO count - every row,
+  // count, total, note string and run-log cell is a verbatim server value.
   function renderAuditTab(panel) {
     panel.appendChild(el("h3", "section-title", "Audit trail"));
+    var host = el("div", "audit-host");
+    panel.appendChild(host);
+    host.appendChild(el("p", "unavailable", UNAVAILABLE));
+
+    fetch("/api/audit")
+      .then(function (resp) {
+        if (!resp.ok) {
+          throw new Error("audit request failed: " + resp.status);
+        }
+        return resp.json();
+      })
+      .then(function (payload) {
+        drawAudit(host, payload);
+      })
+      .catch(function () {
+        host.textContent = "";
+        host.appendChild(el("p", "unavailable", UNAVAILABLE));
+      });
+  }
+
+  function drawAudit(host, payload) {
+    host.textContent = "";
+    if (!payload || payload.available === false) {
+      host.appendChild(el("p", "unavailable", UNAVAILABLE));
+      return;
+    }
+
+    // (1) the counts-only source table.
+    host.appendChild(el("h4", "section-subtitle", "Where every input came from"));
+    var sourceTable = payload.source_table || {};
+    var srcRows = Array.isArray(sourceTable.rows) ? sourceTable.rows : [];
     var table = el("table", "strategy-table");
     var thead = el("thead");
     var hr = el("tr");
-    ["Source type", "Count"].forEach(function (h) {
+    ["Source type", "Count", "Status"].forEach(function (h) {
       hr.appendChild(el("th", null, h));
     });
     thead.appendChild(hr);
     table.appendChild(thead);
-    table.appendChild(el("tbody"));
-    panel.appendChild(table);
-    panel.appendChild(placeholderNote("Not yet available \u2013 the source table and run log arrive in a later step."));
+
+    var tbody = el("tbody");
+    srcRows.forEach(function (row) {
+      var tr = el("tr");
+      tr.appendChild(el("td", null, orUnavailable(row.source_type)));
+      tr.appendChild(el("td", null, orUnavailable(row.count)));
+      tr.appendChild(el("td", null, orUnavailable(row.status)));
+      tbody.appendChild(tr);
+    });
+    // the total row: the number comes straight from the server (the client sums nothing).
+    var totalTr = el("tr", "strategy-table__row--current");
+    totalTr.appendChild(el("th", null, "Total"));
+    totalTr.appendChild(el("td", null, orUnavailable(sourceTable.total)));
+    totalTr.appendChild(el("td", null, ""));
+    tbody.appendChild(totalTr);
+    table.appendChild(tbody);
+    host.appendChild(table);
+
+    // (2) the exact server note (plain words; names no field).
+    if (typeof payload.note === "string") {
+      host.appendChild(el("p", "audit-note", payload.note));
+    }
+
+    // (3) the §3.4 run log, newest-first in server order.
+    host.appendChild(el("h4", "section-subtitle", "Run log"));
+    var runLog = Array.isArray(payload.run_log) ? payload.run_log : [];
+    if (!runLog.length) {
+      host.appendChild(el("p", "scenarios-empty", "No runs yet"));
+      return;
+    }
+    var logTable = el("table", "strategy-table");
+    var logHead = el("thead");
+    var logHr = el("tr");
+    ["Run #", "Time", "Settings", "Key result"].forEach(function (h) {
+      logHr.appendChild(el("th", null, h));
+    });
+    logHead.appendChild(logHr);
+    logTable.appendChild(logHead);
+
+    var logBody = el("tbody");
+    runLog.forEach(function (entry) {
+      var tr = el("tr");
+      tr.appendChild(el("td", null, orUnavailable(entry.run_id)));
+      tr.appendChild(el("td", null, orUnavailable(entry.timestamp)));
+      tr.appendChild(auditSettingsCell(entry.settings_summary));
+      tr.appendChild(auditResultCell(entry.key_result_summary));
+      logBody.appendChild(tr);
+    });
+    logTable.appendChild(logBody);
+    host.appendChild(logTable);
+  }
+
+  // build the "Settings" cell for one run-log row from the server settings_summary. the labels are
+  // fixed chrome; every VALUE is a verbatim client-facing server string (§8-safe). no field is named.
+  function auditSettingsCell(summary) {
+    var td = el("td", "audit-cell");
+    summary = summary && typeof summary === "object" ? summary : {};
+    var pairs = [
+      ["Trucks", summary.trucks],
+      ["Charging approach", summary.charging_approach],
+      ["Electricity price", summary.electricity_price],
+      ["Weather", summary.weather],
+      ["Years kept", summary.years_kept],
+      ["Shift end", summary.shift_end],
+    ];
+    pairs.forEach(function (pair) {
+      var line = el("span", "audit-cell__line");
+      line.appendChild(el("span", "audit-cell__key", pair[0] + ": "));
+      line.appendChild(el("span", "audit-cell__val", orUnavailable(pair[1])));
+      td.appendChild(line);
+    });
+    return td;
+  }
+
+  // build the "Key result" cell for one run-log row from the server key_result_summary. labels fixed;
+  // values verbatim from the server.
+  function auditResultCell(summary) {
+    var td = el("td", "audit-cell");
+    summary = summary && typeof summary === "object" ? summary : {};
+    var pairs = [
+      ["Battery (kWh)", summary.battery_kwh],
+      ["Depot peak (kW)", summary.depot_peak_kw],
+      ["TCO saving (DKK)", summary.tco_saving_dkk],
+      ["CO\u2082 saved (t/year)", summary.co2_saved_t_per_year],
+    ];
+    pairs.forEach(function (pair) {
+      var line = el("span", "audit-cell__line");
+      line.appendChild(el("span", "audit-cell__key", pair[0] + ": "));
+      line.appendChild(el("span", "audit-cell__val", orUnavailable(pair[1])));
+      td.appendChild(line);
+    });
+    return td;
   }
 
   // ---- scenario bar (§5.5) ------------------------------------------------
@@ -1821,16 +2089,53 @@
     bar.appendChild(segmented("Weather", "weather_year", levers.weather_year));
     bar.appendChild(segmented("Years kept", "ownership_years", levers.ownership_years));
 
-    // Save scenario button (stub this step; storage is a later step).
+    // Save scenario button: POST the CURRENT run to /api/scenarios so the server snapshots it, then
+    // re-GET the list and refresh the Scenarios table + post a short confirmation bubble. the client
+    // sends the whole current results payload (so the saved scenario's run_id matches the run log);
+    // it computes nothing and invents no name/number.
     var saveGroup = el("div", "scenario-ctrl scenario-ctrl--save");
     var save = el("button", "btn", "Save scenario");
     save.type = "button";
     save.setAttribute("aria-label", "Save scenario");
     save.addEventListener("click", function () {
-      postBubble("assistant", "Saving scenarios arrives in a later step.");
+      saveCurrentScenario();
     });
     saveGroup.appendChild(save);
     bar.appendChild(saveGroup);
+  }
+
+  // the running count of saved scenarios in this session, used ONLY to build a default scenario name
+  // ("Scenario 1", "Scenario 2", ...) when the user does not type one. it is a UI label, not a result
+  // number; the server never derives anything from it. it is seeded from the server list before saving.
+  var scenarioSaveSeq = 0;
+
+  // POST the current run to /api/scenarios (whole results payload so run_id matches the run log), then
+  // refresh the Scenarios table and confirm. on failure show the unavailable marker (no invented data).
+  function saveCurrentScenario() {
+    scenarioSaveSeq += 1;
+    var name = "Scenario " + scenarioSaveSeq;
+    fetch("/api/scenarios", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name, results: results.payload }),
+    })
+      .then(function (resp) {
+        if (!resp.ok) {
+          throw new Error("save failed: " + resp.status);
+        }
+        return resp.json();
+      })
+      .then(function (payload) {
+        var savedName =
+          payload && payload.scenario && payload.scenario.name
+            ? payload.scenario.name
+            : name;
+        postBubble("assistant", "Saved as \u201c" + savedName + "\u201d in the scenarios list.");
+        refreshScenariosIfActive();
+      })
+      .catch(function () {
+        postBubble("assistant", UNAVAILABLE);
+      });
   }
 
   // a segmented button group for an enum lever. each button posts the full lever set on click.
@@ -2058,6 +2363,13 @@
       if (mapped) {
         selectTab(mapped);
       }
+    }
+
+    // the server persisted a scenario (the 'Save as scenario' action). the Scenarios tab was just
+    // opened above; re-render it so the new row is fetched from the server. the client refetches the
+    // list rather than inventing the row.
+    if (action.saved_scenario) {
+      refreshScenariosIfActive();
     }
   }
 

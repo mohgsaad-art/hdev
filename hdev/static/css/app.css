@@ -891,6 +891,45 @@ h3 {
 .strategy-table__row--current {
   background: rgba(31, 95, 209, 0.08);
 }
+/* a run-log / compare row whose values differ across scenarios (reuses the strategy-table pattern). */
+.strategy-table__row--diff {
+  background: var(--accent-amber-bg);
+}
+
+/* ---- scenarios + audit tabs (Step 7) ---- */
+.scenarios-empty {
+  color: var(--ink-soft);
+  padding: 10px 0;
+}
+.scenarios-compare {
+  margin-top: 12px;
+}
+.section-subtitle {
+  margin: 16px 0 8px;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+/* the exact §5.6 audit note (plain words). */
+.audit-note {
+  margin: 12px 0;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+/* a run-log Settings / Key result cell stacks its label:value lines. */
+.audit-cell {
+  white-space: normal;
+}
+.audit-cell__line {
+  display: block;
+  font-size: 0.82rem;
+}
+.audit-cell__key {
+  color: var(--ink-soft);
+}
+.audit-cell__val {
+  color: var(--ink);
+  font-weight: 600;
+}
 .badge {
   display: inline-block;
   margin-left: 8px;

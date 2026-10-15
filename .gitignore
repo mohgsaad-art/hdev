@@ -6,3 +6,8 @@ __pycache__/
 # virtualenv for the local UI server (Step 2); global site-packages is read-only in the sandbox
 .venv/
 *.egg-info/
+
+# Step 7 project store: runtime project state (run log, saved scenarios, run counter) written to a
+# gitignored path. default repo-root/.hdev_runtime/project.json; override with HDEV_PROJECT_STORE.
+# this is disposable runtime data and must NOT be committed.
+.hdev_runtime/

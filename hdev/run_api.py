@@ -21,10 +21,20 @@ from typing import Any, Dict, Mapping, Optional, Tuple
 from src.validate import validate_lever
 
 
-def build_run_payload(mode: str, body: Optional[Mapping[str, Any]]) -> Tuple[int, Dict[str, Any]]:
+def build_run_payload(
+    mode: str,
+    body: Optional[Mapping[str, Any]],
+    log_run: bool = True,
+) -> Tuple[int, Dict[str, Any]]:
     # pure chokepoint. `mode` is already resolved (demo|real). `body` is the parsed JSON request body;
     # its "levers" key (or the body itself) holds the lever map, and an optional "project" key gives
     # the current project context used for lever bounds (e.g. fleet_size max "from project").
+    #
+    # `log_run` controls the Step 7 run-counter side effect. a REAL run (the scenario-bar /api/run, an
+    # assistant rerun button, a shift-end edit) allocates one run number and appends one §3.4 run-log
+    # entry (log_run=True, the default). a QUOTE-ONLY rerun that only needs a results dict to read a
+    # number from (chat_api._base_results for no-rerun replies) passes log_run=False so it does NOT
+    # consume a run number or append to the audit trail - only genuine runs are counted and logged.
     body = body or {}
 
     if mode != "demo":
@@ -59,4 +69,27 @@ def build_run_payload(mode: str, body: Optional[Mapping[str, Any]]) -> Tuple[int
     from demo.demo_engine import run_scenario
 
     results = run_scenario(project, levers)
+
+    if not log_run:
+        # a quote-only rerun (e.g. to read a number for a no-rerun assistant reply). no run number is
+        # allocated and nothing is appended to the audit trail.
+        return 200, results
+
+    # RUN-COUNTER OWNERSHIP (Step 7). build_run_payload is the SINGLE owner of run-number allocation
+    # and run-log append for EVERY genuine demo run: the scenario-bar /api/run, the assistant rerun
+    # buttons and the shift-end edit all route through here, so they share one monotonic N and one
+    # append-only §3.4 run log. callers that need the number (e.g. chat_api's shift-edit reply) read
+    # it back off the results as 'run_number'. this prevents double-counting - no other code path
+    # allocates a run number or appends a run-log entry.
+    from audit.run_log import build_run_entry, append_entry, latest_entry
+    from hdev.project_store import get_store
+
+    store = get_store()
+    run_number = store.next_run_number()
+    entry = build_run_entry(run_number, results, latest_entry())
+    append_entry(entry)
+
+    # expose the numeric run number alongside the existing deterministic string 'run_id' hash field
+    # (which demo_engine owns and this must NOT overwrite). 'run_number' is the audit-trail N.
+    results["run_number"] = run_number
     return 200, results
