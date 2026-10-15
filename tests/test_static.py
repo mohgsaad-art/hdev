@@ -265,6 +265,23 @@ def test_js_shows_human_priority_labels_not_internal_keys(client):
     assert '"early"' not in js
 
 
+def test_js_overview_working_days_comes_from_server(client):
+    # §0: the Overview "based on" chip must read the server's working_days field, not a baked-in
+    # literal. the plain substring "250 working days" cannot simply be banned because the §5.3
+    # run-screen checklist legitimately contains the copy string "Simulating 250 working days per
+    # truck" (fixed narrative, not a rendered datum). So assert two precise things instead:
+    #   1. the JS reads payload.working_days (the chip is server-sourced), and
+    #   2. the old chip literal that combined 250 with the "weather included" copy is gone.
+    # The checklist copy does not contain "working days \u00b7 weather included", so this ban is
+    # precise and does not collide with it.
+    js = _get(client, "/js/app.js").text
+    assert "working_days" in js
+    # the chip wording lives in source as a \u00b7 escape (literal backslash-u), so match that form.
+    assert "250 working days \\u00b7 weather included" not in js
+    # the "weather included" wording stays as copy (only the number is server-sourced).
+    assert "working days \\u00b7 weather included" in js
+
+
 def test_js_scaling_arithmetic_is_only_in_svg_helpers(client):
     # §0 no-business-maths guard, scoped. the earlier guard (test_js_does_no_arithmetic_on_server_numbers)
     # bans the specific data-handling arithmetic markers. Step 5 adds SVG coordinate scaling, which is

@@ -138,7 +138,13 @@
     renderEmptyState();
   }
 
+  // the latest /api/inputs payload, retained in client state so the Inputs results tab can re-render
+  // its section cards from payload.sections without relying on DOM left behind by the intake fill
+  // animation. nothing is recomputed; the server payload is simply kept.
+  var inputsState = { payload: null };
+
   function render(payload) {
+    inputsState.payload = payload;
     renderCounter(payload);
     renderDemoPill(payload);
     renderSections(payload);
@@ -1228,12 +1234,20 @@
 
   // ---- tab renderers ------------------------------------------------------
 
-  // Inputs tab: the existing §5.4 section cards (rendered by the intake fill animation) stay as-is.
-  // this renderer only ensures the section-cards block is visible under the Inputs tab.
+  // Inputs tab: show the §5.4 section cards. In the normal demo flow the intake fill animation
+  // (§5.3 states 1-3) has already populated #section-cards, so those richer fillable cards are left
+  // as-is. If the block is empty (e.g. a future entry path that reaches results without replaying the
+  // intake fill), render the cards from the current /api/inputs payload so the tab is self-sufficient.
+  // renderSections draws straight from payload.sections; no number or section name is invented here.
   function renderInputsTab() {
     var sectionCards = byId("section-cards");
-    if (sectionCards) {
-      sectionCards.hidden = false;
+    if (!sectionCards) {
+      return;
+    }
+    sectionCards.hidden = false;
+    var alreadyPopulated = sectionCards.querySelector(".section-card") !== null;
+    if (!alreadyPopulated && inputsState.payload) {
+      renderSections(inputsState.payload);
     }
   }
 
@@ -1255,7 +1269,14 @@
     var based = el("div", "based-on");
     based.appendChild(el("span", "based-on__item", orUnavailable(summary.from_data) + " from your data"));
     based.appendChild(el("span", "based-on__item", orUnavailable(summary.standard) + " standard values"));
-    based.appendChild(el("span", "based-on__item", "250 working days \u00b7 weather included"));
+    // the working-days figure is a server datum (payload.working_days); only the "weather included"
+    // wording is fixed copy. render the unavailable marker when the field is absent/null so no shown
+    // number originates in the browser (§0).
+    var workingDaysChip =
+      pay.working_days === null || pay.working_days === undefined
+        ? UNAVAILABLE
+        : pay.working_days + " working days \u00b7 weather included";
+    based.appendChild(el("span", "based-on__item", workingDaysChip));
     card.appendChild(based);
     panel.appendChild(card);
 
