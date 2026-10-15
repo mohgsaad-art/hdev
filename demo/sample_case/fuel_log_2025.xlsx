@@ -1,0 +1,12 @@
+ILLUSTRATIVE PLACEHOLDER - NOT A REAL SPREADSHEET
+
+This file stands in for a client fuel log for the sample refuse-fleet case.
+Step 3 does NOT parse this file. The extracted values the demo uses live in
+extracted.json in this directory, labelled illustrative. This placeholder keeps
+the exact file name (fuel_log_2025.xlsx) the intake flow attaches, so the demo
+runs fully offline without a spreadsheet reader.
+
+Pretend contents (illustrative only):
+  - 6 refuse trucks, daily odometer readings, Mon-Fri
+  - ~120 km per truck per day
+  - diesel litres per fill, roughly 55 L/100km

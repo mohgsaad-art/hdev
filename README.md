@@ -40,6 +40,40 @@ HDEV_MODE=real make run
 
 **Tests** (offline, no network): `make test` or `.venv/bin/python -m pytest tests/ -q`.
 
+---
+
+## Demo intake (Step 3)
+
+In **demo mode** the assistant walks through a sample case: a municipal refuse fleet (6 trucks, ~120 km/day, shift 06:00–15:00, Mon–Fri). The flow is:
+
+1. **Add sample files** attaches the two illustrative sample files (`fuel_log_2025.xlsx`, `collection_routes.pdf`).
+2. **Send** posts the dropped message and calls `GET /api/intake`.
+3. The assistant shows **"Reading…"**, then the section cards fill in registry order with a two-colour meter (blue = from your data, amber = standard) and a per-card **"N missing"** line.
+4. The assistant posts **"I found N of M inputs… K are missing"** followed by two buttons: **Use standard values** and **I'll add them myself**.
+
+**Everything is illustrative.** The sample case lives in `demo/sample_case/` — `message.txt`, the two placeholder files (Step 3 does **not** parse them), and `extracted.json` (the machine-readable fixture). Every value is made up for the demo and labelled illustrative; `standard`-source fields are illustrative stand-ins sourced from the fixture itself, **not** the (not-yet-sourced) defaults table.
+
+**Offline and server-driven.** `/api/intake` is **demo-mode only** (in real mode it returns `404` with `{"available": false}`), calls **no AI provider** and touches no network — it only reads `demo/sample_case/`. All counts are **registry + fixture derived, never hard-coded**: the JS client does no maths and hard-codes no section names, counts, defaults or missing count. The `missing` count, the meter widths and the header counter target are all server numbers; `total_inputs` matches `/api/inputs` (`open + collapsed`).
+
+**`/api/intake` JSON shape** (demo mode) — the browser renders only what this sends:
+
+```
+{
+  "available": true, "mode": "demo", "illustrative": true, "note": "...",
+  "tool_name": "[TOOL NAME]",
+  "total_inputs": int,            # equals /api/inputs total_inputs (open+collapsed)
+  "found": int, "missing": int,   # registry+fixture derived, never literals
+  "totals": {"from_data": int, "standard": int, "missing": int, "total": int},
+  "message_text": "...", "sample_files": ["fuel_log_2025.xlsx", "collection_routes.pdf"],
+  "assistant": {"opening": "...", "reading": "Reading…",
+                "found_line": "I found N of M inputs… K are missing"},
+  "sections": [ {"id", "display_name", "from_data", "standard", "missing", "total",
+                 "fields": [ /* OPEN fields only: id,label,value,unit,source,class,illustrative */ ]} ]
+}
+```
+
+Per method-hiding, `/api/intake` never emits a field's internal mapping, never names or values a `collapsed` field (collapsed fields are **counted** only), and never includes hidden fields; only `open` fields expose id + label + value.
+
 Every file below says what it is and **why it is here**. Status words: DONE (verified/tested), CURRENT (in use), DRAFT, DEPRECATED (history only), NOT WRITTEN.
 
 ---

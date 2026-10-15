@@ -1,0 +1,12 @@
+ILLUSTRATIVE PLACEHOLDER - NOT A REAL PDF
+
+This file stands in for a client collection-route list for the sample
+refuse-fleet case. Step 3 does NOT parse this file. The extracted values the
+demo uses live in extracted.json in this directory, labelled illustrative. This
+placeholder keeps the exact file name (collection_routes.pdf) the intake flow
+attaches, so the demo runs fully offline without a PDF reader.
+
+Pretend contents (illustrative only):
+  - weekday collection rounds, depart depot ~06:00, return ~15:00
+  - hundreds of bin stops per round
+  - every truck returns to the same depot each night
