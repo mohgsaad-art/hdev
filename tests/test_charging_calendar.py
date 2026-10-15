@@ -91,3 +91,52 @@ def test_build_calendar_rejects_bad_date_order_and_unknown_pattern():
             dt.date(2026, 1, 5), dt.date(2026, 1, 5),
             "every-third-tuesday", _two_weeks_weather(), set(),
         )
+
+
+# ---------------------------------------------------------------------------
+# ITEM 10 - session hand-over object {arrival, departure, energy_need_kWh, arrival_SOC}
+# ---------------------------------------------------------------------------
+
+from dataclasses import fields as _dc_fields
+
+from src.resolver.session_handover import ChargingSession, build_sessions
+
+
+def test_session_handover_has_exactly_the_four_fields():
+    names = {f.name for f in _dc_fields(ChargingSession)}
+    assert names == {"arrival", "departure", "energy_need_kWh", "arrival_SOC"}
+    # explicitly NOT departure_time (the separate 🔒 M2.7)
+    assert "departure_time" not in names
+
+
+def test_build_sessions_carries_soc_across_two_days():
+    # two operating days, pack 100 kWh usable, start SOC 0.50.
+    # day 1 uses 20 kWh -> session1 arrival_SOC = 0.50, need 20.
+    #   carried SOC = 0.50 + 20/100 = 0.70.
+    # day 2 uses 30 kWh -> session2 arrival_SOC = 0.70, need 30.
+    rows = [
+        {"arrival": dt.datetime(2026, 1, 5, 18, 0), "departure": dt.datetime(2026, 1, 6, 6, 0),
+         "energy_used_kWh": 20.0},
+        {"arrival": dt.datetime(2026, 1, 6, 18, 0), "departure": dt.datetime(2026, 1, 7, 6, 0),
+         "energy_used_kWh": 30.0},
+    ]
+    out = build_sessions(rows, start_soc=0.50, usable_pack_kwh=100.0)
+    s = out["sessions"]
+    assert len(s) == 2
+    assert s[0].arrival_SOC == pytest.approx(0.50)
+    assert s[0].energy_need_kWh == pytest.approx(20.0)
+    assert s[1].arrival_SOC == pytest.approx(0.70)
+    assert s[1].energy_need_kWh == pytest.approx(30.0)
+
+
+def test_build_sessions_fails_loudly():
+    bad_order = [{"arrival": dt.datetime(2026, 1, 6, 6, 0),
+                  "departure": dt.datetime(2026, 1, 5, 18, 0), "energy_used_kWh": 10.0}]
+    with pytest.raises(ValueError):
+        build_sessions(bad_order, start_soc=0.5, usable_pack_kwh=100.0)
+    good = [{"arrival": dt.datetime(2026, 1, 5, 18, 0),
+             "departure": dt.datetime(2026, 1, 6, 6, 0), "energy_used_kWh": 10.0}]
+    with pytest.raises(ValueError):
+        build_sessions(good, start_soc=1.5, usable_pack_kwh=100.0)   # SOC out of range
+    with pytest.raises(ValueError):
+        build_sessions(good, start_soc=0.5, usable_pack_kwh=0.0)     # bad pack
