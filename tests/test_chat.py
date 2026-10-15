@@ -202,44 +202,66 @@ def test_edit_field_wrong_target_rejected(client):
 
 
 # ---------------------------------------------------------------------------
-# (d) real mode: 404 available:false and NO AI provider / demo engine involvement
+# (d) real mode: Step 10 wires the real assistant. the DEMO path stays provider-free. the data guard
+# (default gemini + client_data=true) blocks before any provider call, which is why a real-mode request
+# with the default env returns a structured blocked payload rather than a provider reply. the full real
+# tool loop / guard behaviour is covered in tests/test_real_chat.py with an injected FakeProvider.
 # ---------------------------------------------------------------------------
-def test_real_mode_not_available(monkeypatch):
+def test_real_mode_data_guard_blocks_by_default(monkeypatch):
+    # real mode, default provider gemini + client_data true (fresh store) -> the data guard refuses
+    # BEFORE any provider call. the structured payload the UI renders carries blocked:true + a reason +
+    # the ollama suggestion. no 404; it is a normal, expected outcome the client should display.
     monkeypatch.setenv("HDEV_MODE", "real")
+    # ensure the gemini defaults with no lift flags so the guard refuses.
+    for var in ("GEMINI_PAID", "ALLOW_CLIENT_DATA_ON_FREE_TIER"):
+        monkeypatch.delenv(var, raising=False)
+    monkeypatch.setenv("AI_PROVIDER", "gemini")
     c = TestClient(create_app())
     resp = c.post("/api/chat", json={"message": "hi"})
-    assert resp.status_code == 404
+    assert resp.status_code == 200
     p = resp.json()
-    assert p["available"] is False
     assert p["mode"] == "real"
-    assert "reply" not in p
+    assert p["blocked"] is True
+    assert p["suggest_provider"] == "ollama"
+    assert isinstance(p["reason"], str) and p["reason"]
 
 
 def test_real_mode_does_not_call_demo_engine(monkeypatch):
-    # prove demo_engine.run_scenario is NOT called in real mode (the assistant never reruns there).
+    # prove demo_engine.run_scenario is NOT called in real mode (the assistant never uses it there).
+    # with the default gemini + client_data guard the request is refused before any run, so the demo
+    # engine must stay untouched.
     import demo.demo_engine as engine
 
     def _boom(*a, **k):
         raise AssertionError("demo_engine.run_scenario must not be called in real mode")
 
     monkeypatch.setenv("HDEV_MODE", "real")
+    monkeypatch.setenv("AI_PROVIDER", "gemini")
+    for var in ("GEMINI_PAID", "ALLOW_CLIENT_DATA_ON_FREE_TIER"):
+        monkeypatch.delenv(var, raising=False)
     monkeypatch.setattr(engine, "run_scenario", _boom)
     c = TestClient(create_app())
     resp = c.post("/api/chat", json={"action": "price_up", "levers": BASE_LEVERS})
-    assert resp.status_code == 404
-    assert resp.json()["available"] is False
+    assert resp.status_code == 200
+    assert resp.json()["blocked"] is True
 
 
-def test_chat_api_imports_no_ai_provider():
-    # §0 / HARD CONSTRAINT: demo mode never calls any AI provider and chat_api imports none. there is
-    # no ai/ package in Step 6; assert the module source does not import one.
+def test_chat_api_demo_path_imports_no_ai_provider():
+    # §0 / HARD CONSTRAINT: the DEMO path never imports or calls an AI provider. Step 10 wires the real
+    # assistant, but the provider import lives behind a LAZY import inside the real branch only (the
+    # single `from .real_chat import ...` line), so merely importing hdev.chat_api and driving a demo
+    # request never pulls in ai/httpx. assert the module's module-level imports contain no provider and
+    # that the only ai reference is the lazy real-branch delegation.
     import inspect
 
     import hdev.chat_api as chat_api
 
     src = inspect.getsource(chat_api)
-    for forbidden in ("import ai", "from ai", "openai", "anthropic", "gemini", "ollama", "requests", "httpx", "urllib.request"):
+    # no network client / provider SDK is referenced anywhere in the demo chokepoint.
+    for forbidden in ("import ai", "from ai", "openai", "anthropic", "import httpx", "requests", "urllib.request"):
         assert forbidden not in src, f"chat_api must not reference {forbidden!r}"
+    # the ONLY real-mode hook is the lazy delegation to real_chat (imported inside the real branch).
+    assert "from .real_chat import build_real_chat_payload" in src
 
 
 def test_number_check_blocks_drift_at_endpoint(monkeypatch):

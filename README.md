@@ -457,6 +457,48 @@ The real AI assistant will consume **the real §3.3 results JSON plus the `expla
 
 ---
 
+## Real AI assistant (Step 10)
+
+Step 10 wires the real-mode assistant behind the same `/api/chat` chokepoint the demo uses. There is **one provider interface** (`ai/provider.py`) with **two interchangeable backends**, chosen by a single environment variable. Copy `.env.example` to `.env` at the repo root and fill in your values. The real `.env` is **gitignored** and must never be committed (a real key is a secret); only `.env.example` (placeholders only) is tracked.
+
+**Switch backends with one line, no code change:**
+
+```bash
+AI_PROVIDER=gemini   # Google Gemini Developer API, free tier (default)
+AI_PROVIDER=ollama   # a local, fully offline model
+```
+
+### Gemini (default backend)
+
+- Get a free key from Google AI Studio and put it in `.env` as `GEMINI_API_KEY` (placeholder in `.env.example`). The key is sent in the `x-goog-api-key` request header only; it is never logged, printed, or placed in a URL or an error message.
+- The model name is set by `GEMINI_MODEL` in `.env`. The default is **`gemini-2.0-flash`**, a Flash model that was on the Gemini free tier at build time. Change this line if Google renames or retires the free-tier Flash model.
+
+### Ollama (local, offline backend)
+
+- Set `OLLAMA_URL` (default `http://127.0.0.1:11434`) and `OLLAMA_MODEL` (for example `llama3.1`) in `.env`. Ollama runs on your machine, so nothing leaves it: it is the private, offline option.
+- Ollama needs a local daemon running. If it is not reachable the assistant returns a clear "Ollama is not reachable" message (no key is involved).
+
+### The data guard (free-tier Gemini)
+
+The Gemini **free tier** may use the inputs it receives to improve Google's products. So every project carries a `client_data` flag (**default `true`**: a project is assumed to hold a client's data until told otherwise). Before any outbound call the server runs a hard, server-side guard:
+
+- The server **refuses** to send a project with `client_data: true` to the **`gemini`** backend **unless** `ALLOW_CLIENT_DATA_ON_FREE_TIER=true` **or** `GEMINI_PAID=true` is set.
+- `ollama` is **always allowed** (it is local, so nothing leaves the machine).
+- When refused, no provider call is made. The UI shows the reason and suggests switching to `ollama` to keep the project's data local.
+- Set `GEMINI_PAID=true` when you move to a paid Gemini key (the paid tier does not train on inputs); it lifts the guard. `ALLOW_CLIENT_DATA_ON_FREE_TIER=true` lifts it on the free tier if you accept the terms.
+
+### Tools, methods, and numbers
+
+- The assistant may only call the seven §4.2 tools (`run_scenario`, `compare_runs`, `save_scenario`, `build_report`, `set_inputs`, `ask_missing`, `apply_standard`). Each is wired to an existing server chokepoint and **validated server-side**: the LLM only chooses the tool and fills the arguments, and Python validates and executes it (a bad lever or patch, or an unknown tool, is rejected). If a backend lacks native tool calling, the model answers with a strict JSON schema that is validated in Python.
+- All §4.3 rules apply in real mode too: **numbers come only from the results JSON**, the assistant explains **results, not methods** (a how/why/method question returns the exact line "That's the engineering side. The results and every input source are in the report."), and the §4.3 number-check plus an §8 term denylist run on the model's final reply. Any drifting number or forbidden method/physics/strategy term falls back to the safe template text.
+
+### Demo mode and CI
+
+- **Demo mode needs no key and no internet and never calls any AI provider.** The demo `/api/chat` path imports no provider; the provider is only reached through the lazily-imported real path.
+- **Tests use a `FakeProvider`**, so **no real API call runs in CI** and no socket is opened. The whole real-mode flow (data guard, tool loop, output guards, error paths) is driven offline with scripted replies.
+
+---
+
 Every file below says what it is and **why it is here**. Status words: DONE (verified/tested), CURRENT (in use), DRAFT, DEPRECATED (history only), NOT WRITTEN.
 
 ---
