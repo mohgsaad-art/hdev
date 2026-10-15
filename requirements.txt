@@ -8,6 +8,13 @@ httpx>=0.27
 # test runner for the offline TestClient suite (tests/test_server.py + Step 1's registry tests).
 pytest>=8
 
+# Step 8 report export (server-side PDF + Excel built from the results JSON + audit data).
+# both are PURE-PYTHON and install + run offline under COMMON_DEPENDENCIES (no system libraries):
+#   reportlab -> the PDF renderer (report/pdf.py); 5.0.1 is what resolves offline in this sandbox.
+#   openpyxl  -> the Excel workbook writer (report/xlsx.py).
+reportlab>=4,<6
+openpyxl>=3.1,<4
+
 # OPTIONAL (Step 7, not installed by default): the Playwright browser click-through
 # tests/test_demo_acceptance_playwright.py needs playwright + a Chromium browser. it is NOT a core
 # dependency - the test skip-guards itself (pytest.importorskip inside the module) so the core suite

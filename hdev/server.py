@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 from fastapi import Request
@@ -23,6 +23,7 @@ from .audit_api import build_audit_payload
 from .chat_api import build_chat_payload
 from .inputs_api import build_inputs_payload, normalize_mode
 from .intake_api import build_intake_payload
+from .report_api import build_report_response
 from .run_api import build_run_payload
 from .scenarios_api import build_scenarios_payload
 from . import project_store
@@ -141,6 +142,43 @@ def create_app() -> FastAPI:
         # (the real engine/intake and their audit trail are Steps 9/10). no network, no AI provider.
         status, payload = build_audit_payload(app.state.mode)
         return JSONResponse(status_code=status, content=payload)
+
+    @app.get("/api/report")
+    def api_report_get(format: str = "pdf"):
+        # DEMO-mode report export (GET convenience, e.g. a direct download link): build the §5.6
+        # 9-section report in the requested format (?format=pdf|excel; excel maps to xlsx) through the
+        # pure chokepoint (hdev/report_api.py). all logic lives in Python/report/; this route only maps
+        # the returned bytes to a Response with the right Content-Type + attachment filename. a bad
+        # ?format= -> 400. in real mode the report still renders with "Not yet available" (no 404).
+        status, data, media_type, filename = build_report_response(app.state.mode, format, {})
+        if status != 200 or data is None:
+            return JSONResponse(status_code=400, content={"ok": False, "error": "Unknown report format. Use format=pdf or format=excel."})
+        return Response(
+            content=data,
+            media_type=media_type,
+            headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+        )
+
+    @app.post("/api/report")
+    async def api_report_post(request: Request, format: str = "pdf"):
+        # DEMO-mode report export (POST): the UI posts the CURRENT results it holds (and the levers) so
+        # the report matches exactly what is on screen; absent a 'results' body the chokepoint runs a
+        # fresh default demo scenario (quote-only, no run number consumed). same pure chokepoint and
+        # same Content-Type + attachment filename as the GET route. a bad ?format= -> 400.
+        try:
+            body = await request.json()
+        except Exception:
+            body = {}
+        if not isinstance(body, dict):
+            body = {}
+        status, data, media_type, filename = build_report_response(app.state.mode, format, body)
+        if status != 200 or data is None:
+            return JSONResponse(status_code=400, content={"ok": False, "error": "Unknown report format. Use format=pdf or format=excel."})
+        return Response(
+            content=data,
+            media_type=media_type,
+            headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+        )
 
     # serve the static UI shell at /. html=True makes GET / return static/index.html.
     # mounted last so /api/* routes take precedence. the dir is created by FEAT-002 (and a minimal

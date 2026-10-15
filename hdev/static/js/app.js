@@ -1879,30 +1879,89 @@
     }
   }
 
+  // the 9 §5.6 report-section names, in order. these only LABEL the thumbnails; the report content
+  // itself is built entirely server-side (§0 dumb client). the JS never assembles report text.
+  var REPORT_SECTIONS = [
+    "Summary",
+    "Your fleet & inputs",
+    "Energy",
+    "Charging",
+    "Grid & flexibility",
+    "Total cost",
+    "CO\u2082",
+    "Plan",
+    "Inputs & sources",
+  ];
+
+  // trigger a real browser download of the bytes the server returns from /api/report. the client
+  // computes NOTHING and builds NO report content: it POSTs the current results verbatim, reads the
+  // response as an opaque Blob and saves it. the filename comes from the server's Content-Disposition
+  // header when present, else a fixed fallback per format.
+  function downloadReport(format, fallbackName) {
+    if (!results.payload) {
+      return; // guard: no run yet, nothing to export.
+    }
+    fetch("/api/report?format=" + encodeURIComponent(format), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        results: results.payload,
+        levers: results.levers,
+      }),
+    })
+      .then(function (resp) {
+        if (!resp.ok) {
+          throw new Error("report request failed: " + resp.status);
+        }
+        var name = fallbackName;
+        var disp = resp.headers.get("Content-Disposition");
+        if (disp) {
+          var match = /filename="?([^";]+)"?/i.exec(disp);
+          if (match && match[1]) {
+            name = match[1];
+          }
+        }
+        return resp.blob().then(function (blob) {
+          var url = URL.createObjectURL(blob);
+          var a = el("a");
+          a.href = url;
+          a.download = name;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        });
+      })
+      .catch(function () {
+        // dumb client: no invented content. a failure leaves the tab unchanged.
+      });
+  }
+
   function renderReportTab(panel) {
     var card = el("div", "report-card");
     card.appendChild(el("h3", "section-title", "Your report is ready"));
     card.appendChild(el("p", "report-card__hint", "A full report with every section is prepared from these results."));
     var thumbs = el("div", "report-thumbs");
-    var i;
-    for (i = 1; i <= 9; i += 1) {
-      var th = el("div", "report-thumb", "Page " + i);
-      thumbs.appendChild(th);
-    }
+    REPORT_SECTIONS.forEach(function (name) {
+      thumbs.appendChild(el("div", "report-thumb", name));
+    });
     card.appendChild(thumbs);
     var actions = el("div", "report-actions");
-    var pdf = el("button", "btn btn--ghost", "Export PDF");
+    var pdf = el("button", "btn btn--ghost", "Download PDF");
     pdf.type = "button";
-    pdf.setAttribute("aria-label", "Export PDF report");
-    pdf.disabled = true;
-    var xls = el("button", "btn btn--ghost", "Export Excel");
+    pdf.setAttribute("aria-label", "Download PDF report");
+    pdf.addEventListener("click", function () {
+      downloadReport("pdf", "hdev-report.pdf");
+    });
+    var xls = el("button", "btn btn--ghost", "Download data (Excel)");
     xls.type = "button";
-    xls.setAttribute("aria-label", "Export Excel report");
-    xls.disabled = true;
+    xls.setAttribute("aria-label", "Download Excel data report");
+    xls.addEventListener("click", function () {
+      downloadReport("excel", "hdev-report.xlsx");
+    });
     actions.appendChild(pdf);
     actions.appendChild(xls);
     card.appendChild(actions);
-    card.appendChild(placeholderNote("Not yet available \u2013 report export arrives in a later step."));
     panel.appendChild(card);
   }
 

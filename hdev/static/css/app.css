@@ -982,6 +982,9 @@ h3 {
   color: var(--ink-soft);
   font-size: 0.85rem;
   font-weight: 600;
+  text-align: center;
+  padding: 6px;
+  overflow-wrap: anywhere;
 }
 .report-actions {
   display: flex;
