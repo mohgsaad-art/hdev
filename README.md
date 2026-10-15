@@ -127,7 +127,7 @@ Then open <http://127.0.0.1:8000/> (or the `HDEV_PORT` you set). In demo mode:
 2. End the missing flow with **Use standard values** (or Send) to trigger a run.
 3. The **run screen** (§5.3 state 4) ticks through nine checklist lines in order behind a progress bar, then shows the end line **"Done in X s · N truck-days simulated"**. The `X` is the real measured `/api/run` round-trip time and the `N` is the server-provided `truck_days_simulated`; the browser never computes either number itself.
 
-**Tab bar (§5.6).** The results panel has ten tabs, in order: **Inputs, Overview, Energy, Charging, Grid & flexibility, Costs (TCO), CO₂, Scenarios, Report, Audit trail**. Fully wired now: Inputs, Overview, Energy, Charging, Grid & flexibility, Costs (TCO) and CO₂. The remaining three are shells that fill in later steps: **Scenarios** (Step 7), **Report** (Step 8) and **Audit trail** (Step 7).
+**Tab bar (§5.6).** The results panel has ten tabs, in order: **Inputs, Overview, Energy, Charging, Grid & flexibility, Costs (TCO), CO₂, Scenarios, Report, Audit trail**. All ten are wired now: Inputs, Overview, Energy, Charging, Grid & flexibility, Costs (TCO) and CO₂ in Step 5; **Scenarios** and **Audit trail** in Step 7; and **Report** in Step 8 (its two Download buttons call `/api/report`).
 
 **Charts are hand-drawn inline SVG.** Every chart is drawn directly from the server numbers using inline SVG. There is no chart library and no external asset: the browser only draws the values the server sends.
 
@@ -302,6 +302,59 @@ Two Step-7 tests cover the whole flow:
 ```
 
 The skip-guard lives **inside** the test module: `pytest.importorskip("playwright.sync_api")` skips if playwright is not installed, and the browser launch is wrapped so a missing browser binary (or any launch error) becomes a `pytest.skip`, never a failure. The core suite never imports playwright at collection time, and `playwright` is **not** a core `requirements.txt` dependency (it is listed there only as a commented optional note).
+
+---
+
+## Report export (Step 8)
+
+The Report tab builds a full report **server-side** and hands the browser a file to save. The JS does no maths and assembles no report content: it POSTs the current results and the server returns the finished bytes.
+
+### `GET` / `POST /api/report?format=pdf|excel`
+
+- `format=pdf` returns a PDF; `format=excel` maps to `xlsx` server-side.
+- The two formats return their own Content-Types:
+  - PDF: `application/pdf`
+  - Excel: `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`
+- Each response carries `Content-Disposition: attachment; filename=hdev-report.pdf` (or `hdev-report.xlsx`).
+- An unknown `?format=` returns `400` with `{"ok": false, ...}`.
+- `POST` accepts a JSON body `{"results": <the §3.3 results payload>, "levers": {...}}`. The Report tab POSTs the results it already holds, so the report matches what is on screen. When no `results` are sent the server runs a fresh default demo scenario (and does **not** consume a run number or write to the audit log).
+
+The browser trigger is a plain `fetch` → `response.blob()` → object URL → a temporary `<a download=...>` click → `URL.revokeObjectURL`. The filename is read from the `Content-Disposition` header when present, else it falls back to `hdev-report.pdf` / `hdev-report.xlsx`. The buttons do nothing until a run exists.
+
+### Libraries
+
+- **PDF: `reportlab`** (pure Python, runs fully offline in-sandbox).
+- **Excel: `openpyxl`** (pure Python, runs fully offline in-sandbox).
+
+Both are pinned in `requirements.txt` and install offline. Neither needs any system library, so both the PDF render and the Excel build run offline in the sandbox.
+
+### The 9 sections (both formats, in order)
+
+Both the PDF and the Excel contain all nine §5.6 sections, in this exact order:
+
+1. Summary
+2. Your fleet & inputs
+3. Energy
+4. Charging
+5. Grid & flexibility
+6. Total cost
+7. CO₂
+8. Plan
+9. Inputs & sources
+
+In the PDF each section is a block of pages; in the Excel each section is its own named sheet. Every number is read from the results JSON / audit data. When a value is null or absent the report prints the literal **"Not yet available"** and never invents a number.
+
+### Demo watermark
+
+In demo mode the report is illustrative, so it carries the exact watermark text **"Illustrative values - sample case"** on **every** PDF page and on **every** Excel sheet. Real mode omits the watermark.
+
+### Inputs & sources (§8 rule)
+
+Section 9 lists the **source types and counts** (plus the server total) and the **open fields by name** with their values and source. It **never** names a `collapsed` or `hidden` field: those fields contribute to the counts only, and neither their id, their label nor their value ever appears. This is enforced by a programmatic §8 guard in `report/builder.py` that scans the assembled section content against every registry field id and label.
+
+### Real-mode degradation
+
+In real mode the endpoint does not 404: it still returns a report, but with `illustrative=False` (no watermark) and every unavailable field reading **"Not yet available"** until the real engine pipeline lands in Step 9.
 
 ---
 
