@@ -199,3 +199,84 @@ def test_ai_waypoint_adapter_is_a_stub():
     with pytest.raises(NotImplementedError) as exc:
         ai_waypoints_from_descriptions([{"description": "depot"}])
     assert "map provider not chosen" in str(exc.value)
+
+
+# ---------------------------------------------------------------------------
+# ITEM 13 - charging sizing (P=E/t) + simulation (OCV + Ri), dt a required arg
+# ---------------------------------------------------------------------------
+
+from src.charging.battery_ocv_ri import (
+    battery_step,
+    solve_current_for_power,
+    ocv_lookup,
+)
+from src.charging.charging_sim import (
+    sizing_power,
+    simulate_session,
+    resolve_timestep_plan,
+)
+
+
+def test_sizing_power_is_energy_over_time():
+    # P_min = E / t : 60 kWh over 10 h = 6 kW. Hand value.
+    assert sizing_power(60.0, 10.0) == pytest.approx(6.0)
+    with pytest.raises(ValueError):
+        sizing_power(60.0, 0.0)
+
+
+def test_ocv_and_current_solver_hand_values():
+    # linear 2-point OCV table interpolates to the midpoint
+    assert ocv_lookup([(0.0, 300.0), (1.0, 400.0)], 0.5) == pytest.approx(350.0)
+    # table never extrapolates
+    with pytest.raises(ValueError):
+        ocv_lookup([(0.0, 300.0), (1.0, 400.0)], 1.5)
+    # R = 0 -> I = P / U0 : 1000 W / 400 V = 2.5 A
+    assert solve_current_for_power(1000.0, 400.0, 0.0) == pytest.approx(2.5)
+    # R = 0.1 -> R*I^2 + U0*I - P = 0 solved for the +sign root
+    import math as _m
+    disc = 400.0 * 400.0 + 4 * 0.1 * 1000.0
+    expected = (-400.0 + _m.sqrt(disc)) / (2 * 0.1)
+    assert solve_current_for_power(1000.0, 400.0, 0.1) == pytest.approx(expected)
+
+
+def test_battery_step_charges_and_reports_loss():
+    # 10 A charge, R = 0.1 ohm -> loss = I^2 R = 10*10*0.1 = 10 W ; terminal = U0 + I*R.
+    # choose a power that yields exactly 10 A at U0: solve on R=0 would be P=U0*I; with R the solver
+    # finds I for the given P, so instead feed a known current by using R=0 and P = U0*I.
+    out = battery_step(0.5, 350.0 * 10.0, 3600.0, [(0.0, 300.0), (1.0, 400.0)], 0.0,
+                       capacity_as=3600000.0)
+    assert out["current_a"] == pytest.approx(10.0, rel=1e-6)
+    # SOC advance = I*dt/Q = 10*3600/3600000 = 0.01
+    assert out["soc"] == pytest.approx(0.51, rel=1e-6)
+
+
+def test_simulate_session_delivers_energy_over_window():
+    # 1000 W for 3600 s = 1.0 kWh of terminal energy, R = 0 (no loss), dt 60 s -> 60 steps.
+    r = simulate_session(0.5, 1000.0, 3600.0, 60.0, [(0.0, 300.0), (1.0, 400.0)], 0.0,
+                         capacity_as=360000.0)
+    assert r["delivered_kwh"] == pytest.approx(1.0, rel=1e-9)
+    assert r["steps"] == 60
+    assert r["soc_end"] > 0.5  # charged up
+
+
+def test_simulate_session_requires_dt_no_default():
+    # dt is REQUIRED (no default). Passing None raises loudly; it must never silently default.
+    with pytest.raises(ValueError) as exc:
+        simulate_session(0.5, 1000.0, 3600.0, None, [(0.0, 300.0), (1.0, 400.0)], 0.0,
+                         capacity_as=360000.0)
+    assert "dt" in str(exc.value)
+    # it is also a positional/keyword arg with no default in the signature
+    import inspect
+    sig = inspect.signature(simulate_session)
+    assert sig.parameters["dt"].default is inspect.Parameter.empty
+
+
+def test_timestep_plan_is_neutral_by_default():
+    plan = resolve_timestep_plan(900.0)
+    assert plan["neutral"] is True
+    assert plan["dt_fine"] == plan["dt_base"] == 900.0
+    assert plan["windows"] == []
+    assert "Energinet" in plan["flag"]
+    # a fine window makes it non-neutral
+    plan2 = resolve_timestep_plan(900.0, dt_fine=300.0, windows=[(0, 3600)])
+    assert plan2["neutral"] is False
