@@ -107,6 +107,47 @@ curl -s -X POST http://127.0.0.1:8000/api/run \
 
 The response contains `run_id`, `timestamp`, `mode`, `illustrative`, `settings`, `verdict`, `kpis`, `energy` (monthly 12-long, per-vehicle), `charging` (SoC profile + strategy comparison), `grid` (24h load/flex), `tco` (6 categories: Owning, Running, Infrastructure, Policy & taxes, Hidden costs, Climate — plus cumulative curves and break-even year), `co2`, `plan`, and `inputs_summary` (reused from the intake tallies). The `tco_diff_dkk` KPI is **electric minus diesel** over the ownership period (negative = the electric fleet costs less in total).
 
+**Additive §3.3 fields (Step 5): `working_days` and `truck_days_simulated`.** On top of the fields above, the results JSON now carries two extra top-level numbers: `working_days` (the working-days-per-truck count the illustrative maths already uses, 250) and `truck_days_simulated` (`fleet_size * working_days`). They exist so the run screen can read the real truck-days count from the server instead of the browser hard-coding 250. The addition is purely additive: nothing in §3.3 is removed or reordered, and both fields carry the same illustrative stand-in values as the rest of the demo payload.
+
+---
+
+## Results UI (Step 5)
+
+The results UI extends the same single-page shell. Start the app and walk through the demo the same way as before:
+
+```
+make run
+# equivalently:
+.venv/bin/python -m hdev.app
+```
+
+Then open <http://127.0.0.1:8000/> (or the `HDEV_PORT` you set). In demo mode:
+
+1. **Add sample files** then **Send** to post the message and run the intake fill animation (§5.3 states 1–3).
+2. End the missing flow with **Use standard values** (or Send) to trigger a run.
+3. The **run screen** (§5.3 state 4) ticks through nine checklist lines in order behind a progress bar, then shows the end line **"Done in X s · N truck-days simulated"**. The `X` is the real measured `/api/run` round-trip time and the `N` is the server-provided `truck_days_simulated`; the browser never computes either number itself.
+
+**Tab bar (§5.6).** The results panel has ten tabs, in order: **Inputs, Overview, Energy, Charging, Grid & flexibility, Costs (TCO), CO₂, Scenarios, Report, Audit trail**. Fully wired now: Inputs, Overview, Energy, Charging, Grid & flexibility, Costs (TCO) and CO₂. The remaining three are shells that fill in later steps: **Scenarios** (Step 7), **Report** (Step 8) and **Audit trail** (Step 7).
+
+**Charts are hand-drawn inline SVG.** Every chart is drawn directly from the server numbers using inline SVG. There is no chart library and no external asset: the browser only draws the values the server sends.
+
+**Scenario bar (§5.5).** Below the results sits a scenario bar with six controls:
+
+| Control | Choices |
+|---|---|
+| Trucks | slider over the fleet size |
+| Charging priority | Lowest cost / Grid-friendly / Ready earliest |
+| Electricity price | Low / Expected / High |
+| Weather | Normal year / Cold winter |
+| Ownership period | 8 / 10 / 12 years |
+| Save scenario | button (stub until Step 7) |
+
+Changing **any** control POSTs the full lever set to `/api/run` and shows a **recalculation overlay** over the results panel while the new numbers arrive; the panel redraws from the fresh response. The human labels above map to the client-facing lever values described in the Scenario run section (for example `lowest_cost` / `grid_friendly` / `ready_earliest`). **Save scenario** is a stub for now and starts working in Step 7.
+
+As everywhere else, the browser does no maths: it only draws the numbers the server sends.
+
+---
+
 Every file below says what it is and **why it is here**. Status words: DONE (verified/tested), CURRENT (in use), DRAFT, DEPRECATED (history only), NOT WRITTEN.
 
 ---
