@@ -19,6 +19,7 @@ from fastapi.staticfiles import StaticFiles
 
 from fastapi import Request
 
+from .chat_api import build_chat_payload
 from .inputs_api import build_inputs_payload, normalize_mode
 from .intake_api import build_intake_payload
 from .run_api import build_run_payload
@@ -69,6 +70,23 @@ def create_app() -> FastAPI:
         if not isinstance(body, dict):
             body = {}
         status, payload = build_run_payload(app.state.mode, body)
+        return JSONResponse(status_code=status, content=payload)
+
+    @app.post("/api/chat")
+    async def api_chat(request: Request):
+        # DEMO-mode assistant turn: the §4.4 suggestion buttons, the server-side typed-question keyword
+        # router and the shift-end field-edit rerun, all answered by explain/ templates through the
+        # pure chokepoint (hdev/chat_api.py). the mode is the startup value on app.state.mode (read
+        # once in create_app). in real mode the chokepoint returns {"available": false, ...} with a 404
+        # (the real LLM assistant is Step 10) and NO AI provider is imported or called. every reply is
+        # passed through the §4.3 number-check inside the chokepoint. nothing hits the network.
+        try:
+            body = await request.json()
+        except Exception:
+            body = {}
+        if not isinstance(body, dict):
+            body = {}
+        status, payload = build_chat_payload(app.state.mode, body)
         return JSONResponse(status_code=status, content=payload)
 
     # serve the static UI shell at /. html=True makes GET / return static/index.html.
