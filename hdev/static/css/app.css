@@ -412,6 +412,118 @@ h3 {
   font-style: italic;
 }
 
+/* ---- intake flow (Step 3): assistant bubbles, two-colour meter, glow ring, missing colour ---- */
+
+/* assistant / user message bubbles. role is paired with alignment + a label colour, not colour alone. */
+.msg {
+  max-width: 90%;
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+.msg--assistant {
+  background: var(--surface-muted);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  margin-right: auto;
+}
+.msg--user {
+  background: var(--brand);
+  color: #ffffff;
+  border: 1px solid var(--brand-strong);
+  margin-left: auto;
+}
+/* the "Reading…" indicator reads as muted + italic so it is clearly transient. */
+#reading-indicator {
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+/* a fillable section card during the §5.3 fill. the active card gets a blue glow RING plus a left
+   accent bar, so the active state is not carried by colour alone. */
+.section-card--fillable {
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.section-card--active {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(31, 95, 191, 0.25);
+}
+
+/* two-colour meter: blue = from your data, amber = standard. the remaining width is the muted track
+   (missing). each segment is also described in the legend text below. */
+.meter {
+  margin-top: 10px;
+  height: 10px;
+  width: 100%;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+  display: flex;
+}
+.meter__seg {
+  height: 100%;
+  transition: width 0.35s ease;
+}
+.meter__seg--data {
+  background: var(--brand);
+}
+.meter__seg--standard {
+  background: var(--accent-amber);
+}
+
+/* legend under the meter: one chip per class, each with its own text label (never colour alone). */
+.section-card__legend {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+.legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.legend-chip::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex: none;
+  background: currentColor;
+}
+.legend-chip--data {
+  color: var(--brand-strong);
+}
+.legend-chip--standard {
+  color: var(--accent-amber);
+}
+.legend-chip--missing {
+  color: var(--ink-soft);
+}
+.legend-chip--missing::before {
+  background: var(--border-strong);
+}
+
+/* attached-files state on the drop zone. */
+.dropzone--attached {
+  border-style: solid;
+  border-color: var(--brand);
+  color: var(--brand-strong);
+  font-weight: 600;
+}
+
+/* the §4.4 missing-flow buttons sit in the suggestions area; they wrap and keep a 44px target. */
+.intake-btn {
+  flex: 0 1 auto;
+}
+
 /* ---- responsive: stack below 900px ---- */
 @media (max-width: 900px) {
   .app-body {

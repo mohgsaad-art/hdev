@@ -14,9 +14,11 @@ import os
 from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from .inputs_api import build_inputs_payload, normalize_mode
+from .intake_api import build_intake_payload
 
 # the static dir sits next to this module: hdev/static/{index.html,css,js,fonts}.
 STATIC_DIR = Path(__file__).resolve().parent / "static"
@@ -36,6 +38,18 @@ def create_app() -> FastAPI:
         # value captured on app.state.mode (read once in create_app); it is not re-read here, so
         # there is no runtime mode switching - a mode change requires restarting the app.
         return build_inputs_payload(app.state.mode)
+
+    @app.get("/api/intake")
+    def api_intake():
+        # DEMO-mode intake: returns the illustrative sample-case fixture plus registry+fixture-derived
+        # from_data/standard/missing tallies, through the §8 chokepoint (hdev/intake_api.py). no AI
+        # provider is called and nothing hits the network - it only reads demo/sample_case/.
+        # the mode is the startup value on app.state.mode (read once in create_app). in real mode the
+        # payload is {"available": false, ...} with a 404 so the demo fixture never leaks.
+        payload = build_intake_payload(app.state.mode)
+        if not payload.get("available", False):
+            return JSONResponse(status_code=404, content=payload)
+        return payload
 
     # serve the static UI shell at /. html=True makes GET / return static/index.html.
     # mounted last so /api/* routes take precedence. the dir is created by FEAT-002 (and a minimal

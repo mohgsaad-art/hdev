@@ -1,0 +1,92 @@
+{
+  "illustrative": true,
+  "case": "municipal refuse fleet (sample case)",
+  "note": "ILLUSTRATIVE SAMPLE CASE - every value here is made up for the demo and is NOT a sourced default. The two sample files (fuel_log_2025.xlsx, collection_routes.pdf) are placeholders that Step 3 does not parse; the values below are the fixture the demo uses instead. Fields with source 'standard' are illustrative stand-in values sourced from THIS fixture, not from the (not-yet-sourced, locked) defaults table (M1.1). Fields absent from the mapping below are treated as 'missing'. Fleet size (6 trucks) is a lever, not an open field, so it is not listed here; the per-truck operation values are. Every field id below is a real registry id (validated against src.registry.get_field at build time) and every source is valid per src.registry.slot.is_valid_source.",
+  "fields": {
+    "operation.schedule.shift_start": {
+      "value": "06:00",
+      "unit": null,
+      "source": "file:collection_routes.pdf"
+    },
+    "operation.schedule.shift_end": {
+      "value": "15:00",
+      "unit": null,
+      "source": "file:collection_routes.pdf"
+    },
+    "operation.schedule.working_days_per_week": {
+      "value": 5,
+      "unit": "days",
+      "source": "message"
+    },
+    "operation.schedule.shifts_per_day": {
+      "value": 1,
+      "unit": null,
+      "source": "message"
+    },
+    "operation.routes.daily_distance": {
+      "value": 120,
+      "unit": "km",
+      "source": "file:fuel_log_2025.xlsx"
+    },
+    "operation.routes.stops_per_day": {
+      "value": 320,
+      "unit": null,
+      "source": "file:collection_routes.pdf"
+    },
+    "operation.routes.return_to_depot": {
+      "value": true,
+      "unit": null,
+      "source": "message"
+    },
+    "operation.routes.terrain": {
+      "value": "flat",
+      "unit": null,
+      "source": "standard"
+    },
+    "operation.schedule.breaks_per_shift": {
+      "value": 1,
+      "unit": null,
+      "source": "standard"
+    },
+    "energy_prices.diesel.diesel_price": {
+      "value": 1.55,
+      "unit": "currency/litre",
+      "source": "file:fuel_log_2025.xlsx"
+    },
+    "energy_prices.diesel.diesel_consumption": {
+      "value": 55,
+      "unit": "litre/100km",
+      "source": "file:fuel_log_2025.xlsx"
+    },
+    "energy_prices.electricity.price_level": {
+      "value": "expected",
+      "unit": null,
+      "source": "standard"
+    },
+    "energy_prices.electricity.day_price": {
+      "value": 0.28,
+      "unit": "currency/kWh",
+      "source": "standard"
+    },
+    "energy_prices.electricity.night_price": {
+      "value": 0.18,
+      "unit": "currency/kWh",
+      "source": "standard"
+    },
+    "vehicles.body.vehicle_type": {
+      "value": "refuse truck",
+      "unit": null,
+      "source": "message"
+    },
+    "vehicles.body.max_weight": {
+      "value": 26000,
+      "unit": "kg",
+      "source": "standard"
+    },
+    "weather.location.region": {
+      "value": "temperate",
+      "unit": null,
+      "source": "standard"
+    }
+  }
+}
