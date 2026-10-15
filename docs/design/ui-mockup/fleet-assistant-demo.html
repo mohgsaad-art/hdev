@@ -1,0 +1,289 @@
+<!doctype html>
+<!--
+  Illustrative mock-up - stand-in numbers only; ported to Python in demo/demo_engine.py (Step 4)
+
+  this is the authoritative source of the illustrative stand-in formulas. every number
+  produced here is a placeholder (see the "ILLUSTRATIVE NUMBERS ONLY" block below) and is
+  not a real engineering result. the python demo engine ports the maths in this file verbatim.
+
+  internal priority keys cost/grid/early are used ONLY inside this client-side mock-up.
+  the python port maps them to the client-facing names:
+    cost  -> lowest_cost
+    grid  -> grid_friendly
+    early -> ready_earliest
+  the technical keys never leave the server (main prompt section 8, method-hiding).
+
+  owner is referred to only as "Bob".
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fleet Assistant - illustrative demo mock-up</title>
+  <style>
+    /* plain offline css only - no cdn, no external fonts, no network calls */
+    body { font-family: system-ui, Arial, sans-serif; margin: 0; color: #1a2230; background: #f4f6f9; }
+    header { background: #10243e; color: #fff; padding: 14px 20px; }
+    header h1 { margin: 0; font-size: 18px; font-weight: 600; }
+    .illustrative { background: #ffe9b0; color: #6b4a00; padding: 8px 20px; font-size: 13px; }
+    main { display: flex; gap: 16px; padding: 20px; flex-wrap: wrap; }
+    .panel { background: #fff; border: 1px solid #d9dee6; border-radius: 8px; padding: 16px; flex: 1 1 320px; }
+    .panel h2 { margin-top: 0; font-size: 15px; }
+    label { display: block; margin: 8px 0 2px; font-size: 13px; color: #44506a; }
+    select, input { width: 100%; padding: 5px; box-sizing: border-box; }
+    pre { background: #0f1b2d; color: #cfe3ff; padding: 12px; border-radius: 6px; overflow: auto; font-size: 12px; }
+    footer { padding: 12px 20px; font-size: 12px; color: #6b7483; }
+  </style>
+</head>
+<body>
+  <header><h1>Fleet Assistant</h1></header>
+  <!-- visible reminder: every value on this page is illustrative / stand-in only -->
+  <div class="illustrative">Illustrative values only - sample case. These numbers are stand-ins, not real results.</div>
+
+  <main>
+    <!-- settings panel: the levers the mock-up reads via scen() -->
+    <section class="panel">
+      <h2>Settings</h2>
+      <label for="fleet_size">Fleet size</label>
+      <input id="fleet_size" type="number" value="12" min="1">
+
+      <label for="prio">Charging priority</label>
+      <select id="prio">
+        <option value="cost">Lowest cost</option>
+        <option value="grid">Grid-friendly</option>
+        <option value="early">Ready earliest</option>
+      </select>
+
+      <label for="price">Electricity price</label>
+      <select id="price">
+        <option value="low">Low</option>
+        <option value="exp">Expected</option>
+        <option value="high">High</option>
+      </select>
+
+      <label for="weather">Weather year</label>
+      <select id="weather">
+        <option value="normal">Normal</option>
+        <option value="cold">Cold</option>
+      </select>
+
+      <label for="years">Ownership years</label>
+      <select id="years">
+        <option value="8">8</option>
+        <option value="10" selected>10</option>
+        <option value="12">12</option>
+      </select>
+
+      <label for="se">Shift end hour</label>
+      <input id="se" type="number" value="15" min="0" max="23">
+    </section>
+
+    <!-- results panel: minimal placeholder output so the file is an openable page -->
+    <section class="panel">
+      <h2>Results (illustrative)</h2>
+      <pre id="out">run a scenario</pre>
+    </section>
+  </main>
+
+  <footer>All figures are illustrative stand-ins. Ported to Python in demo/demo_engine.py (Step 4).</footer>
+
+  <script>
+  // ===== ILLUSTRATIVE NUMBERS ONLY =====
+  // Illustrative mock-up - stand-in numbers only; ported to Python in demo/demo_engine.py (Step 4)
+  //
+  // every constant and formula in this block is a placeholder. do NOT treat any output as a
+  // real engineering figure. demo/demo_engine.py ports this maths verbatim.
+  //
+  // internal priority keys cost/grid/early live only in this client-side mock-up; the python
+  // port maps them to the client-facing names lowest_cost / grid_friendly / ready_earliest
+  // (main prompt section 8 - technical names never leave the server).
+
+  // display names for the internal priority keys (client-side only)
+  const PRIO_NAME = { cost: 'Lowest cost', grid: 'Grid-friendly', early: 'Ready earliest' };
+
+  // available charger sizes (kW), smallest first
+  const SIZES = [22, 40, 50, 60, 90, 120, 150];
+
+  // scen() reads the levers off the settings panel
+  function scen() {
+    return {
+      n: parseInt(document.getElementById('fleet_size').value, 10) || 1, // fleet_size
+      prio: document.getElementById('prio').value,     // cost | grid | early (internal keys)
+      price: document.getElementById('price').value,   // low | exp | high
+      weather: document.getElementById('weather').value, // normal | cold
+      years: parseInt(document.getElementById('years').value, 10) || 10, // 8 | 10 | 12
+      se: parseInt(document.getElementById('se').value, 10) || 15 // shift end hour, default 15
+    };
+  }
+
+  // model() computes the full illustrative result set from a scenario
+  function model(s) {
+    const n = s.n, prio = s.prio, price = s.price, weather = s.weather, years = s.years, se = s.se;
+
+    // seasonal shape of monthly energy, 12 months
+    const monthF = [1.18, 1.16, 1.08, 1.0, 0.95, 0.92, 0.92, 0.93, 0.96, 1.02, 1.1, 1.16];
+    // cold winter raises the winter months
+    if (weather === 'cold') {
+      for (let i = 0; i < 12; i++) {
+        if (i < 2 || i > 9) monthF[i] *= 1.08;
+      }
+    }
+
+    const avg = 180;
+    const months = monthF.map(f => avg * f);
+    const mean = months.reduce((a, b) => a + b, 0) / 12;
+    const worst = Math.max.apply(null, months) * 1.15;
+
+    // battery sizing (kWh), rounded up to nearest 10
+    const battery = Math.ceil(worst * 1.25 / 10) * 10;
+
+    // charging window hours by priority
+    const hours = { cost: 7, grid: (30 - se) - 2, early: 4 }[prio];
+    const need = worst / hours * 1.1;
+    // first charger size that covers the need, else the biggest
+    let kw = SIZES.find(x => x >= need);
+    if (kw === undefined) kw = 150;
+
+    // coincidence factor by priority
+    const coinc = { cost: 0.95, grid: 0.75, early: 1.0 }[prio];
+    const base = 30;   // base site load (kW)
+    const limit = 400; // grid connection limit (kW)
+    const peak = Math.round(base + n * kw * coinc);
+
+    // price and priority cost factors
+    const priceF = { low: 0.8, exp: 1, high: 1.25 }[price];
+    const prioF = { cost: 0.85, grid: 0.92, early: 1.0 }[prio];
+    const elecDay = 1.6 * priceF * prioF;
+
+    // annual energy and costs
+    const energyYr = n * mean * 250;
+    const elecCostYr = energyYr * elecDay;
+    const dieselL = n * 120 * 250 * 0.55;
+    const dieselCostYr = dieselL * 12;
+    const maintE = n * 45000;
+    const maintD = n * 70000;
+    const Y = years;
+
+    // six TCO categories IN ORDER: (name, dieselTotal, electricTotal)
+    const cats = [
+      { name: 'Owning', diesel: n * 2.2e6, electric: n * 3.4e6 },
+      { name: 'Running', diesel: (dieselCostYr + maintD) * Y, electric: (elecCostYr + maintE) * Y },
+      { name: 'Infrastructure', diesel: 0, electric: n * (kw * 1800) + (peak > limit ? 900000 : 0) },
+      { name: 'Policy & taxes', diesel: n * 30000 * Y, electric: n * 8000 * Y - n * 250000 },
+      { name: 'Hidden costs', diesel: n * 15000 * Y, electric: n * 10000 * Y },
+      { name: 'Climate', diesel: dieselL * 2.65 / 1000 * 750 * Y, electric: energyYr * 0.1 / 1000 * 750 * Y }
+    ];
+    const totD = cats.reduce((a, c) => a + c.diesel, 0);
+    const totE = cats.reduce((a, c) => a + c.electric, 0);
+
+    // cumulative cost curves and break-even year
+    let cd = cats[0].diesel;
+    let ce = cats[0].electric + cats[2].electric;
+    const yrD = (totD - cats[0].diesel) / Y;
+    const yrE = (totE - cats[0].electric - cats[2].electric) / Y;
+    const cumD = [], cumE = [];
+    let be = null;
+    for (let y = 0; y <= Y; y++) {
+      cumD.push(cd / 1e6);
+      cumE.push(ce / 1e6);
+      if (be === null && y > 0 && ce <= cd) be = y;
+      cd += yrD;
+      ce += yrE;
+    }
+
+    // co2 (tonnes/year)
+    const co2D = dieselL * 2.65 / 1000;
+    const co2E = energyYr * 0.1 / 1000;
+
+    // 24h site load profile
+    const load = [];
+    for (let h = 0; h < 24; h++) {
+      let ch = 0;
+      if (prio === 'cost' && (h >= 22 || h < 5)) ch = n * kw * coinc;
+      if (prio === 'grid' && (h >= se + 1 || h < 5)) ch = n * kw * coinc * 0.85;
+      if (prio === 'early' && h >= se && h < se + 4) ch = n * kw;
+      load[h] = Math.round(base + ((h >= 6 && h < se + 1) ? 10 : 0) + ch);
+    }
+
+    // 24h flexibility (shiftable load)
+    const flex = [];
+    for (let h = 0; h < 24; h++) {
+      flex[h] = Math.max(0, Math.round((load[h] - base) * 0.6));
+    }
+
+    // state of charge profile, half-hour steps
+    const used = worst / battery * 100;
+    const start = { cost: 22, grid: se + 0.5, early: se + 0.5 }[prio];
+    const rate = kw / battery * 100;
+    const floor = 100 - used;
+    const soc = [];
+    for (let t = 0; t <= 24; t += 0.5) {
+      let v;
+      if (t >= 6 && t <= se) {
+        v = 100 - used * (t - 6) / (se - 6);
+      } else {
+        const after = (t > se) ? t : t + 24;
+        v = (after < start) ? floor : Math.min(100, floor + rate * (after - start) * 0.95);
+      }
+      soc.push({ t: t, soc: v });
+    }
+
+    // strategy comparison across all three priorities
+    const strategies = [];
+    ['cost', 'grid', 'early'].forEach(p => {
+      const hrs = { cost: 7, grid: (30 - se) - 2, early: 4 }[p];
+      const nd = worst / hrs * 1.1;
+      let k = SIZES.find(x => x >= nd);
+      if (k === undefined) k = 150;
+      const pk = Math.round(base + n * k * { cost: 0.95, grid: 0.75, early: 1.0 }[p]);
+      const cy = energyYr * 1.6 * priceF * { cost: 0.85, grid: 0.92, early: 1.0 }[p];
+      const fits = pk <= limit;
+      const ready = p === 'early' ? (se + 4) + ':00' : p === 'grid' ? '04:30' : '05:00';
+      strategies.push({ priority: p, name: PRIO_NAME[p], charger: k, peak: pk, costYr: cy, fits: fits, ready: ready });
+    });
+
+    // per-truck energy factors
+    const truckF = [0.92, 1.05, 0.98, 1.1, 0.95, 1.0, 1.03, 0.9, 1.07, 0.97, 1.02, 0.94];
+    const trucks = [];
+    for (let i = 0; i < n; i++) {
+      const f = truckF[i % truckF.length];
+      trucks.push({ label: 'T' + (i + 1), avg: mean * f, worst: worst * f });
+    }
+
+    // cumulative co2 saved over ownership
+    const co2Saved = [];
+    for (let y = 0; y <= Y; y++) {
+      co2Saved.push((co2D - co2E) * y);
+    }
+
+    return {
+      illustrative: true,
+      inputs: { n, prio, price, weather, years, se },
+      months, mean, worst, battery, hours, kw, coinc, peak,
+      elecDay, energyYr, elecCostYr, dieselL, dieselCostYr, maintE, maintD,
+      cats, totD, totE, cumD, cumE, break_even: be,
+      co2D, co2E, load, flex, soc, strategies, trucks, co2Saved
+    };
+  }
+
+  // wire the mock-up up so it renders a couple of outputs (openable page)
+  function run() {
+    const r = model(scen());
+    document.getElementById('out').textContent = JSON.stringify({
+      illustrative: r.illustrative,
+      battery_kwh: r.battery,
+      charger_kw: r.kw,
+      site_peak_kw: r.peak,
+      break_even_year: r.break_even,
+      tco_categories: r.cats.map(c => c.name),
+      diesel_total: r.totD,
+      electric_total: r.totE
+    }, null, 2);
+  }
+
+  document.querySelectorAll('select, input').forEach(el => el.addEventListener('change', run));
+  run();
+  // ===== END ILLUSTRATIVE NUMBERS ONLY =====
+  </script>
+</body>
+</html>
