@@ -280,3 +280,79 @@ def test_timestep_plan_is_neutral_by_default():
     # a fine window makes it non-neutral
     plan2 = resolve_timestep_plan(900.0, dt_fine=300.0, windows=[(0, 3600)])
     assert plan2["neutral"] is False
+
+
+# ---------------------------------------------------------------------------
+# ITEM 14 - year-long depot charging run (SOC carry-over, shared chargers, site cap)
+# ---------------------------------------------------------------------------
+
+from src.charging.year_depot_run import run_year_depot
+from src.resolver.session_handover import build_sessions as _build_sessions
+
+
+def _battery_params():
+    # a flat-ish OCV pack, R = 0 (lossless), big capacity so delivery is energy-faithful.
+    return {
+        "ocv_table": [(0.0, 350.0), (1.0, 370.0)],
+        "r_internal": 0.0,
+        "capacity_as": 1_000_000.0,
+        "usable_pack_kwh": 100.0,
+    }
+
+
+def test_run_year_depot_carries_soc_across_two_sessions():
+    # two overnight sessions, each 12 h dwell. JIT power = energy / dwell:
+    #   session 1: 20 kWh / 12 h = 1.6667 kW (<= 50 kW charger / 50 kW site) -> delivers 20 kWh
+    #   session 2: 30 kWh / 12 h = 2.5    kW                               -> delivers 30 kWh
+    # The ending SOC of session 1 must become the arrival SOC of session 2 (REAL carry-over).
+    rows = [
+        {"arrival": dt.datetime(2026, 1, 5, 18, 0), "departure": dt.datetime(2026, 1, 6, 6, 0),
+         "energy_used_kWh": 20.0},
+        {"arrival": dt.datetime(2026, 1, 6, 18, 0), "departure": dt.datetime(2026, 1, 7, 6, 0),
+         "energy_used_kWh": 30.0},
+    ]
+    sessions = _build_sessions(rows, start_soc=0.5, usable_pack_kwh=100.0)["sessions"]
+    out = run_year_depot(sessions, chargers=[50.0], site_limit_kw=50.0, dt=300.0,
+                         battery_params=_battery_params())
+    r = out["results"]
+    assert len(r) == 2
+    # JIT power hand values
+    assert r[0]["power_kw"] == pytest.approx(20.0 / 12.0, rel=1e-6)
+    assert r[1]["power_kw"] == pytest.approx(30.0 / 12.0, rel=1e-6)
+    # energy delivered meets the need (lossless, enough dwell)
+    assert r[0]["delivered_kWh"] == pytest.approx(20.0, rel=1e-3)
+    assert r[1]["delivered_kWh"] == pytest.approx(30.0, rel=1e-3)
+    # SOC carry-over: session 2 arrival SOC == session 1 ending SOC (the REAL ending SOC, not the
+    # neutral one build_sessions laid out) and rises from ~0.50 to ~0.70 then ~0.99.
+    assert r[1]["arrival_SOC"] == pytest.approx(r[0]["ending_SOC"])
+    assert r[0]["ending_SOC"] == pytest.approx(0.699, abs=0.01)
+    assert out["ending_soc"] == pytest.approx(r[1]["ending_SOC"])
+    assert out["ending_soc"] == pytest.approx(0.993, abs=0.01)
+
+
+def test_run_year_depot_requires_dt_and_valid_site_cap():
+    sessions = _build_sessions(
+        [{"arrival": dt.datetime(2026, 1, 5, 18, 0), "departure": dt.datetime(2026, 1, 6, 6, 0),
+          "energy_used_kWh": 10.0}],
+        start_soc=0.5, usable_pack_kwh=100.0,
+    )["sessions"]
+    with pytest.raises(ValueError):
+        run_year_depot(sessions, chargers=[50.0], site_limit_kw=50.0, dt=None,
+                       battery_params=_battery_params())
+    with pytest.raises(ValueError):
+        run_year_depot(sessions, chargers=[], site_limit_kw=50.0, dt=300.0,
+                       battery_params=_battery_params())
+    with pytest.raises(ValueError):
+        run_year_depot(sessions, chargers=[50.0], site_limit_kw=0.0, dt=300.0,
+                       battery_params=_battery_params())
+
+
+def test_year_depot_modules_do_not_import_gym():
+    # the pure path must load without gym installed (gym is NOT in the venv).
+    import sys
+    assert "gym" not in sys.modules
+    import importlib
+    importlib.import_module("src.charging.year_depot_run")
+    importlib.import_module("src.charging.charging_sim")
+    importlib.import_module("src.resolver.calendar")
+    assert "gym" not in sys.modules
