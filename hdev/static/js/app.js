@@ -1,10 +1,14 @@
-// STATUS: NEW (PR 2, Bob to review). the dumb-client renderer for the Step 2 UI shell.
+// STATUS: UPDATED (PR 5, Bob to review). the dumb-client renderer, extended for the Step 5 run
+// screen, result tabs, hand-drawn SVG charts and scenario bar.
 //
-// §0: this file does NO maths and holds NO section names, counts, defaults or calculation logic. it
-// fetches /api/inputs once and renders exactly what the server sent: the header input counter (both
-// numbers come from the payload), one card per section (display_name + count + subgroup names from
-// the payload), the demo pill (only when mode == "demo") and the empty drop-card state. on any fetch
-// failure or missing value it renders "Not yet available" rather than inventing data.
+// §0: this file does NO business maths and holds NO section names, counts, defaults, strategy keys or
+// calculation logic. it fetches /api/inputs once, GETs /api/intake for the fill animation, and POSTs
+// the raw client-facing lever set to /api/run; it then renders exactly what the server sent in the
+// §3.3 results payload - KPI tiles, verdict, plan, strategy table and the charts - and POSTs lever
+// JSON back unchanged. the ONLY arithmetic in this file is SVG coordinate scaling inside the chart
+// helpers (mapping a data value to a pixel position is drawing layout, not business maths); no
+// DISPLAYED figure is ever derived here - every number shown comes verbatim from the payload. on any
+// fetch failure or missing/null value it renders "Not yet available" rather than inventing data.
 
 (function () {
   "use strict";
@@ -134,7 +138,13 @@
     renderEmptyState();
   }
 
+  // the latest /api/inputs payload, retained in client state so the Inputs results tab can re-render
+  // its section cards from payload.sections without relying on DOM left behind by the intake fill
+  // animation. nothing is recomputed; the server payload is simply kept.
+  var inputsState = { payload: null };
+
   function render(payload) {
+    inputsState.payload = payload;
     renderCounter(payload);
     renderDemoPill(payload);
     renderSections(payload);
@@ -298,11 +308,14 @@
     useStd.textContent = "Use standard values";
     useStd.addEventListener("click", function () {
       postBubble("user", "Use standard values");
-      // Step 3 stub: acknowledge only. running / re-filling arrives in Steps 4+.
       postBubble(
         "assistant",
-        "Okay - I'll fill the missing inputs with standard values when we run. (The run comes in a later step.)"
+        "Okay - I'll fill the missing inputs with standard values and run the full year now."
       );
+      // §5.3 state 4: trigger the full run. the client sends NO lever values of its own on the first
+      // run - it posts an empty lever set and the server fills + echoes the standard values. JS never
+      // invents a default.
+      triggerFirstRun();
     });
 
     var addSelf = document.createElement("button");
@@ -478,8 +491,1344 @@
         if (input) {
           input.value = "";
         }
-        startIntake();
+        // if the results are already revealed, treat Send as a request to re-run with the current
+        // levers (and the lighter overlay). otherwise run the intake fill animation first.
+        if (results.payload) {
+          rerunWithOverlay();
+        } else {
+          startIntake();
+        }
       });
+    }
+  }
+
+  // ===========================================================================
+  // STEP 5: run screen (§5.3 state 4), result tabs (§5.6), hand-drawn SVG charts (§5.1), scenario
+  // bar (§5.5) and the recalculation overlay. everything below renders ONLY from the /api/run
+  // payload and POSTs raw lever JSON back. no business maths, no hard-coded section/strategy names.
+  // ===========================================================================
+
+  // chart colour tokens (kept in sync with css custom properties). these are drawing colours only;
+  // every series/limit is also paired with a text label in the legend so meaning is never colour
+  // alone (§5.1).
+  var COLOR = {
+    electric: "#1F5FD1", // signal blue
+    diesel: "#9AA5B8", // diesel grey
+    limit: "#F2A93B", // amber: limits / standard / warnings
+    axis: "#10233f", // navy for text + axes
+    grid: "#c9d2e0", // light gridlines
+  };
+
+  // the full §5.6 tab set, in order. these are UI copy labels (not registry section names or computed
+  // numbers); the client-facing tab titles are fixed UI chrome, so they live here as plain labels.
+  // each tab names which renderer draws its panel.
+  var TABS = [
+    { id: "inputs", label: "Inputs", render: renderInputsTab },
+    { id: "overview", label: "Overview", render: renderOverviewTab },
+    { id: "energy", label: "Energy", render: renderEnergyTab },
+    { id: "charging", label: "Charging", render: renderChargingTab },
+    { id: "gridflex", label: "Grid & flexibility", render: renderGridTab },
+    { id: "tco", label: "Costs (TCO)", render: renderTcoTab },
+    { id: "co2", label: "CO₂", render: renderCo2Tab },
+    { id: "scenarios", label: "Scenarios", render: renderScenariosTab },
+    { id: "report", label: "Report", render: renderReportTab },
+    { id: "audit", label: "Audit trail", render: renderAuditTab },
+  ];
+
+  // the nine §5.3 run-screen checklist lines, in order. fixed UI copy strings (not registry names or
+  // computed numbers). "250 working days per truck" is a verbatim §5.3 copy string.
+  var CHECKLIST = [
+    "Reading routes and stops",
+    "Simulating 250 working days per truck",
+    "Adding weather for every day of the year",
+    "Sizing batteries to the hardest day",
+    "Testing charging strategies",
+    "Checking the depot grid connection",
+    "Finding flexibility",
+    "Calculating total cost of ownership",
+    "Calculating CO₂",
+  ];
+
+  // the four §5.5 recalculation overlay rotating lines.
+  var RECALC_LINES = [
+    "Re-running the year…",
+    "Re-sizing chargers…",
+    "Checking the grid…",
+    "Updating costs…",
+  ];
+
+  // human labels for the client-facing charging-priority names (§8: never surface internal keys). the
+  // payload only ever carries these three client-facing names; map each to a human label for display.
+  var PRIORITY_LABELS = {
+    lowest_cost: "Lowest cost",
+    grid_friendly: "Grid-friendly",
+    ready_earliest: "Ready earliest",
+  };
+
+  // scenario-bar controls as client-facing values only (verbatim from src/registry/levers.py). the
+  // segmented options carry a human label + the raw value the server expects. the client picks none of
+  // these numbers itself at run time - it just posts whatever the controls hold.
+  var LEVER_UI = {
+    charging_priority: [
+      { value: "lowest_cost", label: "Lowest cost" },
+      { value: "grid_friendly", label: "Grid-friendly" },
+      { value: "ready_earliest", label: "Ready earliest" },
+    ],
+    electricity_price: [
+      { value: "low", label: "Low" },
+      { value: "expected", label: "Expected" },
+      { value: "high", label: "High" },
+    ],
+    weather_year: [
+      { value: "normal", label: "Normal year" },
+      { value: "cold_winter", label: "Cold winter" },
+    ],
+    ownership_years: [
+      { value: 8, label: "8" },
+      { value: 10, label: "10" },
+      { value: 12, label: "12" },
+    ],
+  };
+
+  // results UI state: the latest payload, the active tab, the current lever set and the shift-end
+  // lever target (only sent if the server/context provided one).
+  var results = {
+    payload: null,
+    activeTab: "overview",
+    levers: null, // the current client-facing lever set
+    shiftEnd: null, // operation.schedule.shift_end "HH:MM" if present, else null (omit it)
+    recalcTimer: null,
+  };
+
+  // ---- small DOM helpers --------------------------------------------------
+
+  function el(tag, cls, text) {
+    var node = document.createElement(tag);
+    if (cls) {
+      node.className = cls;
+    }
+    if (text !== undefined && text !== null) {
+      node.textContent = text;
+    }
+    return node;
+  }
+
+  function svgEl(tag) {
+    return document.createElementNS("http://www.w3.org/2000/svg", tag);
+  }
+
+  // render an opaque value or the unavailable marker. does NOT format numbers (no maths); it only
+  // decides present vs absent. the server sends display-ready numbers.
+  function orUnavailable(value) {
+    if (value === null || value === undefined) {
+      return UNAVAILABLE;
+    }
+    return String(value);
+  }
+
+  // ready_by normalisation (§5.3 display artifact): the ready_earliest strategy's ready_by can read
+  // "19:00".."24:00" or higher - an illustrative artifact from Step 4. treat it as an OPAQUE display
+  // string from the server and sanitise display only: if the hour part reads >= 24, show an en dash
+  // instead of "24:00". this changes display only; demo_engine is unchanged.
+  function displayReadyBy(value) {
+    if (value === null || value === undefined || value === "") {
+      return UNAVAILABLE;
+    }
+    var text = String(value);
+    var colon = text.indexOf(":");
+    if (colon > 0) {
+      var head = text.slice(0, colon);
+      // Number() here parses the opaque clock string for a display threshold check only; it does not
+      // derive any shown figure (the shown figure is the server string or an en dash).
+      var hour = Number(head);
+      if (!isNaN(hour) && hour >= 24) {
+        return "\u2013";
+      }
+    }
+    return text;
+  }
+
+  // ---- KPI tiles ----------------------------------------------------------
+
+  // one KPI tile: small label, big number (verbatim from payload), one-line note. tone 'good' = blue,
+  // 'warn' = amber, each paired with the note text so meaning is never colour alone. a null/absent
+  // value renders the unavailable marker.
+  function kpiTile(label, value, note, tone) {
+    var tile = el("div", "kpi" + (tone ? " kpi--" + tone : ""));
+    tile.appendChild(el("div", "kpi__label", label));
+    var big = el("div", "kpi__value", orUnavailable(value));
+    if (value === null || value === undefined) {
+      big.classList.add("unavailable");
+    }
+    tile.appendChild(big);
+    if (note) {
+      tile.appendChild(el("div", "kpi__note", note));
+    }
+    return tile;
+  }
+
+  function kpiRow(tiles) {
+    var row = el("div", "kpi-row");
+    tiles.forEach(function (t) {
+      if (t) {
+        row.appendChild(t);
+      }
+    });
+    return row;
+  }
+
+  // a side-by-side two-chart grid (stacks under 340px via CSS).
+  function chartGrid(a, b) {
+    var grid = el("div", "chart-grid");
+    if (a) {
+      grid.appendChild(a);
+    }
+    if (b) {
+      grid.appendChild(b);
+    }
+    return grid;
+  }
+
+  // a titled chart card wrapper.
+  function chartCard(title, svg) {
+    var card = el("div", "chart-card");
+    card.appendChild(el("h3", "chart-card__title", title));
+    if (svg) {
+      card.appendChild(svg);
+    } else {
+      card.appendChild(el("p", "unavailable", UNAVAILABLE));
+    }
+    return card;
+  }
+
+  // a legend row: one chip per series/limit, each a coloured swatch PLUS text (never colour alone).
+  function legend(items) {
+    var box = el("div", "chart-legend");
+    items.forEach(function (item) {
+      var chip = el("span", "chart-legend__item");
+      var sw = el("span", "chart-legend__swatch");
+      sw.style.background = item.color;
+      if (item.dashed) {
+        sw.classList.add("chart-legend__swatch--dashed");
+      }
+      chip.appendChild(sw);
+      chip.appendChild(el("span", "chart-legend__text", item.label));
+      box.appendChild(chip);
+    });
+    return box;
+  }
+
+  // ---- SVG chart helpers --------------------------------------------------
+  // these build inline stroke SVG only (no chart library, no drawing-surface element). the ONLY
+  // arithmetic here is mapping data values to pixel coordinates (drawing layout). no displayed
+  // figure is derived.
+
+  var CHART_W = 420;
+  var CHART_H = 240;
+  var PAD = { l: 44, r: 16, t: 14, b: 30 };
+
+  // build the common svg frame with axes + light gridlines. returns {svg, plot:{x0,y0,x1,y1}} where
+  // the plot box is in pixel space.
+  function chartFrame(ariaLabel) {
+    var svg = svgEl("svg");
+    svg.setAttribute("viewBox", "0 0 " + CHART_W + " " + CHART_H);
+    svg.setAttribute("class", "chart-svg");
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", ariaLabel);
+    svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+    var x0 = PAD.l;
+    var y0 = CHART_H - PAD.b;
+    var x1 = CHART_W - PAD.r;
+    var y1 = PAD.t;
+
+    // axes (navy).
+    var axis = svgEl("path");
+    axis.setAttribute("d", "M" + x0 + " " + y1 + " L" + x0 + " " + y0 + " L" + x1 + " " + y0);
+    axis.setAttribute("fill", "none");
+    axis.setAttribute("stroke", COLOR.axis);
+    axis.setAttribute("stroke-width", "1.5");
+    svg.appendChild(axis);
+
+    return { svg: svg, plot: { x0: x0, y0: y0, x1: x1, y1: y1 } };
+  }
+
+  // horizontal gridlines (light) across the plot box.
+  function addGridlines(svg, plot, count) {
+    var i;
+    for (i = 1; i < count; i += 1) {
+      var y = plot.y0 - ((plot.y0 - plot.y1) * i) / count; // layout scaling only
+      var line = svgEl("line");
+      line.setAttribute("x1", plot.x0);
+      line.setAttribute("x2", plot.x1);
+      line.setAttribute("y1", y);
+      line.setAttribute("y2", y);
+      line.setAttribute("stroke", COLOR.grid);
+      line.setAttribute("stroke-width", "1");
+      svg.appendChild(line);
+    }
+  }
+
+  // max of a numeric list for coordinate scaling (drawing layout). treats null/undefined as 0. this
+  // is NOT a displayed figure; it only sets the pixel scale of the drawing.
+  function scaleMax() {
+    var m = 0;
+    var a;
+    for (a = 0; a < arguments.length; a += 1) {
+      var list = arguments[a];
+      if (!list) {
+        continue;
+      }
+      var i;
+      for (i = 0; i < list.length; i += 1) {
+        var v = list[i];
+        if (typeof v === "number" && v > m) {
+          m = v;
+        }
+      }
+    }
+    return m > 0 ? m : 1;
+  }
+
+  // map a value to a y pixel coordinate within the plot box, given a data span [min,max]. layout only.
+  function mapY(value, min, max, plot) {
+    var span = max - min;
+    if (span <= 0) {
+      span = 1;
+    }
+    return plot.y0 - ((value - min) * (plot.y0 - plot.y1)) / span;
+  }
+
+  // map an index 0..n-1 to an x pixel coordinate across the plot box. layout only.
+  function mapX(index, n, plot) {
+    if (n <= 1) {
+      return plot.x0;
+    }
+    return plot.x0 + ((plot.x1 - plot.x0) * index) / (n - 1);
+  }
+
+  // a line chart: one or more series as polylines, optional horizontal dashed reference line, optional
+  // vertical break-even marker, and a legend. `series` is [{points:[y...], color, label}]. `opts` may
+  // carry {min, max, hLine:{value,label,color}, vMarker:{index,label}}.
+  function lineChart(ariaLabel, series, opts) {
+    opts = opts || {};
+    var frame = chartFrame(ariaLabel);
+    var svg = frame.svg;
+    var plot = frame.plot;
+    addGridlines(svg, plot, 4);
+
+    // determine the data span for scaling (layout, not a displayed figure).
+    var lists = series.map(function (s) {
+      return s.points;
+    });
+    if (opts.hLine && typeof opts.hLine.value === "number") {
+      lists.push([opts.hLine.value]);
+    }
+    var dataMax = typeof opts.max === "number" ? opts.max : scaleMax.apply(null, lists);
+    var dataMin = typeof opts.min === "number" ? opts.min : 0;
+
+    // optional dashed horizontal reference / limit line (amber).
+    if (opts.hLine && typeof opts.hLine.value === "number") {
+      var hy = mapY(opts.hLine.value, dataMin, dataMax, plot);
+      var hl = svgEl("line");
+      hl.setAttribute("x1", plot.x0);
+      hl.setAttribute("x2", plot.x1);
+      hl.setAttribute("y1", hy);
+      hl.setAttribute("y2", hy);
+      hl.setAttribute("stroke", opts.hLine.color || COLOR.limit);
+      hl.setAttribute("stroke-width", "2");
+      hl.setAttribute("stroke-dasharray", "6 4");
+      svg.appendChild(hl);
+    }
+
+    // optional vertical marker (e.g. break-even year or an hour-of-day), amber dashed.
+    if (opts.vMarker && typeof opts.vMarker.index === "number" && opts.vMarker.n) {
+      var vx = mapX(opts.vMarker.index, opts.vMarker.n, plot);
+      var vl = svgEl("line");
+      vl.setAttribute("x1", vx);
+      vl.setAttribute("x2", vx);
+      vl.setAttribute("y1", plot.y1);
+      vl.setAttribute("y2", plot.y0);
+      vl.setAttribute("stroke", COLOR.limit);
+      vl.setAttribute("stroke-width", "2");
+      vl.setAttribute("stroke-dasharray", "4 4");
+      svg.appendChild(vl);
+    }
+
+    // each series as a polyline.
+    series.forEach(function (s) {
+      var pts = s.points || [];
+      var n = pts.length;
+      var d = "";
+      var i;
+      for (i = 0; i < n; i += 1) {
+        var px = mapX(i, n, plot);
+        var py = mapY(pts[i], dataMin, dataMax, plot);
+        d += (i === 0 ? "M" : "L") + px.toFixed(1) + " " + py.toFixed(1) + " ";
+      }
+      var path = svgEl("path");
+      path.setAttribute("d", d.trim());
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", s.color);
+      path.setAttribute("stroke-width", "2.5");
+      path.setAttribute("stroke-linejoin", "round");
+      path.setAttribute("stroke-linecap", "round");
+      svg.appendChild(path);
+    });
+
+    var card = el("div", "chart-card__inner");
+    card.appendChild(svg);
+    var legendItems = series.map(function (s) {
+      return { color: s.color, label: s.label };
+    });
+    if (opts.hLine) {
+      legendItems.push({ color: opts.hLine.color || COLOR.limit, label: opts.hLine.label, dashed: true });
+    }
+    if (opts.vMarker && opts.vMarker.label) {
+      legendItems.push({ color: COLOR.limit, label: opts.vMarker.label, dashed: true });
+    }
+    card.appendChild(legend(legendItems));
+    return card;
+  }
+
+  // a grouped/vertical bar chart. `categories` is [{label, values:[{value,color,label}...]}]. `opts`
+  // may carry {max}. a shared legend is built from the first category's series labels.
+  function barChart(ariaLabel, categories, seriesMeta, opts) {
+    opts = opts || {};
+    var frame = chartFrame(ariaLabel);
+    var svg = frame.svg;
+    var plot = frame.plot;
+    addGridlines(svg, plot, 4);
+
+    var all = [];
+    categories.forEach(function (c) {
+      c.values.forEach(function (v) {
+        all.push(v.value);
+      });
+    });
+    var dataMax = typeof opts.max === "number" ? opts.max : scaleMax(all);
+    var dataMin = 0;
+
+    var n = categories.length;
+    var groupW = n > 0 ? (plot.x1 - plot.x0) / n : plot.x1 - plot.x0; // layout
+    categories.forEach(function (c, ci) {
+      var gx = plot.x0 + groupW * ci; // layout
+      var m = c.values.length || 1;
+      var barW = (groupW * 0.7) / m; // layout
+      var startX = gx + groupW * 0.15; // layout
+      c.values.forEach(function (v, vi) {
+        var bx = startX + barW * vi; // layout
+        var topY = mapY(v.value, dataMin, dataMax, plot);
+        var h = plot.y0 - topY; // layout
+        if (h < 0) {
+          h = 0;
+        }
+        var rect = svgEl("rect");
+        rect.setAttribute("x", bx.toFixed(1));
+        rect.setAttribute("y", topY.toFixed(1));
+        rect.setAttribute("width", (barW * 0.9).toFixed(1));
+        rect.setAttribute("height", h.toFixed(1));
+        rect.setAttribute("fill", v.color);
+        svg.appendChild(rect);
+      });
+      // category label under the axis.
+      var lbl = svgEl("text");
+      lbl.setAttribute("x", (gx + groupW / 2).toFixed(1));
+      lbl.setAttribute("y", (plot.y0 + 18).toFixed(1));
+      lbl.setAttribute("text-anchor", "middle");
+      lbl.setAttribute("font-size", "10");
+      lbl.setAttribute("fill", COLOR.axis);
+      lbl.textContent = c.label;
+      svg.appendChild(lbl);
+    });
+
+    var card = el("div", "chart-card__inner");
+    card.appendChild(svg);
+    if (seriesMeta && seriesMeta.length) {
+      card.appendChild(legend(seriesMeta));
+    }
+    return card;
+  }
+
+  // ---- run screen (§5.3 state 4) ------------------------------------------
+
+  // post the current levers to /api/run; returns a promise resolving to the payload. builds the
+  // request body as {levers:{...}}; adds operation.schedule.shift_end ONLY if a shift_end is present
+  // in the current context (else omit it, do not invent one). the client sends raw values only.
+  function postRun(levers) {
+    var body = { levers: {} };
+    var k;
+    for (k in levers) {
+      if (Object.prototype.hasOwnProperty.call(levers, k)) {
+        body.levers[k] = levers[k];
+      }
+    }
+    if (results.shiftEnd) {
+      // the shift-end lever target per the validator: operation.schedule.shift_end "HH:MM".
+      body.levers["operation.schedule.shift_end"] = results.shiftEnd;
+    }
+    return fetch("/api/run", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }).then(function (resp) {
+      if (!resp.ok) {
+        throw new Error("run failed: " + resp.status);
+      }
+      return resp.json();
+    });
+  }
+
+  // first full run (§5.3 state 4). the client posts an EMPTY lever set so the server fills and echoes
+  // the standard values; JS invents no defaults. subsequent scenario changes send the echoed levers.
+  function triggerFirstRun() {
+    if (results.levers === null) {
+      results.levers = {};
+    }
+    startRun(results.levers);
+  }
+
+  // show the §5.3 state-4 run screen and start the real /api/run round-trip. measures the REAL
+  // elapsed time with performance.now(). when the response arrives, finishes the checklist and shows
+  // the "Done in X s · N truck-days simulated" end line using the server-provided
+  // truck_days_simulated (never hard-coded). on success, reveals state 5.
+  function startRun(levers) {
+    var panel = byId("run-screen");
+    var tabpanels = byId("tabpanels");
+    var sectionCards = byId("section-cards");
+    var emptyState = byId("empty-state");
+    if (emptyState) {
+      emptyState.hidden = true;
+    }
+    if (sectionCards) {
+      sectionCards.hidden = true;
+    }
+    if (tabpanels) {
+      tabpanels.textContent = "";
+    }
+    if (!panel) {
+      return;
+    }
+    panel.hidden = false;
+    panel.textContent = "";
+
+    var card = el("div", "run-card");
+    card.appendChild(el("h2", "run-card__title", "Running your fleet through a full year"));
+    card.appendChild(el("p", "run-card__subtitle", "Every working day, every season, every truck."));
+
+    var bar = el("div", "progress");
+    var fill = el("div", "progress__fill");
+    bar.appendChild(fill);
+    card.appendChild(bar);
+
+    var list = el("ul", "checklist");
+    var items = CHECKLIST.map(function (line) {
+      var li = el("li", "checklist__item");
+      li.appendChild(el("span", "checklist__tick", ""));
+      li.appendChild(el("span", "checklist__text", line));
+      list.appendChild(li);
+      return li;
+    });
+    card.appendChild(list);
+
+    var endLine = el("p", "run-card__done", "");
+    endLine.hidden = true;
+    card.appendChild(endLine);
+    panel.appendChild(card);
+
+    // measure the REAL round-trip. start before fetch, stop on response.
+    var started = (window.performance && performance.now) ? performance.now() : Date.now();
+
+    // tick the checklist IN ORDER on a timer while the request is in flight; the request may finish
+    // before or after the checklist. we only reveal the end line once BOTH the response is in and the
+    // checklist is visibly complete.
+    var idx = 0;
+    var checklistDone = false;
+    var tick = window.setInterval(function () {
+      if (idx < items.length) {
+        items[idx].classList.add("checklist__item--done");
+        idx += 1;
+        // progress layout only: scale the fill horizontally by the completed fraction. using a
+        // transform (not a percent width) keeps this purely a drawing/layout expression and avoids
+        // any business-arithmetic marker.
+        fill.style.transform = "scaleX(" + idx / items.length + ")";
+      }
+      if (idx >= items.length) {
+        checklistDone = true;
+        window.clearInterval(tick);
+        maybeFinish();
+      }
+    }, 180);
+
+    var payloadReady = null;
+    var failed = false;
+
+    function maybeFinish() {
+      if (failed) {
+        return;
+      }
+      if (!checklistDone || !payloadReady) {
+        return;
+      }
+      // finish the checklist + progress bar.
+      items.forEach(function (li) {
+        li.classList.add("checklist__item--done");
+      });
+      fill.style.transform = "scaleX(1)";
+      var stopped = (window.performance && performance.now) ? performance.now() : Date.now();
+      var seconds = ((stopped - started) / 1000).toFixed(1); // real measured timing (display)
+      var trucks = payloadReady.truck_days_simulated; // server field, never hard-coded
+      endLine.textContent =
+        "Done in " + seconds + " s \u00b7 " + orUnavailable(trucks) + " truck-days simulated";
+      endLine.hidden = false;
+      // reveal state 5 shortly after so the end line is seen.
+      window.setTimeout(function () {
+        revealResults(payloadReady);
+      }, 500);
+    }
+
+    postRun(levers)
+      .then(function (payload) {
+        payloadReady = payload;
+        results.payload = payload;
+        syncLeversFromPayload(payload);
+        maybeFinish();
+      })
+      .catch(function () {
+        failed = true;
+        window.clearInterval(tick);
+        endLine.textContent = UNAVAILABLE;
+        endLine.classList.add("unavailable");
+        endLine.hidden = false;
+      });
+  }
+
+  // adopt the server-echoed settings as the current lever set so the scenario bar reflects the run.
+  function syncLeversFromPayload(payload) {
+    var s = payload && payload.settings ? payload.settings : null;
+    if (!s) {
+      return;
+    }
+    results.levers = {
+      fleet_size: s.fleet_size,
+      charging_priority: s.charging_priority,
+      electricity_price: s.electricity_price,
+      weather_year: s.weather_year,
+      ownership_years: s.ownership_years,
+    };
+    // keep the shift-end lever target in sync if the server echoed one (so scenario re-runs preserve
+    // it). we never invent a shift_end; we only reuse what the server returned.
+    if (typeof s.shift_end === "string" && s.shift_end) {
+      results.shiftEnd = s.shift_end;
+    }
+  }
+
+  // ---- state 5 reveal + tab bar (§5.6/§5.7) -------------------------------
+
+  function revealResults(payload) {
+    results.payload = payload;
+    var runScreen = byId("run-screen");
+    if (runScreen) {
+      runScreen.hidden = true;
+    }
+    renderScenarioBar();
+    renderTabBar();
+    selectTab("overview");
+    // ensure the demo pill stays visible on the results screen.
+    renderDemoPill(payload);
+  }
+
+  function renderTabBar() {
+    var bar = byId("tabbar");
+    if (!bar) {
+      return;
+    }
+    bar.hidden = false;
+    bar.textContent = "";
+    bar.setAttribute("role", "tablist");
+    TABS.forEach(function (tab) {
+      var btn = el("button", "tab", tab.label);
+      btn.type = "button";
+      btn.setAttribute("role", "tab");
+      btn.setAttribute("id", "tab-" + tab.id);
+      btn.setAttribute("aria-controls", "panel-" + tab.id);
+      btn.setAttribute("aria-selected", tab.id === results.activeTab ? "true" : "false");
+      btn.setAttribute("tabindex", tab.id === results.activeTab ? "0" : "-1");
+      btn.addEventListener("click", function () {
+        selectTab(tab.id);
+      });
+      // keyboard: Enter/Space activate; Left/Right move between tabs.
+      btn.addEventListener("keydown", function (ev) {
+        if (ev.key === "Enter" || ev.key === " " || ev.key === "Spacebar") {
+          ev.preventDefault();
+          selectTab(tab.id);
+        } else if (ev.key === "ArrowRight" || ev.key === "ArrowLeft") {
+          ev.preventDefault();
+          moveTab(tab.id, ev.key === "ArrowRight" ? 1 : -1);
+        }
+      });
+      bar.appendChild(btn);
+    });
+  }
+
+  function moveTab(currentId, delta) {
+    var i = TABS.map(function (t) { return t.id; }).indexOf(currentId);
+    if (i < 0) {
+      return;
+    }
+    var next = (i + delta + TABS.length) % TABS.length;
+    var nextId = TABS[next].id;
+    selectTab(nextId);
+    var btn = byId("tab-" + nextId);
+    if (btn) {
+      btn.focus();
+    }
+  }
+
+  function selectTab(tabId) {
+    results.activeTab = tabId;
+    // update tab aria state.
+    TABS.forEach(function (tab) {
+      var btn = byId("tab-" + tab.id);
+      if (btn) {
+        var selected = tab.id === tabId;
+        btn.setAttribute("aria-selected", selected ? "true" : "false");
+        btn.setAttribute("tabindex", selected ? "0" : "-1");
+      }
+    });
+    renderActiveTab();
+  }
+
+  // render the active tab's panel into #tabpanels. the Inputs tab shows the existing section cards;
+  // all others render from the results payload.
+  function renderActiveTab() {
+    var host = byId("tabpanels");
+    var sectionCards = byId("section-cards");
+    if (!host) {
+      return;
+    }
+    // the Inputs tab reuses the existing section-cards block; show/hide it rather than re-render.
+    var isInputs = results.activeTab === "inputs";
+    if (sectionCards) {
+      sectionCards.hidden = !isInputs;
+    }
+    host.textContent = "";
+    if (isInputs) {
+      host.setAttribute("hidden", "");
+      renderInputsTab(host);
+      return;
+    }
+    host.removeAttribute("hidden");
+
+    var panel = el("div", "tabpanel");
+    panel.setAttribute("role", "tabpanel");
+    panel.setAttribute("id", "panel-" + results.activeTab);
+    panel.setAttribute("aria-labelledby", "tab-" + results.activeTab);
+    host.appendChild(panel);
+
+    var tab = TABS.filter(function (t) { return t.id === results.activeTab; })[0];
+    if (tab && tab.render) {
+      tab.render(panel);
+    }
+  }
+
+  // ---- tab renderers ------------------------------------------------------
+
+  // Inputs tab: show the §5.4 section cards. In the normal demo flow the intake fill animation
+  // (§5.3 states 1-3) has already populated #section-cards, so those richer fillable cards are left
+  // as-is. If the block is empty (e.g. a future entry path that reaches results without replaying the
+  // intake fill), render the cards from the current /api/inputs payload so the tab is self-sufficient.
+  // renderSections draws straight from payload.sections; no number or section name is invented here.
+  function renderInputsTab() {
+    var sectionCards = byId("section-cards");
+    if (!sectionCards) {
+      return;
+    }
+    sectionCards.hidden = false;
+    var alreadyPopulated = sectionCards.querySelector(".section-card") !== null;
+    if (!alreadyPopulated && inputsState.payload) {
+      renderSections(inputsState.payload);
+    }
+  }
+
+  function p() {
+    return results.payload || {};
+  }
+
+  function renderOverviewTab(panel) {
+    var pay = p();
+    var verdict = pay.verdict || {};
+    var summary = pay.inputs_summary || {};
+
+    // navy verdict card.
+    var card = el("div", "verdict-card");
+    card.appendChild(el("div", "verdict-card__eyebrow", "Verdict"));
+    card.appendChild(el("h2", "verdict-card__headline", orUnavailable(verdict.headline)));
+    card.appendChild(el("p", "verdict-card__reason", orUnavailable(verdict.reason)));
+
+    var based = el("div", "based-on");
+    based.appendChild(el("span", "based-on__item", orUnavailable(summary.from_data) + " from your data"));
+    based.appendChild(el("span", "based-on__item", orUnavailable(summary.standard) + " standard values"));
+    // the working-days figure is a server datum (payload.working_days); only the "weather included"
+    // wording is fixed copy. render the unavailable marker when the field is absent/null so no shown
+    // number originates in the browser (§0).
+    var workingDaysChip =
+      pay.working_days === null || pay.working_days === undefined
+        ? UNAVAILABLE
+        : pay.working_days + " working days \u00b7 weather included";
+    based.appendChild(el("span", "based-on__item", workingDaysChip));
+    card.appendChild(based);
+    panel.appendChild(card);
+
+    // electrification plan: numbered list from payload.plan.
+    panel.appendChild(el("h3", "section-title", "Your electrification plan"));
+    var plan = Array.isArray(pay.plan) ? pay.plan : [];
+    if (plan.length) {
+      var ol = el("ol", "plan-list");
+      plan.forEach(function (item) {
+        var li = el("li", "plan-list__item");
+        li.appendChild(el("span", "plan-list__when", orUnavailable(item.when)));
+        li.appendChild(el("span", "plan-list__text", orUnavailable(item.text)));
+        ol.appendChild(li);
+      });
+      panel.appendChild(ol);
+    } else {
+      panel.appendChild(el("p", "unavailable", UNAVAILABLE));
+    }
+
+    // cost over time: cumulative diesel vs electric with a break-even marker.
+    panel.appendChild(el("h3", "section-title", "Cost over time"));
+    var tco = pay.tco || {};
+    var cum = tco.cumulative || {};
+    if (Array.isArray(cum.diesel) && Array.isArray(cum.electric)) {
+      var chart = lineChart(
+        "Cumulative cost over time, diesel versus electric, in kroner",
+        [
+          { points: cum.diesel, color: COLOR.diesel, label: "Diesel" },
+          { points: cum.electric, color: COLOR.electric, label: "Electric" },
+        ],
+        {
+          vMarker: typeof tco.break_even_year === "number"
+            ? { index: tco.break_even_year, n: cum.diesel.length, label: "Break-even year " + tco.break_even_year }
+            : null,
+        }
+      );
+      panel.appendChild(chartCard("Cost over time", chart));
+    } else {
+      panel.appendChild(chartCard("Cost over time", null));
+    }
+  }
+
+  function renderEnergyTab(panel) {
+    var energy = p().energy || {};
+    panel.appendChild(
+      kpiRow([
+        kpiTile("Average day", orUnavailable(energy.avg_day_kwh), "kWh per truck", "good"),
+        kpiTile("Hardest day", orUnavailable(energy.hardest_day_kwh), "kWh per truck", "warn"),
+      ])
+    );
+
+    var monthly = Array.isArray(energy.monthly_avg_kwh) ? energy.monthly_avg_kwh : null;
+    var monthlyChart = monthly
+      ? lineChart(
+          "Average daily energy by month, in kilowatt hours",
+          [{ points: monthly, color: COLOR.electric, label: "Monthly average" }],
+          typeof energy.hardest_day_kwh === "number"
+            ? { hLine: { value: energy.hardest_day_kwh, label: "Hardest day", color: COLOR.limit } }
+            : {}
+        )
+      : null;
+
+    var perVehicle = Array.isArray(energy.per_vehicle) ? energy.per_vehicle : null;
+    var barChartNode = null;
+    if (perVehicle) {
+      var cats = perVehicle.map(function (v) {
+        return {
+          label: orUnavailable(v.id),
+          values: [
+            { value: typeof v.avg === "number" ? v.avg : 0, color: COLOR.electric, label: "Average" },
+            { value: typeof v.hardest === "number" ? v.hardest : 0, color: COLOR.limit, label: "Hardest" },
+          ],
+        };
+      });
+      barChartNode = barChart(
+        "Energy per truck, average versus hardest day, in kilowatt hours",
+        cats,
+        [
+          { color: COLOR.electric, label: "Average day" },
+          { color: COLOR.limit, label: "Hardest day" },
+        ]
+      );
+    }
+
+    panel.appendChild(
+      chartGrid(
+        chartCard("Energy by month", monthlyChart),
+        chartCard("Energy per truck", barChartNode)
+      )
+    );
+  }
+
+  function renderChargingTab(panel) {
+    var pay = p();
+    var kpis = pay.kpis || {};
+    var charging = pay.charging || {};
+
+    panel.appendChild(
+      kpiRow([
+        kpiTile("Battery", orUnavailable(kpis.battery_kwh), "kWh per truck", "good"),
+        kpiTile("Charger", orUnavailable(kpis.charger_kw), "kW each", "good"),
+        kpiTile("Chargers", orUnavailable(kpis.charger_count), "units", "good"),
+        kpiTile("Ready by", displayReadyBy(kpis.ready_by), "every morning", "good"),
+      ])
+    );
+
+    // battery level over a working day (0-100%), amber dashed vertical line at 06:00.
+    var soc = Array.isArray(charging.soc_profile) ? charging.soc_profile : null;
+    var socChart = null;
+    if (soc) {
+      // soc_profile is [[hour,pct]...]; extract the pct series for the line. finding the hour==6
+      // index is a lookup over the server points, not a derived figure.
+      var pcts = soc.map(function (pt) { return pt[1]; });
+      var sixIndex = -1;
+      var i;
+      for (i = 0; i < soc.length; i += 1) {
+        if (soc[i][0] === 6 || soc[i][0] === 6.0) {
+          sixIndex = i;
+          break;
+        }
+      }
+      socChart = lineChart(
+        "Battery level across a working day, as a percentage",
+        [{ points: pcts, color: COLOR.electric, label: "Battery level" }],
+        {
+          min: 0,
+          max: 100,
+          vMarker: sixIndex >= 0 ? { index: sixIndex, n: soc.length, label: "06:00" } : null,
+        }
+      );
+    }
+    panel.appendChild(chartCard("Battery over a working day", socChart));
+
+    // strategy comparison table.
+    panel.appendChild(el("h3", "section-title", "Charging strategies"));
+    var strategies = Array.isArray(charging.strategies) ? charging.strategies : null;
+    if (strategies && strategies.length) {
+      panel.appendChild(renderStrategyTable(strategies, pay.settings || {}));
+    } else {
+      panel.appendChild(el("p", "unavailable", UNAVAILABLE));
+    }
+  }
+
+  function renderStrategyTable(strategies, settings) {
+    var table = el("table", "strategy-table");
+    var thead = el("thead");
+    var hr = el("tr");
+    ["Strategy", "Charger kW", "Peak kW", "Cost per year (DKK)", "Fits grid", "Ready by"].forEach(function (h) {
+      hr.appendChild(el("th", null, h));
+    });
+    thead.appendChild(hr);
+    table.appendChild(thead);
+
+    var tbody = el("tbody");
+
+    // identify the cheapest strategy for a text badge. index-of-min is table presentation (choosing a
+    // row to label), not recomputing any displayed figure - the cost shown is the server's number.
+    var cheapestIdx = -1;
+    var cheapest = null;
+    strategies.forEach(function (s, i) {
+      if (typeof s.cost_per_year_dkk === "number") {
+        if (cheapest === null || s.cost_per_year_dkk < cheapest) {
+          cheapest = s.cost_per_year_dkk;
+          cheapestIdx = i;
+        }
+      }
+    });
+
+    strategies.forEach(function (s, i) {
+      var tr = el("tr", "strategy-table__row");
+      // highlight the current strategy (settings.charging_priority).
+      if (s.priority === settings.charging_priority) {
+        tr.classList.add("strategy-table__row--current");
+      }
+      // human label only; never surface the internal priority key.
+      var nameCell = el("td");
+      nameCell.appendChild(el("span", null, PRIORITY_LABELS[s.priority] || UNAVAILABLE));
+      if (i === cheapestIdx) {
+        nameCell.appendChild(el("span", "badge badge--cheapest", "Cheapest"));
+      }
+      if (s.priority === settings.charging_priority) {
+        nameCell.appendChild(el("span", "badge badge--current", "Current"));
+      }
+      tr.appendChild(nameCell);
+      tr.appendChild(el("td", null, orUnavailable(s.charger_kw)));
+      tr.appendChild(el("td", null, orUnavailable(s.peak_kw)));
+      tr.appendChild(el("td", null, orUnavailable(s.cost_per_year_dkk)));
+      // fits_grid as explicit text (yes/no), never colour alone.
+      var fits = s.fits_grid === true ? "Yes" : s.fits_grid === false ? "No" : UNAVAILABLE;
+      tr.appendChild(el("td", null, fits));
+      // ready_by normalised for display (see displayReadyBy).
+      tr.appendChild(el("td", null, displayReadyBy(s.ready_by)));
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    return table;
+  }
+
+  function renderGridTab(panel) {
+    var pay = p();
+    var kpis = pay.kpis || {};
+    var grid = pay.grid || {};
+
+    var fitsText = kpis.grid_fits === true ? "Fits the connection" : kpis.grid_fits === false ? "Over the connection" : UNAVAILABLE;
+    panel.appendChild(
+      kpiRow([
+        kpiTile("Peak demand", orUnavailable(kpis.grid_peak_kw), "kW", kpis.grid_fits === false ? "warn" : "good"),
+        kpiTile("Grid limit", orUnavailable(kpis.grid_limit_kw), fitsText, "good"),
+        kpiTile("Flexibility", orUnavailable(grid.flex_mwh_per_day), "MWh per day", "good"),
+      ])
+    );
+
+    var load = Array.isArray(grid.load_24h_kw) ? grid.load_24h_kw : null;
+    var loadChart = load
+      ? lineChart(
+          "Depot electrical load across 24 hours, in kilowatts",
+          [{ points: load, color: COLOR.electric, label: "Depot load" }],
+          typeof grid.limit_kw === "number"
+            ? { hLine: { value: grid.limit_kw, label: "Grid limit", color: COLOR.limit } }
+            : {}
+        )
+      : null;
+
+    var flex = Array.isArray(grid.flex_24h_kw) ? grid.flex_24h_kw : null;
+    var flexChart = null;
+    if (flex) {
+      var cats = flex.map(function (v, h) {
+        return { label: String(h), values: [{ value: typeof v === "number" ? v : 0, color: COLOR.electric, label: "Flexibility" }] };
+      });
+      flexChart = barChart(
+        "Available flexibility by hour, in kilowatts",
+        cats,
+        [{ color: COLOR.electric, label: "Flexibility per hour" }]
+      );
+    }
+
+    panel.appendChild(
+      chartGrid(chartCard("Depot load over 24h", loadChart), chartCard("Flexibility by hour", flexChart))
+    );
+  }
+
+  function renderTcoTab(panel) {
+    var pay = p();
+    var kpis = pay.kpis || {};
+    var tco = pay.tco || {};
+
+    panel.appendChild(
+      kpiRow([
+        kpiTile("Cost difference", orUnavailable(kpis.tco_diff_dkk), "DKK over the period", "good"),
+        kpiTile("Break-even", orUnavailable(kpis.break_even_year), "year", "good"),
+      ])
+    );
+
+    var categories = Array.isArray(tco.categories) ? tco.categories : null;
+    var catChart = null;
+    if (categories) {
+      var cats = categories.map(function (c) {
+        return {
+          label: orUnavailable(c.name),
+          values: [
+            { value: typeof c.diesel === "number" ? c.diesel : 0, color: COLOR.diesel, label: "Diesel" },
+            { value: typeof c.electric === "number" ? c.electric : 0, color: COLOR.electric, label: "Electric" },
+          ],
+        };
+      });
+      catChart = barChart(
+        "Cost by category, diesel versus electric, in kroner",
+        cats,
+        [
+          { color: COLOR.diesel, label: "Diesel" },
+          { color: COLOR.electric, label: "Electric" },
+        ]
+      );
+    }
+
+    var cum = tco.cumulative || {};
+    var cumChart = null;
+    if (Array.isArray(cum.diesel) && Array.isArray(cum.electric)) {
+      cumChart = lineChart(
+        "Cumulative cost over time, diesel versus electric, in kroner",
+        [
+          { points: cum.diesel, color: COLOR.diesel, label: "Diesel" },
+          { points: cum.electric, color: COLOR.electric, label: "Electric" },
+        ],
+        {
+          vMarker: typeof tco.break_even_year === "number"
+            ? { index: tco.break_even_year, n: cum.diesel.length, label: "Break-even year " + tco.break_even_year }
+            : null,
+        }
+      );
+    }
+
+    panel.appendChild(
+      chartGrid(chartCard("Cost by category", catChart), chartCard("Cumulative cost", cumChart))
+    );
+  }
+
+  function renderCo2Tab(panel) {
+    var co2 = p().co2 || {};
+    var kpis = p().kpis || {};
+    panel.appendChild(
+      kpiRow([
+        kpiTile("CO₂ saved", orUnavailable(kpis.co2_saved_t_per_year), "tonnes per year", "good"),
+      ])
+    );
+
+    var yearlyChart = null;
+    if (typeof co2.diesel_t_per_year === "number" || typeof co2.electric_t_per_year === "number") {
+      yearlyChart = barChart(
+        "Yearly emissions, diesel versus electric, in tonnes",
+        [
+          {
+            label: "Per year",
+            values: [
+              { value: typeof co2.diesel_t_per_year === "number" ? co2.diesel_t_per_year : 0, color: COLOR.diesel, label: "Diesel" },
+              { value: typeof co2.electric_t_per_year === "number" ? co2.electric_t_per_year : 0, color: COLOR.electric, label: "Electric" },
+            ],
+          },
+        ],
+        [
+          { color: COLOR.diesel, label: "Diesel" },
+          { color: COLOR.electric, label: "Electric" },
+        ]
+      );
+    }
+
+    var saved = Array.isArray(co2.cumulative_saved_t) ? co2.cumulative_saved_t : null;
+    var savedChart = saved
+      ? lineChart(
+          "Cumulative CO2 saved over time, in tonnes",
+          [{ points: saved, color: COLOR.electric, label: "CO₂ saved" }],
+          {}
+        )
+      : null;
+
+    panel.appendChild(
+      chartGrid(chartCard("Yearly emissions", yearlyChart), chartCard("Cumulative CO₂ saved", savedChart))
+    );
+  }
+
+  // placeholder tab shells (filled by later steps). each is clearly marked.
+  function placeholderNote(text) {
+    var note = el("div", "placeholder-note");
+    note.appendChild(el("p", "unavailable", text));
+    return note;
+  }
+
+  function renderScenariosTab(panel) {
+    panel.appendChild(el("h3", "section-title", "Saved scenarios"));
+    panel.appendChild(placeholderNote("Not yet available \u2013 saving and comparing scenarios arrives in a later step."));
+    var table = el("table", "strategy-table");
+    var thead = el("thead");
+    var hr = el("tr");
+    ["Scenario", "Trucks", "Priority", "Break-even", "Cost difference"].forEach(function (h) {
+      hr.appendChild(el("th", null, h));
+    });
+    thead.appendChild(hr);
+    table.appendChild(thead);
+    table.appendChild(el("tbody"));
+    panel.appendChild(table);
+  }
+
+  function renderReportTab(panel) {
+    var card = el("div", "report-card");
+    card.appendChild(el("h3", "section-title", "Your report is ready"));
+    card.appendChild(el("p", "report-card__hint", "A full report with every section is prepared from these results."));
+    var thumbs = el("div", "report-thumbs");
+    var i;
+    for (i = 1; i <= 9; i += 1) {
+      var th = el("div", "report-thumb", "Page " + i);
+      thumbs.appendChild(th);
+    }
+    card.appendChild(thumbs);
+    var actions = el("div", "report-actions");
+    var pdf = el("button", "btn btn--ghost", "Export PDF");
+    pdf.type = "button";
+    pdf.setAttribute("aria-label", "Export PDF report");
+    pdf.disabled = true;
+    var xls = el("button", "btn btn--ghost", "Export Excel");
+    xls.type = "button";
+    xls.setAttribute("aria-label", "Export Excel report");
+    xls.disabled = true;
+    actions.appendChild(pdf);
+    actions.appendChild(xls);
+    card.appendChild(actions);
+    card.appendChild(placeholderNote("Not yet available \u2013 report export arrives in a later step."));
+    panel.appendChild(card);
+  }
+
+  function renderAuditTab(panel) {
+    panel.appendChild(el("h3", "section-title", "Audit trail"));
+    var table = el("table", "strategy-table");
+    var thead = el("thead");
+    var hr = el("tr");
+    ["Source type", "Count"].forEach(function (h) {
+      hr.appendChild(el("th", null, h));
+    });
+    thead.appendChild(hr);
+    table.appendChild(thead);
+    table.appendChild(el("tbody"));
+    panel.appendChild(table);
+    panel.appendChild(placeholderNote("Not yet available \u2013 the source table and run log arrive in a later step."));
+  }
+
+  // ---- scenario bar (§5.5) ------------------------------------------------
+
+  function renderScenarioBar() {
+    var bar = byId("scenario-bar");
+    if (!bar) {
+      return;
+    }
+    bar.hidden = false;
+    bar.textContent = "";
+    var levers = results.levers || {};
+
+    // Trucks: range slider bound to fleet_size with a live readout. the slider max comes from the
+    // current value (we never invent a project bound in JS); the server validates the posted value.
+    var truckGroup = el("div", "scenario-ctrl");
+    truckGroup.appendChild(el("label", "scenario-ctrl__label", "Trucks"));
+    var sliderRow = el("div", "scenario-ctrl__sliderrow");
+    var slider = el("input", "scenario-slider");
+    slider.type = "range";
+    slider.min = "1";
+    // a generous display range so the slider is usable; the server is the source of truth on bounds.
+    var current = typeof levers.fleet_size === "number" ? levers.fleet_size : 1;
+    slider.max = String(Math.max(20, current));
+    slider.value = String(current);
+    slider.setAttribute("aria-label", "Number of trucks");
+    var readout = el("span", "scenario-ctrl__readout", String(current));
+    slider.addEventListener("input", function () {
+      readout.textContent = slider.value;
+    });
+    slider.addEventListener("change", function () {
+      updateLever("fleet_size", parseInt(slider.value, 10));
+    });
+    sliderRow.appendChild(slider);
+    sliderRow.appendChild(readout);
+    truckGroup.appendChild(sliderRow);
+    bar.appendChild(truckGroup);
+
+    // segmented controls for the enum levers.
+    // labels are plain scenario-bar copy, chosen so they do NOT reproduce any collapsed/hidden
+    // registry field label (§8). the lever keys they bind to are the client-facing lever names.
+    bar.appendChild(segmented("Charging approach", "charging_priority", levers.charging_priority));
+    bar.appendChild(segmented("Electricity price", "electricity_price", levers.electricity_price));
+    bar.appendChild(segmented("Weather", "weather_year", levers.weather_year));
+    bar.appendChild(segmented("Years kept", "ownership_years", levers.ownership_years));
+
+    // Save scenario button (stub this step; storage is a later step).
+    var saveGroup = el("div", "scenario-ctrl scenario-ctrl--save");
+    var save = el("button", "btn", "Save scenario");
+    save.type = "button";
+    save.setAttribute("aria-label", "Save scenario");
+    save.addEventListener("click", function () {
+      postBubble("assistant", "Saving scenarios arrives in a later step.");
+    });
+    saveGroup.appendChild(save);
+    bar.appendChild(saveGroup);
+  }
+
+  // a segmented button group for an enum lever. each button posts the full lever set on click.
+  function segmented(label, leverKey, currentValue) {
+    var group = el("div", "scenario-ctrl");
+    group.appendChild(el("label", "scenario-ctrl__label", label));
+    var seg = el("div", "segmented");
+    seg.setAttribute("role", "group");
+    seg.setAttribute("aria-label", label);
+    var options = LEVER_UI[leverKey] || [];
+    options.forEach(function (opt) {
+      var btn = el("button", "segmented__btn", opt.label);
+      btn.type = "button";
+      var isActive = String(opt.value) === String(currentValue);
+      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+      if (isActive) {
+        btn.classList.add("segmented__btn--active");
+      }
+      btn.addEventListener("click", function () {
+        updateLever(leverKey, opt.value);
+      });
+      seg.appendChild(btn);
+    });
+    group.appendChild(seg);
+    return group;
+  }
+
+  // apply a lever change and re-run via /api/run with the recalculation overlay. the client posts the
+  // RAW client-facing lever values; it computes nothing.
+  function updateLever(key, value) {
+    if (!results.levers) {
+      results.levers = {};
+    }
+    results.levers[key] = value;
+    rerunWithOverlay();
+  }
+
+  // ---- recalculation overlay (§5.5) ---------------------------------------
+
+  function rerunWithOverlay() {
+    showRecalcOverlay();
+    postRun(results.levers)
+      .then(function (payload) {
+        results.payload = payload;
+        syncLeversFromPayload(payload);
+        hideRecalcOverlay();
+        // re-render the active tab + refresh the scenario bar active states + keep the pill visible.
+        renderScenarioBar();
+        renderActiveTab();
+        renderDemoPill(payload);
+      })
+      .catch(function () {
+        hideRecalcOverlay();
+      });
+  }
+
+  function showRecalcOverlay() {
+    var overlay = byId("recalc-overlay");
+    if (!overlay) {
+      return;
+    }
+    overlay.hidden = false;
+    overlay.setAttribute("aria-hidden", "false");
+    overlay.textContent = "";
+    var box = el("div", "recalc-box");
+    box.appendChild(el("div", "recalc-box__title", "Recalculating"));
+    var bar = el("div", "progress");
+    var fill = el("div", "progress__fill progress__fill--indeterminate");
+    bar.appendChild(fill);
+    box.appendChild(bar);
+    var line = el("p", "recalc-box__line", RECALC_LINES[0]);
+    box.appendChild(line);
+    overlay.appendChild(box);
+    // rotate the four lines.
+    var i = 0;
+    if (results.recalcTimer) {
+      window.clearInterval(results.recalcTimer);
+    }
+    results.recalcTimer = window.setInterval(function () {
+      i = (i + 1) % RECALC_LINES.length;
+      line.textContent = RECALC_LINES[i];
+    }, 650);
+  }
+
+  function hideRecalcOverlay() {
+    var overlay = byId("recalc-overlay");
+    if (results.recalcTimer) {
+      window.clearInterval(results.recalcTimer);
+      results.recalcTimer = null;
+    }
+    if (overlay) {
+      overlay.hidden = true;
+      overlay.setAttribute("aria-hidden", "true");
+      overlay.textContent = "";
     }
   }
 

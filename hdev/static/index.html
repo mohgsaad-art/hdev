@@ -1,11 +1,13 @@
 <!doctype html>
 <!--
-  STATUS: NEW (PR 2, Bob to review). the §5.2 UI SHELL for Step 2: navy header, left sticky assistant
-  column and the empty workspace state. nothing about sections/counts is hard-coded here - app.js
-  fetches /api/inputs and draws the header counter + section scaffolding from the registry payload.
-  the tool name shown is the literal placeholder string `[TOOL NAME]` (never a brand). all icons are
-  inline stroke SVG; no emoji; no external CSS/font/CDN links. only the shell lives here: intake, run,
-  tabs, scenario bar and charts arrive in later steps.
+  STATUS: UPDATED (PR 5, Bob to review). the §5.2 UI SHELL extended for Step 5: navy header, left
+  sticky assistant column, the workspace with the full §5.6 tab bar, the §5.5 scenario bar, the
+  §5.3 run-screen region and the results panel. nothing about sections/counts/results numbers is
+  hard-coded here - app.js fetches /api/inputs and /api/intake and POSTs to /api/run, then draws the
+  header counter, the section scaffolding, the run screen, the tabs and the hand-drawn SVG charts
+  purely from the server payloads. the tool name shown is the literal placeholder string `[TOOL NAME]`
+  (never a brand). all icons are inline stroke SVG; no emoji; no chart library; no external
+  CSS/font/CDN links.
 -->
 <html lang="en">
   <head>
@@ -83,10 +85,6 @@
       <main class="workspace" aria-label="Workspace">
         <div class="workspace__titlebar">
           <h1 class="workspace__heading">Workspace</h1>
-          <nav class="workspace__tabs" aria-label="Workspace views">
-            <span class="workspace__tab" aria-current="true">Inputs</span>
-            <span class="workspace__tab">Results</span>
-          </nav>
           <!-- input counter: numbers injected by app.js from /api/inputs; never hard-coded -->
           <span class="input-counter" id="input-counter">
             <span data-counter="filled">0</span> of
@@ -94,16 +92,39 @@
           </span>
         </div>
 
-        <!-- empty workspace drop-card state -->
-        <div class="empty-state" id="empty-state">
-          <div class="empty-state__title">Drop your files…</div>
-          <div class="empty-state__hint">
-            Drop files here – any format, or use the assistant to get started.
-          </div>
-        </div>
+        <!-- §5.5 scenario bar: controls rendered + wired by app.js; hidden until a run completes.
+             any control change POSTs the full lever set to /api/run. no values hard-coded here. -->
+        <section class="scenario-bar" id="scenario-bar" aria-label="Scenario controls" hidden></section>
 
-        <!-- section scaffolding rendered by app.js from the registry payload -->
-        <div class="section-cards" id="section-cards"></div>
+        <!-- §5.6 tab bar: the full set of tabs is populated by app.js (role=tablist/tab); hidden
+             until a run completes. no tab labels or counts are results-derived. -->
+        <nav class="tabbar" id="tabbar" aria-label="Results views" hidden></nav>
+
+        <!-- the results panel holds either the Inputs section-cards, the run screen, or a results
+             tab panel. the recalculation overlay (§5.5) covers ONLY this panel. -->
+        <div class="results-panel" id="results-panel">
+          <!-- empty workspace drop-card state -->
+          <div class="empty-state" id="empty-state">
+            <div class="empty-state__title">Drop your files…</div>
+            <div class="empty-state__hint">
+              Drop files here – any format, or use the assistant to get started.
+            </div>
+          </div>
+
+          <!-- Inputs tab content: section scaffolding rendered by app.js from the registry payload.
+               this stays the §5.4 section cards and the intake fill animation. -->
+          <div class="section-cards" id="section-cards"></div>
+
+          <!-- §5.3 state-4 run screen region, populated by app.js when a full run starts. -->
+          <div class="run-screen" id="run-screen" hidden></div>
+
+          <!-- the active results tab panel, rendered by app.js from the /api/run payload. -->
+          <div class="tabpanels" id="tabpanels"></div>
+
+          <!-- §5.5 recalculation overlay, shown by app.js over this panel only during a
+               scenario-bar re-run. -->
+          <div class="recalc-overlay" id="recalc-overlay" hidden aria-hidden="true"></div>
+        </div>
       </main>
     </div>
 

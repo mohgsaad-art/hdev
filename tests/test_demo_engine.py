@@ -112,6 +112,16 @@ def test_cumulative_length_is_years_plus_one():
     assert len(r["co2"]["cumulative_saved_t"]) == 11
 
 
+def test_working_days_and_truck_days_simulated_present():
+    # additive §3.3 fields (FEAT-002): working_days is the illustrative 250 the maths already uses, and
+    # truck_days_simulated == fleet_size * working_days. check at least two fleet sizes.
+    for fleet in (3, 6, 12):
+        r = _run(fleet_size=fleet)
+        assert r["working_days"] == 250
+        assert r["truck_days_simulated"] == fleet * r["working_days"]
+        assert r["truck_days_simulated"] == fleet * 250
+
+
 def test_inputs_summary_is_registry_derived():
     # inputs_summary must equal the intake tallies (not a literal). import the same source.
     from hdev.intake_api import build_intake_payload
