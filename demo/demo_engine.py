@@ -21,6 +21,12 @@
 # purity: run_scenario is a pure, deterministic, offline function of (project, levers). no network, no
 # AI provider, no hidden globals, no clock-dependence except an explicit ISO timestamp field (which is
 # derived deterministically from the resolved settings so repeated runs with the same inputs match).
+#
+# §3.3 additive extension (FEAT-002): the results dict carries two extra top-level fields,
+# working_days (the working-days-per-truck count the illustrative maths already uses, 250) and
+# truck_days_simulated (fleet_size * working_days). these feed the §5.3 state-4 run screen's
+# "N truck-days simulated" line so the browser never hard-codes 250. §3.3 is otherwise intact:
+# nothing is removed or reordered, this is purely additive.
 import hashlib
 import math
 from typing import Any, Dict, List, Mapping, Optional
@@ -51,6 +57,11 @@ _DEFAULT_PRICE = "expected"
 _DEFAULT_WEATHER = "normal"
 _DEFAULT_YEARS = 10
 _DEFAULT_SHIFT_END_HOUR = 15     # fixture shift_end "15:00" -> hour 15 (mock-up default se=15)
+
+# working days per truck per year baked into the illustrative energy/cost maths (the literal 250 the
+# mock-up used in energy_yr = n * mean * 250 and diesel_l = n * 120 * 250 * 0.55). named here so there
+# is a single source of truth; it also feeds the additive working_days / truck_days_simulated fields.
+_WORKING_DAYS_PER_YEAR = 250
 
 
 def _round_half_up(x: float) -> int:
@@ -190,9 +201,9 @@ def run_scenario(project: Optional[Mapping[str, Any]], levers: Optional[Mapping[
     elec_day = 1.6 * price_f * prio_f
 
     # annual energy and costs.
-    energy_yr = n * mean * 250
+    energy_yr = n * mean * _WORKING_DAYS_PER_YEAR
     elec_cost_yr = energy_yr * elec_day
-    diesel_l = n * 120 * 250 * 0.55
+    diesel_l = n * 120 * _WORKING_DAYS_PER_YEAR * 0.55
     diesel_cost_yr = diesel_l * 12
     maint_e = n * 45000
     maint_d = n * 70000
@@ -363,6 +374,11 @@ def run_scenario(project: Optional[Mapping[str, Any]], levers: Optional[Mapping[
         "timestamp": timestamp,
         "mode": "demo",
         "illustrative": True,
+        # additive §3.3 fields (FEAT-002): feed the §5.3 state-4 run screen's "N truck-days simulated"
+        # line. server-provided so the UI never hard-codes 250. working_days is the illustrative
+        # working-days-per-truck constant already used by the energy/cost maths above.
+        "working_days": _WORKING_DAYS_PER_YEAR,
+        "truck_days_simulated": n * _WORKING_DAYS_PER_YEAR,
         "settings": settings_out,
         "verdict": {
             "can_electrify": can_electrify,

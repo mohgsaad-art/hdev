@@ -46,6 +46,15 @@ def test_demo_run_returns_results(client):
     ]
 
 
+def test_demo_run_exposes_working_days_and_truck_days_simulated(client):
+    # additive §3.3 fields (FEAT-002): the run screen reads the real truck-days count from the server
+    # rather than hard-coding 250. VALID_BODY uses fleet_size 6.
+    r = client.post("/api/run", json=VALID_BODY).json()
+    fleet_size = VALID_BODY["levers"]["fleet_size"]
+    assert r["working_days"] == 250
+    assert r["truck_days_simulated"] == fleet_size * r["working_days"]
+
+
 def test_demo_run_accepts_levers_at_top_level(client):
     # convenience: the demo endpoint also accepts the levers at the top level of the body.
     resp = client.post("/api/run", json=VALID_BODY["levers"])
