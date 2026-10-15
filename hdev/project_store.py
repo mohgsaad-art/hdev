@@ -11,6 +11,11 @@
 #   - `scenarios`    : the saved scenarios list (name + the client-facing settings/key-result summary).
 #   - `inputs`       : a minimal snapshot of the current inputs (in demo this stays small - the intake
 #                      tallies are derived live by audit.sources, so this is kept for completeness).
+#   - `client_data`  : (Step 10 data guard) a boolean, DEFAULT TRUE. it marks whether the project holds
+#                      a client's operational data. the real-mode AI path reads it before any outbound
+#                      call: the free-tier Gemini backend is REFUSED for a client-data project unless an
+#                      explicit opt-in / paid flag is set (ai.check_data_guard). a project is assumed to
+#                      hold client data until proven otherwise, so the default is true (conservative).
 #
 # §0: all logic lives in Python; the browser is a dumb client. this module makes NO network call and
 # imports NO AI provider - it only reads/writes one JSON file on a gitignored runtime path.
@@ -66,6 +71,7 @@ def _empty_state() -> Dict[str, Any]:
         "run_counter": 0,      # last allocated run number; next_run_number() returns counter+1
         "run_log": [],         # append-only §3.4 entries, newest-LAST on disk
         "scenarios": [],       # saved scenarios (name + client-facing summary + run_id)
+        "client_data": True,   # Step 10 data guard: default TRUE (assume client data until told otherwise)
     }
 
 
@@ -176,6 +182,20 @@ class ProjectStore:
             self._state["inputs"] = json.loads(json.dumps(dict(inputs)))
             self._write()
 
+    def get_client_data(self) -> bool:
+        # the Step 10 data-guard flag. DEFAULT TRUE: a project is assumed to hold client data unless a
+        # stored value says otherwise, so an older project.json without the key reads as true and the
+        # guard stays conservative. coerced to a plain bool.
+        with _LOCK:
+            return bool(self._state.get("client_data", True))
+
+    def set_client_data(self, value: bool) -> None:
+        # set the data-guard flag and persist atomically. coerced to a plain bool so a truthy non-bool
+        # cannot store a surprising value the guard then mis-reads.
+        with _LOCK:
+            self._state["client_data"] = bool(value)
+            self._write()
+
 
 def get_store() -> ProjectStore:
     # the process-level singleton for the currently-resolved path. constructed on first use (reads the
@@ -192,7 +212,8 @@ def get_store() -> ProjectStore:
 def reset_for_tests() -> None:
     # TEST HOOK. drop the in-memory singleton for the currently-resolved path AND remove the runtime
     # file, so the next get_store() starts from a clean, empty state and run numbering restarts at 1.
-    # create_app() calls this in demo mode so each TestClient(create_app()) test is isolated.
+    # create_app() calls this in demo mode so each TestClient(create_app()) test is isolated. the fresh
+    # state comes from _empty_state(), so after a reset client_data is back to its default of true.
     with _LOCK:
         key = str(_resolve_path())
         _STORES.pop(key, None)

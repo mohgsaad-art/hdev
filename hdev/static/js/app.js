@@ -16,6 +16,13 @@
 // ONLY raw typed text or an action identifier; it does NO keyword matching, generates NO reply text,
 // and computes NO number. every reply string and every routing/lever decision comes from the server
 // (explain/ templates + the §4.3 number-check); the client just draws what it is handed.
+//
+// STEP 10 ADDITIONS (real assistant, REAL MODE ONLY): applyChatAction also renders the real-mode
+// data-guard refusal (payload.blocked -> show the server's reason + a fixed suggestion to switch to
+// ollama) and the provider-error payload (payload.error -> show the plain message, which never
+// contains the API key). these fields are produced ONLY by the real-mode path and NEVER appear in a
+// demo response, so DEMO behaviour (suggestion buttons, shift-edit, number-check) is unchanged. the
+// browser stays a dumb client: it only renders the server's strings.
 
 (function () {
   "use strict";
@@ -2383,6 +2390,30 @@
   // sync; open_tab -> open that tab; expand_section -> open Inputs with the operation card visible).
   // the client decides nothing - it only draws what the server returned.
   function applyChatAction(payload, typingId) {
+    // REAL-MODE ONLY affordances (Step 10). these payload fields (blocked / error / suggest_provider)
+    // are produced ONLY by the real-mode chat path (hdev/real_chat.py) and NEVER appear in a demo
+    // response, so this branch cannot change demo behaviour. the browser stays a dumb client: it only
+    // renders the server's strings and adds a fixed, non-data hint for the data-guard case.
+    if (payload && payload.blocked === true) {
+      // the free-tier data guard refused this project. show the server's reason verbatim, then a
+      // plain, data-free suggestion to switch to the local backend. no number, no field name.
+      var guardText = typeof payload.reason === "string" ? payload.reason : UNAVAILABLE;
+      resolveTypingIndicator(typingId, guardText);
+      if (payload.suggest_provider === "ollama") {
+        postBubble(
+          "assistant",
+          "Switch AI_PROVIDER=ollama to keep this project's data on your machine."
+        );
+      }
+      return;
+    }
+    if (payload && typeof payload.error === "string") {
+      // a provider error (missing key / rate limit). render the server's plain message verbatim; it
+      // never contains the API key.
+      resolveTypingIndicator(typingId, payload.error);
+      return;
+    }
+
     if (!payload || typeof payload.reply !== "string") {
       resolveTypingIndicator(typingId, UNAVAILABLE);
       return;

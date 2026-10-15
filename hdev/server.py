@@ -88,9 +88,10 @@ def create_app() -> FastAPI:
         # DEMO-mode assistant turn: the §4.4 suggestion buttons, the server-side typed-question keyword
         # router and the shift-end field-edit rerun, all answered by explain/ templates through the
         # pure chokepoint (hdev/chat_api.py). the mode is the startup value on app.state.mode (read
-        # once in create_app). in real mode the chokepoint returns {"available": false, ...} with a 404
-        # (the real LLM assistant is Step 10) and NO AI provider is imported or called. every reply is
-        # passed through the §4.3 number-check inside the chokepoint. nothing hits the network.
+        # once in create_app). in real mode the chokepoint delegates to hdev/real_chat.py (Step 10): the
+        # data guard runs BEFORE any outbound call, then the §4.2 tool loop, then the §4.3 number-check
+        # + §8 denylist on the model output. the demo path never imports an AI provider. every reply is
+        # passed through the §4.3 number-check inside the chokepoint.
         try:
             body = await request.json()
         except Exception:

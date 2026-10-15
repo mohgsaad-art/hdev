@@ -15,6 +15,7 @@ from .config import (
 )
 from .errors import MissingKeyError, ProviderError, RateLimitError, ToolReplyError
 from .guard import GuardResult, check_data_guard
+from .safety import denylisted_term, scrub_reply
 from .provider import (
     FakeProvider,
     GeminiProvider,
@@ -58,4 +59,7 @@ __all__ = [
     # data guard
     "check_data_guard",
     "GuardResult",
+    # final-reply safety net
+    "scrub_reply",
+    "denylisted_term",
 ]

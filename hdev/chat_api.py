@@ -7,8 +7,11 @@
 # strings this returns - it does NO maths, NO reply-text generation and NO keyword matching.
 #
 # behaviour by mode:
-#   - real mode: return 404 {available: False, mode, reason}. the real LLM assistant is Step 10; demo
-#     must NEVER call an AI provider and THIS MODULE IMPORTS NONE (there is no ai/ package in Step 6).
+#   - real mode (Step 10): delegate to hdev/real_chat.build_real_chat_payload, imported LAZILY inside
+#     the real branch so the DEMO path below never imports an AI provider. the DEMO path and all its
+#     helpers stay byte-for-byte unchanged and provider-free (the demo tests assert this module imports
+#     no provider on the demo path). the real path owns the data guard + the §4.2 tool loop + the
+#     §4.3/§8 output guards.
 #   - demo mode: scripted, offline. three input shapes, all answered by explain/ templates:
 #       (1) SUGGESTION BUTTONS (body.action): the eight §4.4 buttons. four of them change a lever and
 #           RERUN through the SAME run path as /api/run (hdev.run_api.build_run_payload) so the reply's
@@ -129,12 +132,14 @@ def build_chat_payload(mode: str, body: Optional[Mapping[str, Any]]) -> Tuple[in
     body = body or {}
 
     if mode != "demo":
-        # real mode: the assistant is Step 10. no AI provider is imported or called here.
-        return 404, {
-            "available": False,
-            "mode": mode,
-            "reason": "The assistant is only available in demo mode in this build.",
-        }
+        # REAL MODE (Step 10): delegate to the real-mode conversation loop. the import is LAZY (inside
+        # this branch) so the DEMO path below never imports an AI provider - this module stays
+        # provider-free on the demo path, which the demo tests assert. the real path resolves the
+        # config + provider, runs the data guard BEFORE any outbound call, drives the §4.2 tool loop,
+        # and runs the §4.3 number-check + §8 denylist on the model output.
+        from .real_chat import build_real_chat_payload
+
+        return build_real_chat_payload(body)
 
     action = body.get("action")
     message = body.get("message")
