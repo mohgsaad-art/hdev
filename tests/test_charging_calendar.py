@@ -140,3 +140,49 @@ def test_build_sessions_fails_loudly():
         build_sessions(good, start_soc=1.5, usable_pack_kwh=100.0)   # SOC out of range
     with pytest.raises(ValueError):
         build_sessions(good, start_soc=0.5, usable_pack_kwh=0.0)     # bad pack
+
+
+# ---------------------------------------------------------------------------
+# ITEM 11 - battery sizing (mode A datasheet / mode B iterate)
+# ---------------------------------------------------------------------------
+
+from src.charging.sizing import size_battery_mode_a, size_battery_mode_b
+
+
+def test_mode_a_returns_datasheet_value():
+    # mode A is decided: the datasheet value is returned directly, no model.
+    assert size_battery_mode_a(540.0) == pytest.approx(540.0)
+    with pytest.raises(ValueError):
+        size_battery_mode_a(0.0)
+    with pytest.raises(ValueError):
+        size_battery_mode_a(None)
+
+
+def test_mode_b_fixpoint_converges_on_hand_case():
+    # closed-form check of the fixpoint:
+    #   base mass (no pack) = glider + payload = 10000 + 5000 = 15000 kg
+    #   energy_need = 0.0001 kWh/km/kg * 300 km * M = 0.03 * M  (usable_fraction=1 -> nominal = need)
+    #   pack_mass = nominal / 0.15 = (0.03*M)/0.15 = 0.2*M
+    #   M = 15000 + 0.2*M  ->  0.8*M = 15000  ->  M = 18750 kg
+    #   pack_mass = 3750 kg ; battery_kwh = 0.03 * 18750 = 562.5 kWh
+    r = size_battery_mode_b(
+        glider_mass_kg=10000.0, pack_kwh_per_kg=0.15, payload_kg=5000.0,
+        energy_per_km_per_kg=0.0001, range_km=300.0,
+    )
+    assert r["battery_kwh"] == pytest.approx(562.5, rel=1e-6)
+    assert r["pack_mass_kg"] == pytest.approx(3750.0, rel=1e-6)
+    assert r["total_mass_kg"] == pytest.approx(18750.0, rel=1e-6)
+    # the source flag for the locked (🔒 M3.2) glider-mass + kWh/kg inputs is surfaced
+    assert any("M3.2" in a for a in r["assumptions"])
+
+
+def test_mode_b_requires_the_locked_source_args_and_fails_loudly():
+    # required args have no defaults -> omitting them is a TypeError
+    with pytest.raises(TypeError):
+        size_battery_mode_b(glider_mass_kg=10000.0, pack_kwh_per_kg=0.15)
+    # a diverging design (each kg of pack needs >1 kg of pack) must raise, never guess
+    with pytest.raises(ValueError):
+        size_battery_mode_b(
+            glider_mass_kg=10000.0, pack_kwh_per_kg=0.001, payload_kg=0.0,
+            energy_per_km_per_kg=0.01, range_km=300.0,
+        )
