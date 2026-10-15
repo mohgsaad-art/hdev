@@ -74,6 +74,39 @@ In **demo mode** the assistant walks through a sample case: a municipal refuse f
 
 Per method-hiding, `/api/intake` never emits a field's internal mapping, never names or values a `collapsed` field (collapsed fields are **counted** only), and never includes hidden fields; only `open` fields expose id + label + value.
 
+---
+
+## Scenario run (Step 4)
+
+`POST /api/run` runs a scenario and returns the §3.3 results JSON. It is **demo-mode only**: in real mode it returns `404` with `{"available": false, "mode": "real", "reason": "..."}` ("Not yet available") because the real engine pipeline lands in Step 9 — the demo engine is **never** called in real mode.
+
+In **demo mode** the server validates the submitted levers (via `src/validate`), then calls `demo/demo_engine.py` `run_scenario(project, levers)` and returns the results. **Every demo result is illustrative:** it carries `"illustrative": true` and `"mode": "demo"`, and every number is a stand-in. The formulas are ported **verbatim** from the illustrative mock-up at `docs/design/ui-mockup/fleet-assistant-demo.html` (the block marked `ILLUSTRATIVE NUMBERS ONLY`); no new formulas are invented. All logic lives in Python — the browser is a dumb client that draws only what the server sends.
+
+**Accepted levers** (anything else, or an out-of-range value, is rejected with a `400` and a plain-language message, no results):
+
+| Lever | Values |
+|---|---|
+| `fleet_size` | whole number ≥ 1 (max from the project when given) |
+| `charging_priority` | `lowest_cost` \| `grid_friendly` \| `ready_earliest` |
+| `electricity_price` | `low` \| `expected` \| `high` |
+| `weather_year` | `normal` \| `cold_winter` |
+| `ownership_years` | `8` \| `10` \| `12` |
+| `operation.schedule.shift_end` | the editable shift-end time, e.g. `"18:00"` |
+
+Per method-hiding (§8), the client-facing `charging_priority` names and every `strategies[].priority` use **only** `lowest_cost` / `grid_friendly` / `ready_earliest`; the internal strategy keys and technical names never appear in the results JSON, and the `verdict` / `plan` / `headline` text uses plain words only.
+
+**Request body** (the levers may be nested under `"levers"` or passed at the top level; an optional `"project"` gives the fleet-size bound):
+
+```bash
+curl -s -X POST http://127.0.0.1:8000/api/run \
+  -H 'Content-Type: application/json' \
+  -d '{"levers": {"fleet_size": 6, "charging_priority": "lowest_cost",
+                  "electricity_price": "expected", "weather_year": "normal",
+                  "ownership_years": 10}}'
+```
+
+The response contains `run_id`, `timestamp`, `mode`, `illustrative`, `settings`, `verdict`, `kpis`, `energy` (monthly 12-long, per-vehicle), `charging` (SoC profile + strategy comparison), `grid` (24h load/flex), `tco` (6 categories: Owning, Running, Infrastructure, Policy & taxes, Hidden costs, Climate — plus cumulative curves and break-even year), `co2`, `plan`, and `inputs_summary` (reused from the intake tallies). The `tco_diff_dkk` KPI is **electric minus diesel** over the ownership period (negative = the electric fleet costs less in total).
+
 Every file below says what it is and **why it is here**. Status words: DONE (verified/tested), CURRENT (in use), DRAFT, DEPRECATED (history only), NOT WRITTEN.
 
 ---

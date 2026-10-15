@@ -17,8 +17,11 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
+from fastapi import Request
+
 from .inputs_api import build_inputs_payload, normalize_mode
 from .intake_api import build_intake_payload
+from .run_api import build_run_payload
 
 # the static dir sits next to this module: hdev/static/{index.html,css,js,fonts}.
 STATIC_DIR = Path(__file__).resolve().parent / "static"
@@ -50,6 +53,23 @@ def create_app() -> FastAPI:
         if not payload.get("available", False):
             return JSONResponse(status_code=404, content=payload)
         return payload
+
+    @app.post("/api/run")
+    async def api_run(request: Request):
+        # DEMO-mode scenario run: validate the levers and return the §3.3 illustrative results JSON
+        # through the pure chokepoint (hdev/run_api.py). the mode is the startup value on
+        # app.state.mode (read once in create_app). in real mode the chokepoint returns
+        # {"available": false, ...} with a 404 (the real runner is Step 9) and demo_engine is NOT
+        # called. a lever the validator rejects comes back as a 400 with a plain-language error and no
+        # results. nothing hits the network and no AI provider is involved.
+        try:
+            body = await request.json()
+        except Exception:
+            body = {}
+        if not isinstance(body, dict):
+            body = {}
+        status, payload = build_run_payload(app.state.mode, body)
+        return JSONResponse(status_code=status, content=payload)
 
     # serve the static UI shell at /. html=True makes GET / return static/index.html.
     # mounted last so /api/* routes take precedence. the dir is created by FEAT-002 (and a minimal
