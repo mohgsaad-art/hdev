@@ -1,0 +1,30 @@
+# STATUS: NEW (PR 2, Bob to review). minimal runtime + test deps for the local UI server (Step 2).
+# the web layer (registry/transport) is stdlib-only; this manifest covers the web layer AND
+# the §6 engine runtime added in Step 9 (see the "Step 9 engine" block below).
+# installed into a venv (.venv) because global site-packages is read-only.
+fastapi>=0.143
+uvicorn[standard]>=0.54
+# httpx is required by fastapi.testclient.TestClient and kept as a runtime/test dep.
+httpx>=0.27
+# test runner for the offline TestClient suite (tests/test_server.py + Step 1's registry tests).
+pytest>=8
+
+# Step 8 report export (server-side PDF + Excel built from the results JSON + audit data).
+# both are PURE-PYTHON and install + run offline under COMMON_DEPENDENCIES (no system libraries):
+#   reportlab -> the PDF renderer (report/pdf.py); 5.0.1 is what resolves offline in this sandbox.
+#   openpyxl  -> the Excel workbook writer (report/xlsx.py).
+reportlab>=4,<6
+openpyxl>=3.1,<4
+
+# Step 9 engine (§6 engine functions). the array/row engines (crosswind/force/payload and the new
+# weather_for_rows / power_step / consumption steps) use numpy, matching the existing engine style.
+# the demo path stays numpy-free, so numpy is a pipeline dependency, not a web-layer one. unpinned on
+# purpose - any recent numpy works and installs offline from the registry under COMMON_DEPENDENCIES.
+numpy
+
+# OPTIONAL (Step 7, not installed by default): the Playwright browser click-through
+# tests/test_demo_acceptance_playwright.py needs playwright + a Chromium browser. it is NOT a core
+# dependency - the test skip-guards itself (pytest.importorskip inside the module) so the core suite
+# stays green without it. to run that one test, install it explicitly:
+#   .venv/bin/pip install playwright && .venv/bin/python -m playwright install chromium
+# playwright>=1.40  # (uncomment only if you want it pinned in this manifest)

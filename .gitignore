@@ -2,3 +2,16 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+
+# virtualenv for the local UI server (Step 2); global site-packages is read-only in the sandbox
+.venv/
+*.egg-info/
+
+# Step 7 project store: runtime project state (run log, saved scenarios, run counter) written to a
+# gitignored path. default repo-root/.hdev_runtime/project.json; override with HDEV_PROJECT_STORE.
+# this is disposable runtime data and must NOT be committed.
+.hdev_runtime/
+
+# Step 10 real AI assistant: the local .env holds the GEMINI_API_KEY and the provider config. it must
+# NEVER be committed (a real key is a secret). only .env.example (placeholders only) is tracked.
+.env

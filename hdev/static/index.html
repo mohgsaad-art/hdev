@@ -1,0 +1,133 @@
+<!doctype html>
+<!--
+  STATUS: UPDATED (PR 5, Bob to review). the §5.2 UI SHELL extended for Step 5: navy header, left
+  sticky assistant column, the workspace with the full §5.6 tab bar, the §5.5 scenario bar, the
+  §5.3 run-screen region and the results panel. nothing about sections/counts/results numbers is
+  hard-coded here - app.js fetches /api/inputs and /api/intake and POSTs to /api/run, then draws the
+  header counter, the section scaffolding, the run screen, the tabs and the hand-drawn SVG charts
+  purely from the server payloads. the tool name shown is the literal placeholder string `[TOOL NAME]`
+  (never a brand). all icons are inline stroke SVG; no emoji; no chart library; no external
+  CSS/font/CDN links.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>[TOOL NAME]</title>
+    <link rel="stylesheet" href="/css/app.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="app-header__inner">
+        <!-- inline stroke-svg logo mark -->
+        <span class="app-header__logo" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M4 20 L12 8 L18 16 L24 6" />
+            <path d="M6 26 h20" />
+            <circle cx="24" cy="6" r="2" />
+          </svg>
+        </span>
+        <div class="app-header__titles">
+          <span class="app-header__name">[TOOL NAME]</span>
+          <span class="app-header__tagline">Fleet electrification assistant</span>
+        </div>
+        <!-- demo-only amber pill; shown by app.js only when mode == demo -->
+        <span class="demo-pill" id="demo-pill" role="status">
+          <span class="demo-pill__dot" aria-hidden="true"></span>
+          <span class="demo-pill__text">Sample case · illustrative values</span>
+        </span>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <!-- left: sticky assistant column -->
+      <aside class="assistant" aria-label="Assistant">
+        <div class="assistant__header">
+          <span class="assistant__status-dot" aria-hidden="true"></span>
+          <span class="assistant__title">Assistant</span>
+        </div>
+        <!-- message list (empty in the shell) -->
+        <div class="assistant__messages" id="assistant-messages" aria-live="polite"></div>
+        <!-- suggestion buttons area (placeholder for a later step) -->
+        <div class="assistant__suggestions" id="assistant-suggestions"></div>
+        <!-- composer -->
+        <div class="assistant__composer">
+          <div class="dropzone" id="dropzone">Drop files here – any format</div>
+          <button type="button" class="btn btn--ghost" id="add-sample-files">
+            <!-- inline stroke-svg plus -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 5 v14" />
+              <path d="M5 12 h14" />
+            </svg>
+            Add sample files
+          </button>
+          <div class="composer__row">
+            <input type="text" class="composer__input" id="composer-input"
+                   placeholder="Ask the assistant…" aria-label="Message to the assistant" />
+            <button type="button" class="btn btn--icon" id="composer-send"
+                    aria-label="Send message">
+              <!-- inline stroke-svg send arrow -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                   stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 12 L20 4 L13 20 L11 13 Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- right: workspace -->
+      <main class="workspace" aria-label="Workspace">
+        <div class="workspace__titlebar">
+          <h1 class="workspace__heading">Workspace</h1>
+          <!-- input counter: numbers injected by app.js from /api/inputs; never hard-coded -->
+          <span class="input-counter" id="input-counter">
+            <span data-counter="filled">0</span> of
+            <span data-counter="total">—</span> inputs
+          </span>
+        </div>
+
+        <!-- §5.5 scenario bar: controls rendered + wired by app.js; hidden until a run completes.
+             any control change POSTs the full lever set to /api/run. no values hard-coded here. -->
+        <section class="scenario-bar" id="scenario-bar" aria-label="Scenario controls" hidden></section>
+
+        <!-- §5.6 tab bar: the full set of tabs is populated by app.js (role=tablist/tab); hidden
+             until a run completes. no tab labels or counts are results-derived. -->
+        <nav class="tabbar" id="tabbar" aria-label="Results views" hidden></nav>
+
+        <!-- the results panel holds either the Inputs section-cards, the run screen, or a results
+             tab panel. the recalculation overlay (§5.5) covers ONLY this panel. -->
+        <div class="results-panel" id="results-panel">
+          <!-- empty workspace drop-card state -->
+          <div class="empty-state" id="empty-state">
+            <div class="empty-state__title">Drop your files…</div>
+            <div class="empty-state__hint">
+              Drop files here – any format, or use the assistant to get started.
+            </div>
+          </div>
+
+          <!-- Inputs tab content: section scaffolding rendered by app.js from the registry payload.
+               this stays the §5.4 section cards and the intake fill animation. -->
+          <div class="section-cards" id="section-cards"></div>
+
+          <!-- §5.3 state-4 run screen region, populated by app.js when a full run starts. -->
+          <div class="run-screen" id="run-screen" hidden></div>
+
+          <!-- the active results tab panel, rendered by app.js from the /api/run payload. -->
+          <div class="tabpanels" id="tabpanels"></div>
+
+          <!-- §5.5 recalculation overlay, shown by app.js over this panel only during a
+               scenario-bar re-run. -->
+          <div class="recalc-overlay" id="recalc-overlay" hidden aria-hidden="true"></div>
+        </div>
+      </main>
+    </div>
+
+    <script src="/js/app.js"></script>
+  </body>
+</html>
