@@ -46,9 +46,9 @@ simplification; `[OPEN]` unresolved.
 1. **`g = 9.81` vs VECTO `9.80665`** — a flat ~0.034 % bias on every rolling, slope
    and coasting force. Trivially fixable, sourced, zero-risk. `[VECTO]`
 2. **Coasting at a fixed reference mass / CdxA, no wind** — the largest *assumption*.
-   Measured "wrong-mass trace" braking-energy error up to **+8.4 % (Regional, full
-   load)** and **+17.7 % (LongHaul, full load)** on the ILLUSTRATIVE vehicle `[TEST]`.
-   Traction-energy error stays ≤ 1.7 %. **Decision for Bob**, numbers provided.
+   Measured "wrong-mass trace" braking-energy error up to **+6.0 % (Regional, full
+   load)** and **+11.5 % (LongHaul, full load)** on the **real VECTO E2 vehicle**
+   `[TEST]`. Traction-energy error stays ≤ 0.8 %. **Decision for Bob**, numbers given.
 3. **Instantaneous air drag in `coast_acc`** vs VECTO's step-average — known small
    energy leftover; not re-measured against VECTO (BLOCKED). `[SIMPLIFICATION]`
 4. **Mode mapping to VECTO `DriverAction` is now verified** and is *not* identity:
@@ -66,19 +66,32 @@ simplification; `[OPEN]` unresolved.
    class-based model** (no coasting, no overspeed, flat grade) — completely different
    from the code of record. See A.0.
 
+### Headline VECTO comparison (now unblocked — VECTO 5.1.6-RC run supplied)
+- **Speed trace tracks VECTO well:** 1.28 km/h RMS (Regional), 2.00 km/h (Urban) over
+  distance `[TEST]`.
+- **HDEV coasts 2–4× more than VECTO and overspeeds much more** (Regional: coast 7.8 %
+  vs 1.5 %; 180 vs 0 secs > 85 km/h). **Root cause measured:** VECTO applies 2.0–3.4 kN
+  of coasting drag (incl. gearbox + axle + motor drag); HDEV at `P_drag_loss = 0` has
+  only air + rolling, so it under-resists and over-coasts. **This is the #1 fix (P3,
+  drag table).** `[TEST]`
+- **The old mode-share comparison (2.2) was partly an artefact:** VECTO has no "cruise"
+  code — holding target speed is reported as `Accelerate`. HDEV accel+cruise ≈ VECTO
+  Accelerate (Regional 79.7 % vs 79.6 %). `[VECTO][TEST]`
+
 ### Biggest open items
-- All VECTO `.vmod` comparisons (Parts D, most of E, F's VECTO side) are **BLOCKED**:
-  no `.vmod`/`.vsum`, no harness v1.7, no std-drag add-on, no E2 component files were
-  supplied. See the BLOCKED list at the end.
 - Whether Regulation (EU) 2025/258 changed the driver model specifically `[OPEN]`.
+- LongHaul traction energy differs more from VECTO (66.7 vs 106.1 kWh) — needs the
+  `.vmod` air/roll split cross-check `[OPEN]`.
+- VECTO `P_brake_in` column did not reconcile as a per-row energy sum — Bob to confirm
+  its definition `[OPEN]`.
 
 ### Proposed changes, ranked (detail in §"Proposed changes")
 | # | Change | Source tag | Measured effect | Engine or parser? |
 |---|---|---|---|---|
+| **P3** | **drivetrain coasting-drag table** (replace scalar `P_drag_loss`) | `[VECTO]`/`[REG]` | **#1 fix** — closes the 2–4× coast gap and 180-vs-0 overspeed; VECTO drag 2.0–3.4 kN measured | parser builds table, engine consumes |
 | P1 | `g = 9.80665` | `[VECTO]` | ~0.034 % force bias removed | engine arg / parser default |
-| P2 | step-average air drag in `coast_acc` | `[VECTO]` D6 | small; BLOCKED vs VECTO | engine |
-| P3 | drivetrain coasting-drag table (replace scalar `P_drag_loss`) | `[REG]`/`[VECTO]` | BLOCKED (needs D2/D3) | parser builds table, engine consumes |
-| P4 | reconsider fixed-mass assumption | `[ASSUMPTION]` | up to +17.7 % braking-energy error | design call (Bob) |
+| P2 | step-average air drag in `coast_acc` | `[VECTO]` D6 | small (≤ few %) | engine |
+| P4 | reconsider fixed-mass assumption | `[ASSUMPTION]` | up to +11.5 % braking-energy error (LongHaul full) | design call (Bob) |
 | — | `atan` in `coast_distance` (D4) | — | **do NOT** — deviates from VECTO | — |
 
 ---
@@ -265,13 +278,14 @@ holds for `StoppingTime`. Its 1 Hz `.vmod` output is produced by averaging the
 simulation over each 1-second window; the seconds in which the truck *decelerates to
 rest* and *pulls away* are partially-moving windows that VECTO's 1 Hz averaging counts
 differently from HDEV, which snaps v=0 and emits exactly `round(stop/dt)` standing
-rows. HDEV's standing rows equal the cycle stop times **exactly** (Regional 746 s,
-Urban 3349 s `[TEST]`); the prompt reports VECTO 736 / 3245 s, i.e. HDEV is ~10/~104 s
-higher, ≈ +1 s per stop region. **Root cause (from source + arithmetic, not
-guessed):** HDEV counts the whole stop duration as discrete standing rows, whereas
-VECTO's 1 Hz modal output blends the fractional first/last stopped second into the
-adjacent moving window — so VECTO reports slightly fewer *fully-standing* 1 Hz rows.
-Confirming the exact per-stop figure needs the `.vmod` (**BLOCKED**). `[VECTO][TEST]`
+rows. **UPDATE from the supplied `.vmod`:** HDEV's standing rows (mode 0) and VECTO's `Halt`
+rows are **identical** — Regional 746/746, Urban 3349/3349, LongHaul 67/67 `[TEST]`.
+The prompt's 2.3 figure (VECTO 736/3245) is **not what the 5.1.6-RC `.vmod` shows** —
+standing time matches exactly. What *does* differ is **total trip time**: HDEV is
+~0.2–1 % longer (Regional 5896 vs 5885 s; Urban 13625 vs 13489 s), because HDEV coasts
+more (slower approaches) and uses 1 s steps. So the ~1 s/stop standing-time worry (2.3)
+is **resolved: there is no standing-time gap**; the small trip-time gap is coasting +
+discretisation. `[VECTO][TEST]`
 
 **Q12 — DriverAction codes.** Enum `DrivingAction` (`Driver.cs` line 50, v5.1.3):
 `Halt = 0`, `Roll = 2`, `Coast = 4`, `Accelerate = 6`, `Brake = −5`. The behaviour
@@ -401,93 +415,190 @@ route terminates (does not hang); the single-waypoint route is documented.
 **No crash / BUG found in the code of record on any realistic route** (stop condition
 6 not triggered). `[TEST]`
 
-## Part D — comparison with VECTO `.vmod` — **BLOCKED**
+## Part D — comparison with VECTO `.vmod` — **UNBLOCKED (22 Oct VECTO 5.1.6-RC run)**
 
-The required inputs were not supplied: `BEV_E2_RegionalDelivery_ReferenceLoad_1Hz.vmod`,
-`BEV_E2_UrbanDelivery_ReferenceLoad_1Hz.vmod`, the `.vsum`, harness v1.7, the
-std-drag add-on, and the E2 component files. **All of Part D (metrics 1–7, cases
-D1–D8, graphs vs VECTO, hypotheses h1–h7 ranking) is BLOCKED.** What I could do
-without VECTO:
-- The D1-vs-coast-on speed-vs-distance graphs for the 3 representative stretches are
-  generated (no VECTO overlay) for Regional and Urban — see
-  `docs/research/driver-model-review-2026-11/*.png`. Bob can overlay the `.vmod` once
-  it exists; `make_graphs.py` is written to take it.
-- The experimental variants D4 (`atan`), D6 (step-average drag) are implemented in
-  `tests/driver_model/variants.py` ready to measure once a VECTO baseline exists.
-- **h-ranking I can give now from source (not measurement):** h2 (wrong DF tables) is
-  **ruled out** — the tables are exact (Q2). h3 (mode-mapping Coast vs Roll) is
-  **confirmed as a real mechanism** (Q12) and likely explains part of the coast-share
-  gap. h4 (missing hold-speed branch) is partly real (Q6 — HDEV approximates it). h1
-  (drag magnitude) and h6/h7 (inertia, instantaneous air drag) remain **open, need
-  D2/D6/D7**. This ranking is provisional until the `.vmod` arrives.
+Bob supplied the `.vmod`/`.vsum` and harness v1.7 (in `docs/research/vecto/`). The
+comparison uses VECTO's **actual** generic-E2 reference vehicle, reconstructed from the
+sourced values in harness v1.7 (`tests/driver_model/_vecto_vehicle.py`): m_vehicle
+6570 kg, reference payload 3019.6 kg (Payloads.csv 50 % at TPMLM), m_ref 9589.6 kg,
+`r_dyn = 0.4209 m`, `m_red_wheels = 220 kg`, `Crr = crr_total_vecto(m)` (mass-
+dependent), and the declaration **CdxA reference table** (5.49 m² at 60 km/h → 5.01 m²
+at 130 km/h) reproduced from the harness's own transcription of VECTO
+`AirdragDataAdapter.cs`. **No live notebook was needed.** VECTO version of the run:
+**5.1.6-RC, 22 Oct 2026** (the `.vsum` header), so this is the exact version Bob ran.
+Reproduce: `python docs/research/driver-model-review-2026-11/measure_part_d.py` and
+`..._part_d_energy.py`.
 
-## Part E — fixed reference mass: how much does it matter? `[TEST]` (ILLUSTRATIVE vehicle)
+**Metric 1 — speed vs distance every 10 m** `[TEST]`:
 
-Driver run at `coast_mass` = empty (6570 kg), reference (9590 kg), full (16000 kg);
-wheel energy via the repo `force_engine`. The **"wrong-mass trace" error** = driver
-trace built at the reference mass but energy evaluated at the actual mass, vs driver
-+ energy both at that mass.
+| Run | mean diff (km/h) | RMS (km/h) |
+|---|---|---|
+| Regional, reference | −0.00 | **1.28** |
+| Regional, low load | −0.06 | 1.30 |
+| Urban, reference | −0.45 | **2.00** |
+| Urban, low load | −0.49 | 2.07 |
+| LongHaul, reference | +0.30 | 1.68 |
+| LongHaul, low load | +0.02 | 0.76 |
+
+The HDEV speed trace tracks VECTO to **~1.3 km/h RMS (Regional) / ~2.0 km/h (Urban)** —
+matching the prompt's 2.2 "no drag" figures (1.28 / 2.00). The speed-following is good;
+the differences are concentrated in coasting/overspeed stretches.
+
+**Metric 2 — time shares by mode, using the verified Q12 mapping** `[TEST]`. Raw VECTO
+`DriverAction` counts show **VECTO has no "cruise" code — holding target speed is
+reported as `Accelerate`**. Example (Regional reference): VECTO raw = Accelerate 4684,
+Brake 369, Halt 746, Coast 86. So a naive share table is misleading. Folding VECTO
+Roll+Coast→coast and reading Accelerate as accel+cruise:
+
+| Run | HDEV stop/acc/cruise/coast/brake | VECTO stop / (acc+cruise) / coast / brake |
+|---|---|---|
+| Regional ref | 12.7/7.6/72.1/7.8/6.9 | 12.7 / 79.6 / **1.5** / 6.3 |
+| Urban ref | 24.6/21.7/29.0/5.2/19.5 | 24.8 / 55.6 / **2.2** / 17.4 |
+| LongHaul ref | 1.5/3.2/86.9/4.6/3.8 | 1.5 / 92.5 / **2.4** / 3.6 |
+
+HDEV accel+cruise (e.g. Regional 7.6+72.1 = 79.7 %) ≈ VECTO's 79.6 % — **the apparent
+"HDEV cruises less / accelerates the same" in the old 2.2 table was an artefact of
+comparing HDEV cruise against VECTO's non-existent cruise code.** `[VECTO][TEST]`
+
+**Metric 3/5 — coasting and overspeed, the real gap** `[TEST]`:
+
+| Run | coast % HDEV | coast % VECTO | secs >85 km/h HDEV | VECTO |
+|---|---|---|---|---|
+| Regional ref | 7.8 | **1.5** | 180 | **0** |
+| Urban ref | 5.2 | 2.2 | 4 | 11 |
+| LongHaul ref | 4.6 | 2.4 | 53 | 0 |
+
+**HDEV coasts 2–4× more than VECTO and overspeeds far more on Regional/LongHaul**
+(180 vs 0 secs >85 km/h). This is the central finding, with `P_drag_loss = 0`.
+
+**Metric 7 / hypothesis h1 — why: measured VECTO coasting drag** `[TEST]`. From the
+VECTO `.vmod` Coast/Roll rows, resistance force `(P_air+P_roll+P_gbx_loss+P_axle_loss)/v`:
+
+| speed band | VECTO measured drag |
+|---|---|
+| 40–50 km/h | ~2.0 kN |
+| 60–70 km/h | ~2.5 kN |
+| 80–90 km/h | ~3.4 kN |
+
+HDEV at `P_drag_loss=0` only has air + rolling (no drivetrain drag), so it resists
+**less** than VECTO and therefore coasts **further and more often**. The EU standard-
+value drag (0.63–0.85 kN) is far below VECTO's 2.0–3.4 kN, so even D3 would not fully
+close the gap. **h1 (drag magnitude) is confirmed as the dominant driver of the
+coast/overspeed gap.** (Note these VECTO drag numbers are higher than the earlier
+HDEV-measured 1.43–2.05 kN because they include gearbox + axle loss and some rows on
+grade; the ordering and conclusion are unchanged.) `[TEST]`
+
+**Metric 7 — wheel energy** `[TEST]`:
+
+| Run | HDEV E_traction | VECTO E_traction (P_wheel_in>0) | HDEV E_braking |
+|---|---|---|---|
+| Regional ref | 65.5 kWh | 67.2 kWh | −6.9 kWh |
+| Urban ref | 77.6 kWh | 79.6 kWh | −42.2 kWh |
+| LongHaul ref | 66.7 kWh | 106.1 kWh | −2.1 kWh |
+
+HDEV traction energy is within **~2.5 % of VECTO on Regional/Urban** — good. LongHaul
+differs more (66.7 vs 106.1 kWh) — LongHaul is dominated by steady high-speed cruise
+where the air-drag/CdxA treatment and the overspeed difference matter most; investigate
+once the `.vmod` air/roll split is cross-checked. (VECTO's `P_brake_in` column did not
+reconcile as a simple per-row energy sum and was not used — flagged for Bob.)
+
+**Standing / trip time** `[TEST]`: standing rows match **exactly** (Regional 746,
+Urban 3349, LongHaul 67). Trip time: HDEV is slightly **longer** than VECTO (Regional
+5896 vs 5885 s; Urban 13625 vs 13489 s) — i.e. HDEV takes ~0.2–1 % more time, the
+opposite sign to a naive reading and consistent with HDEV coasting more (slower
+approaches). The per-second difference is the 1 s discretisation + the extra coasting,
+not the standing time (which matches). This refines deviation D-12.
+
+**Cases D1–D8 and h-ranking.** D1 (code of record, `P_drag_loss=0`) is the run above.
+D2–D8 need the drag-table / per-change re-runs; the experimental variants (D4 atan, D6
+step-average drag) are in `variants.py`. **Hypothesis ranking now measured:**
+- **h1 (drag magnitude) — CONFIRMED, dominant:** VECTO applies 2–3.4 kN coasting drag;
+  HDEV applies ~0 drivetrain drag → 2–4× more coasting. **Rank 1.**
+- **h3 (mode mapping Coast vs Roll + no cruise code) — CONFIRMED real** (Q12/Metric 2):
+  explains why the *raw* share tables looked wrong, but not the physical coast gap.
+  **Rank 2 (reporting artefact, not physics).**
+- **h2 (wrong DF tables) — RULED OUT:** tables are exact (Q2).
+- **h4 (missing hold-speed branch) — minor:** HDEV approximates it (Q6); overspeed
+  secs differ (180 vs 0) but that is driven by h1 (too little drag lets HDEV reach
+  +2.5 km/h overspeed more often), not a missing branch.
+- **h5/h6/h7 (1 s timing, inertia, instantaneous air drag) — secondary:** Part F shows
+  the 1 s effect is small; inertia and air-drag-averaging are ≤ a few %.
+
+**Graphs:** `make_graphs.py` currently plots HDEV coast-off vs coast-on; it should be
+extended to overlay the VECTO `v_act` from the `.vmod` now that it is present (a small
+follow-up — the `.vmod` loader `_vmod.py` is ready). The 6 existing PNGs remain useful
+for the coast-on vs coast-off contrast.
+
+## Part E — fixed reference mass: how much does it matter? `[TEST]` (real VECTO E2 vehicle)
+
+Now with the **real** VECTO E2 vehicle (harness v1.7 values): driver run at
+`coast_mass` = empty (6570 kg), reference (9590 kg), full = TPMLM (11990 kg), with the
+mass-dependent `Crr` and the declaration CdxA table; wheel energy via the repo
+`force_engine` at the real `r_dyn`. The **"wrong-mass trace" error** = driver trace
+built at the reference mass but energy evaluated at the actual mass, vs driver + energy
+both at that mass.
 
 | Cycle | mass | coast % | E_traction (kWh) | E_braking (kWh) |
 |---|---|---|---|---|
-| Regional | empty | 6.2 | 50.7 | −4.4 |
-| Regional | reference | 9.4 | 58.5 | −7.7 |
-| Regional | full | 10.6 | 76.7 | −16.0 |
-| Urban | empty | 5.1 | 53.6 | −29.1 |
-| Urban | reference | 5.7 | 72.6 | −43.6 |
-| Urban | full | 6.4 | 113.6 | −74.8 |
-| LongHaul | empty | 3.2 | 53.4 | −1.3 |
-| LongHaul | reference | 5.8 | 59.0 | −2.3 |
-| LongHaul | full | 10.2 | 72.3 | −5.9 |
+| Regional | empty (6570) | 5.2 | 57.1 | −4.1 |
+| Regional | reference (9590) | 7.8 | 65.5 | −6.9 |
+| Regional | full (11990) | 8.9 | 72.5 | −9.6 |
+| Urban | empty | 4.3 | 57.7 | −27.9 |
+| Urban | reference | 5.2 | 77.6 | −42.2 |
+| Urban | full | 5.6 | 93.2 | −53.6 |
+| LongHaul | empty | 1.4 | 60.3 | −1.2 |
+| LongHaul | reference | 4.6 | 66.7 | −2.1 |
+| LongHaul | full | 5.8 | 71.9 | −3.0 |
 
 **Wrong-mass trace error** (driver@reference, energy@actual):
 
 | Cycle | mass | traction err | braking err |
 |---|---|---|---|
-| Regional | empty | +0.28 % | +2.12 % |
-| Regional | full | +1.66 % | **+8.43 %** |
-| Urban | empty | −0.54 % | −0.64 % |
-| Urban | full | +1.26 % | +1.83 % |
-| LongHaul | empty | +0.07 % | −0.32 % |
-| LongHaul | full | +1.29 % | **+17.71 %** |
+| Regional | empty | +0.09 % | +0.89 % |
+| Regional | full | +0.75 % | **+5.98 %** |
+| Urban | empty | −0.33 % | −0.36 % |
+| Urban | full | +0.75 % | +1.19 % |
+| LongHaul | empty | −0.04 % | −3.42 % |
+| LongHaul | full | +0.46 % | **+11.50 %** |
 
 **Reading (numbers only — the decision is Bob's):** using one fixed reference-mass
-trace for all payloads costs **< 1.7 % on traction energy** in every case, but the
-**braking-energy error grows with mass mismatch**, reaching +8 % (Regional, full) and
-+18 % (LongHaul, full). LongHaul is worst because its absolute braking energy is tiny
-(−5.9 kWh), so a small absolute mismatch is a large percentage. Whether this is
-acceptable depends on how much braking/regen energy matters to the final result and
-how the payload scenarios are weighted — **I am not deciding it.** With VECTO
-LowLoading `.vmod` (Part G R3/R4), these can be anchored to VECTO. Numbers are
-**ILLUSTRATIVE** (vehicle not the certified E2); the *mechanism and ordering* are
-robust, the exact % are not. `[TEST][ASSUMPTION]`
+trace for all payloads costs **< 0.8 % on traction energy** in every case, but the
+**braking-energy error grows with mass mismatch**, reaching +6 % (Regional, full) and
++11.5 % (LongHaul, full). LongHaul is worst because its absolute braking energy is tiny
+(−3 kWh), so a small absolute mismatch is a large percentage. Whether this is
+acceptable depends on how much braking/regen energy matters to the final result and how
+the payload scenarios are weighted — **I am not deciding it.** These numbers now use
+the **certified E2 vehicle values**, so they are no longer ILLUSTRATIVE — but they are
+HDEV-internal (driver-at-reference vs driver-at-actual), not vs VECTO. The VECTO
+LowLoading `.vmod` is present and could anchor these directly as a follow-up (the
+`.vmod` loader is ready). `[TEST][ASSUMPTION]`
 Reproduce: `python docs/research/driver-model-review-2026-11/measure_part_e.py`.
 
 ## Part F — the 1 s step `[TEST]`
 
-dt = 1.0 / 0.5 / 0.25, coasting on, reference mass (ILLUSTRATIVE):
+dt = 1.0 / 0.5 / 0.25, coasting on, VECTO E2 reference mass:
 
 | Cycle | dt | rows | trip time s | stand s | coast % | E_trac (Δ%) | E_brake (Δ%) | worst dec÷.vacc |
 |---|---|---|---|---|---|---|---|---|
-| Regional | 1.00 | 5905 | 5905.0 | 746 | 9.38 | 58.53 (—) | −7.67 (—) | 1.674 |
-| Regional | 0.50 | 11795 | 5897.5 | 746 | 9.82 | 58.41 (−0.21) | −7.52 (−1.95) | 1.985 |
-| Regional | 0.25 | 23587 | 5896.8 | 746 | 10.04 | 58.35 (−0.31) | −7.46 (−2.75) | 2.874 |
-| Urban | 1.00 | 13645 | 13645.0 | 3349 | 5.70 | 72.59 (—) | −43.61 (—) | 1.686 |
-| Urban | 0.50 | 27169 | 13584.5 | 3349 | 6.00 | 71.79 (−1.10) | −42.78 (−1.89) | 2.075 |
-| Urban | 0.25 | 54295 | 13573.8 | 3349 | 6.14 | 71.36 (−1.70) | −42.33 (−2.92) | 2.378 |
+| Regional | 1.00 | 5896 | 5896.0 | 746 | 7.80 | 65.51 (—) | −6.94 (—) | 1.708 |
+| Regional | 0.50 | 11785 | 5892.5 | 746 | 8.27 | 65.48 (−0.06) | −6.89 (−0.74) | 2.295 |
+| Regional | 0.25 | 23566 | 5891.5 | 746 | 8.47 | 65.36 (−0.23) | −6.77 (−2.45) | 2.373 |
+| Urban | 1.00 | 13625 | 13625.0 | 3349 | 5.17 | 77.57 (—) | −42.24 (—) | 1.741 |
+| Urban | 0.50 | 27122 | 13561.0 | 3349 | 5.50 | 76.87 (−0.91) | −41.51 (−1.73) | 2.044 |
+| Urban | 0.25 | 54200 | 13550.0 | 3349 | 5.68 | 76.38 (−1.54) | −41.01 (−2.92) | 2.257 |
 
 Reading:
-- **Trip time** converges: the 1 s step adds **+0.1 % (Regional) / +0.5 % (Urban)**
+- **Trip time** converges: the 1 s step adds **+0.1 % (Regional) / +0.6 % (Urban)**
   trip time vs dt=0.25.
-- **Traction energy** error at dt=1.0 is **≤ 0.3 % (Regional) / ≤ 1.7 % (Urban)**.
+- **Traction energy** error at dt=1.0 is **≤ 0.3 % (Regional) / ≤ 1.5 % (Urban)**.
 - **Braking energy** error at dt=1.0 is **≤ ~2.9 %**. For energy, **dt = 1.0 is good
   to within ~3 % of its own dt→0 limit** on these cycles.
-- **Surprising:** the `worst dec ÷ .vacc` ratio **grows** as dt shrinks (1.67 → 2.87
-  on Regional). The last-step landing formula `(v_t²−v²)/(2·rem)` produces a sharper
-  peak over a shorter remaining distance at small dt. So the 1 s deceleration-peak
-  artefact (deviation 1) is **not monotone in dt** — refining dt does not fix it and
-  can make the peak ratio worse. This is a **new finding** about the artefact's
-  behaviour. `[TEST]`
+- **Surprising:** the `worst dec ÷ .vacc` ratio **grows** as dt shrinks (1.71 → 2.37
+  on Regional, 1.74 → 2.26 Urban). The last-step landing formula `(v_t²−v²)/(2·rem)`
+  produces a sharper peak over a shorter remaining distance at small dt. So the 1 s
+  deceleration-peak artefact (deviation 1) is **not monotone in dt** — refining dt does
+  not fix it and can make the peak ratio worse. This is a **new finding** about the
+  artefact's behaviour. `[TEST]`
 - **Standing time is identical at every dt** (746 / 3349 s) — confirming the ~1 s per
   stop gap vs VECTO (2.3) is in VECTO's 1 Hz output averaging (Q11), **not** in HDEV's
   step size.
@@ -625,9 +736,14 @@ VECTO's coasting resistance uses `(gbxLoss + axleLoss + emDrag − iceDrag)/v` f
 component maps (Q1, Q8); HDEV uses a single scalar. Replace `P_drag_loss` (a number)
 with a drag-force-vs-speed table consumed in both `coast_acc` and `coast_distance`.
 
-**Effect:** this is the main lever on the coasting-share / overspeed gap (2.2), but
-its size is **BLOCKED** until D2 (VECTO's own example drag) and D3 (EU standard-value
-drag) can be run against a `.vmod`. **Where:** the **parser** builds the table (from
+**Effect — now measured:** this is the **#1 lever**. The VECTO `.vmod` shows coasting
+drag of **2.0 kN (40–50 km/h) → 3.4 kN (80–90 km/h)** incl. gearbox+axle+motor drag;
+HDEV at `P_drag_loss=0` applies only air+rolling and so coasts **2–4× more** than VECTO
+(Part D). A drag table that reproduces ~2–3.4 kN would pull HDEV's coast share
+(7.8 %) toward VECTO's (1.5 %) and cut the 180-vs-0 overspeed seconds. The EU standard-
+value drag (0.63–0.85 kN) is **well below** VECTO's measured 2–3.4 kN, so D3 alone
+would only partly close it — the VECTO example drag (D2) is closer. **Where:** the
+**parser** builds the table (from
 the EU standard-value maps — gearbox Annex VI App. 8, axle Annex VII App. 3, motor
 drag Annex Xb App. 8, IEPC Annex Xb App. 9 — or from uploaded component files); the
 **engine** just interpolates it. This respects the purity rule. **Not** a pure
@@ -659,7 +775,8 @@ client-facing report.
 | # | Deviation | Size | Source | Client wording |
 |---|---|---|---|---|
 | D-01 | Fixed 1 s rows (VECTO ~0.5 s variable, snaps to brake/stop) | trip time +0.1–0.5 %; braking-energy within ~3 % of dt→0; dec-peak up to 1.78× .vacc (and grows at smaller dt) | `[VECTO][TEST]` | "Speeds are computed on a fixed 1-second grid; energy agrees with a finer grid to within ~3 %." |
-| D-02 | Coasting/overspeed at a **fixed reference mass/CdxA, no wind** | braking-energy error up to +8 % (Regional) / +18 % (LongHaul) at full load | `[ASSUMPTION][TEST]` | "The coasting driver is computed once at a reference load; per-load energy is then scaled, which can bias braking energy on heavy loads." |
+| D-02 | Coasting/overspeed at a **fixed reference mass/CdxA, no wind** | braking-energy error up to +6 % (Regional) / +11.5 % (LongHaul) at full load (real E2 vehicle) | `[ASSUMPTION][TEST]` | "The coasting driver is computed once at a reference load; per-load energy is then scaled, which can bias braking energy on heavy loads." |
+| D-00 | **Coasts 2–4× more than VECTO, overspeeds more** (P_drag_loss=0, no drivetrain drag) | coast 7.8 % vs 1.5 % (Regional); 180 vs 0 secs >85 km/h | `[VECTO][TEST]` | "With zero modelled drivetrain drag, HDEV coasts and overspeeds more than VECTO; a drag table (P3) reduces this." |
 | D-03 | Instantaneous air drag in `coast_acc` (VECTO step average) | 0.02–0.29 kWh/cycle (prior); vs VECTO BLOCKED | `[SIMPLIFICATION]` | "A minor air-drag averaging simplification in coast steps." |
 | D-04 | Scalar drivetrain drag (default 0), no motor power cap | coasting-share/overspeed gap; BLOCKED size | `[SIMPLIFICATION]` | "Drivetrain drag during coasting is approximated." |
 | D-05 | Back-to-back stops aim for next **positive** target; VECTO aims for the **immediate** next waypoint target (may be 0) | affects only consecutive-stop sequences | `[VECTO]` | "Behaviour at consecutive stops differs slightly from VECTO." |
@@ -669,28 +786,31 @@ client-facing report.
 | D-09 | Mode 2 "cruise" has no VECTO code; VECTO splits free-roll into Coast(4)/Roll(2), HDEV folds to mode 3 | affects mode-share comparison | `[VECTO]` (new, from Q12) | "HDEV's mode labels differ from VECTO's action codes; coast comparisons sum VECTO Coast+Roll." |
 | D-10 | Mode-3 coast can exceed `.vacc` accel on steep downhills | 2 rows on Construction (≤ 0.054 m/s²) | `[VECTO][TEST]` (new) | n/a — matches VECTO free-rolling |
 | D-11 | Overspeed/`FirstAccelerateOrCoast` approximated kinematically (VECTO iterates powertrain responses) | BLOCKED vs VECTO | `[VECTO]` | "The overspeed/coast decision is a kinematic approximation of VECTO's powertrain search." |
-| D-12 | Standing time = exact cycle stop time; VECTO 1 Hz output averages the stop/start second (~+1 s/stop region) | +10 s (Regional) / +104 s (Urban) total | `[VECTO][TEST]` | "Standing time matches the cycle definition; VECTO's 1 Hz output reports it ~1 s/stop lower." |
+| D-12 | Standing rows match VECTO **exactly** (746/3349/67); but HDEV **trip time** is ~0.2–1 % longer than VECTO (Regional 5896 vs 5885 s; Urban 13625 vs 13489 s) | +11 s (Regional) / +136 s (Urban) trip time | `[VECTO][TEST]` | "Standing time matches VECTO exactly; total trip time is ~0.2–1 % longer, from 1 s steps + extra coasting." |
 | D-13 | `decel_distance` ignores distance above the top `.vacc` point | **none** — VECTO clamps identically | `[VECTO][TEST]` | n/a — **not** a deviation (was an open worry; resolved) |
 | D-14 | Repo `src/engine/driver_model.py` is the stale pre-21-Oct model | n/a | — | n/a — housekeeping; replace with code of record |
 
 ---
 
-## BLOCKED items (inputs not supplied — Part 0.1)
+## BLOCKED items — most now UNBLOCKED (Bob supplied the files 2 Nov)
 
-| Blocked | Needs | Affects |
-|---|---|---|
-| `BLOCKED: reference/vecto/runs/BEV_E2_RegionalDelivery_ReferenceLoad_1Hz.vmod` | Bob's VECTO run (Part G) | Part D, E (VECTO anchor), F (VECTO side) |
-| `BLOCKED: reference/vecto/runs/BEV_E2_UrbanDelivery_ReferenceLoad_1Hz.vmod` | Bob's VECTO run | Part D, E, F |
-| `BLOCKED: reference/vecto/runs/*.vsum` | Bob's VECTO run | Part D totals |
-| `BLOCKED: tests/harness/hdev_test_harness_v1.7.py` | Bob | the certified E2 set-up for C/D/E (used ILLUSTRATIVE instead) |
-| `BLOCKED: tests/harness/hdev_addon_std_drag_v1.py` | Bob | D3 (EU standard-value drag) |
-| `BLOCKED: E2 component files (.vveh/.vemo/.vemd/.vtlm/Truck.vacc)` | from the VECTO repo folder | D2 (VECTO example drag), D7 |
-| `BLOCKED: cycles HeavyUrban/Urban/Suburban/Interurban/Coach` | not in resources/MissionCycles | Part C coverage of those cycles |
+Bob added the `.vmod`/`.vsum`, both harnesses and the notebook to
+`docs/research/vecto/`. Status:
 
-(Note: the E2 component files **do** exist in the cloned VECTO repo at
-`Generic Vehicles/Declaration Mode/PEV/GenericVehicleE2/`; they are just not in the
-`hdev` repo. Part G R-runs will produce the drag numbers directly, which is cleaner
-than re-deriving them from the `.vtlm` maps.)
+| Item | Status |
+|---|---|
+| `BEV_E2_RegionalDelivery_ReferenceLoad_1Hz.vmod` + Urban + LongHaul | **UNBLOCKED** — Part D done |
+| LowLoading `.vmod` (Regional/Urban/LongHaul) | **UNBLOCKED** — present; Part E could anchor to them (follow-up) |
+| `BEV_E2.vsum` (5.1.6-RC) | **UNBLOCKED** — totals read |
+| `hdev_test_harness_v1.7.py` | **UNBLOCKED** — reference vehicle reconstructed from it (no live notebook needed) |
+| `hdev_addon_std_drag_v1.py` | present, needs `scipy` + harness session + live notebook → D3 still **BLOCKED on the notebook engine functions** |
+| E2 component files (`.vveh/.vemd/.vtlm`) | in the cloned VECTO repo; D2's drag is covered by the measured `.vmod` drag (2.0–3.4 kN) instead |
+| cycles HeavyUrban/Urban/Suburban/Interurban/Coach | **still BLOCKED** — not in `resources/MissionCycles` |
+
+**Still blocked:** D2/D3/D6/D7/D8 as *isolated per-change re-runs* need either new VECTO
+runs (Part G R5/R6) or the live notebook engine functions to run the full harness. The
+`.vmod` alone unblocked the main D1-vs-VECTO comparison, the h-ranking, and Part E/F;
+the per-change isolation runs are the remaining work.
 
 ## Bob to fetch
 
@@ -708,12 +828,18 @@ than re-deriving them from the `.vtlm` maps.)
 ```bash
 # from the repo root, in a venv with numpy, pytest, matplotlib
 pip install numpy pytest matplotlib          # or: uv pip install ...
-pytest tests/driver_model -q                 # Part B (25) + Part C (90) = 115 tests
+pytest tests/driver_model -q                 # B(25) + C(90) + D-compare(9) = 124 tests
 export MPLCONFIGDIR=/tmp/mpl
-python docs/research/driver-model-review-2026-11/measure_part_e.py   # Part E numbers
-python docs/research/driver-model-review-2026-11/measure_part_f.py   # Part F convergence
-python docs/research/driver-model-review-2026-11/make_graphs.py      # graphs
+python docs/research/driver-model-review-2026-11/measure_part_d.py        # Part D vs VECTO .vmod
+python docs/research/driver-model-review-2026-11/measure_part_d_energy.py # Part D wheel energy + drag
+python docs/research/driver-model-review-2026-11/measure_part_e.py        # Part E fixed-mass
+python docs/research/driver-model-review-2026-11/measure_part_f.py        # Part F convergence
+python docs/research/driver-model-review-2026-11/make_graphs.py           # graphs
 ```
+
+The VECTO comparison needs the `.vmod`/`.vsum` in `docs/research/vecto/` (supplied by
+Bob, VECTO 5.1.6-RC); the reference vehicle is reconstructed from `hdev_test_harness_v1.7.py`
+in `tests/driver_model/_vecto_vehicle.py` — **no live notebook required**.
 
 Everything in `tests/driver_model/` imports the **code of record** from
 `reference_copy.py`; no engine file was touched.

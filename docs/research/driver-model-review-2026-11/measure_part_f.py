@@ -21,10 +21,11 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(
 
 from tests.driver_model.reference_copy import driver_model, interp1
 from tests.driver_model import _vecto_data as D
+from tests.driver_model import _vecto_vehicle as VV
 from src.engine.force_engine import force_engine
 
-G = 9.81
-R_DYN = 0.5
+G = VV.G
+R_DYN = VV.R_DYN
 
 
 def metrics(out, mass, Crr, vv, vacc_dec):
@@ -32,7 +33,8 @@ def metrics(out, mass, Crr, vv, vacc_dec):
     dt = float(np.diff(T)[0]) if len(T) > 1 else 1.0
     dts = np.diff(T, append=T[-1] + dt)
     k_lin, k_roll, k_rot, L, v_avg = force_engine(G, Crr, V, A, dts, grade, R_DYN, 0.0)
-    rho, cdxa = 1.188, 4.83
+    rho = VV.RHO_VECTO
+    cdxa = np.interp(v_avg * 3.6, VV.CDXA_V, VV.CDXA_REF)
     P = mass * k_lin + mass * k_roll + k_rot + rho * cdxa * L
     E = P * dts
     # worst deceleration ratio vs .vacc
@@ -57,16 +59,17 @@ def main():
     targets = [c for c in ("RegionalDelivery", "UrbanDelivery") if c in cycles]
     VACC_V, VACC_ACC, VACC_DEC = D.load_vacc()
     vv = [x / 3.6 for x in VACC_V]
-    m = D.E2_REF_MASS
-    print("Part F — dt convergence (coasting ON, ILLUSTRATIVE E2 reference mass)\n")
+    m = VV.M_REF
+    crr = VV.crr_total_vecto(m)
+    print("Part F — dt convergence (coasting ON, VECTO E2 reference mass)\n")
     for name in targets:
         s, v, grad, stop = D.load_cycle(cycles[name])
         print(f"=== {name} ===")
         base = None
         for dt in (1.0, 0.5, 0.25):
             out = driver_model(s, v, stop, grad, VACC_V, VACC_ACC, VACC_DEC,
-                               dt=dt, **D.coasting_kwargs(coast_mass=m))
-            mt = metrics(out, m, D.E2_CRR, vv, VACC_DEC)
+                               dt=dt, **VV.driver_kwargs(coast_mass=m))
+            mt = metrics(out, m, crr, vv, VACC_DEC)
             if base is None:
                 base = mt
             dtrac = (mt["E_trac_kWh"] - base["E_trac_kWh"]) / base["E_trac_kWh"] * 100 if base["E_trac_kWh"] else 0

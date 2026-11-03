@@ -13,23 +13,33 @@ parts are **BLOCKED** (see the review document's BLOCKED list).
   The ready-made job there is `BEV_E2.vecto` (declaration mode, Overspeed on,
   MinSpeed 50 km/h, OverSpeed 2.5 km/h — confirmed in the file).
 
+## Status update (2 Nov 2026)
+
+**Already done — thank you.** Your 22 Oct VECTO 5.1.6-RC run supplied LongHaul,
+RegionalDelivery and UrbanDelivery at **both** reference load and low loading, plus the
+`.vsum`. These are in `docs/research/vecto/` and unblocked Part D, the h-ranking, and
+Part E/F. The `.vsum` lists exactly **6 results**: LongHaul / Regional / Urban × 2
+loads — **Construction and Municipal are NOT in it**, which confirms your reading that
+the E2 declaration run only produces group-2 missions. So the runs still worth doing
+are the **feature-isolation** ones (R5/R6) and, if you want them, Construction/steep
+coverage via engineering mode (R2).
+
 ## What each run is for
 
-| Run | Purpose (which review part) | How to set it up |
+| Run | Purpose (which review part) | Status / how to set it up |
 |---|---|---|
-| **R1 LongHaul, reference load** | more overspeed/coast coverage than Regional/Urban (Part D, hypotheses h1–h7) | declaration run of `BEV_E2.vecto`; keep the LongHaul mission result |
-| **R2 Construction, reference load** | steep-grade coasting + the over-.vacc downhill coast finding (Part A new finding, Part D) | same job; keep the Construction mission result |
-| **R3 Regional, LowLoading** | fixed-mass effect (Part E) — a second mass point to compare the "wrong-mass trace" error against | declaration run; keep the RegionalDelivery **Low Loading** result rows |
-| **R4 Urban, LowLoading** | same, urban (Part E) | keep the UrbanDelivery Low Loading result rows |
-| **R5 look-ahead coasting OFF** | isolate the coasting feature (Part D h-ranking) | **engineering mode** copy of the E2 job, Driver → LAC disabled |
+| ~~R1 LongHaul, reference load~~ | coast/overspeed coverage | **DONE** (supplied) |
+| **R2 Construction, reference load** | steep-grade coasting + the over-.vacc downhill coast finding (Part A/C new finding) | **NOT a group-2 declaration mission** (your correction confirmed — Construction is absent from the `.vsum`). Needs an **engineering-mode** run: load the E2 components + `Construction.vdri`, Overspeed on, LAC on. Optional but would exercise the downhill-coast finding. |
+| ~~R3 Regional, LowLoading~~ / ~~R4 Urban, LowLoading~~ | fixed-mass effect (Part E) | **DONE** (supplied) — Part E could now anchor directly to these `.vmod` instead of HDEV-internal only |
+| **R5 look-ahead coasting OFF** | isolate the coasting feature (Part D h-ranking) | **engineering mode** copy of the E2 job, Driver → LAC disabled. This is the single most useful remaining run — it directly tests the h1 drag conclusion. |
 | **R6 overspeed OFF** | isolate the overspeed feature (Part D) | engineering-mode copy, Driver → Overspeed disabled |
 
-R5 and R6 need **engineering mode** because declaration mode fixes the driver options.
-Build an engineering job from the same component files (`.vveh`, `.vgbx`,
-`GenericDrag_125kW_485Nm.vemd`, `Gear_1.vtlm`, `Gear_2.vtlm`, the axle `.vtlm`,
-`Truck.vacc`) and the declaration cycle `.vdri` files, then toggle one driver option.
-If 5.1.6 does not allow toggling LAC/overspeed independently in engineering mode, say so
-and skip R5/R6 — do not fake them.
+R2/R5/R6 need **engineering mode** because declaration mode fixes the driver options
+and the mission set. Build an engineering job from the same component files (`.vveh`,
+`AMT.vgbx`, `GenericDrag_125kW_485Nm.vemd`, `Gear_1.vtlm`, `Gear_2.vtlm`, the axle
+`.vtlm`, `Truck.vacc`) and the `.vdri` cycle, then toggle one driver option. If 5.1.6
+does not allow toggling LAC/overspeed independently in engineering mode, say so and
+skip R5/R6 — do not fake them.
 
 ## `.vmod` columns that MUST be written
 
