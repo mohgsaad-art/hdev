@@ -65,3 +65,37 @@ def run_files():
         if fn.lower().endswith(".vmod"):
             out[fn[:-5]] = os.path.join(VECTO_RUNS, fn)
     return out
+
+
+def load_vsum(path=None):
+    """Parse BEV_E2.vsum into a list of dict rows (clean header -> value).
+
+    Line 1 is a '# VECTO-RC ...' comment, line 2 is the header.
+    """
+    if path is None:
+        path = os.path.join(VECTO_RUNS, "BEV_E2.vsum")
+    with open(path, encoding="utf-8-sig", newline="") as fh:
+        rows = list(csv.reader(fh))
+    header = [h.strip().lstrip("\ufeff") for h in rows[1]]
+    out = []
+    for r in rows[2:]:
+        if not r or r[0].startswith("#") or not r[0].startswith("1-"):
+            continue
+        d = {}
+        for h, v in zip(header, r):
+            key = h.split(" [")[0].strip()
+            vv = v.strip()
+            try:
+                d[key] = float(vv)
+            except ValueError:
+                d[key] = vv
+        out.append(d)
+    return out
+
+
+def vsum_row(cyc_vdri, loading_kg, tol=1.0, path=None):
+    """Return the .vsum row for a given cycle file and loading (kg)."""
+    for d in load_vsum(path):
+        if d.get("Cycle") == cyc_vdri and abs(float(d.get("Loading", -1)) - loading_kg) < tol:
+            return d
+    return None

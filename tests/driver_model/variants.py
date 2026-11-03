@@ -57,3 +57,28 @@ def coast_acc_avgdrag(v, v_prev, cv, cc, coast_mass, m_red_wheels, Crr, rho, g,
          + coast_mass * g * math.sin(th)
          + (P_drag_loss / v if v > 0 else 0.0))
     return -F / m_eff
+
+
+# ---------------------------------------------------------------------------
+# D2 — drivetrain coasting-drag TABLE (drag force vs speed) in coast_acc and
+# coast_distance, instead of the scalar P_drag_loss. (F4)
+#
+# The table is the VECTO example drivetrain drag at the wheels, built from the
+# .vmod component-loss columns on Coast/Roll rows (gearbox + axle + motor losses
+# + inertias)/v, median per 10 km/h band (see measure_part_d2.py). It is a drag
+# FORCE [N] vs speed [km/h]; it is ADDED to the existing air + rolling + slope.
+# ---------------------------------------------------------------------------
+import numpy as _np
+from tests.driver_model.reference_copy import driver_model as _driver_model
+
+
+# The runnable D2 variant is tests/driver_model/driver_model_v_dragtable.py — a
+# faithful copy of the code of record whose coast_acc / coast_distance use a drag
+# FORCE table F(v) [N] in place of the scalar P_drag_loss. It is proven byte-identical
+# to the code of record with a zero table by tests/driver_model/test_dragtable_identity.py.
+# measure_part_d2.py drives it for D2/D3/D5/D8.
+
+# VECTO example drivetrain drag table (wheel side), from the .vmod component-loss
+# columns on Coast/Roll rows, Reg+Urban+LongHaul reference (measure_part_d2.py). [VECTO][TEST]
+VECTO_DRIVETRAIN_DRAG_V_KMH = [0.0, 45.0, 55.0, 65.0, 75.0, 85.0, 130.0]
+VECTO_DRIVETRAIN_DRAG_N = [793.0, 793.0, 804.0, 888.0, 914.0, 949.0, 949.0]
