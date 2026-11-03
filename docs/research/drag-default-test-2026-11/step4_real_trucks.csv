@@ -1,0 +1,18 @@
+source,kwh_km,mass,cycle,comparable,note
+"HDEV V0 (no drag), Chain S, Regional ref",0.946,9.59 t,VECTO RegionalDelivery,HDEV,"HDEV, no drivetrain drag"
+"HDEV V1 (E2 drag), Chain S, Regional ref",0.975,9.59 t,VECTO RegionalDelivery,HDEV,"HDEV, E2 drag table (default)"
+"HDEV V0 (no drag), Chain S, Urban ref",0.809,9.59 t,VECTO UrbanDelivery,HDEV,"HDEV, no drivetrain drag"
+"HDEV V1 (E2 drag), Chain S, Urban ref",0.85,9.59 t,VECTO UrbanDelivery,HDEV,"HDEV, E2 drag table (default)"
+MAN eTGL (OEM),0.69,11.99 t GVW,OEM 'up to' (160 kWh / 235 km),near GVW only,"same GVW; spec-sheet best case, route unknown  [https://man.eu/uk/en/trucks/all-models/the-man-etgl/etgl.html]"
+Renault E-Tech D12 [CALC],0.8,12 t,176 kWh / 220 km,NOT like-for-like (truck/mass/cycle differ),"near E2 GVW; range-based, cycle unknown  [https://www.renault-trucks.com/en/newsroom/press-releases/e-tech-d12-and-d14]"
+Renault E-Tech D16 [CALC],1.14,16.7 t,375 kWh gross / 330 km,NOT like-for-like (truck/mass/cycle differ),"heavier (16.7 t), gross battery  [https://www.renault-trucks.de/sites/default/files/2024-09/Renault%20Trucks%20E-TECH%20D16%20MED%20P4x2_0.pdf]"
+Renault D16 test (Moottori),0.8,empty,trip computer,NOT like-for-like (truck/mass/cycle differ),"empty, cycle unknown  [https://moottori.fi/koeajo/maistiainen-renault-trucks-d-16-4x2-e-tech-sahkoa-jakeluliikenteeseen/]"
+DAF XB Electric [CALC],0.81,12-19 t,282 kWh / 350 km,NOT like-for-like (truck/mass/cycle differ),range spans heavier variants  [https://www.electrive.com/2023/08/24/daf-trucks-presents-the-daf-xb-electric-truck/]
+Fuso eCanter [CALC],0.66,7.49 t,66 kWh usable / ~100 km,NOT like-for-like (truck/mass/cycle differ),lighter (7.49 t)  [https://www.fleetnews.co.uk/truck/reviews/fuso-ecanter]
+Volvo FL heat test,0.73,15 t,"measured, >35 degC",NOT like-for-like (truck/mass/cycle differ),"heavier (15 t), hot weather  [https://www.volvotrucks.com/en-en/news-stories/stories/2022/march/volvo-electric-fl-truck-heat-test-in-australia.html]"
+Volvo FL fleet guide,1.0,n/s,200 kWh / 200 km,NOT like-for-like (truck/mass/cycle differ),"mass/cycle not stated  [(Guide til Flaadeejere, 22 Oct close-out)]"
+NREL Smith Newton (measured DC),0.79-0.87,~10 t,measured fleet,NOT like-for-like (truck/mass/cycle differ),"older tech, ~10 t  [https://www.energy.gov/sites/default/files/2015/10/f27/64238.pdf]"
+Oeko-Institut eActros (measured),"0.67 (>60 km/h), 0.72 (20-60)",19 t,measured medians,NOT like-for-like (truck/mass/cycle differ),much heavier (19 t)  [https://www.oeko.de/fileadmin/oekodoc/Real-world-data-analysis-of-battery-electric-trucks-operating-in-Germany.pdf]
+MAN fleet average (measured),0.9,mixed,on-road,NOT like-for-like (truck/mass/cycle differ),mixed fleet/cycle  [https://www.sustainabletruckvan.com/man-electric-trucks-on-road-consumption/]
+Danish fit at 11.99 t,0.796,11.99 t (extrapolated),cross-truck regression,near GVW only,"regression across trucks, not one truck  [(22 Oct close-out)]"
+Liimatainen fit at 11.99 t,0.855,11.99 t,cross-truck regression,near GVW only,regression across trucks  [(22 Oct close-out)]

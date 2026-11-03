@@ -1,0 +1,13 @@
+cycle,load,variant,coast_pct,secs85,rms_vs_vecto,E_trac,E_brake,vecto_coast,vecto_secs85
+RegionalDelivery,reference,V0 no drag,7.8,180,1.283,65.5,-6.9,1.461342395921835,0
+RegionalDelivery,reference,V1 E2 table,1.9,0,0.456,67.1,-8.5,1.461342395921835,0
+RegionalDelivery,reference,V2 std corrected,4.77,52,0.706,66.6,-8.0,1.461342395921835,0
+RegionalDelivery,low,V0 no drag,5.54,79,1.105,58.7,-4.6,1.2064570943075617,0
+RegionalDelivery,low,V1 E2 table,1.21,0,0.377,59.8,-5.6,1.2064570943075617,0
+RegionalDelivery,low,V2 std corrected,2.61,0,0.492,59.6,-5.4,1.2064570943075617,0
+UrbanDelivery,reference,V0 no drag,5.17,4,1.998,77.6,-42.2,2.164726814441397,11
+UrbanDelivery,reference,V1 E2 table,2.46,11,0.968,80.4,-44.8,2.164726814441397,11
+UrbanDelivery,reference,V2 std corrected,3.63,13,1.46,79.4,-43.8,2.164726814441397,11
+UrbanDelivery,low,V0 no drag,4.63,13,1.747,61.6,-30.6,1.3054442960985018,0
+UrbanDelivery,low,V1 E2 table,1.61,3,0.818,63.9,-32.6,1.3054442960985018,0
+UrbanDelivery,low,V2 std corrected,2.88,12,1.185,63.2,-32.0,1.3054442960985018,0
