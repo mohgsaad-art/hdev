@@ -16,6 +16,28 @@ labelled **[INFERENCE]**.
 
 ---
 
+> ## ⚠ Corrections (added 3 Nov 2026, from `docs/research/drag-default-test-2026-11.md`)
+>
+> Three numbers in this report are wrong. **Do not reuse this report's
+> `drag_force_fixed()` or its D2/D3/D7 drag figures.** The follow-up report
+> `docs/research/drag-default-test-2026-11.md` redoes the drag table correctly.
+>
+> 1. **Axle drag on the wrong shaft.** `_stdval.py` `drag_force_fixed()` (lines ~305–311)
+>    applied the axle `Td0` on the axle **input** shaft at input speed. The regulation
+>    (Annex VII App. 3 Table 1, "drag torque — wheel side") and VECTO's generic axle put
+>    it on the **wheel side** at `n_out`. The error inflates the axle drag by ×2.59 and
+>    its speed-dependent half by ×2.59². Corrected single-reduction-axle totals:
+>    **0.67 / 0.75 / 0.84 kN at 45 / 65 / 85 km/h** `[REG Annex VII App. 3]`.
+> 2. **Wrong axle standard value.** The truck single-reduction standard value is
+>    `Td0 = 70 + 20·i`, η 0.98 `[REG 2017/2400 consolidated 01.01.2026, Annex VII App. 3
+>    Table 1, p. 306]`. This report used `52.5 + 15·i`, which is VECTO's **completed-bus
+>    generic** data, not the truck standard value.
+> 3. **Withdrawn benchmark.** This report's "VECTO 2.0–3.4 kN" includes air and rolling
+>    resistance and was withdrawn (3 Nov driver-model close-out §4.4). VECTO
+>    **drivetrain-only** drag is **1.43 kN (≈45 km/h) → 2.05 kN (≈85 km/h)** `[VMOD]`. The
+>    corrected E2-file table reproduces this to within 9 % per band (see the follow-up
+>    report, Step 1).
+
 ## 0. Ten-line answer — "what must a user enter, what do we fill in, how wrong can it be?"
 
 1. A fleet owner realistically has: **make/model, motor rated power & torque, number of
