@@ -25,7 +25,7 @@ from tests.driver_model import _vmod as VM
 HERE = os.path.dirname(os.path.abspath(__file__))
 VACC = D.load_vacc()
 D2_V = [0, 45, 55, 65, 75, 85, 130]
-D2_F = [793, 793, 804, 888, 914, 949, 949]
+D2_F = [1431, 1431, 1534, 1635, 1935, 2055, 2055]
 
 
 def runs_for(cyc):

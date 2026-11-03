@@ -1,21 +1,19 @@
-"""Part D2 (+ D3, D5, D6, D8) — the decisive drag test (F4).
+"""Part D2/D8 — decisive drag test with the CORRECTED VECTO drivetrain drag (F4 redo).
 
-Uses driver_model_v_dragtable (faithful copy of the code of record, proven identical
-with a zero table by test_dragtable_identity) with the drag FORCE table applied in BOTH
-coast_acc and coast_distance. One change at a time.
+Correction: on Coast/Roll rows, -P_wheel_in/v = P_gbx_in (motor drag through the box)
++ P_gbx_loss + P_axle_loss = ~1.43-2.05 kN. The earlier D2 table (0.79-0.95 kN) omitted
+P_gbx_in and was ~2x too small. Drag table rebuilt per 10 km/h band from -P_wheel_in/v.
 
-Drag tables (wheel-side force vs speed), from the .vmod analysis (measure_part_d_energy):
-  D2 = VECTO example drivetrain drag (component losses gbx+axle+motor+inertias)/v
-  D3 = EU standard value 0.63-0.85 kN
-
-Metrics vs VECTO: coast share (and the look-ahead-only sub-share), secs>85 km/h, speed
-RMS @10 m, wheel traction/braking energy. One change at a time: D5 (g), D6 (step-avg
-air drag note), D8 (D2+D5 together).
+Runs D1/D2/D3/D5/D8 for Regional and Urban at reference AND low load. Reports: coast
+share split into look-ahead vs overspeed roll, secs>85 km/h, speed RMS @10 m, wheel
+traction/braking energy. Also reports VECTO's in-driving-mode Coast/Roll share for a
+fair overspeed-roll comparison (NOT assumed to be a classification difference).
 
 Run: python docs/research/driver-model-review-2026-11/measure_part_d2.py
 """
 import os
 import sys
+import bisect
 
 import numpy as np
 
@@ -31,14 +29,42 @@ from src.engine.force_engine import force_engine
 
 VACC = D.load_vacc()
 
+# CORRECTED drag table: -P_wheel_in/v = P_gbx_in + P_gbx_loss + P_axle_loss, per band.
 D2_V = [0.0, 45.0, 55.0, 65.0, 75.0, 85.0, 130.0]
-D2_F = [793.0, 793.0, 804.0, 888.0, 914.0, 949.0, 949.0]   # VECTO drivetrain drag [N]
+D2_F = [1431.0, 1431.0, 1534.0, 1635.0, 1935.0, 2055.0, 2055.0]
 D3_V = [0.0, 50.0, 90.0, 130.0]
-D3_F = [630.0, 630.0, 850.0, 850.0]                         # EU standard value [N]
+D3_F = [630.0, 630.0, 850.0, 850.0]
+
+RUN_LOADS = [("RegionalDelivery", "reference"), ("RegionalDelivery", "low"),
+             ("UrbanDelivery", "reference"), ("UrbanDelivery", "low")]
+VDRI = {"RegionalDelivery": "RegionalDelivery.vdri", "UrbanDelivery": "UrbanDelivery.vdri"}
+LOADING = {("RegionalDelivery", "reference"): 3019.5882, ("RegionalDelivery", "low"): 603.9176,
+           ("UrbanDelivery", "reference"): 3019.5882, ("UrbanDelivery", "low"): 603.9176}
+RUNFILE = {("RegionalDelivery", "reference"): "BEV_E2_RegionalDelivery_ReferenceLoad_1Hz",
+           ("RegionalDelivery", "low"): "BEV_E2_RegionalDelivery_LowLoading_1Hz",
+           ("UrbanDelivery", "reference"): "BEV_E2_UrbanDelivery_ReferenceLoad_1Hz",
+           ("UrbanDelivery", "low"): "BEV_E2_UrbanDelivery_LowLoading_1Hz"}
 
 
-def coast_share(M):
-    return float((np.asarray(M) == 3).mean()) * 100
+def seg_targets(s, v):
+    v_wp = [float(x) / 3.6 for x in v]
+    s_wp = [float(x) for x in s]
+    seg = [0.0] * len(v_wp)
+    nxt = 0.0
+    for i in range(len(v_wp) - 1, -1, -1):
+        seg[i] = v_wp[i] if v_wp[i] > 0 else nxt
+        if v_wp[i] > 0:
+            nxt = v_wp[i]
+    return s_wp, seg
+
+
+def coast_split(S, V, M, s_wp, seg):
+    tgt = np.array([seg[max(0, min(bisect.bisect_right(s_wp, float(d)) - 1, len(seg) - 1))] for d in S])
+    c3 = (M == 3)
+    n = len(M)
+    la = int((c3 & (V < tgt - 0.01)).sum())
+    osr = int((c3 & (V >= tgt - 0.01)).sum())
+    return c3.sum() / n * 100, la / n * 100, osr / n * 100
 
 
 def over85(V):
@@ -46,10 +72,8 @@ def over85(V):
 
 
 def rms_vs_vecto(S, V, cols):
-    dist_v = VM.col(cols, "dist")
-    v_v = VM.col(cols, "v_act")
-    s_max = min(S[-1], dist_v[-1])
-    grid = np.arange(0, s_max, 10.0)
+    dist_v = VM.col(cols, "dist"); v_v = VM.col(cols, "v_act")
+    s_max = min(S[-1], dist_v[-1]); grid = np.arange(0, s_max, 10.0)
     diff = np.interp(grid, S, V) * 3.6 - np.interp(grid, dist_v, v_v)
     return float(np.sqrt(np.mean(diff ** 2)))
 
@@ -75,34 +99,51 @@ def run(cyc, load, variant, drag=None, g=None):
     return driver_model_dragtable(s, v, stop, grad, *VACC, drag_v_kmh=dv, drag_f=df, **kw)
 
 
+def vecto_metrics(cols, s, v):
+    da = VM.col(cols, "DriverAction").astype(int)
+    vv = VM.col(cols, "v_act")
+    dist = VM.col(cols, "dist")
+    n = len(da)
+    coast_roll = float(((da == 4) | (da == 2)).mean()) * 100
+    # VECTO Coast/Roll rows that are INSIDE driving mode = overspeed roll: speed >= local
+    # target (at/above target). Approximate with target interpolated from the cycle.
+    s_wp, seg = seg_targets(s, v)
+    tgt = np.array([seg[max(0, min(bisect.bisect_right(s_wp, float(d)) - 1, len(seg) - 1))] * 3.6 for d in dist])
+    cr = (da == 4) | (da == 2)
+    os_roll = float((cr & (vv >= tgt - 0.5)).mean()) * 100
+    la = float((cr & (vv < tgt - 0.5)).mean()) * 100
+    return coast_roll, la, os_roll, int((vv > 85).sum())
+
+
 def main():
     runs = VM.run_files()
-    print("Part D2/D3/D5/D8 — drag table in coast_acc AND coast_distance (F4)\n")
-    for cyc in ("RegionalDelivery", "UrbanDelivery", "LongHaul"):
-        run_name = f"BEV_E2_{cyc}_ReferenceLoad_1Hz"
-        cols = VM.load_vmod(runs[run_name]) if run_name in runs else None
-        da = VM.col(cols, "DriverAction").astype(int) if cols is not None else None
-        vecto_coast = float(((da == 4) | (da == 2)).mean()) * 100 if da is not None else float("nan")
-        vecto_over = int((VM.col(cols, "v_act") > 85).sum()) if cols is not None else -1
-        pw = VM.col(cols, "P_wheel_in") if cols is not None else None
-        dtv = VM.col(cols, "dt") if cols is not None else None
-        vE = (pw * dtv / 3600.0) if cols is not None else None
-        vEpos = float(vE[vE > 0].sum()) if cols is not None else float("nan")
+    print("Part D2/D8 — CORRECTED VECTO drivetrain drag (1.43-2.05 kN). F4 redo.\n")
+    for cyc, load in RUN_LOADS:
+        rf = RUNFILE[(cyc, load)]
+        cols = VM.load_vmod(runs[rf]) if rf in runs else None
+        s, v, grad, stop = D.load_cycle(D.list_cycles()[cyc])
+        s_wp, seg = seg_targets(s, v)
+        vcoast, vla, vosr, vover = vecto_metrics(cols, s, v) if cols is not None else (0, 0, 0, -1)
+        pw = VM.col(cols, "P_wheel_in"); dtv = VM.col(cols, "dt")
+        vE = pw * dtv / 3600.0
+        vEpos = float(vE[vE > 0].sum())
 
         cases = {
-            "D1 (no drag)": run(cyc, "reference", "ref"),
-            "D2 (VECTO drag)": run(cyc, "reference", "tbl", drag=(D2_V, D2_F)),
-            "D3 (EU std drag)": run(cyc, "reference", "tbl", drag=(D3_V, D3_F)),
-            "D5 (g=9.80665)": run(cyc, "reference", "ref", g=9.80665),
-            "D8 (D2+D5)": run(cyc, "reference", "tbl", drag=(D2_V, D2_F), g=9.80665),
+            "D1 (no drag)": run(cyc, load, "ref"),
+            "D2 (VECTO drag)": run(cyc, load, "tbl", drag=(D2_V, D2_F)),
+            "D3 (EU std)": run(cyc, load, "tbl", drag=(D3_V, D3_F)),
+            "D5 (g=9.80665)": run(cyc, load, "ref", g=9.80665),
+            "D8 (D2+D5)": run(cyc, load, "tbl", drag=(D2_V, D2_F), g=9.80665),
         }
-        print(f"=== {cyc} (reference) — VECTO: coast {vecto_coast:.2f} %, secs>85 {vecto_over}, "
-              f"E_trac {vEpos:.1f} kWh ===")
-        print(f"  {'case':18s} {'coast%':>7s} {'secs>85':>8s} {'RMS kmh':>8s} {'E_trac':>7s} {'E_brake':>8s}")
+        print(f"=== {cyc} {load} ===")
+        print(f"  VECTO: Coast+Roll {vcoast:.2f}% (look-ahead {vla:.2f}% + overspeed-roll {vosr:.2f}%), "
+              f"secs>85 {vover}, E_trac {vEpos:.1f} kWh")
+        print(f"  {'case':16s} {'coast%':>7s} {'LA%':>6s} {'OSroll%':>7s} {'>85':>5s} {'RMS':>6s} {'Etrac':>6s} {'Ebrk':>7s}")
         for name, (T, S, V, A, gr, M) in cases.items():
+            tot, la, osr = coast_split(S, V, M, s_wp, seg)
             rms = rms_vs_vecto(S, V, cols) if cols is not None else float("nan")
-            Ep, En = wheel_energy(T, S, V, A, gr, cyc, "reference")
-            print(f"  {name:18s} {coast_share(M):7.2f} {over85(V):8d} {rms:8.2f} {Ep:7.1f} {En:8.1f}")
+            Ep, En = wheel_energy(T, S, V, A, gr, cyc, load)
+            print(f"  {name:16s} {tot:7.2f} {la:6.2f} {osr:7.2f} {over85(V):5d} {rms:6.2f} {Ep:6.1f} {En:7.1f}")
         print()
 
 

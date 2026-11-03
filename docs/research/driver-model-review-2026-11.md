@@ -43,20 +43,20 @@ simplification; `[OPEN]` unresolved.
   `[VECTO]`.
 
 ### What is wrong or deviates (ranked by measured/known effect)
-1. **`g = 9.81` vs VECTO `9.80665`** — a flat ~0.034 % bias on every rolling, slope
-   and coasting force. Trivially fixable, sourced, zero-risk. `[VECTO]`
-2. **Coasting at a fixed reference mass / CdxA, no wind** — the largest *assumption*.
-   Measured "wrong-mass trace" braking-energy error up to **+6.0 % (Regional, full
-   load)** and **−5.2 % (LongHaul, empty)** on the per-cycle VECTO vehicles (F1/F2)
-   `[TEST]`. Traction-energy error stays ≤ 0.8 %. **Decision for Bob**, numbers given.
-3. **Instantaneous air drag in `coast_acc`** vs VECTO's step-average — known small
-   energy leftover; D6 not isolated against VECTO (D2 wheel energy agrees within ~1 %,
-   so the leftover is small). `[SIMPLIFICATION]`
-4. **Mode/behaviour mapping verified (F5).** VECTO's `.vsum` shares use acceleration
-   thresholds (accel/decel/cruise/stop) plus the `DrivingBehavior` enum (coasting/
-   braking) — *not* `DriverAction` counts. Crucially, VECTO books **overspeed downhill
-   roll as `Driving`, not `Coasting`**, while HDEV's mode 3 includes it — so HDEV mode 3
-   must be split before comparing to VECTO Coasting. `[VECTO]`
+1. **No drivetrain coasting drag (`P_drag_loss = 0`)** — the #1 defect. HDEV coasts
+   2–4× more than VECTO and overspeeds more (Regional coast 7.8 % vs 1.5 %; 180 vs 0 s
+   > 85 km/h). **Adding VECTO's measured drivetrain drag (1.43–2.05 kN) in D2 closes it**
+   (coast 1.60 %, 0 s > 85, RMS 0.35 km/h, traction = VECTO). Fix = P3 (drag table).
+   `[TEST]`
+2. **`g = 9.81` vs VECTO `9.80665`** — a flat ~0.034 % bias on every rolling, slope
+   and coasting force. Trivially fixable, sourced, zero-risk; D5 shows ~0 effect on
+   coast/overspeed. `[VECTO]`
+3. **Coasting at a fixed reference mass / CdxA, no wind** — the largest *assumption*.
+   "Wrong-mass trace" braking-energy error up to **+6.0 % (Regional, full load)** and
+   **−5.2 % (LongHaul, empty)** on the per-cycle VECTO vehicles (F1/F2) `[TEST]`.
+   Traction-energy error ≤ 0.8 %. **Decision for Bob**, numbers given.
+4. **Instantaneous air drag in `coast_acc`** vs VECTO's step-average — small energy
+   leftover; D2 wheel energy agrees within ~1 %, so it is minor. `[SIMPLIFICATION]`
 5. **New finding:** on steep downhills (−6.9 %, −7.5 % on Construction) the coast
    acceleration can exceed the `.vacc` accel limit (2 rows measured). This matches
    VECTO (free-rolling Coast is not limited by the driver accel curve) but is worth
@@ -67,30 +67,40 @@ simplification; `[OPEN]` unresolved.
 7. **Repo mismatch:** `src/engine/driver_model.py` in the repo is the **old pre-21-Oct
    class-based model** (no coasting, no overspeed, flat grade) — completely different
    from the code of record. See A.0.
+8. **Time-share definitions (F5, measurement note, not a defect):** VECTO's `.vsum`
+   shares use acceleration thresholds (accel `a>0.125`, decel `a<−0.125`, cruise
+   `|a|≤0.125` & `v≥0.1 km/h`, stop `v<0.1 km/h`) plus the `DrivingBehavior` enum for
+   coasting/braking — not `DriverAction` counts, and computed over VECTO's variable
+   steps. Comparisons must use these definitions. `[VECTO]`
 
-### Headline VECTO comparison (VECTO 5.1.6-RC run; F1–F6 corrected, 3 Nov)
-- **Speed trace tracks VECTO well:** 1.28 km/h RMS (Regional), 2.00 (Urban), 1.79/0.57
-  (LongHaul ref/low, with the **correct truck+trailer** vehicle) `[TEST]`.
-- **HDEV coasts more than VECTO and overspeeds more** (Regional: look-ahead coast
-  3.26 % vs VECTO Coasting 1.28 %; plus 4.55 % overspeed roll VECTO books as `Driving`;
-  180 vs 0 secs > 85 km/h). **The drag table (D2) closes about half of it** — the rest
-  is the Coast-vs-Driving definition difference (F5), not a logic error. `[TEST]`
-- **Corrected drag figure (F3):** VECTO's coasting **drivetrain** drag is **~0.8–2.1 kN**
-  (component losses ~0.8–1.0 kN; incl. motor drag torque ~1.4–2.1 kN), the **same order
-  of magnitude** as the EU standard value 0.63–0.85 kN — not the 2.0–3.4 kN the first
-  pass wrongly reported (it double-counted air+roll). `[TEST]`
-- **Time shares (F5):** using VECTO's own threshold definitions, accel/decel/cruise/stop
-  agree well; only coasting/braking (`DrivingBehavior`-based) diverge. `[VECTO][TEST]`
+### Headline VECTO comparison (VECTO 5.1.6-RC; corrected drag, 3 Nov 2nd pass)
+- **Speed trace tracks VECTO well:** D1 (no drag) 1.28 km/h RMS (Regional), 2.00 (Urban);
+  LongHaul 1.79/0.57 (ref/low, **correct truck+trailer** vehicle) `[TEST]`.
+- **The coast/overspeed gap is DRAG, and the drag table (D2) closes it.** With VECTO's
+  measured drivetrain drag **1.43–2.05 kN** applied, Regional coast share 7.8 → **1.60 %**
+  (VECTO 1.46), seconds > 85 km/h 180 → **0** (VECTO 0), speed RMS 1.28 → **0.35 km/h**,
+  traction **67.2 = VECTO 67.2 kWh**. Same across Urban and both loads. `[TEST]`
+- **Corrected drag figure (F3, 2nd pass):** VECTO drivetrain drag is **1.43–2.05 kN**
+  (`−P_wheel_in/v` = **P_gbx_in** motor-drag-through-the-box 0.8 kN + P_gbx_loss 0.49 +
+  P_axle_loss 0.27). ~2–2.5× the EU standard value 0.63–0.85 kN. `[TEST]`
+- **Time shares (F5):** with VECTO's own threshold definitions, accel/decel/cruise/stop
+  agree well; coasting/braking (`DrivingBehavior`-based) diverge under D1 but close
+  under D2. `[VECTO][TEST]`
 
-### Numbers WITHDRAWN or corrected this revision (F7)
+### Numbers WITHDRAWN or corrected across the two follow-up passes (F7)
 - **LongHaul everything** — re-run with the truck+trailer vehicle (CdxA 6.13, 19811/
-  11274 kg). The old 66.7-vs-106.1 kWh traction gap is **withdrawn** (artefact of the
-  wrong rigid vehicle); now 104.8/105.8 vs 106.1 kWh (~1 %).
-- **"2.0–3.4 kN VECTO coasting drag"** → corrected to ~0.8–2.1 kN drivetrain (F3).
-- **"h1 confirmed, dominant"** → softened: drag is the biggest single lever but D2
-  leaves a residual that is the Coast-vs-Driving definition (F5), not physics.
-- **"false alarm / non-existent cruise code"** → corrected: VECTO's `.vsum` *does* have
-  a threshold-based cruise share; it lacks a cruise `DriverAction` code (F5).
+  11274 kg). The old 66.7-vs-106.1 kWh traction gap is **withdrawn**; now 104.8/105.8 vs
+  106.1 kWh (~1 %).
+- **VECTO coasting drag:** "2.0–3.4 kN" (1st pass, wrongly included air+roll) **and**
+  "0.79–0.95 kN / ~0.8–2.1 kN" (2nd pass, omitted `P_gbx_in` motor drag) are both
+  **withdrawn**. Correct: **1.43–2.05 kN** drivetrain (F3).
+- **"residual is a Coast-vs-Driving classification difference"** — **WITHDRAWN.** It was
+  an artefact of the undersized drag table; with the correct drag the overspeed roll
+  falls to ~VECTO's level (0.88 % vs ~0.1–0.76 %). Drag was the cause.
+- **"h1 softened / not dominant"** — reverted: **h1 (drag) is the dominant cause**; D2
+  closes the gap.
+- **"false alarm / non-existent cruise code"** → corrected (F5): VECTO's `.vsum` *does*
+  have a threshold-based cruise share; it lacks a cruise `DriverAction` code.
 - **Low-load comparisons** re-run at the low-load mass (7173.9 kg), not reference (F2).
 
 ### Biggest open items
@@ -101,7 +111,7 @@ simplification; `[OPEN]` unresolved.
 ### Proposed changes, ranked (detail in §"Proposed changes")
 | # | Change | Source tag | Measured effect | Engine or parser? |
 |---|---|---|---|---|
-| **P3** | **drivetrain coasting-drag table** (replace scalar `P_drag_loss`) | `[VECTO]`/`[REG]` | **#1 fix** — D2 measured: Regional coast 7.8→4.2 %, overspeed 180→47 s, speed RMS 1.28→0.64 km/h, traction 65.5→66.8 (VECTO 67.2). Closes ~half the gap; drag ~0.8–2.1 kN | parser builds table, engine consumes |
+| **P3** | **drivetrain coasting-drag table** (replace scalar `P_drag_loss`) | `[VECTO]`/`[REG]` | **#1 fix, D2 measured:** Regional coast 7.8→**1.60 %** (VECTO 1.46), overspeed 180→**0 s**, RMS 1.28→**0.35 km/h**, traction 65.5→**67.2** (=VECTO). Drag 1.43–2.05 kN. Closes the gap | parser builds table, engine consumes |
 | P1 | `g = 9.80665` | `[VECTO]` | ~0.034 % force bias; D5 shows ~0 effect on coast/overspeed | engine arg / parser default |
 | P2 | step-average air drag in `coast_acc` | `[VECTO]` D6 | small (≤ few %) | engine |
 | P4 | reconsider fixed-mass assumption | `[ASSUMPTION]` | up to +6.0 % (Regional full) / −5.2 % (LongHaul empty) braking-energy error | design call (Bob) |
@@ -501,8 +511,10 @@ accelerate, cruise **and overspeed-coast all land here**), `Braking` (1310, in
 `DoBrake`), `Coasting` (1459, **only in `DoCoast`** = the look-ahead coast on the
 approach to a slowdown). **Key consequence:** VECTO's `CoastingTimeShare` counts only
 look-ahead coasting; the **downhill overspeed roll** (FirstAccelerateOrCoast, which runs
-in drive mode) is `Driving`, **not** Coasting. HDEV's mode 3 lumps **both** together.
-So HDEV mode 3 is NOT comparable to VECTO Coasting without splitting it. `[VECTO]`
+in drive mode) is `Driving`, **not** Coasting. HDEV's mode 3 lumps **both** together, so
+when comparing coast shares, split HDEV mode 3 into look-ahead vs overspeed roll. **But
+this is only a measurement detail — under D2 both sub-shares match VECTO (F4), so it is
+not the source of any gap.** `[VECTO]`
 
 **Metric 3/5 — the coast/overspeed gap, correctly split** `[TEST]`. Splitting HDEV
 mode 3 into look-ahead coast (→ VECTO Coasting) and overspeed/at-target roll (→ VECTO
@@ -514,33 +526,45 @@ Driving):
 | Urban ref | 5.17 % | — | — | 1.71 % | 4 | 11 |
 | LongHaul ref | 7.63 % | 1.94 % | 5.69 % | 0.47 % | 202 | 0 |
 
-So even on the *comparable* (look-ahead) sub-share, HDEV coasts ~2.5× more than VECTO
-(Regional 3.26 vs 1.28), **and** HDEV has a large overspeed-roll share that VECTO books
-as Driving. The 180-vs-0 overspeed seconds (Regional) is the overspeed-roll difference.
-This is the real gap; the cause is tested in F4/D2 below.
+This table is **D1 (no drag)**. Under D1 HDEV coasts ~2.5× more on the look-ahead
+sub-share (Regional 3.26 vs 1.28 %) **and** shows a large 4.55 % overspeed roll. **Both
+collapse under D2 (correct drag):** look-ahead → 0.71 % (VECTO 0.70) and overspeed roll
+→ 0.88 % (VECTO's genuine overspeed ~0.1–0.76 %) — see F4. So the D1 gap, including the
+overspeed roll, was **missing drivetrain drag**, not an intrinsic behaviour or
+classification difference. The 180-vs-0 overspeed seconds under D1 → **0 vs 0 under D2**.
 
-**Metric 7 / F3 — VECTO's coasting DRIVETRAIN drag (corrected definition)** `[TEST]`.
-The drivetrain drag at the wheels on Coast/Roll rows is **`−P_wheel_in / v`** (what the
-powertrain pulls back), not `(P_air+P_roll+…)/v`. Median per band (reproduces Claude's
-numbers):
+**Metric 7 / F3 — VECTO's coasting DRIVETRAIN drag (corrected again, 2nd pass)** `[TEST]`.
+The drivetrain drag at the wheels on Coast/Roll rows is **`−P_wheel_in / v`**, and it
+equals **`(P_gbx_in + P_gbx_loss + P_axle_loss)/v`** exactly — where **`P_gbx_in` is the
+motor drag flowing into the gearbox at zero driver torque** (the term I omitted in the
+1st pass). Per 10 km/h band (Reg+Urban+LongHaul reference), the two agree to the digit:
 
-| band | Regional ref | Urban ref | LongHaul ref |
-|---|---|---|---|
-| 40–50 km/h | 1.72 kN (n 6) | 1.43 kN (n 73) | – |
-| 50–60 km/h | 1.55 kN (n 47) | 1.52 kN (n 159) | – |
-| 60–70 km/h | 1.70 kN (n 24) | 1.62 kN (n 35) | – |
-| 70–80 km/h | 1.81 kN (n 9) | 0.98 kN (n 4) | 1.94 kN (n 47) |
-| 80–90 km/h | – | 2.10 kN (n 10) | 2.05 kN (n 57) |
+| band | `−P_wheel_in/v` | `(P_gbx_in+P_gbx_loss+P_axle_loss)/v` |
+|---|---|---|
+| 40–50 km/h | 1.43 kN (n 79) | 1.43 kN |
+| 50–60 km/h | 1.53 kN (n 206) | 1.54 kN |
+| 60–70 km/h | 1.63 kN (n 59) | 1.67 kN |
+| 70–80 km/h | 1.94 kN (n 60) | 1.94 kN |
+| 80–90 km/h | 2.05 kN (n 67) | 2.06 kN |
 
-**Cross-check against the component columns** (`(P_gbx_loss+P_axle_loss+P_E2-em_loss+
-P_E2-em_inertia_loss+P_gbx_inertia)/v`) gives a lower, cleaner **0.79–0.95 kN**. The
-difference (component-sum 0.8–1.0 kN vs `−P_wheel_in/v` 1.4–2.1 kN) is because
-`−P_wheel_in` also contains the motor **drag-torque** reacted through the gears (the
-`ElectricMotor` drag curve, Q8) and residual inertia/grade terms that are not in the
-tabulated loss columns. **Corrected comparison:** VECTO example **drivetrain** drag is
-**~0.8–2.1 kN** (component losses ~0.8–1.0 kN; total wheel-side retardation incl. motor
-drag torque ~1.4–2.1 kN) vs the EU standard value **0.63–0.85 kN** — the two are the
-**same order of magnitude**, not the 3–5× the earlier wrong figure implied. `[TEST]`
+At 50–70 km/h the split is **P_gbx_in 0.81 + P_gbx_loss 0.49 + P_axle_loss 0.27 = 1.56 kN
+(Regional)**, 0.79+0.49+0.27 = 1.54 kN (Urban) — exactly Claude's figures. **So VECTO's
+drivetrain coasting drag is 1.43–2.05 kN**, dominated by the **motor drag** (`P_gbx_in`,
+~0.8 kN) which the 1st-pass table (0.79–0.95 kN, losses only) left out.
+
+**Independent build from the E2 component files** (`.vemd` motor drag + `Gear_2.vtlm` +
+axle `.vtlm` at zero torque in gear 2, ratios EM 2.0 × gear2 1.93 × axle 2.59, r_dyn
+0.4209) gives **0.63–0.93 kN** — about **half** the `.vmod` value. The two do **not**
+agree: the zero-torque component maps underestimate VECTO's simulated coast drag, because
+in a real coast step the drag torque itself loads the gearbox (so its loss is higher than
+the zero-torque row) and the BEV motor-controller coast behaviour is not exactly the bare
+drag curve (Q8). **The `.vmod`-measured table (1.43–2.05 kN) is therefore the
+authoritative one** and is what D2 uses. Reproduce: `measure_part_d_drag.py`. `[TEST]`
+
+**Comparison to the EU standard value.** VECTO example drivetrain drag **1.43–2.05 kN**
+vs EU standard value **0.63–0.85 kN** — VECTO is **~2–2.5× higher**. (Both earlier
+statements — "2.0–3.4 kN" and "same order of magnitude ~0.8–2.1 kN" — are **withdrawn**;
+the correct figure is 1.43–2.05 kN drivetrain.)
 
 **Metric 7 / F6 — brake split.** `Σ P_brake_loss·dt` = **0.0828 kWh** (Regional ref) =
 the `.vsum` `E_brake` 0.0828 exactly (Urban 0.8765≈0.8752; LongHaul 0.0754=0.0754). So
@@ -566,49 +590,53 @@ not the 66.7-vs-106.1 the wrong rigid vehicle produced. The old 66.7 vs 106.1 fi
 **Standing / trip time** `[TEST]`: standing rows match VECTO **exactly** (746/3349/67).
 Trip time: HDEV ~0.2–1 % longer (Regional 5896 vs 5885 s) — 1 s steps + extra coasting.
 
-### F4 — the decisive drag test D2 (and D3, D5, D8) `[TEST]`
+### F4 — the decisive drag test D2 (redone with the CORRECT drag) `[TEST]`
 
-D2 = code of record with the VECTO drivetrain-drag table (component-loss form,
-0.79–0.95 kN) applied in **both** `coast_acc` and `coast_distance`, via
-`driver_model_v_dragtable` (proven byte-identical to the code of record with a zero
-table — `test_dragtable_identity`). One change at a time:
+D2 = code of record with the **correct** VECTO drivetrain-drag table (`−P_wheel_in/v` =
+P_gbx_in + P_gbx_loss + P_axle_loss, **1.43–2.05 kN**) applied in **both** `coast_acc`
+and `coast_distance`, via `driver_model_v_dragtable` (proven byte-identical to the code
+of record with a zero table — `test_dragtable_identity`). Regional and Urban, reference
+and low load. Coast share split into look-ahead (→ VECTO Coasting) and overspeed roll:
 
-| Cycle | case | coast % | secs>85 | speed RMS | E_trac | VECTO |
-|---|---|---|---|---|---|---|
-| Regional | D1 (no drag) | 7.80 | 180 | 1.28 | 65.5 | coast 1.46 %, >85 = 0, E_trac 67.2 |
-| Regional | **D2 (VECTO drag)** | **4.18** | **47** | **0.64** | 66.8 | |
-| Regional | D3 (EU std) | 4.84 | 55 | 0.71 | 66.6 | |
-| Regional | D5 (g=9.80665) | 7.80 | 180 | 1.28 | 65.5 | |
-| Regional | D8 (D2+D5) | 4.18 | 47 | 0.64 | 66.8 | |
-| Urban | D1 | 5.17 | 4 | 2.00 | 77.6 | coast 2.16 %, >85 = 11, E_trac 79.6 |
-| Urban | **D2** | **3.33** | 13 | **1.23** | 79.6 | |
-| LongHaul | D1 | 7.63 | 202 | 1.79 | 104.8 | coast 2.39 %, >85 = 0, E_trac 106.1 |
-| LongHaul | **D2** | **4.47** | **103** | 1.65 | 105.8 | |
+| Cycle / load | case | coast % | look-ahead % | overspeed-roll % | secs>85 | RMS km/h | E_trac | VECTO |
+|---|---|---|---|---|---|---|---|---|
+| Regional ref | D1 | 7.80 | 3.26 | 4.55 | 180 | 1.28 | 65.5 | coast 1.46 (LA 0.70 + OS 0.76), >85 0, E_trac 67.2 |
+| Regional ref | **D2** | **1.60** | **0.71** | **0.88** | **0** | **0.35** | **67.2** | |
+| Regional ref | D3 (EU std) | 4.84 | 1.99 | 2.85 | 55 | 0.71 | 66.6 | |
+| Regional ref | D8 (D2+g) | 1.60 | 0.71 | 0.88 | 0 | 0.35 | 67.2 | |
+| Regional low | **D2** | **1.19** | 0.46 | 0.73 | 0 | 0.35 | 59.8 | coast 1.21 (LA 0.49 + OS 0.71), >85 0, E_trac 59.9 |
+| Urban ref | D1 | 5.17 | 4.18 | 0.98 | 4 | 2.00 | 77.6 | coast 2.16 (LA 1.57 + OS 0.59), >85 11, E_trac 79.6 |
+| Urban ref | **D2** | **2.08** | **1.42** | 0.66 | 10 | **0.85** | 80.6 | |
+| Urban low | **D2** | **1.18** | 0.74 | 0.43 | 0 | 0.72 | 64.1 | coast 1.31 (LA 0.89 + OS 0.42), >85 0, E_trac 63.5 |
 
-**D2 verdict (one sentence): adding VECTO's drivetrain drag closes about half the
-coast/overspeed gap and halves the speed RMS, but a clear residual remains — and that
-residual is the overspeed-roll that VECTO books as `Driving`, not a logic error.**
-Splitting D2's mode 3: Regional **look-ahead coast falls to 1.58 %** (VECTO 1.28 — now
-close), with 2.60 % overspeed roll left over; Urban look-ahead 2.44 % (VECTO 1.71);
-LongHaul 1.22 % (VECTO 0.47). D3 (EU std) ≈ D2 (slightly weaker). D5 (g) changes coast/
-overspeed by nothing. D8 = D2. So:
+**D2 verdict (one sentence): with the correct drag table, D2 brings HDEV's coasting,
+overspeed and speed trace close to VECTO across all four runs — coast share 1.60 % vs
+VECTO 1.46 % (Regional ref), seconds > 85 km/h 0 vs 0, speed RMS 0.35 km/h, traction
+energy 67.2 = VECTO 67.2 — so the gap was drag, not logic or classification.**
 
-- **h1 (drag) — MAJOR but NOT the sole cause.** D2 roughly halves the gap; drag is the
-  biggest single lever, but it does not bring the raw coast share to VECTO's. The
-  earlier "**h1 confirmed, dominant**" is **softened**: drag explains the look-ahead
-  coasting difference, not the whole mode-3 gap.
-- **h3 (Coast vs Driving definition) — the rest of the gap.** VECTO's Coasting excludes
-  overspeed roll; HDEV mode 3 includes it (F5). This is a **classification** difference,
-  real and now quantified (~2.6–5.7 % of time), not a physics error.
+**The earlier "residual is classification" conclusion is WITHDRAWN.** With the undersized
+1st-pass table (0.79–0.95 kN), HDEV still over-coasted (4.18 %) and I wrongly attributed
+the leftover to the Coast-vs-Driving definition. The correct drag shows the overspeed
+roll was itself a **drag** artefact: it falls from 4.55 % (D1) to **0.88 % (D2)**, and
+VECTO's own overspeed roll is ~0.76 % (Coast/Roll at/above target) — of which only
+~0.09 % is *clearly* overspeed (speed ≥ target + 2 km/h). So HDEV D2 overspeeds slightly
+more than VECTO (0.88 % vs ~0.1–0.76 %), a **small genuine behavioural difference**, not
+a labelling artefact.
+
+- **h1 (drag magnitude) — CONFIRMED as the dominant cause.** D2 closes essentially all
+  of the coast/overspeed/RMS/energy gap. My 2nd-pass "softened" wording was itself an
+  artefact of the undersized table and is corrected back: **drag is the fix (P3).**
+- **h3 (Coast vs Driving definition) — minor.** Real but small (the remaining ~0.8 %
+  overspeed roll), not the explanation for the original gap.
 - **h2 (DF tables) — ruled out** (Q2 exact).
-- **h4 (hold-speed branch), h5 (1 s timing), h6 (inertia), h7 (instantaneous air drag) —
-  secondary:** D2 wheel-energy agreement (within ~1 %) and the RMS halving leave little
-  unexplained energy once drag is in.
+- **h4–h7 — secondary:** D2 traction energy matches VECTO within ~1 % and RMS is
+  0.35 km/h, leaving little unexplained.
+- **D3 (EU std 0.63–0.85 kN) is clearly too weak** — coast 4.84 % vs VECTO 1.46 %; the
+  EU standard value does **not** reproduce VECTO, the `.vmod`-measured 1.43–2.05 kN does.
 
-**Graphs (F8):** `make_graphs.py` now overlays VECTO `v_act` on three stretches per
-cycle (downhill overspeed, look-ahead coast, stop) for VECTO vs D1 vs D2 vs D8. The
-downhill-overspeed panels show D2/D8 tracking VECTO's descent where D1 holds speed
-longer. See `docs/research/driver-model-review-2026-11/*.png`.
+**Graphs (F8):** `make_graphs.py` overlays VECTO `v_act` on three stretches per cycle for
+VECTO vs D1 vs D2 vs D8 (with the corrected D2 table). See
+`docs/research/driver-model-review-2026-11/*.png`.
 
 ## Part E — fixed reference mass: how much does it matter? `[TEST]` (per-cycle vehicle, F1/F2 fixed)
 
@@ -821,15 +849,16 @@ VECTO's coasting resistance uses `(gbxLoss + axleLoss + emDrag − iceDrag)/v` f
 component maps (Q1, Q8); HDEV uses a single scalar. Replace `P_drag_loss` (a number)
 with a drag-force-vs-speed table consumed in both `coast_acc` and `coast_distance`.
 
-**Effect — now measured (D2, F4).** The VECTO drivetrain drag is **~0.8–2.1 kN**
-(component losses 0.79–0.95 kN; incl. motor drag torque 1.4–2.1 kN — F3, corrected from
-the earlier wrong 2.0–3.4 kN). Applying the component-loss drag table (D2) in both
-`coast_acc` and `coast_distance`: Regional coast 7.8→4.2 %, overspeed 180→47 s, speed
-RMS 1.28→0.64 km/h, traction 65.5→66.8 kWh (VECTO 67.2). It **closes about half** the
-gap — the remaining mode-3 difference is the overspeed roll VECTO books as Driving (F5),
-not more drag. D3 (EU std, 0.63–0.85 kN) ≈ D2 (slightly weaker). So the drag table is
-the #1 engineering fix but it is **not** sufficient alone to match VECTO's reported
-coast share. **Where:** the **parser** builds the table (from
+**Effect — measured (D2, F4, corrected drag).** The VECTO drivetrain drag is
+**1.43–2.05 kN** (`−P_wheel_in/v` = P_gbx_in motor-drag 0.8 kN + P_gbx_loss 0.49 +
+P_axle_loss 0.27). Applying this table (D2) in both `coast_acc` and `coast_distance`:
+Regional coast 7.8→**1.60 %** (VECTO 1.46), overspeed 180→**0 s** (VECTO 0), speed RMS
+1.28→**0.35 km/h**, traction 65.5→**67.2 kWh = VECTO**. It **essentially closes the
+gap** across Regional/Urban, both loads. D3 (EU std, 0.63–0.85 kN) is **too weak**
+(coast 4.84 %). The independent E2-component build (0.63–0.93 kN) underestimates the
+`.vmod` drag ~2× (F3), so the drag table must come from the `.vmod` or the real
+component maps *at the loaded operating point*, not the bare zero-torque maps.
+**Where:** the **parser** builds the table (from
 the EU standard-value maps — gearbox Annex VI App. 8, axle Annex VII App. 3, motor
 drag Annex Xb App. 8, IEPC Annex Xb App. 9 — or from uploaded component files); the
 **engine** just interpolates it. This respects the purity rule. **Not** a pure
@@ -863,7 +892,7 @@ client-facing report.
 |---|---|---|---|---|
 | D-01 | Fixed 1 s rows (VECTO ~0.5 s variable, snaps to brake/stop) | trip time +0.1–0.5 %; braking-energy within ~3 % of dt→0; dec-peak up to 1.78× .vacc (and grows at smaller dt) | `[VECTO][TEST]` | "Speeds are computed on a fixed 1-second grid; energy agrees with a finer grid to within ~3 %." |
 | D-02 | Coasting/overspeed at a **fixed reference mass/CdxA, no wind** | braking-energy error up to +6.0 % (Regional, full) / −5.2 % (LongHaul, empty); traction ≤ 0.8 % (per-cycle vehicle, F1/F2) | `[ASSUMPTION][TEST]` | "The coasting driver is computed once at a reference load; per-load energy is then scaled, which can bias braking energy on heavy loads." |
-| D-00 | **Coasts more than VECTO, overspeeds more** (P_drag_loss=0, no drivetrain drag) | look-ahead coast 3.26 % vs VECTO 1.28 % + overspeed-roll 4.55 % (VECTO books as Driving); 180 vs 0 secs >85 km/h (Regional). D2 drag table roughly halves it (→ look-ahead 1.58 %) | `[VECTO][TEST]` | "With zero modelled drivetrain drag, HDEV coasts and overspeeds more than VECTO; a drag table (P3) roughly halves the gap, the rest is a coast/driving classification difference." |
+| D-00 | **Coasts more than VECTO, overspeeds more** (P_drag_loss=0, no drivetrain drag) | coast 7.8 % vs 1.5 %, 180 vs 0 s >85 km/h (Regional, D1). **D2 drag table (1.43–2.05 kN) closes it: coast 1.60 %, 0 s >85, RMS 0.35 km/h, traction = VECTO** | `[VECTO][TEST]` | "With zero modelled drivetrain drag, HDEV coasts and overspeeds more than VECTO; adding VECTO's drivetrain coasting drag (P3) closes the gap." |
 | D-03 | Instantaneous air drag in `coast_acc` (VECTO step average) | 0.02–0.29 kWh/cycle (prior); vs VECTO BLOCKED | `[SIMPLIFICATION]` | "A minor air-drag averaging simplification in coast steps." |
 | D-04 | Scalar drivetrain drag (default 0), no motor power cap | coasting-share/overspeed gap; BLOCKED size | `[SIMPLIFICATION]` | "Drivetrain drag during coasting is approximated." |
 | D-05 | Back-to-back stops aim for next **positive** target; VECTO aims for the **immediate** next waypoint target (may be 0) | affects only consecutive-stop sequences | `[VECTO]` | "Behaviour at consecutive stops differs slightly from VECTO." |
@@ -876,7 +905,7 @@ client-facing report.
 | D-12 | Standing rows match VECTO **exactly** (746/3349/67); but HDEV **trip time** is ~0.2–1 % longer than VECTO (Regional 5896 vs 5885 s; Urban 13625 vs 13489 s) | +11 s (Regional) / +136 s (Urban) trip time | `[VECTO][TEST]` | "Standing time matches VECTO exactly; total trip time is ~0.2–1 % longer, from 1 s steps + extra coasting." |
 | D-13 | `decel_distance` ignores distance above the top `.vacc` point | **none** — VECTO clamps identically | `[VECTO][TEST]` | n/a — **not** a deviation (was an open worry; resolved) |
 | D-14 | Repo `src/engine/driver_model.py` is the stale pre-21-Oct model | n/a | — | n/a — housekeeping; replace with code of record |
-| D-15 | HDEV mode 3 lumps look-ahead coast + overspeed roll; VECTO books overspeed roll as `Driving` (F5) | overspeed roll ~2.6–5.7 % of time | `[VECTO][TEST]` | "HDEV's coasting share is not directly comparable to VECTO's; VECTO classifies downhill overspeed rolling as driving, not coasting." |
+| D-15 | HDEV overspeeds slightly more than VECTO on downhills (genuine, small) | after D2: overspeed roll 0.88 % vs VECTO ~0.1–0.76 % (Regional); under D1 it was inflated to 4.55 % purely by the missing drag | `[VECTO][TEST]` | "HDEV rolls in overspeed slightly more than VECTO on downhills; the difference is small once drivetrain drag is modelled." |
 
 ---
 
@@ -892,7 +921,7 @@ Bob added the `.vmod`/`.vsum`, both harnesses and the notebook to
 | `BEV_E2.vsum` (5.1.6-RC) | **UNBLOCKED** — totals read |
 | `hdev_test_harness_v1.7.py` | **UNBLOCKED** — reference vehicle reconstructed from it (no live notebook needed) |
 | `hdev_addon_std_drag_v1.py` | present, needs `scipy` + harness session + live notebook → D3 still **BLOCKED on the notebook engine functions** |
-| E2 component files (`.vveh/.vemd/.vtlm`) | in the cloned VECTO repo; D2's drag table was built from the `.vmod` component-loss columns (0.79–0.95 kN) instead |
+| E2 component files (`.vveh/.vemd/.vtlm`) | in the cloned VECTO repo; D2's drag table (1.43–2.05 kN) is from the `.vmod` `−P_wheel_in/v` on coast rows. An independent zero-torque build from the component files gives 0.63–0.93 kN (~2× lower) — does NOT reproduce the simulated drag (F3) |
 | cycles HeavyUrban/Urban/Suburban/Interurban/Coach | **still BLOCKED** — not in `resources/MissionCycles` |
 
 **Still blocked:** D2/D3/D6/D7/D8 as *isolated per-change re-runs* need either new VECTO
@@ -920,7 +949,8 @@ pytest tests/driver_model -q                 # 129 tests (helpers, cycles, VECTO
 export MPLCONFIGDIR=/tmp/mpl
 python docs/research/driver-model-review-2026-11/measure_part_d.py        # Part D vs VECTO .vmod (F1/F2)
 python docs/research/driver-model-review-2026-11/measure_part_d_energy.py # drivetrain drag + brake split (F3/F6)
-python docs/research/driver-model-review-2026-11/measure_part_d2.py       # decisive D2/D3/D5/D8 (F4)
+python docs/research/driver-model-review-2026-11/measure_part_d_drag.py   # drag table two ways (F3)
+python docs/research/driver-model-review-2026-11/measure_part_d2.py       # decisive D2/D3/D5/D8 (F4, corrected drag)
 python docs/research/driver-model-review-2026-11/measure_part_f5_shares.py# time shares, VECTO defs (F5)
 python docs/research/driver-model-review-2026-11/measure_part_e.py        # Part E fixed-mass
 python docs/research/driver-model-review-2026-11/measure_part_f.py        # Part F convergence

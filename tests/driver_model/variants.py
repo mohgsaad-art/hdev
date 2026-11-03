@@ -78,7 +78,9 @@ from tests.driver_model.reference_copy import driver_model as _driver_model
 # to the code of record with a zero table by tests/driver_model/test_dragtable_identity.py.
 # measure_part_d2.py drives it for D2/D3/D5/D8.
 
-# VECTO example drivetrain drag table (wheel side), from the .vmod component-loss
-# columns on Coast/Roll rows, Reg+Urban+LongHaul reference (measure_part_d2.py). [VECTO][TEST]
+# VECTO drivetrain drag at the wheels, from -P_wheel_in/v on Coast/Roll rows
+# (= P_gbx_in motor-drag-through-the-box + P_gbx_loss + P_axle_loss), per 10 km/h band,
+# Reg+Urban+LongHaul reference. CORRECTED: the earlier table (0.79-0.95 kN) omitted
+# P_gbx_in and was ~2x too small. [VECTO][TEST]
 VECTO_DRIVETRAIN_DRAG_V_KMH = [0.0, 45.0, 55.0, 65.0, 75.0, 85.0, 130.0]
-VECTO_DRIVETRAIN_DRAG_N = [793.0, 793.0, 804.0, 888.0, 914.0, 949.0, 949.0]
+VECTO_DRIVETRAIN_DRAG_N = [1431.0, 1431.0, 1534.0, 1635.0, 1935.0, 2055.0, 2055.0]

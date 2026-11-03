@@ -65,6 +65,7 @@ def main():
         # F3: drivetrain drag at wheels on Coast/Roll rows = -P_wheel_in / v  (median per band)
         coast_mask = ((da == 4) | (da == 2)) & (v > 1)
         # component cross-check columns
+        p_gbx_in = getcol(c, "P_gbx_in")   # motor drag flowing INTO the gearbox at zero torque
         p_gbx = getcol(c, "P_gbx_loss")
         p_axl = getcol(c, "P_axle_loss")
         p_em_mech = getcol(c, "P_E2-em_mech")
@@ -85,13 +86,14 @@ def main():
                 continue
             F_wheel = -p_wheel[m] / v[m]          # kN (kW / (m/s))
             med = float(np.median(F_wheel))
-            # component-sum cross-check: (gbx+axle+em losses + inertias) / v
+            # CORRECT component-sum cross-check: P_gbx_in (motor drag through the box)
+            # + P_gbx_loss + P_axle_loss, all /v. This equals -P_wheel_in/v.
             comp = np.zeros(n)
-            for pc in (p_gbx, p_axl, p_em_loss, p_em_inert, p_gbx_inert):
+            for pc in (p_gbx_in, p_gbx, p_axl):
                 if pc is not None:
                     comp = comp + np.abs(pc[m])
             comp_F = float(np.median(comp / v[m])) if comp.any() else float("nan")
-            print(f"     {lo}-{hi}: {med:.2f} kN (n {n})   component-sum/v median {comp_F:.2f} kN")
+            print(f"     {lo}-{hi}: {med:.2f} kN (n {n})   (|P_gbx_in|+|P_gbx_loss|+|P_axle_loss|)/v {comp_F:.2f} kN")
         print()
 
 
