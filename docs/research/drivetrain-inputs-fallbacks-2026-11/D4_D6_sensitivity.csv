@@ -1,0 +1,55 @@
+input,variant,cycle,kwh_km,truth_kwh_km,pct_vs_truth,direction
+Tmax_in,Tmax_in: truth=derived 1940,RegionalDelivery,0.9955,0.9955,0.0,~equal
+Tmax_in,Tmax_in: truth=derived 1940,UrbanDelivery,0.7935,0.7935,0.0,~equal
+Tmax_in,Tmax_in: truth=derived 1940,MunicipalUtility,0.8401,0.8401,0.0,~equal
+Tmax_in,Tmax_in: 1 motor assumed 970,RegionalDelivery,0.935,0.9955,-6.07,UNDER
+Tmax_in,Tmax_in: 1 motor assumed 970,UrbanDelivery,0.7527,0.7935,-5.14,UNDER
+Tmax_in,Tmax_in: 1 motor assumed 970,MunicipalUtility,0.7965,0.8401,-5.19,UNDER
+Tmax_in,Tmax_in: conservative x2 3880,RegionalDelivery,1.1158,0.9955,12.09,over
+Tmax_in,Tmax_in: conservative x2 3880,UrbanDelivery,0.8762,0.7935,10.43,over
+Tmax_in,Tmax_in: conservative x2 3880,MunicipalUtility,0.924,0.8401,9.98,over
+Tmax_in,Tmax_in: low guess 1000,RegionalDelivery,0.937,0.9955,-5.87,UNDER
+Tmax_in,Tmax_in: low guess 1000,UrbanDelivery,0.754,0.7935,-4.97,UNDER
+Tmax_in,Tmax_in: low guess 1000,MunicipalUtility,0.7979,0.8401,-5.03,UNDER
+gears,gears: truth 3.86/1.93,RegionalDelivery,0.9955,0.9955,0.0,~equal
+gears,gears: truth 3.86/1.93,UrbanDelivery,0.7935,0.7935,0.0,~equal
+gears,gears: truth 3.86/1.93,MunicipalUtility,0.8401,0.8401,0.0,~equal
+gears,gears: single-speed 1.93,RegionalDelivery,0.9955,0.9955,0.0,~equal
+gears,gears: single-speed 1.93,UrbanDelivery,0.7935,0.7935,-0.0,~equal
+gears,gears: single-speed 1.93,MunicipalUtility,0.8401,0.8401,0.0,~equal
+gears,gears: single-speed 10.0,RegionalDelivery,0.9685,0.9955,-2.71,UNDER
+gears,gears: single-speed 10.0,UrbanDelivery,1.4645,0.7935,84.57,over
+gears,gears: single-speed 10.0,MunicipalUtility,1.1327,0.8401,34.82,over
+axle_ratio,axle_ratio: truth 2.59,RegionalDelivery,0.9955,0.9955,0.0,~equal
+axle_ratio,axle_ratio: truth 2.59,UrbanDelivery,0.7935,0.7935,0.0,~equal
+axle_ratio,axle_ratio: truth 2.59,MunicipalUtility,0.8401,0.8401,0.0,~equal
+axle_ratio,axle_ratio: example 3.08,RegionalDelivery,1.0607,0.9955,6.55,over
+axle_ratio,axle_ratio: example 3.08,UrbanDelivery,0.8171,0.7935,2.98,over
+axle_ratio,axle_ratio: example 3.08,MunicipalUtility,0.8629,0.8401,2.71,over
+axle_ratio,axle_ratio: high 4.0,RegionalDelivery,1.217,0.9955,22.25,over
+axle_ratio,axle_ratio: high 4.0,UrbanDelivery,0.8923,0.7935,12.45,over
+axle_ratio,axle_ratio: high 4.0,MunicipalUtility,0.9445,0.8401,12.42,over
+motor_count,motor_count: truth 2,RegionalDelivery,0.9955,0.9955,0.0,~equal
+motor_count,motor_count: truth 2,UrbanDelivery,0.7935,0.7935,0.0,~equal
+motor_count,motor_count: truth 2,MunicipalUtility,0.8401,0.8401,0.0,~equal
+motor_count,motor_count: 1 motor,RegionalDelivery,1.0081,0.9955,1.27,over
+motor_count,motor_count: 1 motor,UrbanDelivery,0.8445,0.7935,6.43,over
+motor_count,motor_count: 1 motor,MunicipalUtility,0.8957,0.8401,6.61,over
+adc,adc: truth 2.0,RegionalDelivery,0.9955,0.9955,0.0,~equal
+adc,adc: truth 2.0,UrbanDelivery,0.7935,0.7935,0.0,~equal
+adc,adc: truth 2.0,MunicipalUtility,0.8401,0.8401,0.0,~equal
+adc,adc: none 1.0,RegionalDelivery,1.0115,0.9955,1.61,over
+adc,adc: none 1.0,UrbanDelivery,0.9074,0.7935,14.36,over
+adc,adc: none 1.0,MunicipalUtility,0.9491,0.8401,12.97,over
+adc,adc: 3.0,RegionalDelivery,1.0424,0.9955,4.71,over
+adc,adc: 3.0,UrbanDelivery,0.7851,0.7935,-1.06,UNDER
+adc,adc: 3.0,MunicipalUtility,0.8304,0.8401,-1.16,UNDER
+r_dyn,r_dyn: truth 0.4209,RegionalDelivery,0.9955,0.9955,0.0,~equal
+r_dyn,r_dyn: truth 0.4209,UrbanDelivery,0.7935,0.7935,0.0,~equal
+r_dyn,r_dyn: truth 0.4209,MunicipalUtility,0.8401,0.8401,0.0,~equal
+r_dyn,r_dyn: 315/70 R22.5 ~0.481,RegionalDelivery,0.9386,0.9955,-5.71,UNDER
+r_dyn,r_dyn: 315/70 R22.5 ~0.481,UrbanDelivery,0.7755,0.7935,-2.27,UNDER
+r_dyn,r_dyn: 315/70 R22.5 ~0.481,MunicipalUtility,0.8223,0.8401,-2.12,UNDER
+r_dyn,r_dyn: small ~0.39,RegionalDelivery,1.0378,0.9955,4.25,over
+r_dyn,r_dyn: small ~0.39,UrbanDelivery,0.812,0.7935,2.34,over
+r_dyn,r_dyn: small ~0.39,MunicipalUtility,0.8577,0.8401,2.09,over

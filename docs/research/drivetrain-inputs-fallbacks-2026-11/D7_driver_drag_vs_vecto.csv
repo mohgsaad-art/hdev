@@ -1,0 +1,4 @@
+cycle,coast_fixeddrag,coast_nodrag,coast_olddrag,coast_vecto,rms_fixeddrag_vs_vecto,rms_nodrag_vs_vecto,secs85_fixeddrag,secs85_nodrag,secs85_olddrag,secs85_vecto
+RegionalDelivery,1.27,7.8,4.75,1.46,0.367,1.283,0,180,57,0
+UrbanDelivery,1.52,5.17,3.81,2.16,0.782,1.998,0,4,13,11
+LongHaul,0.73,4.58,1.07,2.39,1.589,1.679,0,53,0,0
