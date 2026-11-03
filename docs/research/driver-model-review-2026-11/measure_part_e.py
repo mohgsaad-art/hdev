@@ -56,46 +56,80 @@ def coast_share(M):
     return float((M == 3).mean()) * 100.0
 
 
+def masses_for(cyc):
+    """empty / reference / full masses for the cycle's vehicle (F1 corrected).
+
+    Regional/Urban (RigidSolo): empty = vehicle 6570, reference = .vsum ref 9589.6,
+      full = TPMLM 11990.
+    LongHaul (truck+trailer): empty = vehicle 9970, low = .vsum low 11273.9,
+      reference = .vsum ref 19811.2. 'full' uses the reference (heaviest sourced) so
+      no number is invented.
+    """
+    if cyc == "LongHaul":
+        return {"empty": VV.LH_M_VEHICLE,
+                "low": VV.VSUM_MASS[("LongHaul", "low")],
+                "reference": VV.VSUM_MASS[("LongHaul", "reference")]}
+    return {"empty": VV.M_VEHICLE,
+            "low": VV.VSUM_MASS[(cyc, "low")],
+            "reference": VV.VSUM_MASS[(cyc, "reference")],
+            "full": VV.TPMLM}
+
+
+def ep_for(cyc, mass):
+    """energy params (Crr, CdxA, r_dyn) for a cycle at an arbitrary mass."""
+    if cyc == "LongHaul":
+        return dict(Crr=VV.crr_total_vecto(mass), cdxa_v=VV.CDXA_V, cdxa=VV.LH_CDXA_REF, r_dyn=VV.R_DYN)
+    return dict(Crr=VV.crr_total_vecto(mass), cdxa_v=VV.CDXA_V, cdxa=VV.CDXA_REF, r_dyn=VV.R_DYN)
+
+
+def we(T, S, V, A, grade, mass, ep):
+    dt = np.diff(T, append=T[-1] + 1.0)
+    k_lin, k_roll, k_rot, L, v_avg = force_engine(G, ep["Crr"], V, A, dt, grade, ep["r_dyn"], 0.0)
+    cdxa = np.interp(v_avg * 3.6, ep["cdxa_v"], ep["cdxa"])
+    P = mass * k_lin + mass * k_roll + k_rot + VV.RHO_VECTO * cdxa * L
+    E = P * dt
+    return E[E > 0].sum() / 3.6e6, E[E < 0].sum() / 3.6e6
+
+
+def drv_kwargs(cyc, mass):
+    if cyc == "LongHaul":
+        kw = VV.longhaul_driver_kwargs("reference")
+        kw = dict(kw); kw["coast_mass"] = mass; kw["Crr"] = VV.crr_total_vecto(mass)
+        return kw
+    return VV.driver_kwargs(coast_mass=mass)
+
+
 def main():
     cycles = D.list_cycles()
     targets = [c for c in ("RegionalDelivery", "UrbanDelivery", "LongHaul") if c in cycles]
-    # real VECTO masses: empty = vehicle only; reference = +ref payload; full = TPMLM
-    masses = {
-        "empty": VV.M_VEHICLE,
-        "reference": VV.M_REF,
-        "full": VV.TPMLM,
-    }
     VACC_V, VACC_ACC, VACC_DEC = D.load_vacc()
 
-    print("Part E — fixed reference coasting mass (VECTO E2 vehicle, harness v1.7 values)\n")
+    print("Part E — fixed reference coasting mass (per-cycle VECTO vehicle, F1/F2 fixed)\n")
     for name in targets:
         s, v, grad, stop = D.load_cycle(cycles[name])
+        masses = masses_for(name)
         print(f"=== {name} ===")
-        # trace built at each mass (driver + energy both at that mass)
         traces = {}
         for mlabel, m in masses.items():
-            crr_m = VV.crr_total_vecto(m)
-            out = driver_model(s, v, stop, grad, VACC_V, VACC_ACC, VACC_DEC,
-                               **VV.driver_kwargs(coast_mass=m))
-            traces[mlabel] = (out, crr_m)
+            out = driver_model(s, v, stop, grad, VACC_V, VACC_ACC, VACC_DEC, **drv_kwargs(name, m))
+            traces[mlabel] = out
             T, S, V, A, gr, Mo = out
-            Ep, En = wheel_energy(T, S, V, A, gr, m, crr_m)
-            print(f"  mass={mlabel:9s} ({m:7.0f} kg): coast%={coast_share(Mo):5.2f}  "
+            Ep, En = we(T, S, V, A, gr, m, ep_for(name, m))
+            print(f"  mass={mlabel:10s} ({m:8.0f} kg): coast%={coast_share(Mo):5.2f}  "
                   f"E_traction={Ep:7.2f} kWh  E_braking={En:7.2f} kWh")
-        # wrong-mass trace error: driver trace at REFERENCE mass, energy at empty/full
-        (Tr, Sr, Vr, Ar, grr, Mor), _ = traces["reference"]
+        # wrong-mass trace error: driver trace at REFERENCE mass, energy at the other masses
+        Tr, Sr, Vr, Ar, grr, Mor = traces["reference"]
         print("  --- wrong-mass trace error (driver@reference, energy@actual) ---")
-        for mlabel in ("empty", "full"):
-            m = masses[mlabel]
-            crr_m = VV.crr_total_vecto(m)
-            # right: driver AND energy at this mass
-            (Tc, Sc, Vc, Ac, grc, Moc), _ = traces[mlabel]
-            Ep_right, En_right = wheel_energy(Tc, Sc, Vc, Ac, grc, m, crr_m)
-            # wrong: driver at reference, energy at this mass
-            Ep_wrong, En_wrong = wheel_energy(Tr, Sr, Vr, Ar, grr, m, crr_m)
+        for mlabel, m in masses.items():
+            if mlabel == "reference":
+                continue
+            ep = ep_for(name, m)
+            Tc, Sc, Vc, Ac, grc, Moc = traces[mlabel]
+            Ep_right, En_right = we(Tc, Sc, Vc, Ac, grc, m, ep)
+            Ep_wrong, En_wrong = we(Tr, Sr, Vr, Ar, grr, m, ep)
             err_trac = (Ep_wrong - Ep_right) / Ep_right * 100 if Ep_right else 0.0
             err_brake = (En_wrong - En_right) / En_right * 100 if En_right else 0.0
-            print(f"    {mlabel:6s}: traction err {err_trac:+6.2f} %   braking err {err_brake:+6.2f} %")
+            print(f"    {mlabel:10s}: traction err {err_trac:+6.2f} %   braking err {err_brake:+6.2f} %")
         print()
 
 

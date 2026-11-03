@@ -1,16 +1,10 @@
 """Part D — compare the code-of-record driver model against VECTO 5.1.6-RC .vmod.
 
-Uses the VECTO generic-E2 reference vehicle reconstructed from harness v1.7
-(_vecto_vehicle.py) and the real .vmod files in docs/research/vecto/. The HDEV
-driver is run on the SAME .vdri cycle and reference mass VECTO used, then compared
-row by resampled distance.
-
-Metrics per cycle:
-  1. speed vs distance every 10 m: mean difference and RMS
-  2. time shares by mode (VECTO DriverAction -> HDEV mode, review Q12)
-  3. seconds above target and above 85 km/h; max overspeed
-  4. standing time and trip time
-  5. coast/overspeed summary
+CORRECTED (F1/F2): each cycle+load uses its OWN VECTO vehicle and mass:
+  - Regional/Urban: RigidSolo, reference 9589.6 kg / low 7173.9 kg
+  - LongHaul: truck+trailer (RigidTrailer, CdxA 6.13), reference 19811.2 / low 11273.9 kg
+All masses, total RRC and CdxA source are from BEV_E2.vsum / SegmentTable (see
+_vecto_vehicle.py). The HDEV driver is run on the same .vdri cycle at the same mass.
 
 Run: python docs/research/driver-model-review-2026-11/measure_part_d.py
 """
@@ -28,7 +22,7 @@ from tests.driver_model import _vecto_vehicle as VV
 from tests.driver_model import _vmod as VM
 
 
-# which .vmod corresponds to which .vdri cycle + whether it is reference load
+# run label -> (cycle, load). LongHaul now uses its own vehicle.
 RUN_TO_CYCLE = {
     "BEV_E2_RegionalDelivery_ReferenceLoad_1Hz": ("RegionalDelivery", "reference"),
     "BEV_E2_UrbanDelivery_ReferenceLoad_1Hz": ("UrbanDelivery", "reference"),
@@ -37,6 +31,8 @@ RUN_TO_CYCLE = {
     "BEV_E2_UrbanDelivery_LowLoading_1Hz": ("UrbanDelivery", "low"),
     "BEV_E2_LongHaul_LowLoading_1Hz": ("LongHaul", "low"),
 }
+CYCLE_VDRI = {"RegionalDelivery": "RegionalDelivery.vdri",
+              "UrbanDelivery": "UrbanDelivery.vdri", "LongHaul": "LongHaul.vdri"}
 
 VACC_V, VACC_ACC, VACC_DEC = D.load_vacc()
 
@@ -45,25 +41,18 @@ def mode_shares(M):
     return {m: float((np.asarray(M) == m).mean()) * 100 for m in range(5)}
 
 
-def vecto_mode_shares(cols):
-    da = VM.col(cols, "DriverAction").astype(int)
-    modes = np.array([VM.VECTO_ACTION_TO_MODE.get(int(x), -1) for x in da])
-    return {m: float((modes == m).mean()) * 100 for m in range(5)}, da
-
-
 def resample_speed_rms(S_hdev, V_hdev, dist_v, v_v, step=10.0):
-    """RMS and mean speed difference (km/h) on a common 10 m distance grid."""
     s_max = min(S_hdev[-1], dist_v[-1])
     grid = np.arange(0, s_max, step)
     vh = np.interp(grid, S_hdev, V_hdev) * 3.6
-    vv = np.interp(grid, dist_v, v_v)   # vmod v_act already km/h
+    vv = np.interp(grid, dist_v, v_v)
     diff = vh - vv
     return float(np.mean(diff)), float(np.sqrt(np.mean(diff ** 2)))
 
 
 def main():
     runs = VM.run_files()
-    print("Part D — HDEV code of record vs VECTO 5.1.6-RC (generic E2, harness v1.7 vehicle)\n")
+    print("Part D — HDEV code of record vs VECTO 5.1.6-RC (per-cycle vehicle, F1/F2 fixed)\n")
     for run, (cyc_name, load) in RUN_TO_CYCLE.items():
         if run not in runs:
             print(f"  [missing] {run}")
@@ -71,36 +60,27 @@ def main():
         cols = VM.load_vmod(runs[run])
         dist_v = VM.col(cols, "dist")
         v_v = VM.col(cols, "v_act")
-        vtarg_v = VM.col(cols, "v_targ")
+        da = VM.col(cols, "DriverAction").astype(int)
         s, v, grad, stop = D.load_cycle(D.list_cycles()[cyc_name])
 
-        # reference-load mass only (low-loading mass differs; see Part E note)
-        T, S, V, A, gr, M = driver_model(
-            s, v, stop, grad, VACC_V, VACC_ACC, VACC_DEC,
-            **VV.driver_kwargs())
+        kw = VV.cycle_driver_kwargs(cyc_name, load)
+        T, S, V, A, gr, M = driver_model(s, v, stop, grad, VACC_V, VACC_ACC, VACC_DEC, **kw)
 
         mean_d, rms_d = resample_speed_rms(S, V, dist_v, v_v)
         hv = mode_shares(M)
-        vv_sh, da = vecto_mode_shares(cols)
-
-        # seconds above 85 km/h
         hdev_over85 = int((V * 3.6 > 85.0).sum())
         vecto_over85 = int((v_v > 85.0).sum())
-        # seconds above target (above 50 km/h, allowing +2.5)
-        hdev_over_t = int(np.sum((V * 3.6 - np.interp(S, s, v)) > 2.6))
-        # standing: HDEV mode 0 rows; VECTO DriverAction Halt rows
         hdev_stand = int((M == 0).sum())
         vecto_stand = int((da == 0).sum())
+        vecto_coast = float(((da == 4) | (da == 2)).mean()) * 100
 
-        print(f"=== {run}  ({load} load) ===")
+        print(f"=== {run}  ({load} load, mass {kw['coast_mass']:.0f} kg, CdxA0 "
+              f"{'6.13' if cyc_name=='LongHaul' else '4.83'}) ===")
         print(f"  speed vs dist @10 m:  mean {mean_d:+.3f} km/h   RMS {rms_d:.3f} km/h")
-        print(f"  mode % (stop/acc/cruise/coast/brake)")
-        print(f"     HDEV : {hv[0]:.1f}/{hv[1]:.1f}/{hv[2]:.1f}/{hv[3]:.1f}/{hv[4]:.1f}")
-        print(f"     VECTO: {vv_sh[0]:.1f}/{vv_sh[1]:.1f}/{vv_sh[2]:.1f}/{vv_sh[3]:.1f}/{vv_sh[4]:.1f}  (Roll+Coast folded into coast)")
-        print(f"  coast share   HDEV {hv[3]:.2f} %   VECTO {vv_sh[3]:.2f} %")
-        print(f"  secs >85 km/h HDEV {hdev_over85}   VECTO {vecto_over85}")
-        print(f"  standing rows HDEV {hdev_stand}   VECTO {vecto_stand}   (trip time HDEV {T[-1]+1:.0f}s, VECTO {dist_v.size}s)")
-        # raw VECTO action breakdown
+        print(f"  coast %  HDEV {hv[3]:.2f}   VECTO(Coast+Roll) {vecto_coast:.2f}")
+        print(f"  secs >85 km/h  HDEV {hdev_over85}   VECTO {vecto_over85}")
+        print(f"  standing rows  HDEV {hdev_stand}   VECTO {vecto_stand}")
+        print(f"  trip time  HDEV {T[-1]+1:.0f} s   VECTO {dist_v.size} s")
         uniq = {VM.VECTO_ACTION_NAME.get(int(a), a): int((da == a).sum()) for a in sorted(set(da.astype(int)))}
         print(f"  VECTO raw actions: {uniq}")
         print()
