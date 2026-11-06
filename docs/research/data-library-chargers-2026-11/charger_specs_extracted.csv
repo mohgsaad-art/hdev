@@ -1,0 +1,50 @@
+make,model,variant,generation,type,field,value,unit,basis,condition,source_id,page_or_table,quote,doc_date,tag
+Kempower,Satellite,V2 (+ Power Unit),2025,DC,max_output_power_per_output,400,kW,rated; per connector,per output,kempower_satellite_ds,spec,Each output can deliver up to 400 kW to the charging Satellite,2025-07,V
+Kempower,Satellite,V2 (Power Unit),2025,DC,max_output_power_per_cabinet,600,kW,rated; per power unit,per cabinet,kempower_satellite_ds,spec,"maximum available charging power of the system is 600 kW, depending on the Power Unit version",2025-07,V
+Kempower,Power Unit,x2 parallel,2025,DC,max_output_power_parallel,1200,kW,rated; two units parallel,per 2 cabinets,kempower_mega,Power Unit page,"Two Power Units can be connected in parallel for a max. power of 800 kW or 1,200 kW",2026,C
+Kempower,Power Unit,,2025,DC,power_sharing_granularity,25,kW,dynamic sharing module,per satellite,kempower_mega,solution page,share the power dynamically to Kempower Satellites in 25 kW granularity,2026,C
+Kempower,Satellite,V2,2025,DC,output_voltage_range,50-1000,V DC,adaptive voltage; max 1000 VDC,per connector,kempower_satellite_ds,spec,Max. 1000 VDC ... 400 VDC ... 800 VDC,2025-07,V
+Kempower,Satellite,V2,2025,DC,output_current,200-500,A DC,200A std / up to 500A bundled,CCS2,kempower_satellite_ds,spec,200 A (CCS2) ... 300 A/500 A ... 375 A/500 A (CCS2),2025-07,V
+Kempower,Satellite,V2,2025,DC,connectors,CCS2 (+CHAdeMO option),,per IEC 62196-3,per output,kempower_satellite_ds,spec,1 x CCS2 connector ... CCS2 & CHAdeMO,2025-07,V
+Kempower,Satellite,V2,2025,DC,ocpp_version,OCPP (1.6J; 2.0 per NEVI),,OEM claim,,kempower_satellite_ds,protocols,OCPP ... Customer backend via OCPP,2025-07,V
+Kempower,Satellite,V2,2025,DC,iso_15118,ISO 15118-2 PnC; DIN 70121,,OEM claim,,kempower_satellite_ds,protocols,"DIN 70121:2012, ISO 15118-1:2013 ... ISO 15118-2 Plug & Charge",2025-07,V
+Kempower,Mega Satellite Flex,,2026,MCS,max_output_power_mcs,1200,kW,rated; product capability,MCS output,kempower_mega,news 2026,up to 1.2 MW via MCS,2026,C
+Kempower,Mega Satellite Flex,,2026,DC,max_output_power_ccs,560,kW,rated; product capability,CCS output,kempower_mega,news 2026,Supporting up to 560 kW via CCS,2026,C
+Alpitronic,Hypercharger,HYC400,2025,DC,max_output_power,100-400,kW,rated; 50kW steps,per unit,alpitronic_hyc400_ds,spec,scalable power 100 kW - 400 kW ... Granularity of output power 50 kW,2025-01,V
+Alpitronic,Hypercharger,HYC400,2025,DC,output_voltage_range,150-1000,V DC,constant-power above min V (curve not published),per connector,alpitronic_hyc400_ds,spec,Output DC voltage range 150 Vdc - 1000 Vdc,2025-01,V
+Alpitronic,Hypercharger,HYC400,2025,DC,output_current,up to 500 (600 boost),A DC,CCS2; cooled,per connector,alpitronic_hyc400_ds,spec,CCS2 up to 500 A (prepared for 600 A boost),2025-01,V
+Alpitronic,Hypercharger,HYC400 Series 2,2025,DC,efficiency_peak,98.2,%,peak; EU variant,full load peak,alpitronic_site,HYC400 S2 page,Up to 98.2% peak efficiency with scalable architecture,2025,C
+Alpitronic,Hypercharger,HYC400,2025,DC,ocpp_version,"OCPP 1.6J, ready for 2.0",,OEM claim,,alpitronic_hyc400_ds,communication,"Open Charge Point Protocol (OCPP) 1.6 J, ready for 2.0 J",2025-01,V
+ABB,Terra,360,2024,DC,max_output_power,360,kW,peak; per cabinet,per cabinet,abb_terra360_ds,DC output,DC output power 360 kW (peak),2024,V
+ABB,Terra,360,2024,DC,simultaneous_outputs,up to 4,outputs,dynamic DC sharing; 90kW x4,per cabinet,abb_datachart,data chart,up to 175 kW to each vehicle / 90 kW x 2,2024,V
+ABB,Terra,360,2024,DC,output_voltage_range,150-920,V DC,CCS,per connector,abb_terra360_ds,DC output,CCS 150 - 920 VDC,2024,V
+ABB,Terra,360,2024,DC,output_current,350 nominal / 500 peak,A DC,nominal vs peak,per connector,abb_terra360_ds,DC output,Nominal 350 A DC / Peak 500 A,2024,V
+ABB,Terra,360,2024,DC,efficiency_peak,>95,%,at nominal output,nominal,abb_terra360_ds,spec,Efficiency > 95% at nominal output power,2024,V
+ABB,Terra,360,2024,DC,ocpp_version,OCPP 1.6J,,OEM claim (UL sheet),,abb_terra360_ds,connectivity,Open Charger Point Protocol (OCPP) 1.6J (and previous versions),2024,V
+ABB,Terra,360,2024,DC,iso_15118,Prepared for ISO 15118-2 PnC,,OEM claim,,abb_terra360_ds,connectivity,Prepared for ISO 15118 - 2 PnC,2024,V
+ABB,A200/HVC360,MCS,2025,MCS,continuous_power,1200,kW,continuous; product capability,MCS output,abb_mcs,leaflet,1.2 MW of continuous power,2025,C
+Tritium,RTM75,,2024,DC,max_output_power,50 / 75,kW,rated; two variants,per unit,tritium_rtm75_ds,spec,Output Power: 50kW | 75kW,2024,V
+Tritium,RTM75,,2024,DC,output_voltage_range,150-920,V DC,,per connector,tritium_rtm75_ds,spec,Output Voltage: 150-920V DC,2024,V
+Tritium,RTM75,,2024,DC,output_current,135 (50kW) / 200 (75kW),A DC,at power level,per connector,tritium_rtm75_ds,spec,Output Current: 50kW: 135A | 75kW: 200A,2024,V
+Tritium,RTM75,,2024,DC,efficiency_peak,>95,%,peak,,tritium_rtm75_ds,spec,Efficiency: >95%,2024,V
+Tritium,RTM75,,2024,DC,power_factor,>0.99,,AC input,,tritium_rtm75_ds,spec,Power Factor: >0.99,2024,V
+Tritium,RTM75,,2024,DC,ingress_protection,IP65 / NEMA 3R,,enclosure,,tritium_rtm75_ds,spec,"Ingress Protection Rating: IP65, NEMA Type 3R",2024,V
+Tritium,RTM75,,2024,DC,operating_temperature,-35 to +50,degC,75kW with derating above range,ambient,tritium_rtm75_ds,spec,50kW: -35C to +50C ... 75kW: -35C to +50C (with derating),2024,V
+Tritium,RTM75,,2024,DC,ocpp_version,"OCPP 1.6J, 2.0.1 ready",,OEM claim,EVSE to CSMS,tritium_rtm75_ds,comms,EVSE to CSMS: OCPP 1.6J | 2.0.1 ready,2024,V
+Tritium,RTM75,,2024,DC,iso_15118,ISO 15118-2 PnC; DIN 70121; -20 ready,,OEM claim,EVSE to EV,tritium_rtm75_ds,comms,"EVSE to EV: ISO 15118-2, DIN 70121 | ISO 15118-20 ready",2024,V
+Tesla,Supercharger,V4 (cabinet),2026,DC,max_output_power_cabinet,1200,kW,rated; up to 8 dispensers,per cabinet,tesla_v4,press,"rated at up to 1.2 MW (1,200 kW) ... up to eight V4 dispensers",2026,C
+Tesla,Supercharger,V4 (stall),2026,DC,max_output_power_per_stall,500 (cars) / 1200 (Semi),kW,rated; per stall,per stall,tesla_v4,press,up to 500 kW per stall ... 1.2 Megawatts for the Tesla Semi,2026,C
+Tesla,Supercharger,V4,2026,DC,output_voltage_range,400-1000,V,vehicle pack range,per stall,tesla_v4,press,between 400 volts and 1000 volts,2026,C
+Tesla,Supercharger,V4,2026,DC,max_current,615,A,per stall,per stall,tesla_v4,press,The maximum current is 615 amps,2026,C
+Heliox,Megawatt Charger,,2025,MCS,system_power,1000,kW,shared across 6 vehicles,per system,heliox_mcs,product page,Charge 6 vehicles at once ... distributing power equally at 180 kW,2025,C
+Wallbox,Pulsar,Plus/Pro,2024,AC,max_output_power,7.4 / 11 / 22,kW,rated; 1ph/3ph,per unit,wallbox_ac,support/install,Rated Current 32A ... 22kW version is limited to 11kW during installation,2024,C
+Wallbox,Pulsar,Plus,2024,AC,connectors,Type 2 (tethered or socket),,IEC 62196-2,per unit,wallbox_ac,product,type 2 plug,2024,C
+Easee,Charge,Max,2024,AC,max_output_power,up to 22,kW,rated; load balancing,per unit,easee_ac,listing,laadvermogen van 22 kW via een type 2 socket,2024,C
+MCS (standard),IEC 61851-23-3,Ed.1.0,2026,MCS,max_voltage_ev_side,1250,V DC,standard allows (side B / EV),standard,iec_61851_23_3,scope,rated maximum voltage at side B (EV side) up to 1 250 V DC,2026-08,V
+MCS (standard),IEC 61851-23-3,Ed.1.0,2026,MCS,max_voltage_supply_side,1000 AC / 1500 DC,V,standard allows (side A / supply),standard,iec_61851_23_3,scope,rated maximum voltage at side A (supply network side) up to 1 000 V AC or up to 1 500 V DC,2026-08,V
+MCS (standard),SAE J3271 / CharIN,,2023,MCS,max_power,3750,kW,standard ceiling (3.75 MW),standard,sae_j3271,FAQ,up to 3.75MW (3000A/1250vdc actively cooled),2023-03-13,C
+MCS (standard),SAE J3271 / CharIN,,2023,MCS,max_current,3000,A,standard ceiling; actively cooled,standard,sae_j3271,FAQ,"maximum current of 3,000 A ... actively cooled",2023-03-13,C
+MCS (standard),SAE J3271 / CharIN,,2023,MCS,entry_power_uncooled,440,kW,standard; 350A/1250V uncooled,standard,sae_j3271,FAQ,from 440kW (350A/1250vdc non-cooled),2023-03-13,C
+OCPP,OCPP 1.6,,2015,comms,smart_charging,SetChargingProfile,,protocol feature,,oca_ocpp,versions,OCPP 1.6 ... smart charging profiles,2015,C
+OCPP,OCPP 2.0.1,,2020,comms,iec_designation,IEC 63584:2024,,standard mapping,,oca_ocpp,migration,OCPP 2.0.1 was published as IEC 63584:2024,2024,C
+OCPP,OCPP 2.1,,2025,comms,adds_v2x,bidirectional + ISO 15118-20,,protocol feature,,oca_ocpp,migration,"OCPP 2.1 ... bidirectional charging ... ISO 15118-20",2025-01-23,C
