@@ -1,0 +1,6 @@
+raw_make,clean_make,note,vehicle_count,flagged
+Mercedes Benz,Mercedes-Benz,hyphen restored; same marque,1066,no
+DAF Trucks N.V.,DAF,legal-entity suffix removed,99,no
+MITSUBISHI FUSO or FUSO,Fuso,case normalised; 'or FUSO' alias removed,303,no
+IVECO,Iveco,case normalised,550,no
+DESIGNWERK,Designwerk,case normalised,1,no
