@@ -27,6 +27,14 @@ All on `main`:
   - `missions_xev.csv` — certified mission results for those vehicles (one row per vehicle × mission × payload).
   - `configs_xev.csv`, `missions_by_config_xev.csv`, `join_report.txt` — grouped views from the join script. **Do not use them as the test set**: they were built before the rules in section 2 (they group by Make/Model strings and include placeholders). Rebuild from the per-vehicle files.
 - `docs/research/eea-hdv-2024-peeks/` — header + sample rows of every EEA table, the peek script and the join script (`join_xev_tables.py`).
+- **HDEV code of record: `docs/research/inputs/HDEV_NEW_code_of_record_2026-11-07.ipynb`** (Bob's notebook, 7 Nov). Use these functions: `crosswind_engine`, `payload_engine`, `driver_model` (+ `interp1`, `decel_distance`, `coast_distance`), `force_engine`, `P_aux`, `SP_power_helper`, `HVAC_thermal` (+ helpers), `pto_engine`, `consumption_engine`. `src/engine/` and `tests/driver_model/reference_copy.py` are OLDER versions: do not use them as HDEV.
+  - Copy the notebook functions into a TEST-ONLY module in your output folder. Do not edit the notebook or `src/`.
+  - Known issues in the notebook (Claude, 7 Nov). Fix ONLY these in your test copy, list each fix in the report, change nothing else:
+    1. `driver_model`, accelerate branch: the line `v_cap = math.sqrt(...)` and the next line `a = max(min(a, (v_cap - v) / dt), 0.0)` are joined on one line → SyntaxError. Split them.
+    2. The agreed drag-table change is half done: `coast_distance` takes `drag_v, drag_F`, but `driver_model` still has `P_drag_loss` and passes it into `coast_distance` (TypeError when coasting is on), and `coast_acc` still uses `P_drag_loss / v`. In the test copy: replace `P_drag_loss` by `drag_v, drag_F` arguments, pass them to `coast_distance`, and use `interp1(v, drag_v, drag_F)` in `coast_acc`. This is the change agreed on 3 Nov (`session-closeout-2026-11-03-driver-model-review.md` in inputs).
+    3. `g` default is 9.81; the agreed value is 9.80665. Pass `g=9.80665` explicitly in every call (don't edit defaults).
+    4. The `pto_engine` test cell uses an old signature; ignore that cell (PTO is not used here).
+  - `consumption_engine` uses constant `motor_eff * inverter_eff * gearbox_eff`. For the map-based variants (section 5) do NOT edit it: compute traction power from the wheel power rows (`P_wheel`) with the drivetrain module of the variant, then add `P_aux_row` exactly as `consumption_engine` does. Explain this in the report.
 - Earlier drivetrain work you must reuse, not rebuild:
   - `docs/research/drivetrain-inputs-fallbacks-2026-11/` (`_stdval.py`, `_harness.py`, `run_tests.py`): EU standard-value drivetrain, VECTO generic axle, coasting drag, harness around the code-of-record `driver_model`.
   - `docs/research/drag-default-test-2026-11/` (`_chain.py`, `_driver_dragtable.py`, `run_steps.py`).
@@ -84,10 +92,12 @@ Answer each from VECTO source (file + line) or Reg. 2017/2400 (annex + point). I
 - weather = VECTO declaration (as in the 3 Nov matrix);
 - kWh/km on the same basis as the certified figure (section 4.1). If HDEV and EEA bases differ, convert with a stated, sourced factor or report both.
 
-Variants (each a separate column):
-- V-A: today's constant 0.95/0.95/0.98, no drag.
-- V-B: EU standard-value drivetrain maps + EU standard drag (`_stdval.py`).
-- V-C: VECTO bus-generic motor method (PSM or ASM as the EEA `ElectricMachineType` says; for IEPC say what you used).
+Variants (each a separate column). These are the drivetrain options already tested on 3 Nov on VECTO example trucks; this is their first test on certified trucks:
+- V-A: today's notebook `consumption_engine`, constant efficiencies (use the values in the notebook call; state them), no drivetrain drag.
+- V-B: EU standard-value drivetrain maps (Reg. 2017/2400 Annex VI App. 8 gearbox, axle standard values, Annex Xb motor standard maps; `_stdval.py`) + EU standard drag table.
+- V-C: VECTO completed-bus generic method (`GenericBusElectricMotorData.cs`, `GenericTransmissionComponentData.cs`): motor map from the normalised map for the truck's `ElectricMachineType` (PSM / ASM; for IEPC say what you used and why), generic axle; drag table built the same way.
+- V-D: VECTO generic E2 component maps and E2 drag table as they are (`Generic Vehicles/Declaration Mode/PEV/GenericVehicleE2`). This is one fixed 12 t example truck, not scaled to the real truck; it is in the test because Bob listed it as a default option. Say for which trucks it is physically unsuitable (e.g. motor power far below the truck's rated power).
+- If a variant needs an input the EEA data does not have (e.g. motor full-load curve for V-C, gearbox ratios for E2/E3 multi-speed), list the input, say which standard value or rule you used with its source, or skip the run. No unsourced fill-ins.
 - Tyres: use the vehicle's own certified per-axle `SpecificRRC` and `TyreDimension` from `axle_xev.csv`, combined as VECTO does (section 4.7). Trailer/semi-trailer tyres for tractors: use the VECTO declaration trailer values (file + row). If `axle_xev.csv` is missing, use two RRC bounds you justify from a source and mark `[BOB]`.
 - For each variant: CdxA at the bin's lower and upper edge (two runs). Report both. Do not pick a single "best" CdxA.
 
@@ -96,6 +106,14 @@ Variants (each a separate column):
 - Summary in plain terms: error distribution (median, 10th/90th percentile) per variant, per architecture, per mission, measured vs standard-value components. Say whether the certified value falls inside HDEV's CdxA range.
 - Flag runs where the driver/motor cannot follow the cycle (power or torque limit), as in the 3 Nov matrix; report their share.
 - If any input needed for a run is missing, skip the run and list it. No guessed fill-ins.
+
+**Graphs** (PNG, in the output folder; plain titles, axis units, legend; one idea per graph):
+1. Parity plot per variant: certified kWh/km (x) vs HDEV kWh/km (y), y = x line, ±5 % and ±10 % bands; CdxA low/high shown as a vertical error bar per point; colour by architecture.
+2. Box plot of % error vs certified, one box per variant, split by mission (and a second one split by architecture: E2, E3, E-IEPC, E-IEPC wheel motor).
+3. Same as 2 split by component certification method (measured vs standard values).
+4. Three-way chart (section 6 subset): per config, bars or dots for certified, each HDEV variant, and OEM-stated/derived, with the OEM condition text as a label.
+5. One summary table image or markdown table: per variant, median error, 10th/90th percentile, share of runs within ±5 % and ±10 %.
+Say plainly which variant is closest to certified, on which trucks and missions it fails, and whether any variant stays within ±10 % on all architectures.
 
 ## 6. Job 4: OEM website as third column
 
@@ -121,7 +139,7 @@ In `docs/research/eea-truck-validation-2026-11/`:
 3. `library_schema_eea.md`
 4. `certified_numbers_meaning.md` (section 4, with file/line and annex/point references)
 5. `sample_selection.md`
-6. `hdev_vs_certified.csv` + the scripts that produced it
+6. `hdev_vs_certified.csv` + the scripts that produced it + the test-only HDEV module + the graphs (section 5)
 7. `three_way.csv`
 8. `report.md`. Top: max 15 lines answering:
    - How many real e-truck configs can EV Scope use, and how complete are they?
