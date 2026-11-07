@@ -1,0 +1,10 @@
+dimension,label,vehicle_count
+Aux_Pneumatic_Technology,Large Supply + AMS + elec. driven,3368
+Aux_Pneumatic_Technology,Medium Supply 2-stage + elec. driven,498
+Aux_Pneumatic_Technology,Large Supply + elec. driven,371
+Aux_Pneumatic_Technology,Vacuum pump + elec. driven,303
+Aux_Pneumatic_Technology,Small + elec. driven,57
+Aux_Pneumatic_Technology,Medium Supply 1-stage + elec. driven,1
+SteeringpumpTechnology,Electric driven pump,4085
+SteeringpumpTechnology,Full electric steering gear,513
+Aux_HVAC_SystemConfiguration,(blank),4598
