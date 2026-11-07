@@ -1,0 +1,65 @@
+maker,model,class,field,value,unit,basis,source_id,page_or_section,quote,doc_date,tag
+Kempower,Satellite V2 (+ Power Unit),DC public/fleet,max_power_per_output,400,kW,OEM datasheet,kempower_satellite_ds,spec,Each output can deliver up to 400 kW to the charging Satellite,2025-07,V
+Kempower,Satellite V2 (+ Power Unit),DC public/fleet,max_power_per_power_unit,600,kW,OEM datasheet,kempower_satellite_ds,spec,"The maximum available charging power of the system is 600 kW, depending on the Power Unit version",2025-07,V
+Kempower,Satellite V2,DC public/fleet,simultaneous_outputs,up to 8 (800VDC) / 6 (adaptive),outputs,OEM datasheet,kempower_satellite_ds,spec,up to 8 DC charging outputs with 800 VDC systems and up to 6 outputs with Adaptive Voltage systems,2025-07,V
+Kempower,Satellite V2,DC public/fleet,output_voltage_range,50-1000,VDC,adaptive voltage; Max 1000 VDC,kempower_satellite_ds,spec,Max. 1000 VDC ... 400 VDC ... 800 VDC,2025-07,V
+Kempower,Satellite V2,DC public/fleet,connector,CCS2 (+CHAdeMO option),,OEM datasheet,kempower_satellite_ds,spec,1 x CCS2 connector ... CCS2 & CHAdeMO,2025-07,V
+Kempower,Satellite V2,DC public/fleet,cable_current,200-500,A,200A std; up to 500A w/ bundled terminals,kempower_satellite_ds,spec,200 A (CCS2) ... 300 A/500 A ... 375 A/500 A (CCS2),2025-07,V
+Kempower,Power Unit,DC public/fleet,power_sharing_granularity,25,kW,OEM site,kempower_site,Satellite page,share the power dynamically to Kempower Satellites in 25 kW granularity,,C
+Kempower,Power Unit (x2 parallel),DC public/fleet,max_power_parallel,1200,kW,OEM site,kempower_site,Power Unit page,"Two Power Units can be connected in parallel for a max. power of 800 kW or 1,200 kW",,C
+Kempower,Satellite V2,DC public/fleet,ocpp,OCPP (1.6J & 2.0 per NEVI page),,datasheet lists OCPP; NEVI page 1.6J+2.0,kempower_satellite_ds,Connections and protocols,OCPP ... Customer backend via OCPP,2025-07,V
+Kempower,Satellite V2,DC public/fleet,iso_15118,ISO 15118-2 Plug & Charge; DIN 70121,,OEM datasheet,kempower_satellite_ds,protocols,"DIN 70121:2012, ISO 15118-1:2013 ... ISO 15118-2 Plug & Charge",2025-07,V
+Kempower,Mega Satellite Flex,DC + MCS truck,max_power_ccs,560,kW,OEM news,kempower_mega,news 2026,Supporting up to 560 kW via CCS and up to 1.2 MW via MCS,2026,C
+Kempower,Mega Satellite Flex,MCS truck,max_power_mcs,1200,kW,OEM news,kempower_mega,news 2026,up to 1.2 MW via MCS,2026,C
+ABB,Terra 360,DC public,max_power,360,kW (peak),OEM datasheet,abb_terra360_ds,DC output,DC output power 360 kW (peak),,V
+ABB,Terra 360,DC public,outputs,up to 4,outputs,OEM; 4 vehicles at 90 kW each,abb_datachart,data chart,up to 175 kW to each vehicle / 90 kW x 2 ...,,V
+ABB,Terra 360,DC public,output_voltage_range,150-920,VDC,OEM datasheet (CCS),abb_terra360_ds,DC output,CCS 150 - 920 VDC,,V
+ABB,Terra 360,DC public,output_current,350 nominal / 500 peak,A,OEM datasheet,abb_terra360_ds,DC output,Nominal 350 A DC / Peak 500 A,,V
+ABB,Terra 360,DC public,efficiency,>95,% at nominal,OEM datasheet,abb_terra360_ds,spec,Efficiency > 95% at nominal output power,,V
+ABB,Terra 360,DC public,ocpp,OCPP 1.6J,,OEM datasheet (UL),abb_terra360_ds,connectivity,Open Charger Point Protocol (OCPP) 1.6J (and previous versions),,V
+ABB,Terra 360,DC public,iso_15118,Prepared for ISO 15118-2 PnC,,OEM datasheet,abb_terra360_ds,connectivity,Prepared for ISO 15118 - 2 PnC,,V
+ABB,Terra 184,DC public,max_power,180 (or 2x90),kW,OEM datasheet,abb_datachart,data chart,Terra 184: 180 kW on one outlet or 2 x 90 kW on two outlets,,V
+ABB,MCS (A200 platform),MCS truck,continuous_power,1200,kW,OEM doc snippet,abb_mcs,leaflet,1.2 MW of continuous power,,C
+Alpitronic,Hypercharger HYC400,DC public,max_power,400,kW,"OEM datasheet, scalable 100-400 in 50kW steps",alpitronic_hyc400_ds,spec,scalable power 100 kW - 400 kW ... Granularity of output power 50 kW,2025-01,V
+Alpitronic,HYC400,DC public,output_voltage_range,150-1000,VDC,OEM datasheet,alpitronic_hyc400_ds,spec,Output DC voltage range 150 Vdc - 1000 Vdc,2025-01,V
+Alpitronic,HYC400,DC public,output_current,up to 500 (600 boost),A (CCS2),OEM datasheet,alpitronic_hyc400_ds,spec,CCS2 up to 500 A (prepared for 600 A boost),2025-01,V
+Alpitronic,HYC400,DC public,power_distribution,up to 4 power-stacks dynamically allocated,,OEM datasheet,alpitronic_hyc400_ds,spec,"Smart, dynamic allocation of power modules and distribution of charging power to charging points",2025-01,V
+Alpitronic,HYC400,DC public,efficiency,up to 97.5,%,OEM (HYC series),alpitronic_site,HYC page,reaches up to 97.5% efficiency at full load,,C
+Alpitronic,HYC400 Series 2,DC public,efficiency,up to 98.2 (EU) / 98.1 (US),% peak,OEM site,alpitronic_site,HYC400 S2 page,Up to 98.2% peak efficiency with scalable architecture,,C
+Alpitronic,HYC400,DC public,ocpp,"OCPP 1.6J, ready for 2.0",,OEM datasheet,alpitronic_hyc400_ds,communication,"Open Charge Point Protocol (OCPP) 1.6 J, ready for 2.0 J",2025-01,V
+Alpitronic,HYC400,DC public,iso_15118,ISO 15118; DIN SPEC 70121,,OEM datasheet,alpitronic_hyc400_ds,communication,SAE J1772 / EN 61851-24/DIN SPEC 70121; ISO 15118,2025-01,V
+Alpitronic,HYC200,DC public,max_power,100-200,kW,OEM site,alpitronic_site,HYC200 page,scale from 100 to 200 kW,,C
+Tritium,RTM75,DC destination,max_power,50 / 75,kW,OEM datasheet,tritium_rtm75_ds,spec,Output Power: 50kW | 75kW,,V
+Tritium,RTM75,DC destination,output_voltage_range,150-920,VDC,OEM datasheet,tritium_rtm75_ds,spec,Output Voltage: 150-920V DC,,V
+Tritium,RTM75,DC destination,output_current,135 (50kW) / 200 (75kW),A,OEM datasheet,tritium_rtm75_ds,spec,Output Current: 50kW: 135A | 75kW: 200A,,V
+Tritium,RTM75,DC destination,connector,CCS / NACS (200A); CHAdeMO option,,OEM datasheet,tritium_rtm75_ds,spec,Charging Cable Types: CCS: 200A | NACS: 200A,,V
+Tritium,RTM75,DC destination,efficiency,>95,%,OEM datasheet,tritium_rtm75_ds,spec,Efficiency: >95%,,V
+Tritium,RTM75,DC destination,power_factor,>0.99,,OEM datasheet,tritium_rtm75_ds,spec,Power Factor: >0.99,,V
+Tritium,RTM75,DC destination,cooling,liquid-cooled,,OEM site,tritium_site,RTM75 page,two 50 kW AC:DC modules and three 25 kW DC:DC modules. All liquid-cooled,,C
+Tritium,RTM75,DC destination,ingress_protection,IP65 / NEMA 3R,,OEM datasheet,tritium_rtm75_ds,spec,"Ingress Protection Rating: IP65, NEMA Type 3R",,V
+Tritium,RTM75,DC destination,operating_temperature,-35 to +50,°C,OEM datasheet (75kW with derating),tritium_rtm75_ds,spec,50kW: -35°C to +50°C ... 75kW: -35°C to +50°C (with derating),,V
+Tritium,RTM75,DC destination,ocpp,"OCPP 1.6J, 2.0.1 ready",,OEM datasheet,tritium_rtm75_ds,comms,EVSE to CSMS: OCPP 1.6J | 2.0.1 ready,,V
+Tritium,RTM75,DC destination,iso_15118,ISO 15118-2 PnC; DIN 70121; 15118-20 ready,,OEM datasheet,tritium_rtm75_ds,comms,"EVSE to EV: ISO 15118-2, DIN 70121 | ISO 15118-20 ready",,V
+Tritium,PKM150,DC fleet/off-grid,max_power,50/100/150,kW per point,OEM brochure,tritium_pkm150,brochure,"Choose between 50kW, 100kW or 150kW power level per charging",,C
+Tritium,PKM150,DC fleet/off-grid,site_dc_bus,950,VDC,"OEM site; up to 8 connectors, dynamic sharing",tritium_site,PKM150 page,Power is distributed around the site at 950 VDC ... up to 8 connectors,,C
+Tesla,Supercharger V4 (cabinet),DC public,max_power_cabinet,1200,kW,press (Tesla announcement),tesla_v4,news,"rated at up to 1.2 MW (1,200 kW) ... up to eight V4 dispensers",2026,C
+Tesla,Supercharger V4 (stall),DC public,max_power_per_stall,up to 500 (cars) / 1200 (Semi),kW,press (Tesla announcement),tesla_v4,news,up to 500 kW per stall ... 1.2 Megawatts for the Tesla Semi,2026,C
+Tesla,Supercharger V4,DC public,voltage_range,400-1000,V,press,tesla_v4,news,supports charging on vehicles with battery packs rated for between 400 volts and 1000 volts,2026,C
+Tesla,Supercharger V4,DC public,max_current,615,A,press,tesla_v4,news,The maximum current is 615 amps,2026,C
+Heliox,Megawatt Charger (MCS),MCS truck,system_power,1000,kW (shared),OEM site,heliox_mcs,product page,Charge 6 vehicles at once with a one Megawatt system distributing power equally at 180 kW,,C
+Wallbox,Pulsar Plus / Pulsar Pro,AC home,max_power,7.4 / 11 / 22,kW,OEM (1ph 7.4 / 3ph 11-22),wallbox_site,support/install,Rated Current 32A ... 22kW version is limited to 11kW during installation,,C
+Wallbox,Pulsar family,AC home,connector,Type 2 (tethered or socket),,OEM/retail,wallbox_site,product,5 meter charging cable with type 2 plug,,C
+Wallbox,Pulsar Plus,AC home,ocpp,OCPP 1.6 (model dependent),,retail listing,wallbox_retail,listing,Wallbox Pulsar Plus 22 KW OCPP WiFi,,C
+Easee,Charge / Charge Max,AC home,max_power,up to 22,kW,retail/OEM,easee_retail,listing,laadvermogen van 22 kW via een type 2 socket,,C
+CharIN / SAE,MCS (SAE J3271),MCS standard,max_power,3750,kW (3.75 MW),standard (under development),mcs_anl,FAQ,from 440kW (350A/1250vdc non-cooled) up to 3.75MW (3000A/1250vdc actively cooled),2023,C
+CharIN / SAE,MCS,MCS standard,max_voltage,1250,VDC,standard,mcs_charin,spec,"maximum current of 3,000 A (3 kA) at up to 1,250 V",,C
+CharIN / SAE,MCS,MCS standard,max_current,3000,A,standard,mcs_charin,spec,"maximum current of 3,000 A (3 kA)",,C
+Open Charge Alliance,OCPP 1.6,protocol,released,2015,year,OCA / episensor,ocpp_episensor,versions,OCPP 1.6 2015 JSON over WebSocket (OCPP-J) ... smart charging profiles,,C
+Open Charge Alliance,OCPP 2.0.1,protocol,released / IEC,2020 / IEC 63584:2024,,OCA / codibly,ocpp_codibly,migration,OCPP 2.0.1 was published as IEC 63584:2024,2020,C
+Open Charge Alliance,OCPP 2.0.1,protocol,adds,device model; 3 security profiles; ISO 15118-2 Plug&Charge; mutual TLS,,episensor/entrans,ocpp_episensor,versions,"ISO 15118-2 support, including Plug and Charge",,C
+Open Charge Alliance,OCPP 2.1,protocol,released / IEC,2025-01-23 / IEC 63584-210:2025,,codibly/carcody,ocpp_codibly,migration,"OCPP 2.1 followed as IEC 63584-210:2025, extending ... bidirectional charging ... ISO 15118-20",2025-01-23,C
+(market),AC Level 2 home charger,AC home,price_installed,900-2500,USD all-in,installer estimate (secondary),price_recharged,guide 2025,"around $900-$2,500 all-in for a Level 2 home charger",2025,C
+(market),AC wallbox hardware,AC home,price_hardware,399-699,EUR,retail (secondary),wallbox_retail,shop,from EUR699 ... '399' euro,,C
+(market),DC 150 kW,DC public,price_hardware,45000-100000,USD per unit,installer estimate (secondary),price_wheelthrive,guide,"go 150 kW ... Expect $45,000-$85,000 per unit",2025,C
+(market),DC 350 kW,DC public,price_hardware,120000-200000,USD per unit,installer estimate (secondary),price_wheelthrive,guide,"350 kW+ corridor-style chargers push $120,000-$200,000+",2025,C
+(market),DC 300-350 kW,DC public,price_hardware_installed,90000-300000+,USD,installer estimate (secondary),price_pilot,guide,"300-350 kW DC USD 90,000-160,000 ... installed USD 180,000-300,000+",2026,C
