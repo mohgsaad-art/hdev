@@ -250,57 +250,82 @@ def cdxa_corners(group, mission):
     return lo, hi, height
 
 
-def one_run(spec, mission, mass, cdxa0, height, group):
-    """Returns dict variant -> battery-side kWh/km, plus flags, for one CdxA corner."""
-    # crosswind tables W1,W2 for this group over a speed grid 0..130 km/h
+_cross_cache = {}
+
+
+def crosswind_tables(group, height):
+    """Cached crosswind W1,W2 over a 0..130 km/h grid for a group+height."""
+    key = (group, round(height, 2))
+    if key in _cross_cache:
+        return _cross_cache[key]
     a1, a2, a3 = CROSS[GROUP_CROSS.get(group, "RigidSolo")]
-    speed_grid = np.arange(1, 131, 1.0)  # start at 1 km/h to avoid /0; 0 handled by hold-low
-    # Use crosswind_engine at base wind 3 m/s (VECTO BaseWindSpeed), Hellmann 0.2
+    speed_grid = np.arange(1, 131, 1.0)
     W1, W2 = H.crosswind_engine(height, [3.0], 4.0, a1, a2, a3, 0.2, 0.2, 0.4, speed_grid, None)
     W1 = W1[0]; W2 = W2[0]
-    # prepend a 0 km/h point holding the 1 km/h value (VECTO copies the low-speed value)
     speed_grid = np.concatenate(([0.0], speed_grid))
     W1 = np.concatenate(([W1[0]], W1)); W2 = np.concatenate(([W2[0]], W2))
-    cdxa_v_grid = speed_grid  # km/h grid for consumption_engine
-    # single weather hour at 20 C
-    T_amb_h = np.array([20.0])
-    W1h = W1[None, :]; W2h = W2[None, :]
+    _cross_cache[key] = (speed_grid, W1, W2)
+    return _cross_cache[key]
 
-    results = {}
-    flags = {}
-    # V-A: no coasting drag in driver; constant efficiencies
-    for variant in ("V-A", "V-B", "V-C", "V-D"):
-        drag = None
-        if variant in ("V-B", "V-C", "V-D"):
-            drag = build_drag(spec, variant)
+
+def one_run(spec, mission, mass, corners, height, group):
+    """Run every variant at EVERY CdxA corner in `corners` in one pass.
+    Returns {corner_value: (results, flags)}.
+
+    Optimised: the driver trace depends only on (mission, mass, drag); force_engine does
+    not depend on the CdxA corner at all. So we run the driver + force_engine ONCE per
+    drag kind (no-drag for V-A, with-drag for V-B/C/D) and reuse across corners; only the
+    cheap crosswind-CdxA term of P_wheel and the traction chain vary per corner."""
+    cdxa_v_grid, W1, W2 = crosswind_tables(group, height)
+    P_aux = AUX_W.get(mission, 2300.0)
+    dt = 1.0
+
+    # precompute the two driver traces + force terms (keyed by drag kind)
+    base = {}  # drag_kind -> (S, V, v_avg, M, k_lin, k_roll, k_rot, L, km) or ("fail", msg)
+    for drag_kind, variant_probe in (("none", "V-A"), ("drag", "V-B")):
+        drag = None if drag_kind == "none" else build_drag(spec, variant_probe)
         try:
-            T, S, V, A, grade, M = run_driver(mission, mass, spec_crr(spec), spec.r_dyn, cdxa0, drag)
+            T, S, V, A, grade, M = run_driver(mission, mass, spec_crr(spec), spec.r_dyn,
+                                              corners[0], drag)
         except RuntimeError as e:
-            results[variant] = None
-            flags[variant] = "driver_fail:" + str(e)[:40]
+            base[drag_kind] = {"fail": str(e)[:40]}
             continue
-        dt = 1.0
         dt_arr = np.full(len(T), dt)
-        k_lin, k_roll, k_rot, L, v_avg = H.force_engine(G, spec_crr(spec), V, A, dt_arr, grade, spec.r_dyn, 0.0)
-        # wheel power per row with crosswind CdxA at this corner
-        hour = np.zeros(len(T), dtype=int)
+        k_lin, k_roll, k_rot, L, v_avg = H.force_engine(G, spec_crr(spec), V, A, dt_arr,
+                                                        grade, spec.r_dyn, 0.0)
+        km = S[-1] / 1000.0 if S[-1] > 0 else (load_cycle(mission)[0][-1] / 1000.0)
+        base[drag_kind] = {"S": S, "V": V, "v_avg": v_avg, "M": M, "k_lin": k_lin,
+                           "k_roll": k_roll, "k_rot": k_rot, "L": L, "km": km}
+
+    def p_wheel_for(b, cdxa0):
+        v_avg = b["v_avg"]
         v_kmh = np.clip(v_avg * 3.6, cdxa_v_grid[0], cdxa_v_grid[-1])
         cdxa_tab = cdxa0 * W1 + W2
         j = np.clip(np.searchsorted(cdxa_v_grid, v_kmh, side="right") - 1, 0, len(cdxa_v_grid) - 2)
         w = (v_kmh - cdxa_v_grid[j]) / (cdxa_v_grid[j + 1] - cdxa_v_grid[j])
         cdxa_row = cdxa_tab[j] * (1 - w) + cdxa_tab[j + 1] * w
-        P_wheel = mass * k_lin + mass ** BETA_RRC * k_roll + k_rot + RHO * cdxa_row * L
-        use = (M != 0)
-        # traction power per variant
-        P_trac, vflag = traction_for_variant(variant, spec, P_wheel, M, V, v_avg)
-        # aux
-        P_aux = AUX_W.get(mission, 2300.0)
-        P_battery = P_trac + P_aux
-        km = S[-1] / 1000.0 if S[-1] > 0 else (load_cycle(mission)[0][-1] / 1000.0)
-        E_batt = float(np.sum(P_battery * dt) / 3.6e6)
-        results[variant] = E_batt / km if km > 0 else None
-        flags[variant] = vflag
-    return results, flags
+        P_wheel = mass * b["k_lin"] + mass ** BETA_RRC * b["k_roll"] + b["k_rot"] + RHO * cdxa_row * b["L"]
+        return P_wheel, b["V"], v_avg, b["M"], b["km"]
+
+    out = {}
+    for cdxa0 in corners:
+        results = {}
+        flags = {}
+        for variant in ("V-A", "V-B", "V-C", "V-D"):
+            dk = "none" if variant == "V-A" else "drag"
+            b = base[dk]
+            if "fail" in b:
+                results[variant] = None
+                flags[variant] = "driver_fail:" + b["fail"]
+                continue
+            P_wheel, V, v_avg, M, km = p_wheel_for(b, cdxa0)
+            P_trac, vflag = traction_for_variant(variant, spec, P_wheel, M, V, v_avg)
+            P_battery = P_trac + P_aux
+            E_batt = float(np.sum(P_battery * dt) / 3.6e6)
+            results[variant] = E_batt / km if km > 0 else None
+            flags[variant] = vflag
+        out[cdxa0] = (results, flags)
+    return out
 
 
 def spec_crr(spec):
@@ -422,12 +447,18 @@ def main():
             spec_cache[speckey] = build_spec(cfg, vid, axle_rows)
         spec = spec_cache[speckey]
         lo, hi, height = cdxa_corners(group, mission)
+        # finer architecture label: distinguish IEPC wheel-motor (reproducible, no post-patch)
+        arch_label = spec.arch
+        if spec.arch == "E-IEPC" and spec.wheel_motor:
+            arch_label = "E-IEPC-wheel"
         row = dict(config_id=cid, vehicle_id=vid, mass_tag=run["mass_tag"], mission=mission,
-                   payload=run["payload"], mass=mass, group=group, arch=spec.arch,
+                   payload=run["payload"], mass=mass, group=group, arch=arch_label,
                    comp_method=cfg["comp_method"], certified_kwh_km=cert,
                    rrc_missing=spec._rrc_missing)
+        # one pass for both CdxA corners (driver + force_engine shared)
+        both = one_run(spec, mission, mass, (lo, hi), height, group)
         for corner, c0 in (("lo", lo), ("hi", hi)):
-            res, flags = one_run(spec, mission, mass, c0, height, group)
+            res, flags = both[c0]
             for variant in ("V-A", "V-B", "V-C", "V-D"):
                 val = res.get(variant)
                 # grid-side correction: HDEV battery-side / 0.995
