@@ -1,0 +1,29 @@
+====================================================================================================
+FILE: drive_files/hdv_2024_voltagelevel_electricmachine.csv
+size: 1.2 MB   separator: ','
+columns: 5
+
+--- column list ---
+   0  Vehicle_id
+   1  Pk_Vehicle
+   2  ElectricMachineId
+   3  Voltage
+   4  MaxContinuousPower
+
+--- first 5 rows (one line per column) ---
+                                                                                     0                                                                   1                                                                   2                                                                   3                                                                   4
+Vehicle_id          0x1B953E8EE2F03D591279837BEDB75BB58BCECB9F61D44EEC6C1FA7E688315A4C  0x1B953E8EE2F03D591279837BEDB75BB58BCECB9F61D44EEC6C1FA7E688315A4C  0x1F0D1EE58E98F275972DDC2C5AC739D24F94DDCAC6C86AD248A8E2BB8669B7A2  0x1F0D1EE58E98F275972DDC2C5AC739D24F94DDCAC6C86AD248A8E2BB8669B7A2  0x400E98FEB7E2CCEB425281D18741139CBBE45DBDEAE98CA7B74B9350C2FB0306
+Pk_Vehicle                                        241478f5-ec10-495e-a54f-82ea687e3075                                241478f5-ec10-495e-a54f-82ea687e3075                                3aa95929-7c7e-4a3e-8243-a85f8816f414                                3aa95929-7c7e-4a3e-8243-a85f8816f414                                02763678-9b13-4231-97cd-e77659cf807a
+ElectricMachineId                                 7955fbc8-3f2e-47f6-bd12-cd684aa50b8d                                7955fbc8-3f2e-47f6-bd12-cd684aa50b8d                                7dc59683-b720-43bd-95ed-cbf330d4f0d4                                7dc59683-b720-43bd-95ed-cbf330d4f0d4                                645abe00-7f02-4f3b-9aae-f36f94ef112f
+Voltage                                                                                                                                                                                                                                                                                                                                                               
+MaxContinuousPower                                                                 166                                                                 166                                                                 166                                                                 166                                                                 175
+
+approx. data rows: 8,106
+
+--- 1 rows picked from across the file ---
+                                                                                   582
+Vehicle_id          0x45717C4CB7E6E5FA0AD4532AAFA326D086AFC3BA72CC72384B4D72E83796FF9C
+Pk_Vehicle                                        0afa5f24-16c2-45d6-ae70-f3ed2c10f4e6
+ElectricMachineId                                 93932276-6146-4308-9dc0-53661dd8e9b8
+Voltage                                                                               
+MaxContinuousPower                                                                 166

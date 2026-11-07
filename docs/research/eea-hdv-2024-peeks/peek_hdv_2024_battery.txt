@@ -1,0 +1,56 @@
+====================================================================================================
+FILE: drive_files/hdv_2024_battery.csv
+size: 7.2 MB   separator: ','
+columns: 14
+
+--- column list ---
+   0  Vehicle_id
+   1  Pk_Vehicle
+   2  Id
+   3  CertificationNumber
+   4  DigestValue
+   5  Capacitance
+   6  MinVoltage
+   7  MaxVoltage
+   8  NominalVoltage
+   9  TotalStorageCapacity
+  10  TotalStorageCapacity_unit
+  11  TotalUsableCapacityInSimulation
+  12  TotalUsableCapacityInSimulation_unit
+  13  CertificationMethod
+
+--- first 5 rows (one line per column) ---
+                                                                                                       0                                                                   1                                                                   2                                                                   3                                                                   4
+Vehicle_id                            0x141D1808D891295C5E1E81F3617F519B1DD546A05BB90F6FCA06E509640F7245  0x6EB74CB6D5DF70658427D861B2F33E9F41179E55A60540946DCC7C5B82914A45  0x16A440D5C09411AC38F36CDCF51CD50E4E64455471EC54E8205D12958EECB809  0x14B45C8D5B4EFA0477B7EAB64AFFCA9F2418A7A7296AC323F28041B96801CD3A  0xB78E8B09BD7480CFCFE82C6AB340429F75488B5E3B327131EB7C9CEB0AEBD2CA
+Pk_Vehicle                                                          4bf30946-5511-42a1-b474-5a991b6eec62                                cb141d9f-7538-4284-b073-f180297de972                                2a6f8dda-35fb-43f3-b455-651e332bd355                                667c1fb5-2a91-4dfe-9653-4e90adc5e8df                                eb601777-1ab6-4dcd-98ee-8cdd6b4a1158
+Id                                                                                                     0                                                                   0                                                                   0                                                                   0                                                                   0
+CertificationNumber                                                                                                                                                                                                                                                                                                                                                                     
+DigestValue                                                 SBEe3Wngf8pJlqWZ6rZtsNoRNaQ0qHFyUSNhIcpdKWo=                        QJcM/NDzMuSGgnlimrjsdpWn7+kbHLX34FxNS79QTws=                        XbOynsTi9tNyW26no16Yn+ZK04Hvd4rH+QOiMBSposI=                        QJcM/NDzMuSGgnlimrjsdpWn7+kbHLX34FxNS79QTws=                        QJcM/NDzMuSGgnlimrjsdpWn7+kbHLX34FxNS79QTws=
+Capacitance                                                                                         NULL                                                                NULL                                                                NULL                                                                NULL                                                                NULL
+MinVoltage                                                                                          NULL                                                                NULL                                                                NULL                                                                NULL                                                                NULL
+MaxVoltage                                                                                          NULL                                                                NULL                                                                NULL                                                                NULL                                                                NULL
+NominalVoltage                                                                                       666                                                                 666                                                                 666                                                                 666                                                                 666
+TotalStorageCapacity                                                                                 490                                                                 306                                                                 429                                                                 306                                                                 306
+TotalStorageCapacity_unit                                                                            kWh                                                                 kWh                                                                 kWh                                                                 kWh                                                                 kWh
+TotalUsableCapacityInSimulation                                                                      373                                                                 233                                                                 326                                                                 233                                                                 233
+TotalUsableCapacityInSimulation_unit                                                                 kWh                                                                 kWh                                                                 kWh                                                                 kWh                                                                 kWh
+CertificationMethod                                                                      Standard values                                                     Standard values                                                     Standard values                                                     Standard values                                                     Standard values
+
+approx. data rows: 35,021
+
+--- 1 rows picked from across the file ---
+                                                                                                   27335
+Vehicle_id                            0xAA61285F7B30F002D3E113594B97EBBF1B8ADEFDE7E45C24135B0F780D0EB3ED
+Pk_Vehicle                                                          5a91c53e-fb62-496b-80f6-b3c4903e516f
+Id                                                                                                     5
+CertificationNumber                                                                                     
+DigestValue                                                 pXBz+cL6kNhj3jNeJ5RwUX+rdLfUaHYIrnIIfGlQbuc=
+Capacitance                                                                                         NULL
+MinVoltage                                                                                          NULL
+MaxVoltage                                                                                          NULL
+NominalVoltage                                                                                       648
+TotalStorageCapacity                                                                                  69
+TotalStorageCapacity_unit                                                                            kWh
+TotalUsableCapacityInSimulation                                                                       59
+TotalUsableCapacityInSimulation_unit                                                                 kWh
+CertificationMethod                                                                      Standard values

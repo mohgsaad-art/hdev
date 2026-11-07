@@ -1,0 +1,29 @@
+====================================================================================================
+FILE: drive_files/hdv_2024_enginetorquelimit.csv
+size: 81.6 MB   separator: ','
+columns: 5
+
+--- column list ---
+   0  Vehicle_id
+   1  Pk_Vehicle
+   2  Gear
+   3  Unit
+   4  EngineTorqueLimit
+
+--- first 5 rows (one line per column) ---
+                                                                                    0                                                                   1                                                                   2                                                                   3                                                                   4
+Vehicle_id         0xB3D66B3A90FB103E4477E0320D448B12599588C276B8D8B3CC0EC260A31AAD61  0xB3D66B3A90FB103E4477E0320D448B12599588C276B8D8B3CC0EC260A31AAD61  0xB3D66B3A90FB103E4477E0320D448B12599588C276B8D8B3CC0EC260A31AAD61  0xB3D66B3A90FB103E4477E0320D448B12599588C276B8D8B3CC0EC260A31AAD61  0xB3D66B3A90FB103E4477E0320D448B12599588C276B8D8B3CC0EC260A31AAD61
+Pk_Vehicle                                       f7e81a88-73a1-4bfa-9341-16694d720e3d                                f7e81a88-73a1-4bfa-9341-16694d720e3d                                f7e81a88-73a1-4bfa-9341-16694d720e3d                                f7e81a88-73a1-4bfa-9341-16694d720e3d                                f7e81a88-73a1-4bfa-9341-16694d720e3d
+Gear                                                                                6                                                                   8                                                                  10                                                                   1                                                                   3
+Unit                                                                                %                                                                   %                                                                   %                                                                   %                                                                   %
+EngineTorqueLimit                                                                  99                                                                  99                                                                  99                                                                  65                                                                  89
+
+approx. data rows: 726,692
+
+--- 4 rows picked from across the file ---
+                                                                               662334                                                              430494                                                              135386                                                              255601
+Vehicle_id         0xA468139114DB65D7488892B30C22E0AC621183675EB168FC14725F197F403E02  0x556D38AA8FD75F37043E63BCA7CE88C3A89ACED7050C8B79AE7AEA8CE9C17CF3  0x44B9C61D62B6DB2885EB66DCE64CA32AEED6D0E6AAE85338BF764ADED67374EC  0xEE924CF517850BC743DC6006F5A68BB2A1E95F1001AABA80501968617C26C73B
+Pk_Vehicle                                       8dfc986b-ede9-4ade-b1eb-3175ea12aa94                                37335173-3757-4ae0-9929-ad10a78863d1                                77b55f75-444c-49b6-9872-21e49bab356d                                e5c6342c-a81d-4ccf-9e55-4ad408063dc7
+Gear                                                                               11                                                                   3                                                                   6                                                                  12
+Unit                                                                                %                                                                   %                                                                   %                                                                   %
+EngineTorqueLimit                                                                  86                                                                  93                                                                  93                                                                  86

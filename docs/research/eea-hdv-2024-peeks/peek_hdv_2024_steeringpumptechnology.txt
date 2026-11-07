@@ -1,0 +1,23 @@
+====================================================================================================
+FILE: drive_files/hdv_2024_steeringpumptechnology.csv
+size: 197.2 MB   separator: ','
+columns: 3
+
+--- column list ---
+   0  Vehicle_id
+   1  Pk_Vehicle
+   2  SteeringpumpTechnology
+
+--- first 5 rows (one line per column) ---
+                                                                                         0                                                                   1                                                                   2                                                                   3                                                                   4
+Vehicle_id              0xBAD8DDA4D0FCF3CB9DC102E26C33140B7E067802B4BFDA0AC29ECE8966658492  0x444330653A8B60843804991BF253BE5D9A9B4A6DB1689BC86629038CA1DCBED9  0x7763498A2463B3FE7AE1FCD1FB9DD9848F93A95F989E9C09AD64BEF6AF174266  0x3F64612A06D2833D0A3C522DBCA252FBF42A001472DDBE3147050092BAA0944B  0x6EC039DB54834E8F10295AA9026B18F4BF70A6E8B012DAAAE3B2104F95C2B0EC
+Pk_Vehicle                                                                         1050683                                                              106030                                                             1150002                                                             1161121                                                             1227193
+SteeringpumpTechnology                                                  Fixed displacement                                                  Fixed displacement                                                  Fixed displacement                                                  Fixed displacement                              Variable displacement mech. controlled
+
+approx. data rows: 1,770,767
+
+--- 5 rows picked from across the file ---
+                                                                                   1676013                                                             430494                                                              1315847                                                             1571145                                                             255601 
+Vehicle_id              0x1D6D1F0809C46052D85416ADB47E73F4648B21D3325021BF25DB7847A3F0E85D  0xC9809DFD9E0A5550BBE47488BEA7C8F53F3902684D067921F620996C9395295C  0xBB26C6A657BE8BF632DFDCABCA22179C86E6A071A1DA3F24D7B6DF1560D60878  0x52BB5A766B26F08A4E88B942B76FC7A701DFF40465FA850A7EBBDC56F1758EB9  0xB02C44C19890DD3A0FACF3209E32B0A7747C23F2C24DF4ADFB4D9272CA6FA45C
+Pk_Vehicle                                                                         1015504                                                             1183345                                                              122699                                                              661280                                                             1279592
+SteeringpumpTechnology                              Variable displacement mech. controlled                                                  Fixed displacement                                                  Fixed displacement                              Variable displacement mech. controlled                                                  Fixed displacement

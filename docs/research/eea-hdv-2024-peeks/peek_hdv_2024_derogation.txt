@@ -1,0 +1,17 @@
+====================================================================================================
+FILE: drive_files/hdv_2024_derogation.csv
+size: 0.0 MB   separator: ','
+columns: 1
+
+--- column list ---
+   0  Vehicle_id
+
+--- first 5 rows (one line per column) ---
+                                                                             0                                                                   1                                                                   2                                                                   3                                                                   4
+Vehicle_id  0xC014156816909C1CFA64C0877F554E238D4DD0D7514EEC532C9ED16FE313543D  0xE1FD03050338BB87BF84E68C11EC9F0F8569951938D022F5DFD2E07496CC704D  0xBE9CE2572127587FCB719344FE3D547E9E18C7B2D88B6AFA7C5402CFD01030E8  0x3F80A1E0097FAC425D55AA8E172835D7367FA0794638D901F4D8245A49C6070A  0x36DDB76E6CAE643CE46BF6F282B035B1B1F809028C3D49EE91CC9E8190C16C41
+
+approx. data rows: 123
+
+--- 1 rows picked from across the file ---
+                                                                             4
+Vehicle_id  0x36DDB76E6CAE643CE46BF6F282B035B1B1F809028C3D49EE91CC9E8190C16C41

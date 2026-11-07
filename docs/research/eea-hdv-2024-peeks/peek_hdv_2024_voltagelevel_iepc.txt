@@ -1,0 +1,29 @@
+====================================================================================================
+FILE: drive_files/hdv_2024_voltagelevel_iepc.csv
+size: 2.3 MB   separator: ','
+columns: 5
+
+--- column list ---
+   0  Vehicle_id
+   1  Pk_Vehicle
+   2  IEPCId
+   3  Voltage
+   4  MaxContinuousPower
+
+--- first 5 rows (one line per column) ---
+                                                                                     0                                                                   1                                                                   2                                                                   3                                                                   4
+Vehicle_id          0x02A9429FB2A0B7368EA70F0D49DC16FFFCA1A29D9AC61D821B74350A77707059  0x190EDF6B154DF773C5FB89403D7054071A886A6349BA69418E80FD35CABA54D0  0xFB174D32F10EE6357642D4EA64717D2CE3B5EB3CF34C0C55087180364AF37879  0x6BD67ED03DBEF8CCD345352658FC1C75D498FB1B99AD344438C44DD63D67D289  0x8966AC15EEBB502A22549BF3472C95EA4F7DA0C96E85A4FAFE5C8E0C0E6A9CB3
+Pk_Vehicle                                        6ca901d9-80c8-4e3f-9040-308c8d4541d1                                c70d2e2e-66a0-4b5a-a49c-22b38f499016                                713840db-c866-4992-8f5b-8c1d423c304f                                047080ed-8222-4e93-bbfd-eae2919e0a13                                a6634049-dee3-4938-8909-c176425cc34b
+IEPCId                                            0d9a58ce-fb31-4b13-8e7a-3ec19e14c3bc                                1481dcc7-06c0-4c81-9543-ee9b176689d2                                21f83031-5205-4144-ad00-2e8228c119a3                                2b0d6d67-7806-4642-8b70-dd84b023b586                                44c7a508-4f4f-4b86-b289-edaf30d29e69
+Voltage                                                                                                                                                                                                                                                                                                                                                               
+MaxContinuousPower                                                                 110                                                                 110                                                                 110                                                                 110                                                                 110
+
+approx. data rows: 15,249
+
+--- 1 rows picked from across the file ---
+                                                                                  5397
+Vehicle_id          0x61A51EC24307EE6C93286D6535455E841A4412D23A555610BD40F02F83B18A1A
+Pk_Vehicle                                        eaccbc79-b7f6-4cec-a91e-a9c86c4297e8
+IEPCId                                            3cbbff79-9166-4eed-90f7-979e06d5837a
+Voltage                                                                            794
+MaxContinuousPower                                                                 400
