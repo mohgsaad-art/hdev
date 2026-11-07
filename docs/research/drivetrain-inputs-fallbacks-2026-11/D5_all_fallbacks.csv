@@ -1,0 +1,4 @@
+cycle,kwh_km,truth_kwh_km,pct_vs_truth,direction
+RegionalDelivery,0.9173,0.9955,-7.85,UNDER
+UrbanDelivery,0.6835,0.7935,-13.85,UNDER
+MunicipalUtility,0.7515,0.8401,-10.55,UNDER
