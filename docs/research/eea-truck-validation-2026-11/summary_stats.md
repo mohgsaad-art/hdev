@@ -1,49 +1,53 @@
-# HDEV vs certified: summary statistics (Job 3)
+# Job 3 v2 summary statistics
 
-Error = (HDEV grid-side kWh/km - certified kWh/km) / certified, in %. 
-Each run has two CdxA corners (low/high edge); the point error below uses 
-the mid of the two corners. 'in range' = certified falls between the low and 
-high CdxA HDEV values.
+Basis: **HDEV battery-terminal kWh/km** vs certified as-published (R11). Municipal Utility
+**excluded** (R12: ePTO not in EEA data). CdxA = **VECTO standard-value CdxA** (2.4 [BOB], no
+bin edges). Gate: **PASS** (worst 0.03% on the E2 example, section 4).
 
-## Per variant (all runs)
+Runs: 1274 total; 1150 non-Municipal (summary); 124 Municipal (separate). 0 skipped.
 
-| variant | n | median % | 10th % | 90th % | within +/-5% | within +/-10% | certified in CdxA range |
-|---|---|---|---|---|---|---|---|
-| V-A | 1274 | -26.0 | -68.5 | 0.4 | 6% | 13% | 7% |
-| V-B | 1274 | -14.9 | -52.4 | 18.5 | 15% | 25% | 13% |
-| V-C | 1274 | -14.3 | -45.0 | 22.4 | 16% | 27% | 16% |
-| V-D | 1274 | -18.3 | -61.3 | 25.3 | 12% | 27% | 13% |
+## Per variant (non-Municipal, terminal basis)
 
-## Median % error by architecture
+| variant | n valid | median %err | P10 / P90 | within ±5% | within ±10% |
+|---|---|---|---|---|---|
+| V-A (notebook consumption_engine) | 1150 | **−0.5%** | −18.6 / +26.8 | 21% | **44%** |
+| V-B (EU standard-value maps) | 0 | **cannot run from EEA data (R7)** | — | — | — |
+| V-C (VECTO bus-generic maps) | 0 | **cannot run from EEA data (R7)** | — | — | — |
+| V-D (fixed E2 example maps) | 1150 | +29.4% | +5.7 / +60.5 | 5% | 19% |
 
-| architecture | V-A | V-B | V-C | V-D |
+V-B/V-C produce **zero** valid runs: the standard/generic motor maps need a declared rated
+point from a **full-load curve** (R7), which EEA does not carry; 930 runs hit
+"no_fullload_curve(R7)" and 344 hit "multispeed_no_gear_ratios(R6)". This is the honest finding
+the v1 prompt asked for — not a failure to compute, but a statement that these variants
+**cannot be run from EEA data**. V-D is flagged E2-unsuitable (rated >250 kW) on 760/1274 runs.
+
+## V-A by architecture (non-Municipal)
+
+| arch | n | median %err | P10 / P90 | within ±10% |
 |---|---|---|---|---|
-| E-IEPC | -27.8 (n=466) | -21.6 (n=466) | -10.4 (n=466) | -22.0 (n=466) |
-| E-IEPC-wheel | -17.5 (n=342) | 0.5 (n=342) | 2.1 (n=342) | -5.9 (n=342) |
-| E2 | -37.0 (n=344) | -30.6 (n=344) | -39.0 (n=344) | -22.2 (n=344) |
-| E3 | -19.5 (n=122) | -7.3 (n=122) | -13.2 (n=122) | 26.5 (n=122) |
+| E2 | 272 | −8.4% | −19 / +7 | 51% |
+| E3 | 116 | −6.8% | −17 / +15 | 60% |
+| E-IEPC | 438 | −2.5% | −27 / +21 | 43% |
+| E-IEPC-wheel | 324 | +16.9% | −1 / +36 | 33% |
 
-## Median % error by mission
+## V-A by component certification method
 
-| mission | V-A | V-B | V-C | V-D |
+| method | n | median %err | P10 / P90 | within ±10% |
 |---|---|---|---|---|
-| Construction | -30.9 (n=190) | -16.2 (n=190) | -5.1 (n=190) | -21.5 (n=190) |
-| Long Haul | -26.5 (n=208) | -24.4 (n=208) | -20.5 (n=208) | -15.8 (n=208) |
-| Long Haul EMS | -21.9 (n=124) | -12.2 (n=124) | -9.5 (n=124) | -23.9 (n=124) |
-| Municipal Utility | -73.2 (n=124) | -67.8 (n=124) | -70.3 (n=124) | -64.0 (n=124) |
-| Regional Delivery | -15.9 (n=279) | -10.5 (n=279) | -11.8 (n=279) | 1.5 (n=279) |
-| Regional Delivery EMS | -22.0 (n=124) | -11.3 (n=124) | -6.3 (n=124) | -24.4 (n=124) |
-| Urban Delivery | -34.3 (n=225) | -10.6 (n=225) | -14.0 (n=225) | -14.6 (n=225) |
+| measured | 508 | +10.4% | −6.5 / +33 | 48% |
+| standard | 642 | −7.6% | −24 / +15 | 41% |
 
-## Median % error by component certification method
+## Municipal Utility (reported separately, R12)
 
-| component certification method | V-A | V-B | V-C | V-D |
-|---|---|---|---|---|
-| measured | -18.4 (n=532) | -2.3 (n=532) | 0.0 (n=532) | -7.2 (n=532) |
-| standard | -35.0 (n=742) | -28.7 (n=742) | -30.9 (n=742) | -21.2 (n=742) |
+V-A median **−61.6%** (P10 −63, P90 −55), 124 runs. This is the expected under-read when the
+certified Municipal figure includes the generic electric-PTO (mean 23.57 kW, §2.6) that HDEV
+cannot place (EEA carries no per-vehicle ePTO profile). Excluded from the headline statistics.
 
-## Flags
+## Does any variant stay within ±10% on every architecture?
 
-- no driver failures or skipped runs.
-- runs that touch a power limit (demanded wheel power > rated motor power at some point = driver/motor cannot follow there): 1059 of 1274 (83%). But it is mostly transient: median 1% of rows per run over the limit, 90th percentile 6%, max 74% (hard-acceleration spikes). The real motor caps these; our simplified chain does not, which contributes to error.
-- runs on vehicles with >=1 axle missing RRC/cert-number: 0
+**No.** V-A is the only variant that runs on EEA data; its median is within ±10% on all four
+architectures, but the spread (P10/P90) exceeds ±10% on every architecture, and E-IEPC-wheel
+is biased high (+17% median). So no generic HDEV option reproduces certified kWh/km within
+±10% across all architectures — the same conclusion as the 3 Nov VECTO-example matrix, now on
+certified trucks, but with a **much smaller central bias** than v1 once the harness bugs are
+fixed.

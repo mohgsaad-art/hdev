@@ -1,0 +1,6 @@
+RegionalDelivery reference: v2=1.0471  3Nov ChainE V1=1.0471  diff=-0.00%
+RegionalDelivery low: v2=0.9887  3Nov ChainE V1=0.9887  diff=+0.00%
+UrbanDelivery reference: v2=0.8267  3Nov ChainE V1=0.8268  diff=-0.01%
+UrbanDelivery low: v2=0.7376  3Nov ChainE V1=0.7374  diff=+0.03%
+
+GATE: PASS (worst |diff| = 0.03%, threshold 1.0%)

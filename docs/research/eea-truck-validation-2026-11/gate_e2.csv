@@ -1,0 +1,7 @@
+cycle,load,v2_kwh_km,ref_3nov_chainE_V1,diff_pct
+RegionalDelivery,reference,1.0471,1.0471,-0.0
+RegionalDelivery,low,0.9887,0.9887,0.0
+UrbanDelivery,reference,0.8267,0.8268,-0.01
+UrbanDelivery,low,0.7376,0.7374,0.03
+
+GATE,PASS,worst_abs_diff_pct,0.03,
