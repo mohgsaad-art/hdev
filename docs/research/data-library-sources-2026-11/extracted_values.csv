@@ -1,0 +1,83 @@
+make,model,variant,generation,class,field,value,unit,basis,source_id,page_or_table,quote,doc_date,tag
+Mercedes-Benz,eEconic,300 (956.533) 6x2,2021,N3,installed_battery_kWh,336,kWh,"installed, OEM claim",eeconic_sheet,p.3 table,Installed battery capacity 336 kWh with three battery packs,2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,battery_pack_count,3,packs,OEM claim,eeconic_sheet,p.3 table,Number of battery packs 3,2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,installed_per_pack_kWh,112,kWh,derived 336/3,eeconic_sheet,p.3 table,336 kWh with three battery packs,2021-11-15,D
+Mercedes-Benz,eEconic,,2021,N3,motor_power_peak,400,kW,"peak, OEM claim",eeconic_sheet,p.3 table,Motor output (max. / cont.) 400 / 330 kW,2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,motor_power_continuous,330,kW,"continuous, OEM claim",eeconic_sheet,p.3 table,Motor output (max. / cont.) 400 / 330 kW,2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,epto_electrical_peak,~52,kW,"electrical peak at 50% SoC, OEM claim",eeconic_sheet,p.3 table,ePTO High Power(max. / cont.) ~52 kW / ~30 kW at 50 % SOC,2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,epto_electrical_continuous,~30,kW,"electrical cont at 50% SoC, OEM claim",eeconic_sheet,p.3 table,ePTO High Power(max. / cont.) ~52 kW / ~30 kW at 50 % SOC,2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,dc_charging_kW,160,kW,"max DC, OEM claim",eeconic_sheet,p.3 table,Charging capacity max. 160 kW,2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,charge_20_80_time,~75,min,"20-80% at 160 kW, OEM claim",eeconic_sheet,p.3 table,from 20 to 80 %: approx. 1 h 15 min,2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,gears,2,gears (+2 reverse),OEM claim,eeconic_sheet,p.3 table,Transmission 2 gears (+ 2 reverse gears),2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,curb_mass,9.2,t,OEM claim,eeconic_sheet,p.3 table,Kerb weight 9.2 t,2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,gvw,27,t,OEM claim,eeconic_sheet,p.3 table,Perm. gross vehicle weight 27 t,2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,payload_no_body,~17.8,t,OEM claim,eeconic_sheet,p.3 table,Payload without body approx. 17.8 t,2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,axle_loads,8.0/11.5/7.5,t,"air suspension, OEM claim",eeconic_sheet,p.3 table,Axle load (air suspension) 8.0 t / 11.5 t / 7.5 t (8.0 t),2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,range,100-150,km,"VECTO Municipal/mixed cycle, OEM claim",eeconic_sheet,p.3 table,Range up to 100 / 150 km,2021-11-15,V
+Mercedes-Benz,eEconic,,2021,N3,chemistry,Lithium-ion,,OEM claim,eeconic_sheet,p.3 table,Batteries Lithium-ion batteries,2021-11-15,V
+Liebherr,ETM (electric truck mixer),,2022,body/N3,epto_mech_peak,125,kW,mechanical drum-drive peak (table),liebherr_etm,p.7 table,Drive power 125 kW peak power / 60 kW continuous power,2022-04,V
+Liebherr,ETM,,2022,body/N3,epto_mech_continuous,60,kW,mechanical drum-drive continuous (table),liebherr_etm,p.7 table,Drive power 125 kW peak power / 60 kW continuous power,2022-04,V
+Liebherr,ETM,,2022,body/N3,epto_mech_peak_prose,120,kW,rounded prose value,liebherr_etm,p.5 prose,"offer a peak power of 120 kW, which can power drum sizes up to 12 m",2022-04,V
+Liebherr,ETM,,2022,body/N3,body_battery_kWh,32,kWh,installed (table),liebherr_etm,p.7 table,Battery capacity 32 kWh,2022-04,V
+Liebherr,ETM,,2022,body/N3,operating_voltage,650,V DC,table,liebherr_etm,p.7 table,Operating voltage 650 Volt DC,2022-04,V
+Liebherr,ETM,,2022,body/N3,external_charger,22,kW,"400V/32A Type2, <1h",liebherr_etm,p.5,charged in less than an hour using a 22 kW charger ... 400V / 32 A power connection type 2,2022-04,V
+Carrier Transicold,Vector eCool,,,reefer body,reefer_electrical_input_max_cont,19,kW,"electrical input (discharge), NOT cooling capacity",carrier_ecool,p.3,Discharge power Max continuous 19kW,,V
+Carrier Transicold,Vector eCool,,,reefer body,reefer_battery_kWh,19.2,kWh,pack capacity,carrier_ecool,p.3,Pack capacity 19.2 kWh,,V
+Carrier Transicold,Vector eCool,,,reefer body,reefer_voltage,400V/3/50Hz,,supply voltage,carrier_ecool,p.3,Voltage supplied 400V/3/50Hz,,V
+Carrier Transicold,Vector eCool,,,reefer body,reefer_battery_mass,325,kg,pack weight,carrier_ecool,p.3,Weight 325 kg,,V
+Carrier Transicold,Vector eCool,,,reefer body,reefer_autonomy,up to 6,h,"on 19.2 kWh pack, no axle generator",carrier_ecool,p.3,the battery can power the refrigeration unit for up to six hours on a single charge,,V
+Carrier Transicold,Vector eCool,,,reefer body,reefer_recharge_full,2,h,grid recharge,carrier_ecool,p.3,Full battery recharge = 2h,,V
+Volvo,FL/FE Electric,GEN2 pack,PCA3/PCA4,N2/N3,installed_per_pack_kWh,66,kWh,"installed per pack, OEM claim",volvo_batt_factsheet,p.3,GEN 2 traction batteries have each 66 kWh,2022-09-12,V
+Volvo,FL/FE Electric,GEN3 pack,PCA3/PCA4,N2/N3,installed_per_pack_kWh,94,kWh,"installed per pack, OEM claim",volvo_batt_factsheet,p.3,GEN 3 traction batteries have each 94 kWh,2022-09-12,V
+Volvo,FL Electric,GEN3 range,PCA3/PCA4,N2/N3,installed_battery_kWh,280-565,kWh,"3-6 packs installed, OEM claim",volvo_batt_factsheet,p.3,280 kWh GEN3 FL/FE 3 ESS280K ... 565 kWh GEN3 FL 6 ESS565K,2022-09-12,V
+Volvo,FL/FE Electric,GEN2 pack,PCA3/PCA4,N2/N3,battery_pack_mass,575,kg,"incl bracket, excl coolant",volvo_batt_factsheet,p.3,Weight 575 kg ... *Including the bracket (excluding coolant),2022-09-12,V
+Volvo,FL/FE Electric,GEN3 pack,PCA3/PCA4,N2/N3,battery_pack_mass,605,kg,"incl bracket, excl coolant",volvo_batt_factsheet,p.3,Dimensions GEN3 ... Weight 605 kg,2022-09-12,V
+Volvo,FH/FM/FMX Electric,PCE4 pack,PCE4,N3,chemistry,Lithium-ion NCA (LiNiCoAlO2),,OEM claim,volvo_ess_pce4,p.1-2,"lithium nickel cobalt aluminium oxide (LiNiCoAlO2), also called NCA",2024-12-02,V
+Volvo,FH/FM/FMX Electric,PCE4 pack,PCE4,N3,installed_per_pack_kWh,90,kWh,"nominal per battery, OEM claim",volvo_ess_pce4,p.2,Nominal energy* 90 kWh ... * Per battery,2024-12-02,V
+Volvo,FH/FM/FMX Electric,PCE4 pack,PCE4,N3,pack_Ah,137.8,Ah,"nominal per battery, OEM claim",volvo_ess_pce4,p.2,Nominal capacity* 137.8 Ah,2024-12-02,V
+Volvo,FH/FM/FMX Electric,PCE4 pack,PCE4,N3,battery_pack_mass,500,kg,"approx per battery, OEM claim",volvo_ess_pce4,p.2,Approximate weight* 500 kg,2024-12-02,V
+Volvo,FH/FM/FMX Electric,ESS540K,PCE4,N3,installed_battery_kWh,540,kWh,"installed, 6 packs, OEM claim",volvo_ess_pce4,p.4 table,ESS540K 6 540 380,2024-12-02,V
+Volvo,FH/FM/FMX Electric,ESS540K,PCE4,N3,usable_battery_kWh,380,kWh,"max usable, 6 packs, OEM claim",volvo_ess_pce4,p.4 table,ESS540K 6 540 380,2024-12-02,V
+Volvo,FH/FM/FMX Electric,ESS180K..540K,PCE4,N3,installed_vs_usable_table,180/117;270/183;360/250;450/309;540/380,kWh installed/usable,"OEM table, 2-6 packs",volvo_ess_pce4,p.4 table,ESS180K 2 180 117; ESS270K 3 270 183; ESS360K 4 360 250; ESS450K 5 450 309; ESS540K 6 540 380,2024-12-02,V
+Volvo,FH/FM/FMX Electric,ESOP-R,PCE4,N3,usable_battery_kWh,380,kWh,"ESOP-R standard, 6 packs",volvo_ess_pce4,p.3,"ESOP-R, which offers 380 kWh of usable battery energy with a 6-battery configuration",2024-12-02,V
+Volvo,FH/FM/FMX Electric,PCE4,PCE4,N3,ac_charging_kW,43,kW,"max AC, OEM claim",volvo_ess_pce4,p.2,AC charging ... up to 43 kW,2024-12-02,V
+Volvo,FH/FM/FMX Electric,PCE4,PCE4,N3,dc_charging_kW,250,kW,"max DC, OEM claim",volvo_ess_pce4,p.2,"DC charging, Mode 4, allows up to 250 kW",2024-12-02,V
+Volvo,Aero Electric,,2026,N3,installed_battery_kWh,up to 540,kWh,"on-board energy, OEM via trade press",thedriven_volvo_aero,article,on-board energy of up to 540 kWh,2026-04-16,C
+Volvo,Aero Electric,,2026,N3,usable_battery_kWh,up to 460,kWh,"UBE, OEM via trade press",thedriven_volvo_aero,article,Usable Battery Energy (UBE) of up to 460 kWh,2026-04-16,C
+DAF,XD Electric,FT 4x2 tractor,PACCAR EX-D2,N3,motor_power_options,270/310/350,kW,OEM BBI sheet,daf_bbi_xd,p.1,XD Electric 270/310/350 PACCAR EX-D2,2025-07-10,V
+DAF,XD Electric,,PACCAR EX-D2,N3,battery_options_kWh,315/420/525,kWh,OEM BBI sheet,daf_bbi_xd,p.1,315 kWh | 420 kWh | 525 kWh,2025-07-10,V
+DAF,XD Electric,,PACCAR EX-D2,N3,epto_socket_option_high,<90,kW,650V DC socket option 04320,daf_bbi_xd,p.1,E-PTO socket 650V DC < 90 kW,2025-07-10,V
+DAF,XD Electric,,PACCAR EX-D2,N3,epto_socket_option_low,<25,kW,650V DC socket option 01809,daf_bbi_xd,p.1,E-PTO socket 650V DC < 25 kW,2025-07-10,V
+DAF,XD Electric,,PACCAR EX-D2,N3,dc_charging_kW,325,kW,"+22 kW AC, OEM BBI sheet",daf_bbi_xd,p.1,Charging: 325 kW DC + 22 kW AC,2025-07-10,V
+DAF,XD Electric,,PACCAR EX-D2,N3,gcm,42000,kg,OEM BBI sheet,daf_bbi_xd,p.1,GCM 42000 kg,2025-07-10,V
+DAF,XD Electric,,PACCAR EX-D2,N3,gvm,20500,kg,OEM BBI sheet,daf_bbi_xd,p.1,GVM 20500 kg,2025-07-10,V
+DAF,XD Electric,,PACCAR EX-D2,N3,rear_axle_ratio,2.38,,OEM BBI sheet,daf_bbi_xd,p.1,Rear axle ratio 2.38,2025-07-10,V
+DAF,XD/XF Electric,EX-D1 / EX-D2,,N3,motor_torque_max,1500 / 2400,Nm,OEM site (EX-1/EX-2),daf_global,XDC/XFC page,"maximum torques of 1500 Nm and 2400 Nm, respectively",,C
+MAN,eTGX/eTGS/eTGL,MAN BatteryPack gen1,gen1,N3,chemistry,NMC,,MAN statement via trade press,man_batterypack,press,based on nickel-manganese-cobalt (NMC) batteries,2024-11-12,C
+MAN,eTGX,BatteryPack gen1,gen1,N3,installed_per_pack_kWh,89,kWh,"gross per pack, MAN via press",man_batterypack,press,"A MAN BatteryPack stores 89 kWh of energy, of which 80 kWh can be used",2024-11-12,C
+MAN,eTGX,BatteryPack gen1,gen1,N3,usable_per_pack_kWh,80,kWh,"net per pack, MAN via press",man_batterypack,press,of which 80 kWh can be used,2024-11-12,C
+MAN,eTGX,6 packs gen1,gen1,N3,installed_battery_kWh,534,kWh,"gross, 6 packs",man_batterypack,press,up to 534 kWh gross (480 kWh net),2024-11-12,C
+MAN,eTGX,6 packs gen1,gen1,N3,usable_battery_kWh,480,kWh,"net, 6 packs",man_batterypack,press,up to 534 kWh gross (480 kWh net),2024-11-12,C
+MAN,eTGX,BatteryPack gen2,gen2 2026,N3,installed_per_pack_kWh,92,kWh,gross per pack gen2,electrive_man_gen2,article,92 kWh gross and 88 kWh net,2026-09-14,C
+MAN,eTGX,BatteryPack gen2,gen2 2026,N3,usable_per_pack_kWh,88,kWh,net per pack gen2,electrive_man_gen2,article,92 kWh gross and 88 kWh net,2026-09-14,C
+Mercedes-Benz,eActros 600,,2024,N3,chemistry,LFP,,OEM,eactros600_mb,product page,long-life lithium iron phosphate (LFP) batteries,,C
+Mercedes-Benz,eActros 600,,2024,N3,installed_battery_kWh,621,kWh,"total installed, OEM/press",eactros600_mb,press,equipped with a 621-kilowatt-hour battery,,C
+Mercedes-Benz,eActros 600,,2024,N3,motor_power_continuous,400,kW,"e-axle continuous, OEM",eactros600_mb,product page,e-axle of the eActros delivers 400 kW continuous power and 600 kW peak power,,C
+Mercedes-Benz,eActros 600,,2024,N3,motor_power_peak,600,kW,"e-axle peak, OEM",eactros600_mb,product page,400 kW continuous power and 600 kW peak power,,C
+Mercedes-Benz,eActros 600,,2024,N3,mcs_charging_kW,up to 1000 (400 std),kW,MCS tested; 400 kW standard,eactros600_mb,press,"MCS technology delivers charging capacities up to 1,000 kW",,C
+VECTO generic,BEV E2 e-motor,125kW/485Nm,,generic N3,motor_torque_continuous,450,Nm,VECTO generic/standard; continuous @2460rpm,vecto_repo,GenericEMotor_125kW_485Nm.vem L17-18,ContinuousTorque 450.0 ContinuousTorqueSpeed 2460.0,,V
+VECTO generic,BEV E2 e-motor,125kW/485Nm,,generic N3,motor_torque_overload,485,Nm,VECTO generic; overload 120s,vecto_repo,GenericEMotor_125kW_485Nm.vem L19-21,OverloadTorque 485.0 ... OverloadTime 120.0,,V
+VECTO generic,BEV battery 243kWh,750V,,generic,soc_window,10-90,% SoC,VECTO generic,vecto_repo,GenericBattery_243kWh_750V.vbat L13-14,SOC_min 10 SOC_max 90,,V
+VECTO generic,BEV battery 243kWh,750V,,generic,capacity_Ah,324,Ah,VECTO generic,vecto_repo,GenericBattery_243kWh_750V.vbat L12,Capacity 324.0,,V
+VECTO generic,BEV battery 243kWh,750V,,generic,internal_resistance,0.04,ohm (flat),VECTO generic,vecto_repo,GenericBattery_243kWh.vbatr,"0, 0.04 / 100, 0.04",,V
+VECTO generic,BEV battery 243kWh,750V,,generic,ocv_nominal_50pct,730.0,V,VECTO generic OCV curve at 50% SoC,vecto_repo,GenericBattery_243kWh.vbatv,"50, 730.0",,V
+VECTO generic,BEV battery 243kWh,750V,,generic,max_current,1620,"A (charge=discharge, flat)",VECTO generic,vecto_repo,MaxCurrent.vimax,"0, 1620, 1620 / 100, 1620, 1620",,V
+VECTO generic,aux electric system,Standard tech,,generic,aux_electric_system_W,1714/1429,W (longhaul/other),VECTO declaration standard,vecto_repo,VAUX/ES-Tech.csv,Standard technology 1714.2857 1428.5714 ...,,V
+VECTO generic,aux pneumatic (electric),Large Supply + elec driven,,generic PEV,aux_air_compressor_el_W,1000/1000/875/875/1125,W by mission,"VECTO declaration, electric columns",vecto_repo,VAUX/PS-Table.csv,Large Supply + elec. driven ... 1000 1000 875 875 1125,,V
+VECTO generic,bus HVAC driver,config1-2,,generic bus,bus_hvac_heating_driver_kW,~5,kW,VECTO declaration,vecto_repo,Buses/HVACHeatingPowerDriver.csv,1 5.00 5.00 5.00 5.00 4.00,,V
+VECTO generic,bus HVAC passenger,,,generic bus,bus_hvac_passenger_kW,0.25-0.55,kW,VECTO declaration,vecto_repo,Buses/HVACHeatingPowerPassenger.csv,1 0.25 0.25 0.25 0.35 0.55,,V
+VECTO generic,PTO loss (multi-disc+oilpump),,,generic,pto_power_loss_W,3000,W (23.9 Nm),VECTO declaration PTO-tech,vecto_repo,VAUX/PTO-tech.csv,"only the drive shaft of the PTO - multi-disc clutch, oil pump , 3000 , 23.9",,V
+EEA aggregate,BEV/PEV configs with battery record,,RP2024-25,N2/N3/M2/M3,configs_with_battery,8020,unique hashed configs,EEA relational battery table,eea_hdv_2024_battery,hdv_2024_battery.csv,"unique Vehicle_id 8020 (6366 standard-values, 1654 measured)",,V
+EEA aggregate,battery installed range,,RP2024-25,N2/N3/M2/M3,installed_kWh_range,1-674,kWh,TotalStorageCapacity,eea_hdv_2024_battery,hdv_2024_battery.csv,StorageCapacity range 1 - 674,,V
+EEA aggregate,battery usable range,,RP2024-25,N2/N3/M2/M3,usable_kWh_range,1-576,kWh,TotalUsableCapacityInSimulation,eea_hdv_2024_battery,hdv_2024_battery.csv,Usable range 1 - 576,,V
+EEA aggregate,nominal voltage set,,RP2024-25,N2/N3/M2/M3,nominal_voltage_values,348-763 (common 618-700),V,NominalVoltage distinct,eea_hdv_2024_battery,hdv_2024_battery.csv,NominalVoltage distinct 348..763,,V

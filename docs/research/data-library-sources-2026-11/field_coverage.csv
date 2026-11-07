@@ -1,0 +1,47 @@
+field,class,best_source_id,other_source_ids,coverage,notes
+installed kWh,N2/N3/M2/M3,eea_hdv_2024_battery,eeconic_sheet;volvo_ess_pce4;daf_bbi_xd;volvo_batt_factsheet,full,EEA TotalStorageCapacity per config (hashed); OEM sheets per model.
+usable kWh,N3,eea_hdv_2024_battery,volvo_ess_pce4;man_batterypack,full,EEA TotalUsableCapacityInSimulation; Volvo table (380 of 540); MAN 480 of 534. NOT a fixed ratio.
+usable kWh,M1/N1,eea_cars_tabledef,eea_vans_tabledef,none,"EEA cars/vans give Wh/km + range only, no usable kWh. Needs OEM/Open EV Data."
+chemistry,N3,volvo_ess_pce4,eactros600_mb;man_batterypack;eeconic_sheet,partial,Volvo NCA; eActros LFP; MAN NMC; eEconic 'Lithium-ion'. Not in EEA.
+nominal voltage,N2/N3/M2/M3,eea_hdv_2024_battery,vecto_repo,partial,EEA NominalVoltage present (348-763V). OEM sheets rarely state it.
+Ah / pack count / cell count,N3,volvo_ess_pce4,vecto_repo,partial,Volvo 137.8 Ah/pack; VECTO generic 324 Ah. Cell count: no public source.
+internal resistance (Ri),N3,vecto_repo,,none,Only VECTO generic (0.04 ohm flat). EEA battery Ri columns are null. No real-vehicle public Ri.
+OCV curve,N3,vecto_repo,,none,Only VECTO generic OCV curve. No per-model public OCV.
+SoC window,N3,vecto_repo,scania_bev_bbi,partial,VECTO generic 10-90%; Scania exposes SOC window as a config. OEM-specific windows not public.
+AC/DC/MCS kW,N3,daf_bbi_xd,volvo_ess_pce4;eeconic_sheet;eactros600_mb,full,DAF 325 DC/22 AC; Volvo 250 DC/43 AC; eEconic 160 DC; eActros MCS to 1000.
+charging curve / 20-80% time,N3,eeconic_sheet,volvo_ess_pce4;liebherr_etm,partial,Times given (eEconic 75min; Volvo table) but full kW-vs-SoC curve not public.
+thermal mgmt / battery heater kW,N3,vecto_repo,,none,No public kW. VECTO treats via aux demand only.
+battery mass,N3,volvo_ess_pce4,volvo_batt_factsheet;carrier_ecool,partial,Volvo 500/575/605 kg per pack; Carrier reefer 325 kg. EEA has no mass. Most OEMs omit.
+warranty / SoH terms,N3,,,none,No structured public source; OEM commercial terms.
+architecture (E2/E3/E4/IEPC),N2/N3/M2/M3,eea_my_zev_configs,vecto_repo,full,PEVArchitecture field (E2/E3/E-IEPC) in EEA config export.
+motor count,N3,,vecto_repo,none,Not in EEA; OEM-specific (e.g. Volvo FM 2 EM). Needs OEM.
+continuous kW,N2/N3/M2/M3,eea_vl_emachine,eea_vl_iepc;eeconic_sheet;eactros600_mb,full,"EEA MaxContinuousPower per config; OEM cont/peak (eEconic 330, eActros 400)."
+peak kW,N3,eeconic_sheet,eactros600_mb;vecto_repo,partial,"OEM sheets (eEconic 400, eActros 600). EEA gives continuous only, no peak."
+continuous/peak Nm,N3,daf_global,vecto_repo,partial,"DAF 1500/2400 Nm; VECTO generic 450/485 Nm, IEPC 5412/6450 Nm. EEA has no torque."
+"torque/speed curve, efficiency map, drag torque",N3,vecto_repo,,partial,VECTO generic curves/maps only (EUPL). No per-model public maps.
+"gearbox type, gears, ratios",N3,daf_bbi_xd,eea_my_zev_configs;eeconic_sheet;vecto_repo,partial,eEconic 2-gear; EEA Transmission_NrOfGears; VECTO ratios. Full ratios per model limited.
+axle ratio,N2/N3/M2/M3,eea_my_zev_configs,daf_bbi_xd,full,EEA Axlegear_Ratio per config; DAF 2.38.
+max input torque,N3,,vecto_repo,none,Not public per model.
+regen limits,N3,vecto_repo,,none,VECTO driver/brake model only; no per-model public value.
+cab/bus HVAC kW,M3 bus,vecto_repo,,partial,"VECTO bus HVAC driver ~5kW, passenger 0.25-0.55 kW/config. Real OEM bus HVAC = BOB (Solaris/NOW)."
+cab HVAC kW,N3 truck,vecto_repo,,partial,VECTO HVAC-Table group values (W). Heat-pump vs PTC split not in EEA.
+e-steering pump kW,N2/N3,vecto_repo,eea_my_zev_configs,partial,VECTO SP-Table + SP-Tech (electric driven applies to PEV). EEA records tech code only.
+e-air compressor kW,N2/N3,vecto_repo,eea_my_zev_configs,partial,VECTO PS-Table electric-driven columns (W). EEA Aux_Pneumatic_Technology = code.
+DC/DC 24V load kW,N3,vecto_repo,,partial,VECTO ES-Tech electric-system demand (W). No per-model public figure.
+summer/winter aux values,N3,vecto_repo,,none,"VECTO uses mission defaults, not season. Measured seasonal = BOB (Oeko/NOW)."
+ePTO electrical kW,N3,eeconic_sheet,daf_bbi_xd,partial,eEconic 52/30 @50%SoC; DAF 25 & 90 kW @650V. Voltage/SoC conditions stated.
+ePTO mechanical kW,body,liebherr_etm,vecto_repo,partial,Liebherr 125/60 kW mechanical drum drive. Keep separate from electrical input.
+refuse compactor/lift energy,refuse body,iso_24162,,none,ISO 24162 defines the METHOD only; no values. Body makers = BOB.
+crane electrical input,body,,,none,HIAB/Palfinger = BOB.
+reefer input kW & COP,reefer,carrier_ecool,,partial,"Carrier 19 kW electrical input, 19.2 kWh. COP/cooling capacity = BOB (HE19)."
+mixer drum kW,mixer body,liebherr_etm,,full,"Liebherr 125 peak/60 cont kW, 32 kWh, 650V."
+tipper/sweeper/hook lift energy,body,,,none,No public source found; body makers = BOB.
+curb mass / GVW / GCW / axle loads / payload,N3,eeconic_sheet,daf_bbi_xd;eea_my_zev_configs,full,eEconic full set; DAF GCM/GVM; EEA CorrectedActualMass + TPMLM.
+battery mass,N3,volvo_ess_pce4,volvo_batt_factsheet,partial,See battery mass above.
+EU ZEV allowance (in force vs proposed),N3,bek_1447_2025,bek_1415_2023;com_2025_589,full,DK BEK 1447/2025 in force; EU W&D proposal 2023/0265(COD) still in trilogue (not COM 2025/589).
+Danish ZEV allowance (date-effective),N2/N3/M2/M3,bek_1447_2025,bek_1415_2023,full,2-axle 20t flat from 2026-01-01 (no +2t); 7+axle 58t & 4.20m from 2027-01-01.
+CdxA / CdA / frontal area,N2/N3/M2/M3,eea_my_zev_configs,vecto_repo,partial,"EEA AirDrag_CdxA_range gives the A1-A24 bin, not the exact m^2. Frontal area not given."
+tyre RRC / label class / size,tyres,eprel_c3,eea_cars_tabledef,partial,EPREL label CLASS only (A-E); RRC coefficient exposure = BOB. Size via registries.
+CIF kWh/km,N3,,,none,CIF is per-vehicle and private (settled). No public source.
+WLTP Wh/km & range,M1/N1,eea_cars_tabledef,eea_vans_tabledef,full,"EEA Z (Wh/km) + Zr (range) for cars & vans, per registration."
+measured kWh/km with conditions,N3,icct_id359,pvi_wikipedia,partial,ICCT 0.92-1.5 kWh/km (unit typo); PVI 1.7 kWh/km collection. Conditions often incomplete. More = BOB.
