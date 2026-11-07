@@ -1,0 +1,130 @@
+vehicle rows kept: 22,445
+powertrain_flag
+ZEV flag    18847
+other        1871
+HEV flag     1727
+
+share of vehicles with each electric record (%), by powertrain flag:
+          battery  e_machine  iepc  capacitor  mission_kwh_km  registration
+flag                                                                       
+HEV flag     52.3       80.6   0.0       28.3             0.8          62.9
+ZEV flag     47.0       20.6  28.1        0.0            61.4          70.6
+other        73.9       91.6   8.4       26.1            26.5          61.8
+
+ZEV-flag vehicles: 18,847. Non-empty share per field (%):
+OffVehicleChargingMaxPower                             0.0
+OffVehicleChargingMaxPower_unit                        0.0
+HEVArchitecture                                        0.0
+cap_rows                                               0.0
+cap_capacitance_f                                      0.0
+Transmission_PowerTakeOff                              3.1
+Transmission_Type                                      4.3
+Aux_Electric_ElectricStorageCapacity                  12.0
+em_rows                                               20.6
+em_max_cont_kw                                        20.6
+em_desc                                               20.6
+em_cert_method                                        20.6
+em_rated_kw_total                                     20.6
+VehicleGroupCO2                                       25.6
+VehicleLength                                         25.9
+VocationalVehicle                                     25.9
+Aux_HVAC_SystemConfiguration                          25.9
+Aux_HVAC_AirElectricHeater                            25.9
+Aux_HVAC_HeatPumpTypePassengerCompartment_Heating     25.9
+Aux_HVAC_WaterElectricHeater                          25.9
+Aux_HVAC_HeatPumpTypePassengerCompartment_Cooling     25.9
+Aux_HVAC_HeatPumpTypeDriverCompartment_Heating        25.9
+Aux_HVAC_HeatPumpTypeDriverCompartment_Cooling        25.9
+Aux_HVAC_AuxiliaryHeaterPower                         25.9
+iepc_max_cont_kw                                      27.2
+iepc_cert_method                                      28.1
+iepc_rows                                             28.1
+iepc_desc                                             28.1
+Axlegear_CertificationMethod                          30.1
+Axlegear_AxleType                                     30.1
+BodyworkCode                                          30.7
+ClassBus                                              30.7
+Transmission_NrOfGears                                30.8
+SleeperCab                                            36.9
+PEVArchitecture                                       38.1
+Aux_Pneumatic_Technology                              38.1
+OffVehicleChargingCapability                          38.1
+bat_installed_kwh                                     47.0
+bat_packs                                             47.0
+bat_usable_sim_kwh                                    47.0
+bat_packs_inst_use                                    47.0
+bat_nominal_v                                         47.0
+bat_cert_method                                       47.0
+AirDrag_CertificationMethod                           51.9
+Axlegear_Ratio                                        56.5
+reg_first                                             70.6
+reg_countries                                         70.6
+reg_count                                             70.6
+reg_last                                              70.6
+reg_dk                                                70.6
+AirDrag_CdxA_range                                    78.4
+CorrectedActualMass                                   86.9
+HybridElectricHDV                                     90.4
+Make                                                  95.9
+AxleConfiguration                                     99.5
+Model                                                100.0
+VehicleCategory                                      100.0
+VehicleGroup                                         100.0
+powertrain_flag                                      100.0
+Manufacturer                                         100.0
+Vehicle_id                                           100.0
+ZeroEmissionVehicle                                  100.0
+TechnicalPermissibleMaximumLadenMass                 100.0
+TechnicalPermissibleMaximumLadenMass_unit            100.0
+is_zev                                               100.0
+is_hev                                               100.0
+SimulationDate                                       100.0
+SimulationToolVersion                                100.0
+tpmlm_kg                                             100.0
+
+ZEV-flag vehicles per make (top 30):
+Make
+Volvo                        4046
+Renault                      2473
+MAN                          1953
+Mercedes Benz                1719
+Heuliez                      1601
+Mercedes-Benz                1217
+Scania                       1172
+SOLARIS                       979
+IVECO Bus                     802
+IVECO                         550
+MITSUBISHI FUSO or FUSO       377
+Irizar E-Mobility             308
+King Long                     234
+DAF Trucks N.V.               209
+BYD                           155
+Otokar                        116
+##VEHICLE_MAKE##               74
+Hyundai Motor Company          31
+CARROCERA CASTROSUA, S.A.      29
+HIGER                          13
+KING LONG                       6
+YANCHENG                        5
+added                           5
+Irizar S. Coop                  3
+Ford Otomotiv Sanayi A.S.       1
+DESIGNWERK                      1
+
+electric component vehicles not found in vehicle table: 0
+mission rows with kWh/km: 130,811
+missions present for ZEV vehicles:
+Mission
+Suburban                 17802
+Urban                    17802
+Heavy Urban              17802
+Interurban               14150
+Regional Delivery         9581
+Coach                     9120
+Long Haul                 7970
+Urban Delivery            7239
+Construction              6580
+Long Haul EMS             5718
+Regional Delivery EMS     5718
+Municipal Utility         4216
+Not applicable               1

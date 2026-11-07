@@ -121,7 +121,8 @@ vl_em_v = (vl_em.groupby(["Vehicle_id", "ElectricMachineId"]).p.max()
 # IEPC
 iepc["desc"] = (iepc.RatedPower.astype(str) + "kW:g" + iepc.NrOfGears.astype(str)
                 + ":r" + iepc.LowestTotalTransmissionRatio.astype(str)
-                + ":wheel=" + iepc.DesignTypeWheelMotor.astype(str))
+                + ":wheel=" + iepc.DesignTypeWheelMotor.astype(str)
+                + ":diff=" + iepc.DifferentialIncluded.astype(str))
 iepc_v = iepc.groupby("Vehicle_id").agg(
     iepc_rows=("Pk_Vehicle", "size"),
     iepc_desc=("desc", lambda s: ";".join(sorted(s))),
