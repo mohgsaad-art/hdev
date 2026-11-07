@@ -45,4 +45,5 @@ high CdxA HDEV values.
 ## Flags
 
 - no driver failures or skipped runs.
+- runs that touch a power limit (demanded wheel power > rated motor power at some point = driver/motor cannot follow there): 1059 of 1274 (83%). But it is mostly transient: median 1% of rows per run over the limit, 90th percentile 6%, max 74% (hard-acceleration spikes). The real motor caps these; our simplified chain does not, which contributes to error.
 - runs on vehicles with >=1 axle missing RRC/cert-number: 0

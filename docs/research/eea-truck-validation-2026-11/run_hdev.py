@@ -347,8 +347,25 @@ def build_drag(spec, variant):
 _var_cache = {}
 
 
+def follow_limit_flag(spec, P_wheel, M):
+    """Flag share of driving rows where the demanded wheel power exceeds the truck's rated
+    motor power = the drivetrain cannot follow the cycle (power limit). rated kW is sourced
+    from the join (em/iepc rated power). Returns '' or 'power_limit:NN%'."""
+    if not spec.rated_kw_total:
+        return ""
+    rated_w = spec.rated_kw_total * 1000.0
+    drive = (M != 0) & (M != 3) & (P_wheel > 0)
+    n = int(drive.sum())
+    if n == 0:
+        return ""
+    over = int((drive & (P_wheel > rated_w)).sum())
+    if over == 0:
+        return ""
+    return "power_limit:%d%%" % round(100.0 * over / n)
+
+
 def traction_for_variant(variant, spec, P_wheel, M, V, v_avg):
-    flag = ""
+    flag = follow_limit_flag(spec, P_wheel, M)
     if variant == "V-A":
         return DT.traction_power_VA(P_wheel, M, V, V_NO_REGEN), flag
     # map-based variants: build emap + chain
@@ -365,14 +382,14 @@ def traction_for_variant(variant, spec, P_wheel, M, V, v_avg):
         P_el = DT._map_chain(v_avg, P_wheel, use, DT.R_DYN if False else r_dyn,
                              None, 2, emap, axle=axle, gears=gears, gear_fixed=2)
         if spec.rated_kw_total and spec.rated_kw_total > 300:
-            flag = "E2_unsuitable(rated %.0fkW>>250kW)" % spec.rated_kw_total
+            flag = (flag + ";" if flag else "") + "E2_unsuitable(rated %.0fkW>>250kW)" % spec.rated_kw_total
         return P_el, flag
     # V-B std maps, V-C bus-generic maps
     if total_ratio is None:
-        return np.zeros(len(v_avg)), "no_total_ratio_skip"
+        return np.zeros(len(v_avg)), (flag + ";" if flag else "") + "no_total_ratio_skip"
     rp = DT.rated_point_from_power(spec.p_rated_per)
     if rp is None:
-        return np.zeros(len(v_avg)), "no_rated_power_skip"
+        return np.zeros(len(v_avg)), (flag + ";" if flag else "") + "no_rated_power_skip"
     n_rated, t_rated, p_rated = rp
     pbucket = round(spec.p_rated_per / 5000.0)  # 5 kW buckets to reuse interpolators
     if variant == "V-B":
@@ -380,13 +397,13 @@ def traction_for_variant(variant, spec, P_wheel, M, V, v_avg):
         if ck not in _var_cache:
             _var_cache[ck] = DT.std_motor(t_rated, n_rated)
         emap = _var_cache[ck]
-        flag = "std_motor n_rated=3000[ASSUMP]"
+        flag = (flag + ";" if flag else "") + "std_motor n_rated=3000[ASSUMP]"
     else:  # V-C
         ck = ("C", spec.machine_type, pbucket)
         if ck not in _var_cache:
             _var_cache[ck] = DT.bus_generic_motor(spec.machine_type, t_rated, n_rated, p_rated)
         emap = _var_cache[ck]
-        flag = "bus_generic %s n_rated=3000[ASSUMP]" % spec.machine_type
+        flag = (flag + ";" if flag else "") + "bus_generic %s n_rated=3000[ASSUMP]" % spec.machine_type
     P_el = DT._map_chain(v_avg, P_wheel, use, r_dyn, total_ratio, n_motors, emap,
                          axle=None, gears=None, adc_eff=0.96)
     return P_el, flag

@@ -122,10 +122,14 @@ Headlines:
 - **Where it fails:** standard-value E2 trucks (−30 to −39%), the Municipal Utility cycle
   (−64 to −73%; flat aux/PTO assumption), and the heavy high-payload tractors (~2.5-3.2
   certified kWh/km, HDEV ~0.8-1.0 — the big underestimate cluster in graph 1).
-- **No driver/motor follow failures** were flagged on this sample (the driver reached the end
-  of every cycle; no torque/power cap stopped a run). **No runs were skipped** for missing
-  inputs — every sampled config had a ratio, rated power and per-axle RRC. 0 sampled vehicles
-  had a missing/N-A axle RRC.
+- **Driver/motor follow limit.** The driver reached the end of every cycle (no kinematic
+  follow-failure). But a power-limit check (demanded wheel power vs the truck's rated motor
+  power) shows **1,059 of 1,274 runs (83%) touch the limit at some point** — almost always a
+  brief hard-acceleration spike: median **1%** of rows per run over the limit, 90th pct 6%,
+  max 74%. The real motor (and VECTO's motor search) caps these; our simplified map chain
+  does not, so it slightly overstates peak draw — a documented contributor to error.
+  **No runs were skipped** for missing inputs — every sampled config had a ratio, rated
+  power and per-axle RRC; 0 sampled vehicles had a missing/N-A axle RRC.
 - **Does any variant stay within ±10% on all architectures?** **No.** Even V-C is within ±10%
   median only on E-IEPC-wheel; it is −39% on E2. This matches the 3-Nov finding on VECTO
   example trucks: no fallback held ±10% everywhere.

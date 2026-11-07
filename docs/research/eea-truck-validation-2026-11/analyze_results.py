@@ -98,17 +98,41 @@ def main():
     # flags: driver fails / skips
     lines.append("\n## Flags\n")
     flagc = defaultdict(int)
+    powerlimit_runs = set()
     for r in rows:
+        rid = (r["config_id"], r["vehicle_id"], r["mission"], r["payload"])
         for v in VARIANTS:
             for c in ("lo", "hi"):
                 f = r.get("%s_%s_flag" % (v, c), "")
-                if f and ("fail" in f or "skip" in f):
+                if not f:
+                    continue
+                if "fail" in f or "skip" in f:
                     flagc[(v, f.split()[0])] += 1
+                if "power_limit" in f:
+                    powerlimit_runs.add(rid)
     if flagc:
         for (v, f), n in sorted(flagc.items()):
             lines.append("- %s: %s x%d" % (v, f, n))
     else:
         lines.append("- no driver failures or skipped runs.")
+    nruns = len({(r["config_id"], r["vehicle_id"], r["mission"], r["payload"]) for r in rows})
+    # row-share of the power limit (how much of each run, not just whether it is touched)
+    import re as _re
+    shares = []
+    for r in rows:
+        f = r.get("V-C_lo_flag", "")
+        m = _re.search(r"power_limit:(\d+)%", f)
+        shares.append(int(m.group(1)) if m else 0)
+    shares.sort()
+    med = shares[len(shares) // 2] if shares else 0
+    p90 = shares[int(0.9 * (len(shares) - 1))] if shares else 0
+    lines.append("- runs that touch a power limit (demanded wheel power > rated motor power "
+                 "at some point = driver/motor cannot follow there): %d of %d (%.0f%%). "
+                 "But it is mostly transient: median %d%% of rows per run over the limit, "
+                 "90th percentile %d%%, max %d%% (hard-acceleration spikes). The real motor "
+                 "caps these; our simplified chain does not, which contributes to error."
+                 % (len(powerlimit_runs), nruns, 100.0 * len(powerlimit_runs) / nruns if nruns else 0,
+                    med, p90, max(shares) if shares else 0))
     rrc_missing = sum(1 for r in rows if r.get("rrc_missing", "0") not in ("0", "", "0.0"))
     lines.append("- runs on vehicles with >=1 axle missing RRC/cert-number: %d" % rrc_missing)
 
