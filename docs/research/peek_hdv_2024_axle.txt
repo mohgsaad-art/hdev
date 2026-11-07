@@ -1,0 +1,38 @@
+====================================================================================================
+FILE: drive_files/hdv_2024_axle.csv
+size: 585.0 MB   separator: ','
+columns: 8
+
+--- column list ---
+   0  Vehicle_id
+   1  Pk_Vehicle
+   2  AxleNumber
+   3  TyreDimension
+   4  CertificationNumber
+   5  SpecificRRC
+   6  DigestValue
+   7  Twintyres
+
+--- first 5 rows (one line per column) ---
+                                                                                      0                                                                   1                                                                   2                                                                   3                                                                   4
+Vehicle_id           0x00000BDFFB1CC323A834A6D96CA8E952A87B070BCE3103E387220E1F9EA7CA97  0x00001BE0C0B11C52B379221AE16848E9EAA5D668E4E567E1D475FF94B15682E1  0x0000220812EE1B6AF334CD0A1583AB71389674AEFA944E9AF1E9F769D1E06497  0x00003260A1D040364BF09FFEECA335628C72DAADE83E65C5842EC9FBD5B0CDE4  0x00004296E4D58FA28D13071823C5E2F2FF6770473EE401DABDC10230D04C24E4
+Pk_Vehicle                                                                      1195246                                                              142794                                                              173446                                                              947286                                24ff246d-0efc-405a-b665-1cf2aaac8171
+AxleNumber                                                                            1                                                                   2                                                                   1                                                                   1                                                                   1
+TyreDimension                                                              315/80 R22.5                                                        235/75 R17.5                                                        385/65 R22.5                                                        385/65 R22.5                                                        385/55 R22.5
+CertificationNumber                                    e4*2017/2400*2017/2400*T*0334*00                                    e4*2017/2400*2017/2400*T*0204*00                                   e9*2017/2400*2017/2400*T*11026*00                                    e13*2017/2400*2019/318*T*0255*00                                   e13*2017/2400*2017/2400*T*0167*00
+SpecificRRC                                                                     0.00700                                                             0.00710                                                             0.00580                                                             0.00570                                                             0.00490
+DigestValue                                                                        NULL                                                                NULL                                                                NULL                                                                NULL                        rRoucGoF7BDnYZDi3fNSi7Us7ODAVn2FlPUYe9FIFt4=
+Twintyres                                                                             0                                                                   1                                                                   0                                                                   0                                                                    
+
+approx. data rows: 3,805,774
+
+--- 5 rows picked from across the file ---
+                                                                                674978                                                              3374111                                                             1315847                                                             2108053                                                             430494 
+Vehicle_id           0x26CA9440BF585776A0B6DD3650E2BC71D9904759CF942A3A0E9A6CD349F6308B  0xE789B162A43244001023FD0DF22CD7EC4A1BE7BA4233782722FE19DA06C430D8  0x6216C830538B30A0F5921B464E255FC2895B20B59E475A46A0A12BB8E1E09607  0x99131160FB774C1764F617337C89FEC89379169002B49CDCC82FAD0D212D7FB8  0x250DBDEFBCD31517AA7B827551B9F6380D45E2E8BD32EE5BB5E4FC323FF0302D
+Pk_Vehicle                                         be2adf60-1247-41d4-b346-798965d032fd                                                              401176                                                              387491                                                              472452                                                               82847
+AxleNumber                                                                            2                                                                   3                                                                   2                                                                   2                                                                   1
+TyreDimension                                                              315/70 R22.5                                                        315/70 R22.5                                                        315/70 R22.5                                                        305/70 R19.5                                                        315/70 R22.5
+CertificationNumber                                    e4*2017/2400*2019/0318*T*0631*00                                    e2*2400/2017*2400/2017*T*8839*00                                                                 N/A                                     e2*2017/2400*2019/318*T*9622*00                                    e2*2400/2017*2400/2017*T*8833*00
+SpecificRRC                                                                     0.00510                                                             0.00500                                                             0.00750                                                             0.00650                                                             0.00500
+DigestValue                                7lmx1wikFobgKATbRNacb85sDNlT1SOkKNILA0mysaU=                                                                NULL                                                                NULL                                                                NULL                                                                NULL
+Twintyres                                                                          true                                                                   0                                                                   1                                                                   1                                                                   0
