@@ -1,0 +1,24 @@
+component,dso,customer_category,time_band,value,unit,effective_from,effective_to,source_url,page,tag
+spot,n/a (Energinet),all,hourly DK1/DK2,varies,DKK/kWh,ongoing,,https://www.energidataservice.dk/,Elspotprices dataset,V
+spot (2024 example avg build-up),n/a,depot (COWI model),avg,0.86,DKK/kWh,2024,,reference/excel/eltiltrucks-beregner-ark.xlsx,Elpriser J23,V
+spot projection (DK1+DK2 avg),n/a (Klimastatus 2024),all,annual,0.53,DKK/kWh,2025,,reference/excel/eltiltrucks-beregner-ark.xlsx,Elpriser C40,C
+spot projection,n/a (Klimastatus 2024),all,annual,0.57,DKK/kWh,2026,,reference/excel/eltiltrucks-beregner-ark.xlsx,Elpriser C41,C
+spot projection,n/a (Klimastatus 2024),all,annual,0.615,DKK/kWh,2027,,reference/excel/eltiltrucks-beregner-ark.xlsx,Elpriser C42,C
+spot projection,n/a (Klimastatus 2024),all,annual,0.44,DKK/kWh,2030,,reference/excel/eltiltrucks-beregner-ark.xlsx,Elpriser C45,C
+dso_net_tariff (MODELLED example - verify),Radius (Elindsigt example),C (household example),Lav 00-06,0.1164,DKK/kWh ex moms,2026 (example),,reference/excel/Elindsigt2.2.xlsx,Din Regning D19,C
+dso_net_tariff (MODELLED example - verify),Radius (Elindsigt example),C (household example),Hoej 06-17 & 21-24,0.3492,DKK/kWh ex moms,2026 (example),,reference/excel/Elindsigt2.2.xlsx,Din Regning D20,C
+dso_net_tariff (MODELLED example - verify),Radius (Elindsigt example),C (household example),Spids 17-21,1.0476,DKK/kWh ex moms,2026 (example),,reference/excel/Elindsigt2.2.xlsx,Din Regning D21,C
+energinet_systemtarif (MODELLED - verify),Energinet (TSO),all,flat,0.072,DKK/kWh ex moms,2026 (example),,reference/excel/Elindsigt2.2.xlsx,Din Regning G27,C
+energinet_transmissionstarif (MODELLED - verify),Energinet (TSO),all,flat,0.043,DKK/kWh ex moms,2026 (example),,reference/excel/Elindsigt2.2.xlsx,Din Regning G28,C
+elafgift (general base rate),n/a (SKAT),all,flat,0.008,DKK/kWh (0.8 ore),2021-01-01,,https://info.skat.dk/data.aspx?oid=2061620,E.A.4.3.6.1,V
+elafgift (general base rate - 2026-27 cut to EU min),n/a (finance act),all,flat,~0.008,DKK/kWh (0.8 ore),2026-01-01,2027-12-31,https://ground.news/article/the-government-lowers-the-electricity-tax,news,C
+elafgift refund - EV battery charging (residual),n/a (SKAT ELAL sec21),registered EV charging (liable operator),flat,0.004,DKK/kWh (0.4 ore residual),2012 (ext.),2030-12-31,https://info.skat.dk/data.aspx?oid=2062210,E.A.4.6.1.2,V
+elafgift (Elindsigt modelled example),n/a,example,flat,0.008,DKK/kWh ex moms,2026 (example),,reference/excel/Elindsigt2.2.xlsx,Din Regning G34,C
+grid_connection_fee (tilslutningsbidrag base 0-25A),Radius,all,one-off,17950,DKK,2024,,https://radiuselnet.dk/,via COWI (radiuselnet.dk),C
+grid_connection_fee (per A above 25A),Radius,all,one-off,1280,DKK/A,2024,,https://radiuselnet.dk/,via COWI (radiuselnet.dk),C
+price_split (share Elleverandoer),n/a (Elindsigt model),example,avg,40.3,% of bill,2026 (example),,reference/excel/Elindsigt2.2.xlsx,teknik B30,C
+price_split (share Netselskab),n/a (Elindsigt model),example,avg,32.0,% of bill,2026 (example),,reference/excel/Elindsigt2.2.xlsx,teknik C30,C
+price_split (share Energinet TSO),n/a (Elindsigt model),example,avg,7.3,% of bill,2026 (example),,reference/excel/Elindsigt2.2.xlsx,teknik D30,C
+price_split (share Staten incl moms),n/a (Elindsigt model),example,avg,20.4,% of bill,2026 (example),,reference/excel/Elindsigt2.2.xlsx,teknik E30,C
+supplier markup (Clever Power),n/a,retail product,per-kWh add-on + monthly,0/47.2,DKK (0 ore/kWh + 47.2 DKK/mo),2026 (Elindsigt),,reference/excel/Elindsigt2.2.xlsx,teknik G26,C
+supplier markup (EVDK Elaftale),n/a,retail product,per-kWh add-on + monthly,0.072/23.2,DKK (7.2 ore/kWh + 23.2 DKK/mo),2026 (Elindsigt),,reference/excel/Elindsigt2.2.xlsx,teknik G53,C

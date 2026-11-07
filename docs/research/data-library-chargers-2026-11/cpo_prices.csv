@@ -1,0 +1,19 @@
+operator,country,site_or_network,connector,max_kW,price_component,value,unit,currency,vat,capture_date,source_url,tag
+Milence,DK,Milence network (DK),MCS/CCS (HD truck),up to ~1000+ (MCS),ad-hoc per-kWh,2.799,DKK/kWh,DKK,excl,2026-11-06,https://milence.com/de/milence-ladetarife/,V
+Milence,EU (Eurozone),Milence network,CCS/MCS (HD truck),up to ~1000+ (MCS),Charge Card direct per-kWh,0.399,EUR/kWh,EUR,excl,2026-11-06,https://milence.com/de/milence-ladetarife/,V
+Milence,DE,Milence network,CCS/MCS (HD truck),,ad-hoc per-kWh,0.399,EUR/kWh,EUR,excl,2026-11-06,https://milence.com/de/milence-ladetarife/,V
+Milence,NL,Milence network,CCS/MCS (HD truck),,ad-hoc per-kWh,0.399,EUR/kWh,EUR,excl,2026-11-06,https://milence.com/de/milence-ladetarife/,V
+Milence,BE,Milence network,CCS/MCS (HD truck),,ad-hoc per-kWh,0.379,EUR/kWh,EUR,excl,2026-11-06,https://milence.com/de/milence-ladetarife/,V
+Milence,ES,Milence network,CCS/MCS (HD truck),,ad-hoc per-kWh,0.339,EUR/kWh,EUR,excl,2026-11-06,https://milence.com/de/milence-ladetarife/,V
+Milence,FR,Milence network,CCS/MCS (HD truck),,ad-hoc per-kWh,0.339,EUR/kWh,EUR,excl,2026-11-06,https://milence.com/de/milence-ladetarife/,V
+Milence,IT,Milence network,CCS/MCS (HD truck),,ad-hoc per-kWh,0.399,EUR/kWh,EUR,excl,2026-11-06,https://milence.com/de/milence-ladetarife/,V
+Milence,SE,Milence network,CCS/MCS (HD truck),,ad-hoc per-kWh,3.699,SEK/kWh,SEK,excl,2026-11-06,https://milence.com/de/milence-ladetarife/,V
+Milence,UK,Milence network,CCS/MCS (HD truck),,ad-hoc per-kWh,0.399,GBP/kWh,GBP,excl,2026-11-06,https://milence.com/de/milence-ladetarife/,V
+Milence,DK,Milence network,HD truck,,fleet volume discount,volume-based (not published),,,,2026-06-10,https://www.electrive.com/2026/06/10/milence-opens-first-hgv-charging-hub-in-denmark/,C
+edri (verify),DK,edri app,DC (car),,per-kWh DC,3.45,DKK/kWh,DKK,unclear (verify),2026 (verify),https://www.edri.com/en-dk/app,BOB
+edri (verify),DK,edri app,AC (car),,per-kWh AC,2.65,DKK/kWh,DKK,unclear (verify),2026 (verify),https://www.edri.com/en-dk/app,BOB
+Clever,DK,Clever One subscription,mixed (Clever/EWII/Uno-X roaming),,subscription flatrate,799,DKK/month,DKK,unclear (verify),2026 (3rd-party report),https://clever.dk/,BOB
+Clever,DK,Clever network,DC/AC (car),,ad-hoc per-kWh,not captured (app/terms-restricted),,DKK,,,https://clever.dk/,BOB
+Public fast-charge (mixed DK networks),DK,FDM index (Uno-X/E.ON/Allego/OK),DC (car),,network average per-kWh,3.25,DKK/kWh,DKK,unclear,2024-01 to 2024-08-15,https://fdm.dk/,BOB
+Public fast-charge (29-country median),EU,eleport price report,HPC,150+,median fast-charge per-kWh,0.55,EUR/kWh,EUR,unclear,2026-10,https://eleport.com/price-report/,C
+Danish public (travel guide range),DK,mixed networks,DC (car),,per-kWh range,3-6,DKK/kWh,DKK,unclear,2026,https://www.travelinformation.eu/denmark/ev-charging/,C

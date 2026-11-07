@@ -1,0 +1,25 @@
+item,kW_class,value,currency,year,vat,scope_included,region,basis,source_id,page_or_table,quote,tag
+Charger + eltavle (stand + distribution board),22 (AC),12500,DKK,2024,excl (implied),hardware (charger + board) only,DK,study/operator-quote (operator un-named),cowi_eltruck_calc,Ladeinfrastruktur C11,Ladestander og eltavle (DKK) 12500,C
+Charger + eltavle,43.5,120000,DKK,2024,excl (implied),hardware only,DK,study/operator-quote,cowi_eltruck_calc,Ladeinfrastruktur D11,Ladestander og eltavle (DKK) 120000,C
+Charger + eltavle,50,150000,DKK,2024,excl (implied),hardware only,DK,study/operator-quote,cowi_eltruck_calc,Ladeinfrastruktur E11,Ladestander og eltavle (DKK) 150000,C
+Charger + eltavle,80,200000,DKK,2024,excl (implied),hardware only,DK,study/operator-quote,cowi_eltruck_calc,Ladeinfrastruktur F11,Ladestander og eltavle (DKK) 200000,C
+Charger + eltavle,150,400000,DKK,2024,excl (implied),hardware only,DK,study/operator-quote,cowi_eltruck_calc,Ladeinfrastruktur G11,Ladestander og eltavle (DKK) 400000,C
+Charger + eltavle,400,700000,DKK,2024,excl (implied),hardware only,DK,study/operator-quote,cowi_eltruck_calc,Ladeinfrastruktur H11,Ladestander og eltavle (DKK) 700000,C
+Grid connection - first 25 A (base),all,17950,DKK,2024,excl,grid connection base (tilslutningsbidrag 0-25A),DK (Radius),study citing radiuselnet.dk,cowi_eltruck_calc,Ladeinfrastruktur row13,Pris for foerste 25 ampere (DKK) 17950,C
+Grid connection - per extra A,all,1280,DKK,2024,excl,grid connection per ampere above 25A,DK (Radius),study citing radiuselnet.dk,cowi_eltruck_calc,Ladeinfrastruktur row14,Pris pr ampere (DKK) 1280,C
+Grid connection total (80 A),50/80,88350,DKK,2024,excl,connection for 80 A (17950 + 55*1280),DK (Radius),derived in COWI,cowi_eltruck_calc,Ladeinfrastruktur D15/E15,Tilslutning (ampere) (DKK) 88350,D
+Grid connection total (650 A),400,817950,DKK,2024,excl,connection for 650 A (17950 + 625*1280),DK (Radius),derived in COWI,cowi_eltruck_calc,Ladeinfrastruktur H15,Tilslutning (ampere) (DKK) 817950,D
+Establishment + trenching (gravearbejde),22,10000,DKK,2024,excl (implied),civil works/trenching,DK,study/estimate,cowi_eltruck_calc,Ladeinfrastruktur C16,Etablering og gravearbejde (DKK) 10000,C
+Establishment + trenching,50,50000,DKK,2024,excl (implied),civil works/trenching,DK,study/estimate,cowi_eltruck_calc,Ladeinfrastruktur E16,Etablering og gravearbejde (DKK) 50000,C
+Establishment + trenching,150,250000,DKK,2024,excl (implied),civil works/trenching,DK,study/estimate,cowi_eltruck_calc,Ladeinfrastruktur G16,Etablering og gravearbejde (DKK) 250000,C
+Establishment + trenching,400,500000,DKK,2024,excl (implied),civil works/trenching,DK,study/estimate,cowi_eltruck_calc,Ladeinfrastruktur H16,Etablering og gravearbejde (DKK) 500000,C
+Total infrastructure over 8yr period,50,288350,DKK,2024,excl,charger+connection+trenching over period,DK,derived in COWI,cowi_eltruck_calc,Ladeinfrastruktur E19,Infrastrukturudgifter for perioden (DKK) 288350,D
+AC Level 2 home charger (installed all-in),11/22 (AC),900-2500,USD,2025,unclear,hardware + install,US (not DK),installer estimate (secondary),cowi_eltruck_calc,n/a (pass-4 carry),"around $900-$2,500 all-in for a Level 2 home charger",C
+AC wallbox hardware,11/22 (AC),399-699,EUR,2024,incl (retail),hardware only,EU,retail (secondary),wallbox_ac,shop,from EUR699 ... 399 euro,C
+DC 150 kW hardware,150 (DC),45000-100000,USD,2025,unclear,hardware only per unit,US/EU,installer estimate (secondary),cowi_eltruck_calc,n/a (pass-4 carry),"150 kW ... $45,000-$85,000 per unit",C
+DC 350 kW hardware,300-400 (DC),120000-200000,USD,2025,unclear,hardware only per unit,US/EU,installer estimate (secondary),cowi_eltruck_calc,n/a (pass-4 carry),"350 kW+ corridor-style chargers push $120,000-$200,000+",C
+DC 300-350 kW installed,300-350 (DC),180000-300000,USD,2026,unclear,hardware + install,US/EU,installer estimate (secondary),cowi_eltruck_calc,n/a (pass-4 carry),"installed USD 180,000-300,000+",C
+Depot charging energy price,depot,0.75,DKK/kWh,2026,excl (implied),energy price at depot (study assumption),DK,academic study assumption,mdpi_tco_dk,abstract,depot charging (0.75 DKK/kWh),C
+Public fast charging energy price,public DC,3.00,DKK/kWh,2026,unclear,public fast-charge energy price (study),DK,academic study assumption,mdpi_tco_dk,abstract,public fast charging (3.00 DKK/kWh),C
+Public fast-charge average (FDM),public DC,3.25,DKK/kWh,2024,unclear,network average Jan-Aug 2024 (Uno-X/E.ON/Allego/OK),DK,price index (secondary; dated),fdm_fastcharge,n/a,public fast-charge avg 3.25 DKK/kWh (per brief/COWI),BOB
+HDV MCS pool (AFIF cost basis),MCS 1MW+,n/a,EUR,2026,n/a,>=4 MCS points each >=1 MW (grant-topic def),EU,EU funding topic (real award budgets published per site),cef_afif_mcs,topic,>=4 Megawatt Charging System (MCS) recharging points ... each a minimum power output of 1MW,BOB
