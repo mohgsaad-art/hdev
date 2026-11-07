@@ -1,0 +1,44 @@
+====================================================================================================
+FILE: drive_files/hdv_2024_iepc.csv
+size: 1.0 MB   separator: ','
+columns: 10
+
+--- column list ---
+   0  Vehicle_id
+   1  Pk_Vehicle
+   2  CertificationNumber
+   3  CertificationMethod
+   4  DigestValue
+   5  RatedPower
+   6  NrOfGears
+   7  LowestTotalTransmissionRatio
+   8  DifferentialIncluded
+   9  DesignTypeWheelMotor
+
+--- first 5 rows (one line per column) ---
+                                                                                               0                                                                   1                                                                   2                                                                   3                                                                   4
+Vehicle_id                    0x141D1808D891295C5E1E81F3617F519B1DD546A05BB90F6FCA06E509640F7245  0x6EB74CB6D5DF70658427D861B2F33E9F41179E55A60540946DCC7C5B82914A45  0x16A440D5C09411AC38F36CDCF51CD50E4E64455471EC54E8205D12958EECB809  0x14B45C8D5B4EFA0477B7EAB64AFFCA9F2418A7A7296AC323F28041B96801CD3A  0xB78E8B09BD7480CFCFE82C6AB340429F75488B5E3B327131EB7C9CEB0AEBD2CA
+Pk_Vehicle                                                  4bf30946-5511-42a1-b474-5a991b6eec62                                cb141d9f-7538-4284-b073-f180297de972                                2a6f8dda-35fb-43f3-b455-651e332bd355                                667c1fb5-2a91-4dfe-9653-4e90adc5e8df                                eb601777-1ab6-4dcd-98ee-8cdd6b4a1158
+CertificationNumber                                                                                                                                                                                                                                                                                                                                                             
+CertificationMethod                                                               StandardValues                                                      StandardValues                                                      StandardValues                                                      StandardValues                                                      StandardValues
+DigestValue                                         Pn6IemOMNXcXC7SCfCM7ZCcD3HzYsjFPk9rapryM+X4=                        8M3fLG16CvFM7pXmTx42eCRWOR2u8xlVwmAQyJ5DrJI=                        Pn6IemOMNXcXC7SCfCM7ZCcD3HzYsjFPk9rapryM+X4=                        8M3fLG16CvFM7pXmTx42eCRWOR2u8xlVwmAQyJ5DrJI=                        8M3fLG16CvFM7pXmTx42eCRWOR2u8xlVwmAQyJ5DrJI=
+RatedPower                                                                                   579                                                                 289                                                                 579                                                                 289                                                                 289
+NrOfGears                                                                                      1                                                                   1                                                                   1                                                                   1                                                                   1
+LowestTotalTransmissionRatio                                                            20.53700                                                            20.53700                                                            20.53700                                                            20.53700                                                            20.53700
+DifferentialIncluded                                                                       false                                                               false                                                               false                                                               false                                                               false
+DesignTypeWheelMotor                                                                        true                                                                true                                                                true                                                                true                                                                true
+
+approx. data rows: 4,662
+
+--- 1 rows picked from across the file ---
+                                                                                            4332
+Vehicle_id                    0xBDAB84222C508BEBA50B09D598B3D142A03202AE13E11E488B4E11FEDA4AD457
+Pk_Vehicle                                                  74c32b6e-d9bc-4d0e-8fb0-c590fa286bef
+CertificationNumber                                            e5*2017/2400*2022/1379*I*00252*00
+CertificationMethod                                                                     Measured
+DigestValue                                         i3CW2Qwo8r3gkGaMmZyO/2qtlqIrwG0zssQiJ4Bxz2w=
+RatedPower                                                                                   467
+NrOfGears                                                                                     12
+LowestTotalTransmissionRatio                                                             2.84600
+DifferentialIncluded                                                                       false
+DesignTypeWheelMotor                                                                       false

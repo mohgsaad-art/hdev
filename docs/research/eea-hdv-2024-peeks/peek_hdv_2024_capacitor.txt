@@ -1,0 +1,56 @@
+====================================================================================================
+FILE: drive_files/hdv_2024_capacitor.csv
+size: 0.1 MB   separator: ','
+columns: 14
+
+--- column list ---
+   0  Vehicle_id
+   1  Pk_Vehicle
+   2  Id
+   3  CertificationNumber
+   4  DigestValue
+   5  Capacitance
+   6  MinVoltage
+   7  MaxVoltage
+   8  NominalVoltage
+   9  TotalStorageCapacity
+  10  TotalStorageCapacity_unit
+  11  TotalUsableCapacityInSimulation
+  12  TotalUsableCapacityInSimulation_unit
+  13  CertificationMethod
+
+--- first 5 rows (one line per column) ---
+                                                                                                       0                                                                   1                                                                   2                                                                   3                                                                   4
+Vehicle_id                            0xB608A262F3FDDB8E45655C5541806E041096371D1B65BF36C0DBF43967EA2795  0x3460266C977D8D92B066000A4C80E1C88E5BD2A75116D217952355DA91F0ABF0  0x1CF82FA948C8CAC690827E8702D0420D8EBF63DA32CD439FABDB2E13DCBA3049  0x403D46E52661197C93A590A6FB38DD96646A3722817EC68573541A72751E63F7  0x28FF26B4B9C7C15D060E40E2F59897D5C4BF80757792701DEA8688C7F22678B2
+Pk_Vehicle                                                          481f4294-2f4b-4351-bd2a-423ce5f8ccf4                                ad979f90-6255-4281-8370-3be921dbfe67                                3eb02d36-0342-4679-b3f9-b4f75371db63                                c3293c29-d0e6-4d15-a959-5cc53a57efae                                cbd633e6-0a9c-46ce-bbe0-c9d751125c9d
+Id                                                                                                                                                                                                                                                                                                                                                                                      
+CertificationNumber                                                                                 N.A.                                                                N.A.                                                                N.A.                                                                N.A.                                                                N.A.
+DigestValue                                                 p03yh/h9Pje6Ag+Df1asmvozKBWqI4h5KH054BsVbEY=                        hnRBgxoG6z1HEo3PprJLGF/YAeZwMq/EXCFx/7eSUjQ=                        hnRBgxoG6z1HEo3PprJLGF/YAeZwMq/EXCFx/7eSUjQ=                        p03yh/h9Pje6Ag+Df1asmvozKBWqI4h5KH054BsVbEY=                        hnRBgxoG6z1HEo3PprJLGF/YAeZwMq/EXCFx/7eSUjQ=
+Capacitance                                                                                          152                                                                 161                                                                 161                                                                 152                                                                 161
+MinVoltage                                                                                            26                                                                  26                                                                  26                                                                  26                                                                  26
+MaxVoltage                                                                                            59                                                                  59                                                                  59                                                                  59                                                                  59
+NominalVoltage                                                                                      NULL                                                                NULL                                                                NULL                                                                NULL                                                                NULL
+TotalStorageCapacity                                                                                NULL                                                                NULL                                                                NULL                                                                NULL                                                                NULL
+TotalStorageCapacity_unit                                                                                                                                                                                                                                                                                                                                                               
+TotalUsableCapacityInSimulation                                                                     NULL                                                                NULL                                                                NULL                                                                NULL                                                                NULL
+TotalUsableCapacityInSimulation_unit                                                                                                                                                                                                                                                                                                                                                    
+CertificationMethod                                                                                                                                                                                                                                                                                                                                                                     
+
+approx. data rows: 489
+
+--- 1 rows picked from across the file ---
+                                                                                                     391
+Vehicle_id                            0xCD802E6194044D04D3364AE3006C7E4023C1823324AB54CF336CF04C6B59B4EC
+Pk_Vehicle                                                          0d47b530-0745-4330-a0e6-85801fc0ad85
+Id                                                                                                      
+CertificationNumber                                                                                 N.A.
+DigestValue                                                 p03yh/h9Pje6Ag+Df1asmvozKBWqI4h5KH054BsVbEY=
+Capacitance                                                                                          152
+MinVoltage                                                                                            26
+MaxVoltage                                                                                            59
+NominalVoltage                                                                                      NULL
+TotalStorageCapacity                                                                                NULL
+TotalStorageCapacity_unit                                                                               
+TotalUsableCapacityInSimulation                                                                     NULL
+TotalUsableCapacityInSimulation_unit                                                                    
+CertificationMethod                                                                                     

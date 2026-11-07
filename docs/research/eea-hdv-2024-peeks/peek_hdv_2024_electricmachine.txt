@@ -1,0 +1,44 @@
+====================================================================================================
+FILE: drive_files/hdv_2024_electricmachine.csv
+size: 0.9 MB   separator: ','
+columns: 10
+
+--- column list ---
+   0  Vehicle_id
+   1  Pk_Vehicle
+   2  ElectricMachine_id
+   3  Position
+   4  CountAtPosition
+   5  CertificationNumber
+   6  DigestValue
+   7  ElectricMachineType
+   8  CertificationMethod
+   9  RatedPower
+
+--- first 5 rows (one line per column) ---
+                                                                                      0                                                                   1                                                                   2                                                                   3                                                                   4
+Vehicle_id           0x8DB9960CFD45E0F41E5F5CA6835266FC0E19AF9AD21B7D7DD3D55A1EE7EB5214  0xC9A4E082CC81B9AD366EC5A41A885AA310D8FE5C7F0EFB90865B49F8E9F50E4A  0x6FCDF62446A5509AD47663903F476D09EDB99EDA7F5EBAB231232AB27938C1F6  0xAAF2F52BF9CF476ADE97168A960B485DE3548DE6044DC4C0B8F764E7A7189036  0x893C495E811AA0FA52130A8EEF06D652B78ABB056AE68D682E97F20F5905A754
+Pk_Vehicle                                         80a43634-2916-4723-b499-f0173ebd7db9                                5debca3e-d140-4c44-9614-6bb491e0cc81                                10289939-9945-43fb-af7f-524499c677e3                                a5e5f805-d5e0-4466-a499-bdd55227e9a9                                93d007a8-e290-49b5-8e97-aaf5f99f63b7
+ElectricMachine_id                                 d065741d-de70-44bd-a3ad-32d477602812                                aafb49d8-550a-4a7e-a2a1-e8db6015f9d3                                b71c1f52-85d7-4727-8ca2-d02184ad514f                                317c6cc3-5f60-457d-a072-e3730b234fb3                                478283ac-bcda-4696-8512-751adf1531d5
+Position                                                                              3                                                                   3                                                                   3                                                                   3                                                                   3
+CountAtPosition                                                                       1                                                                   1                                                                   1                                                                   1                                                                   1
+CertificationNumber                                   e9*2017/2400*2022/1379*M*11290*00                                                                   -                                   e9*2017/2400*2022/1379*M*11290*00                                                                   -                                                                   -
+DigestValue                                f9ZS+kMgItIAqSzLontWx3AnmH9vP5QRv4f/NtWrIg4=                        bxIfXxrVi+5xkYBLcT7IBDcyRAtaVV8gwHbjbCGdO9g=                        f9ZS+kMgItIAqSzLontWx3AnmH9vP5QRv4f/NtWrIg4=                        bxIfXxrVi+5xkYBLcT7IBDcyRAtaVV8gwHbjbCGdO9g=                        bxIfXxrVi+5xkYBLcT7IBDcyRAtaVV8gwHbjbCGdO9g=
+ElectricMachineType                                                                 PSM                                                                 PSM                                                                 PSM                                                                 PSM                                                                 PSM
+CertificationMethod                                                            Measured                                                      StandardValues                                                            Measured                                                      StandardValues                                                      StandardValues
+RatedPower                                                                          140                                                                 140                                                                 140                                                                 140                                                                 140
+
+approx. data rows: 4,157
+
+--- 1 rows picked from across the file ---
+                                                                                   4069
+Vehicle_id           0xC5F61FD53139E0C03BACF8094552A84C207DD02EC3AA27EACA4361C074219EBD
+Pk_Vehicle                                         c9a448bc-7b91-4399-9a49-fddbd767bd46
+ElectricMachine_id                                 d6f59963-a390-4d6d-b6df-44b7ccaf8b68
+Position                                                                              1
+CountAtPosition                                                                       1
+CertificationNumber                                                                N.A.
+DigestValue                                IYY7B3/WiqaEHFPl2eGhk7h4lcyyijW5+t5LGcwe4M0=
+ElectricMachineType                                                                 ESM
+CertificationMethod                                                      StandardValues
+RatedPower                                                                            7

@@ -1,0 +1,26 @@
+====================================================================================================
+FILE: drive_files/hdv_2024_transfer.csv
+size: 0.1 MB   separator: ','
+columns: 4
+
+--- column list ---
+   0  Vehicle_id
+   1  Priority
+   2  Direction
+   3  OEMName
+
+--- first 5 rows (one line per column) ---
+                                                                             0                                                                   1                                                                   2                                                                   3                                                                   4
+Vehicle_id  0x6574E4B7E81939E1352C1609A243EC813056162C53345ED40CD98380FA465431  0xF6A21EE7DEF3626889F4C2BB57D1D087FDA579E37BC6A8A645C526D27AF3D1B3  0x85659740CB8BFAAA3A837C1172DA07AABB69AAF8F54F81E87A09534F1ADBFC14  0x83977CDB036A3FED81F6327F4EF960E7F324555CA71E08C2BE1F1DAABB6EA5D3  0x21B7454CAD6C91F5A27994E5716C375022635D719AE9CAC46DE3CF1ED74DCD1F
+Priority                                                                  NULL                                                                 207                                                                  81                                                                 158                                                                 226
+Direction                                                             Transfer                                                           Receiving                                                           Receiving                                                           Receiving                                                           Receiving
+OEMName                                             Designwerk Technologies AG                                                        Iveco S.p.A.                                                        Iveco S.p.A.                                                        Iveco S.p.A.                                                        Iveco S.p.A.
+
+approx. data rows: 1,003
+
+--- 1 rows picked from across the file ---
+                                                                           276
+Vehicle_id  0xDCE12FB918DF5CF79BA90362FAF1BD3738F429221BAAB90B987A30B74F68F9D4
+Priority                                                                   132
+Direction                                                            Receiving
+OEMName                                                           Iveco S.p.A.
