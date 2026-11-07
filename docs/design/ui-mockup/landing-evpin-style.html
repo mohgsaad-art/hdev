@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EV Scope — Qualify electric fleets in minutes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   EV Scope — EVpin-style landing page
+   Brand identity ported from hdev/static/css/app.css
+   (navy #10233f, brand #1f5fbf, amber #b26a00, Barlow fonts)
+   with subtle neomorphism + floating/scroll-reveal motion.
+   Single file, no build step.
+   ========================================================= */
+:root{
+  --navy:#10233f;
+  --navy-2:#0b1a30;
+  --navy-ink:#f5f8ff;
+  --brand:#1f5fbf;
+  --brand-strong:#16417f;
+  --brand-soft:#e7f0fe;
+  --amber:#b26a00;
+  --amber-bg:#fff3e0;
+  --good:#1e7a4e;
+  --bad:#c23a3a;
+  --bg:#f4f6fa;
+  --surface:#ffffff;
+  --surface-muted:#eef1f6;
+  --border:#d6deeb;
+  --ink:#16202e;
+  --ink-soft:#4a5568;
+  --ink-faint:#8894a8;
+  --font:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-display:"Barlow Condensed","Barlow",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --radius:16px;
+  /* subtle neomorphism */
+  --nm:8px 8px 20px rgba(16,35,63,.08), -6px -6px 16px rgba(255,255,255,.9);
+  --nm-hover:12px 12px 28px rgba(16,35,63,.12), -8px -8px 20px rgba(255,255,255,.95);
+  --nm-inset:inset 4px 4px 10px rgba(16,35,63,.06), inset -4px -4px 10px rgba(255,255,255,.85);
+  --body-max:1200px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--brand);text-decoration:none;transition:color .2s}
+a:hover{color:var(--brand-strong)}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;letter-spacing:.005em;line-height:1.05}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--body-max);margin:0 auto;padding:0 clamp(18px,4vw,40px)}
+
+/* ---- top bar ---- */
+.ticker{background:var(--navy-2);color:#9fb0cc;font-size:13px}
+.ticker .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:9px;padding-bottom:9px;flex-wrap:wrap}
+.ticker .mono{font-family:var(--mono);font-size:12px;letter-spacing:.04em}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--amber);display:inline-block;margin-right:7px;animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(178,106,0,.5)}50%{opacity:.5;box-shadow:0 0 0 6px rgba(178,106,0,0)}}
+
+/* ---- nav ---- */
+nav{position:sticky;top:0;z-index:60;background:rgba(244,246,250,.82);backdrop-filter:saturate(1.5) blur(14px);border-bottom:1px solid var(--border)}
+nav .wrap{display:flex;align-items:center;gap:30px;height:66px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:21px;color:var(--ink);flex:none}
+.logo .mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(145deg,var(--brand),var(--brand-strong));display:grid;place-items:center;box-shadow:var(--nm);position:relative}
+.logo .mark svg{width:19px;height:19px}
+.logo b{color:var(--brand)}
+.nav-links{display:flex;gap:26px;font-size:15px;font-weight:500;flex:1}
+.nav-links a{color:var(--ink)}
+.nav-links a:hover{color:var(--brand)}
+.btn{font-family:var(--font);font-weight:600;font-size:15px;border:none;cursor:pointer;border-radius:10px;padding:11px 20px;transition:transform .15s,box-shadow .2s,background .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:var(--brand);color:#fff;box-shadow:0 6px 18px rgba(31,95,191,.3)}
+.btn-primary:hover{background:var(--brand-strong);transform:translateY(-2px);box-shadow:0 10px 26px rgba(31,95,191,.4);color:#fff}
+.btn-ghost{background:var(--surface);color:var(--ink);box-shadow:var(--nm)}
+.btn-ghost:hover{transform:translateY(-2px);box-shadow:var(--nm-hover)}
+
+/* ---- hero ---- */
+.hero{position:relative;padding:60px 0 40px}
+.hero .wrap{display:grid;grid-template-columns:1.02fr .98fr;gap:40px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--amber-bg);color:var(--amber);font-size:12.5px;font-weight:600;padding:6px 13px;border-radius:40px;font-family:var(--mono);letter-spacing:.02em;margin-bottom:20px}
+.hero h1{font-size:clamp(40px,5.4vw,64px);margin-bottom:18px}
+.hero h1 .hl{color:var(--brand);position:relative}
+.hero p.lead{font-size:18.5px;color:var(--ink-soft);max-width:520px;margin-bottom:28px}
+.hero-ctas{display:flex;gap:13px;flex-wrap:wrap;margin-bottom:26px}
+.trust{display:flex;flex-direction:column;gap:9px}
+.trust .row{display:flex;align-items:center;gap:10px;font-size:14.5px;color:var(--ink-soft)}
+.trust .tick{width:20px;height:20px;border-radius:50%;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;flex:none;font-size:12px;font-weight:700}
+
+/* hero visual: scattered floating tiles (EVpin "18 tabs" motif) */
+.scatter{position:relative;height:460px}
+.tile{position:absolute;background:var(--surface);border:1px solid var(--border);border-radius:13px;box-shadow:var(--nm);padding:12px 14px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:9px;animation:drift var(--dur,7s) ease-in-out infinite;animation-delay:var(--dly,0s);will-change:transform}
+.tile .ic{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;flex:none;font-size:13px}
+.tile small{display:block;font-weight:400;color:var(--ink-faint);font-size:11px}
+@keyframes drift{0%,100%{transform:translateY(0) rotate(var(--rot,0deg))}50%{transform:translateY(-14px) rotate(var(--rot,0deg))}}
+.tile.hub{background:linear-gradient(145deg,var(--brand),var(--brand-strong));color:#fff;border:none;z-index:5;padding:18px 20px;border-radius:16px;box-shadow:0 18px 40px rgba(31,95,191,.35);animation:none;flex-direction:column;align-items:flex-start;gap:2px}
+.tile.hub .big{font-family:var(--font-display);font-size:26px;font-weight:700}
+.tile.hub small{color:rgba(255,255,255,.8);font-size:12px}
+.spoke{position:absolute;inset:0;z-index:0;pointer-events:none}
+.spoke line{stroke:var(--brand);stroke-width:1.4;stroke-dasharray:4 5;opacity:.25;animation:dash 14s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-90}}
+
+/* ---- marquee ---- */
+.marquee{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);overflow:hidden;padding:16px 0}
+.marquee .track{display:flex;gap:56px;white-space:nowrap;animation:scrollx 24s linear infinite;font-family:var(--mono);font-size:13px;color:var(--ink-faint);letter-spacing:.04em}
+.marquee .track span{display:inline-flex;align-items:center;gap:10px}
+.dotm{width:5px;height:5px;border-radius:50%;background:var(--brand)}
+@keyframes scrollx{to{transform:translateX(-50%)}}
+
+/* ---- section scaffolding ---- */
+section.band{padding:84px 0}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--brand);margin-bottom:12px}
+.stitle{font-size:clamp(30px,3.8vw,46px);margin-bottom:14px;max-width:720px}
+.ssub{font-size:17px;color:var(--ink-soft);max-width:600px;margin-bottom:44px}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---- product preview card (EVpin data-card look) ---- */
+.preview{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:stretch}
+.datacard{background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--nm);padding:22px;display:flex;flex-direction:column;gap:16px}
+.dc-head{display:flex;justify-content:space-between;align-items:flex-start}
+.dc-addr{font-family:var(--font-display);font-size:22px;font-weight:700}
+.dc-addr small{display:block;font-family:var(--font);font-weight:400;font-size:13px;color:var(--ink-faint)}
+.chip{font-family:var(--mono);font-size:11px;font-weight:500;padding:5px 10px;border-radius:30px;background:var(--brand-soft);color:var(--brand)}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:var(--surface-muted);border-radius:12px;padding:13px 14px;box-shadow:var(--nm-inset)}
+.stat .k{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);margin-bottom:4px}
+.stat .v{font-family:var(--font-display);font-size:24px;font-weight:700}
+.stat .v.good{color:var(--good)}
+.stat .v.bad{color:var(--bad)}
+/* mini bar chart inside card */
+.weekrow{display:flex;align-items:flex-end;gap:7px;height:96px;padding-top:6px}
+.weekrow .b{flex:1;background:linear-gradient(180deg,var(--brand),var(--brand-strong));border-radius:5px 5px 0 0;transition:height .9s cubic-bezier(.2,.8,.2,1);min-height:6px}
+.weekrow .b.hot{background:linear-gradient(180deg,#e5574a,#c23a3a)}
+.weeklabels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink-faint);margin-top:6px}
+
+/* ---- feature grid ---- */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.fcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--nm);transition:transform .25s,box-shadow .25s}
+.fcard:hover{transform:translateY(-5px);box-shadow:var(--nm-hover)}
+.fcard .fic{width:46px;height:46px;border-radius:12px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;margin-bottom:16px;box-shadow:var(--nm-inset)}
+.fcard .fic svg{width:22px;height:22px}
+.fcard h3{font-size:19px;margin-bottom:7px}
+.fcard p{font-size:14.5px;color:var(--ink-soft)}
+
+/* ---- dark story band ---- */
+.dark{background:radial-gradient(1200px 600px at 80% -10%,#17315a 0%,var(--navy) 55%);color:var(--navy-ink)}
+.dark .eyebrow{color:#7fb0ff}
+.dark .ssub{color:#aab8d0}
+.darkgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:10px}
+.dcell{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:24px;transition:transform .25s,border-color .25s,background .25s}
+.dcell:hover{transform:translateY(-4px);border-color:rgba(127,176,255,.5);background:rgba(255,255,255,.06)}
+.dcell .num{font-family:var(--mono);font-size:13px;color:#7fb0ff;margin-bottom:12px}
+.dcell h3{color:#fff;font-size:19px;margin-bottom:8px}
+.dcell p{font-size:14px;color:#aab8d0}
+
+/* ---- split feature rows ---- */
+.splitrow{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center;margin-bottom:70px}
+.splitrow:last-child{margin-bottom:0}
+.splitrow.flip .copy{order:2}
+.splitrow .copy h3{font-size:30px;margin-bottom:12px}
+.splitrow .copy p{font-size:16px;color:var(--ink-soft);margin-bottom:18px}
+.minilist{list-style:none;display:flex;flex-direction:column;gap:10px}
+.minilist li{display:flex;gap:11px;font-size:15px;color:var(--ink-soft)}
+.minilist .tick{width:22px;height:22px;border-radius:7px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;flex:none;font-size:12px;font-weight:700;box-shadow:var(--nm-inset)}
+.art{background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--nm);padding:22px}
+
+/* cost breakdown art */
+.costbars{display:flex;flex-direction:column;gap:12px}
+.costbars .cl{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}
+.costbars .cl b{font-family:var(--font-display);font-size:16px}
+.track2{height:10px;border-radius:30px;background:var(--surface-muted);box-shadow:var(--nm-inset);overflow:hidden}
+.track2 .fill{height:100%;border-radius:30px;background:linear-gradient(90deg,var(--brand),var(--brand-strong));width:0;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.costtotal{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px;padding-bottom:16px;border-bottom:1px dashed var(--border)}
+.costtotal .lbl{font-size:13px;color:var(--ink-faint);font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em}
+.costtotal .amt{font-family:var(--font-display);font-size:38px;font-weight:700;color:var(--brand)}
+
+/* doc chips art */
+.docchips{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.docc{background:var(--surface-muted);border-radius:12px;padding:15px;box-shadow:var(--nm-inset)}
+.docc .tag{font-family:var(--mono);font-size:10px;font-weight:500;color:var(--brand);background:var(--brand-soft);padding:3px 8px;border-radius:5px;display:inline-block;margin-bottom:9px;letter-spacing:.04em}
+.docc h4{font-family:var(--font);font-size:14px;font-weight:600;margin-bottom:3px}
+.docc p{font-size:12px;color:var(--ink-faint)}
+
+/* ---- testimonial ---- */
+.quote{background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--nm);padding:clamp(28px,4vw,52px);text-align:center;max-width:860px;margin:0 auto}
+.quote .mk{font-family:var(--font-display);font-size:60px;color:var(--brand);line-height:.6;opacity:.3}
+.quote p{font-size:clamp(20px,2.4vw,27px);font-family:var(--font-display);font-weight:600;line-height:1.3;margin:12px 0 22px}
+.quote .who{font-size:14px;color:var(--ink-soft)}
+.quote .who b{color:var(--ink)}
+
+/* ---- cta ---- */
+.ctaband{background:radial-gradient(900px 500px at 25% 10%,#2a6fd6 0%,var(--brand) 45%,var(--brand-strong) 100%);color:#fff;border-radius:26px;padding:clamp(40px,5vw,66px);text-align:center;box-shadow:0 24px 54px rgba(31,95,191,.4);position:relative;overflow:hidden}
+.ctaband::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 80% 120%,rgba(255,255,255,.14),transparent 55%);pointer-events:none}
+.ctaband h2{font-size:clamp(30px,4vw,48px);margin-bottom:12px;position:relative}
+.ctaband p{font-size:17px;opacity:.92;max-width:520px;margin:0 auto 26px;position:relative}
+.ctaband .btn-primary{background:#fff;color:var(--brand);box-shadow:0 10px 26px rgba(0,0,0,.18);position:relative}
+.ctaband .btn-primary:hover{background:#eef4ff;color:var(--brand-strong)}
+
+/* ---- footer ---- */
+footer{border-top:1px solid var(--border);padding:40px 0;color:var(--ink-faint);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+.flogo{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:600;font-family:var(--font-display);font-size:18px}
+
+/* ---- responsive ---- */
+@media(max-width:900px){
+  .hero .wrap{grid-template-columns:1fr}
+  .scatter{height:400px;margin-top:10px}
+  .nav-links{display:none}
+  .preview{grid-template-columns:1fr}
+  .features{grid-template-columns:1fr}
+  .darkgrid{grid-template-columns:1fr}
+  .splitrow{grid-template-columns:1fr;gap:26px;margin-bottom:48px}
+  .splitrow.flip .copy{order:0}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ticker -->
+<div class="ticker">
+  <div class="wrap">
+    <span><span class="pulse"></span>Sample data · fictional fleets · onboarding pilot partners for 2027</span>
+    <span class="mono">MADE IN COPENHAGEN · DK</span>
+  </div>
+</div>
+
+<!-- nav -->
+<nav>
+  <div class="wrap">
+    <a href="#top" class="logo">
+      <span class="mark">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="#fff"/></svg>
+      </span>
+      <span><b>EV</b> Scope</span>
+    </a>
+    <div class="nav-links">
+      <a href="#product">Product</a>
+      <a href="#why">Why EV Scope</a>
+      <a href="#features">Features</a>
+      <a href="#docs">Documents</a>
+    </div>
+    <a href="#cta" class="btn btn-primary">Book a pilot →</a>
+  </div>
+</nav>
+
+<!-- hero -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="badge"><span class="pulse"></span>Feasibility &amp; sizing for electric fleets</span>
+      <h1>Know your fleet runs <span class="hl">electric</span> — before you order one truck.</h1>
+      <p class="lead">EV Scope simulates your real routes through every day of a weather year, then sizes batteries, chargers and the grid connection to the <strong>hardest week</strong> — not the average one.</p>
+      <div class="hero-ctas">
+        <a href="#cta" class="btn btn-primary">Start a pilot</a>
+        <a href="#product" class="btn btn-ghost">See the product</a>
+      </div>
+      <div class="trust">
+        <div class="row"><span class="tick">✓</span>A full weather year — every route, every hour</div>
+        <div class="row"><span class="tick">✓</span>Six ready-to-send documents, one simulation</div>
+        <div class="row"><span class="tick">✓</span>Built for municipal, refuse &amp; bus fleets</div>
+      </div>
+    </div>
+
+    <!-- scattered floating tiles -> converge into EV Scope -->
+    <div class="scatter" aria-hidden="true">
+      <svg class="spoke" viewBox="0 0 480 460" preserveAspectRatio="none">
+        <line x1="60" y1="70" x2="240" y2="230"/>
+        <line x1="400" y1="60" x2="240" y2="230"/>
+        <line x1="40" y1="300" x2="240" y2="230"/>
+        <line x1="420" y1="330" x2="240" y2="230"/>
+        <line x1="150" y1="420" x2="240" y2="230"/>
+        <line x1="360" y1="410" x2="240" y2="230"/>
+      </svg>
+      <div class="tile" style="top:30px;left:10px;--dur:6.5s;--rot:-4deg"><span class="ic" style="background:#e7f0fe">🗺️</span>Route exports</div>
+      <div class="tile" style="top:16px;right:8px;--dur:7.4s;--dly:-1.2s;--rot:3deg"><span class="ic" style="background:#fff3e0">🌡️</span>Weather year<small>8,760 hours</small></div>
+      <div class="tile" style="top:150px;left:-6px;--dur:8s;--dly:-.6s;--rot:2deg"><span class="ic" style="background:#e7f6ee">🔋</span>Battery sizing</div>
+      <div class="tile" style="top:135px;right:-10px;--dur:6.8s;--dly:-2s;--rot:-3deg"><span class="ic" style="background:#e7f0fe">⚡</span>Grid profile<small>15-min load</small></div>
+      <div class="tile" style="bottom:70px;left:18px;--dur:7.7s;--dly:-1.6s;--rot:3deg"><span class="ic" style="background:#fdeaea">📄</span>Tariff tables</div>
+      <div class="tile" style="bottom:46px;right:14px;--dur:7.1s;--dly:-.9s;--rot:-2deg"><span class="ic" style="background:#f0ebfb">📊</span>TCO model</div>
+      <div class="tile hub" style="top:188px;left:50%;transform:translateX(-50%)">
+        <span class="big">EV Scope</span>
+        <small>one model · six documents</small>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span><i class="dotm"></i>Weather-year simulation</span>
+    <span><i class="dotm"></i>15-minute grid load profile</span>
+    <span><i class="dotm"></i>Traceable assumptions</span>
+    <span><i class="dotm"></i>Managed charging &amp; V2G</span>
+    <span><i class="dotm"></i>Grant-ready data pack</span>
+    <span><i class="dotm"></i>Tender annex</span>
+    <span><i class="dotm"></i>Weather-year simulation</span>
+    <span><i class="dotm"></i>15-minute grid load profile</span>
+    <span><i class="dotm"></i>Traceable assumptions</span>
+    <span><i class="dotm"></i>Managed charging &amp; V2G</span>
+    <span><i class="dotm"></i>Grant-ready data pack</span>
+    <span><i class="dotm"></i>Tender annex</span>
+  </div>
+</div>
+
+<!-- product preview -->
+<section class="band" id="product">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">The product</div>
+      <h2 class="stitle">Every route, scored against the worst week of the year.</h2>
+      <p class="ssub">Upload what you already have. EV Scope fills the gaps, runs the full climate year, and shows you exactly where a naive average sizing would have stranded trucks.</p>
+    </div>
+    <div class="preview">
+      <div class="datacard reveal">
+        <div class="dc-head">
+          <div class="dc-addr">Refuse fleet · Depot A<small>Copenhagen climate year · 12 trucks</small></div>
+          <span class="chip">LIVE RUN</span>
+        </div>
+        <div class="stat-grid">
+          <div class="stat"><div class="k">Hardest week</div><div class="v">Feb · W7</div></div>
+          <div class="stat"><div class="k">Peak demand</div><div class="v">412 kWh</div></div>
+          <div class="stat"><div class="k">Coldest hour</div><div class="v bad">−8.1 °C</div></div>
+          <div class="stat"><div class="k">Margin left</div><div class="v good">18 %</div></div>
+        </div>
+        <div>
+          <div class="weekrow" id="wkchart"></div>
+          <div class="weeklabels"><span>Jan</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span></div>
+        </div>
+      </div>
+
+      <div class="datacard reveal">
+        <div class="dc-head">
+          <div class="dc-addr">Recommended package<small>Sized to the hardest week</small></div>
+          <span class="chip">SIGNED OFF</span>
+        </div>
+        <div class="stat-grid">
+          <div class="stat"><div class="k">Usable battery</div><div class="v">320 kWh</div></div>
+          <div class="stat"><div class="k">Depot chargers</div><div class="v">6 × 120 kW</div></div>
+          <div class="stat"><div class="k">Grid connection</div><div class="v">900 kVA</div></div>
+          <div class="stat"><div class="k">Range at −5 °C</div><div class="v good">186 km</div></div>
+        </div>
+        <div class="costtotal">
+          <span class="lbl">Estimated capex</span>
+          <span class="amt" data-count="4.9">€0.0M</span>
+        </div>
+        <div class="costbars">
+          <div><div class="cl">Vehicles <b>62%</b></div><div class="track2"><div class="fill" data-w="62%"></div></div></div>
+          <div><div class="cl">Charging &amp; civils <b>24%</b></div><div class="track2"><div class="fill" data-w="24%"></div></div></div>
+          <div><div class="cl">Grid upgrade <b>14%</b></div><div class="track2"><div class="fill" data-w="14%"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- why (dark band) -->
+<section class="band dark" id="why">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Why we built it</div>
+      <h2 class="stitle" style="color:#fff">Averages don't strand trucks. February does.</h2>
+      <p class="ssub">Most sizing tools use annual averages. Real fleets fail on the coldest, busiest week. EV Scope runs the whole year so the design you sign off actually works when it's −8 °C and every route still has to go out.</p>
+    </div>
+    <div class="darkgrid">
+      <div class="dcell reveal"><div class="num">01</div><h3>Guesswork on range</h3><p>Datasheet range ignores payload, cabin heating, topography and the real duty cycle of refuse, bus or delivery routes.</p></div>
+      <div class="dcell reveal"><div class="num">02</div><h3>Grid applications that bounce</h3><p>Utilities want a 15-minute load profile and a realistic peak. Spreadsheets rarely survive the first review.</p></div>
+      <div class="dcell reveal"><div class="num">03</div><h3>Documents that diverge</h3><p>Tender, grant, board deck and financial model drift apart because each is built by a different person from different numbers.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- features -->
+<section class="band" id="features">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Everything in one workspace</div>
+      <h2 class="stitle">One model. Six audiences. Zero copy-paste.</h2>
+      <p class="ssub">From telematics export to signed proposal, EV Scope keeps the whole feasibility study connected — and traceable.</p>
+    </div>
+    <div class="features">
+      <div class="fcard reveal"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0 4 4m-4-4L8 8M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></div><h3>Drop in existing data</h3><p>Telematics, route plans, vehicle datasheets and electricity tariffs. The source of every value stays visible so you can audit and approve.</p></div>
+      <div class="fcard reveal"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4.5V12a3 3 0 1 1-4 0V4.5a2 2 0 1 1 4 0Z"/></svg></div><h3>Full weather-year run</h3><p>Every route, every day, hour by hour. Batteries, chargers and the grid connection are sized to the single hardest week.</p></div>
+      <div class="fcard reveal"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M13 3v5h5"/></svg></div><h3>Six documents, one click</h3><p>Technical report, grid application, tender annex, financial model, grant pack and client deck — all from the same simulation.</p></div>
+      <div class="fcard reveal"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg></div><h3>Managed charging &amp; V2G</h3><p>Model curtailable load, overnight depot charging and bidirectional readiness so the design matches operational reality.</p></div>
+      <div class="fcard reveal"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div><h3>Traceable assumptions</h3><p>Every input is tagged with its source. Change a tariff or a payload and the whole study updates — no hidden cells.</p></div>
+      <div class="fcard reveal"><div class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></div><h3>Built for public fleets</h3><p>Refuse, bus, municipal and utility fleets. Templates tuned for European and Nordic procurement and grant processes.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- split feature rows -->
+<section class="band" id="docs" style="background:linear-gradient(180deg,var(--bg),#eaeef5)">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">From sketch to signed proposal</div>
+      <h2 class="stitle">Same numbers, formatted for every audience.</h2>
+      <p class="ssub">No more copying between spreadsheets, Word and PowerPoint. One run feeds every document you need to move the project forward.</p>
+    </div>
+
+    <div class="splitrow reveal">
+      <div class="copy">
+        <h3>A grid application utilities accept</h3>
+        <p>Export a realistic 15-minute load profile with managed-charging options and a curtailable-load declaration already filled in.</p>
+        <ul class="minilist">
+          <li><span class="tick">✓</span>Peak demand &amp; coincidence factor</li>
+          <li><span class="tick">✓</span>Overnight vs. opportunity charging windows</li>
+          <li><span class="tick">✓</span>Interconnection scope &amp; timing flags</li>
+        </ul>
+      </div>
+      <div class="art">
+        <div class="stat-grid" style="grid-template-columns:1fr 1fr 1fr">
+          <div class="stat"><div class="k">Peak</div><div class="v">612 kW</div></div>
+          <div class="stat"><div class="k">Avg night</div><div class="v">410 kW</div></div>
+          <div class="stat"><div class="k">Curtailable</div><div class="v good">38%</div></div>
+        </div>
+        <div style="margin-top:14px">
+          <div class="weekrow" id="loadchart"></div>
+          <div class="weeklabels"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="splitrow flip reveal">
+      <div class="copy">
+        <h3>A capex &amp; TCO model that reconciles</h3>
+        <p>Every charger, trench foot and permit line rolls into one running total — then straight into the financial model with electricity-price sensitivity.</p>
+        <ul class="minilist">
+          <li><span class="tick">✓</span>Vehicles, civils, grid &amp; permits itemised</li>
+          <li><span class="tick">✓</span>8 / 10 / 12-year ownership horizons</li>
+          <li><span class="tick">✓</span>Sensitivity to price &amp; utilisation</li>
+        </ul>
+      </div>
+      <div class="art">
+        <div class="costtotal"><span class="lbl">Estimated total capex</span><span class="amt" data-count="4.87">€0.00M</span></div>
+        <div class="costbars">
+          <div><div class="cl">Vehicles <b>€3.02M</b></div><div class="track2"><div class="fill" data-w="62%"></div></div></div>
+          <div><div class="cl">Installation <b>€0.84M</b></div><div class="track2"><div class="fill" data-w="17%"></div></div></div>
+          <div><div class="cl">Electrical <b>€0.63M</b></div><div class="track2"><div class="fill" data-w="13%"></div></div></div>
+          <div><div class="cl">Permits <b>€0.38M</b></div><div class="track2"><div class="fill" data-w="8%"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="splitrow reveal">
+      <div class="copy">
+        <h3>Six documents from one simulation</h3>
+        <p>When the numbers move, every export moves with them. The board deck and the grant pack can never again disagree with the technical report.</p>
+      </div>
+      <div class="art">
+        <div class="docchips">
+          <div class="docc"><span class="tag">REPORT</span><h4>Technical feasibility</h4><p>Methodology &amp; route results</p></div>
+          <div class="docc"><span class="tag">GRID</span><h4>Connection application</h4><p>15-min profile &amp; peak</p></div>
+          <div class="docc"><span class="tag">TENDER</span><h4>Tender annex</h4><p>Must/should requirements</p></div>
+          <div class="docc"><span class="tag">FINANCE</span><h4>Financial model</h4><p>TCO &amp; sensitivity</p></div>
+          <div class="docc"><span class="tag">GRANT</span><h4>Grant data pack</h4><p>CO₂ &amp; mandatory fields</p></div>
+          <div class="docc"><span class="tag">DECK</span><h4>Client / board deck</h4><p>One-page summary</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- testimonial -->
+<section class="band">
+  <div class="wrap">
+    <div class="quote reveal">
+      <div class="mk">“</div>
+      <p>What took us a week of spreadsheets and three mismatched documents now comes out of one afternoon's run — and the utility accepted the grid profile first time.</p>
+      <div class="who"><b>Pilot fleet engineer</b> · Nordic municipal refuse operator</div>
+    </div>
+  </div>
+</section>
+
+<!-- cta -->
+<section class="band" style="padding-top:0">
+  <div class="wrap">
+    <div class="ctaband reveal" id="cta">
+      <h2>Ready to size a real fleet?</h2>
+      <p>We're onboarding a small group of pilot partners for 2027. Bring one route set or one depot and see the full study in an afternoon.</p>
+      <a href="mailto:hello@evscope.dk" class="btn btn-primary">Book a pilot conversation →</a>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer>
+  <div class="wrap">
+    <div class="flogo">
+      <span class="logo" style="font-size:16px"><span class="mark" style="width:26px;height:26px"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" fill="#fff"/></svg></span></span>
+      EV Scope
+    </div>
+    <div>Feasibility &amp; sizing for electric fleets · Made in Copenhagen</div>
+    <div>© 2026 EV Scope</div>
+  </div>
+</footer>
+
+<script>
+/* ---- scroll reveal ---- */
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');
+  // trigger any charts / counters inside
+  e.target.querySelectorAll('.fill').forEach(f=>f.style.width=f.dataset.w);
+  e.target.querySelectorAll('[data-count]').forEach(animateCount);
+  io.unobserve(e.target);}});},{threshold:.18});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---- counters ---- */
+function animateCount(el){
+  const target=parseFloat(el.dataset.count);const prefix='€';const suffix='M';
+  let t0=null;const dur=1100;
+  function step(ts){if(!t0)t0=ts;const p=Math.min((ts-t0)/dur,1);const val=(target*(1-Math.pow(1-p,3))).toFixed(2);
+    el.textContent=prefix+val+suffix;if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+
+/* ---- week bar chart (seasonal) ---- */
+(function(){
+  const el=document.getElementById('wkchart');if(!el)return;
+  const data=[];
+  for(let i=0;i<26;i++){
+    const season=0.55+0.45*Math.cos(2*Math.PI*(i*2-8)/52);
+    const noise=Math.sin(i*1.6)*0.07;
+    const v=Math.max(.24,Math.min(1,season+noise));
+    const hot=(i>=2&&i<=4);
+    data.push({v,hot});
+  }
+  data.forEach(d=>{const b=document.createElement('div');b.className='b'+(d.hot?' hot':'');b.style.height='6px';b.dataset.h=Math.round(16+d.v*80)+'px';el.appendChild(b);});
+  const io2=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){
+    [...el.children].forEach((b,i)=>setTimeout(()=>b.style.height=b.dataset.h,i*22));io2.unobserve(e.target);}});},{threshold:.3});
+  io2.observe(el);
+})();
+
+/* ---- 24h load chart ---- */
+(function(){
+  const el=document.getElementById('loadchart');if(!el)return;
+  const data=[.2,.18,.17,.16,.5,.72,.85,.9,.78,.55,.4,.35,.3,.32,.38,.42,.5,.62,.74,.6,.45,.32,.26,.22];
+  data.forEach((v,i)=>{const b=document.createElement('div');b.className='b'+(v>.8?' hot':'');b.style.height='6px';b.dataset.h=Math.round(12+v*82)+'px';el.appendChild(b);});
+  const io3=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){
+    [...el.children].forEach((b,i)=>setTimeout(()=>b.style.height=b.dataset.h,i*18));io3.unobserve(e.target);}});},{threshold:.3});
+  io3.observe(el);
+})();
+
+/* ---- parallax on hero tiles with pointer ---- */
+(function(){
+  const scatter=document.querySelector('.scatter');if(!scatter)return;
+  const tiles=[...scatter.querySelectorAll('.tile:not(.hub)')];
+  scatter.addEventListener('pointermove',e=>{
+    const r=scatter.getBoundingClientRect();
+    const dx=(e.clientX-r.left-r.width/2)/r.width;
+    const dy=(e.clientY-r.top-r.height/2)/r.height;
+    tiles.forEach((t,i)=>{const depth=(i%3+1)*6;t.style.transform=`translate(${dx*depth}px,${dy*depth}px)`;});
+  });
+  scatter.addEventListener('pointerleave',()=>tiles.forEach(t=>t.style.transform=''));
+})();
+</script>
+</body>
+</html>
