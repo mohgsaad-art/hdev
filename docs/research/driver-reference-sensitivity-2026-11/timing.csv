@@ -1,0 +1,5 @@
+cycle,step,runs,mean_s,min_s,max_s,machine,software
+RegionalDelivery,"driver_model (reference, coasting on)",5,0.0561,0.0545,0.0577,Intel(R) Xeon(R) Platinum 8488C (8 logical CPUs),"python 3.11.15, numpy 2.4.6"
+RegionalDelivery,energy step (force_engine + wheel power + Chain S + aux),5,0.0015,0.0014,0.0016,Intel(R) Xeon(R) Platinum 8488C (8 logical CPUs),"python 3.11.15, numpy 2.4.6"
+UrbanDelivery,"driver_model (reference, coasting on)",5,0.1315,0.1274,0.1344,Intel(R) Xeon(R) Platinum 8488C (8 logical CPUs),"python 3.11.15, numpy 2.4.6"
+UrbanDelivery,energy step (force_engine + wheel power + Chain S + aux),5,0.0042,0.004,0.0045,Intel(R) Xeon(R) Platinum 8488C (8 logical CPUs),"python 3.11.15, numpy 2.4.6"
