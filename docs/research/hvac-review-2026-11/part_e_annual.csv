@@ -1,0 +1,16 @@
+mission,source,annual_kWh_operating_h,mean_W_operating_h,kWh_per_100km,share_of_trip_energy_pct,v_avg_kmh
+RegionalDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),652.5,250.0,0.41,0.42,61.2
+RegionalDelivery,(ii) HDEV placeholders Q=0,438.2,167.9,0.27,0.28,61.2
+RegionalDelivery,(ii) HDEV placeholders Q=100,678.0,259.8,0.42,0.44,61.2
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],626.2,239.9,0.39,0.4,61.2
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],866.1,331.8,0.54,0.56,61.2
+UrbanDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),489.4,187.5,0.7,0.83,26.7
+UrbanDelivery,(ii) HDEV placeholders Q=0,438.2,167.9,0.63,0.74,26.7
+UrbanDelivery,(ii) HDEV placeholders Q=100,678.0,259.8,0.97,1.14,26.7
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],626.2,239.9,0.9,1.06,26.7
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],866.1,331.8,1.24,1.46,26.7
+LongHaul,(i) VECTO lorry table (.vmod P_aux_AC_el),652.5,250.0,0.31,n/a (no Chain S V1 for LongHaul),79.8
+LongHaul,(ii) HDEV placeholders Q=0,438.2,167.9,0.21,n/a (no Chain S V1 for LongHaul),79.8
+LongHaul,(ii) HDEV placeholders Q=100,678.0,259.8,0.33,n/a (no Chain S V1 for LongHaul),79.8
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],626.2,239.9,0.3,n/a (no Chain S V1 for LongHaul),79.8
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],866.1,331.8,0.42,n/a (no Chain S V1 for LongHaul),79.8

@@ -1,0 +1,21 @@
+item,value,unit,note
+"HDEV thermal mean power, placeholders, Q=0",167.896,W (operating hours),reference for the rows below
+F1 UA factor (vs 60 W/K) at which HDEV thermal (Q=0) = VECTO lorry table Regional/LongHaul 250 W,1.531,x,UA would be 92 W/K
+F6 fresh air Q at which HDEV thermal (U*A=60 W/K) = VECTO lorry table Regional/LongHaul 250 W,89.557,m3/h,"equivalence only, not a recommendation"
+F1 UA factor (vs 60 W/K) at which HDEV thermal (Q=0) = VECTO lorry table Urban 187.5 W,1.129,x,UA would be 68 W/K
+F6 fresh air Q at which HDEV thermal (U*A=60 W/K) = VECTO lorry table Urban 187.5 W,21.748,m3/h,"equivalence only, not a recommendation"
+F1 effect of +10 % UA while moving (all operating hours treated as moving),15.171,W,"per +10 % UA, Q=0 (no sourced driving/parked ratio found)"
+F7 share of Q=100 annual HVAC energy that is the solar term (S=0 vs real S),-4.023,%,"upper bound on what any solar refinement (sol-air, orientation) can change at the current 4 m2 window area"
+F6 effect of Q=100 m3/h,91.877,W,= +kWh/yr: 240
+F2/F4 stop episodes in E2 RegionalDelivery cycle (v < 0.1 km/h),11.0,stops,in 1.63 h = 6.7 per hour [VECTO .vmod]
+F2/F4 stop episodes in E2 UrbanDelivery cycle (v < 0.1 km/h),104.0,stops,in 3.75 h = 27.8 per hour [VECTO .vmod]
+F2/F4 stop episodes in E2 LongHaul cycle (v < 0.1 km/h),4.0,stops,in 1.26 h = 3.2 per hour [VECTO .vmod]
+F2 mean (18 C - T_amb) over cold operating hours,9.112,K,energy per start = C_cab[kJ/K] * 9.1 K /3600 kWh; C_cab = NO SOURCE
+F2 warm-up energy per start per 1 kJ/K of cab heat capacity,0.003,kWh per (kJ/K) per start,multiply by C_cab (NO SOURCE) and starts/day
+F4 door opening: energy per m3 of cab air exchanged at mean cold-hour dT,0.003,kWh per m3,multiply by V_exchanged per opening (NO SOURCE) and openings (stops)
+"F-setpoint heating set-point 21 C instead of 18 C, Q=0",111.745,kWh/yr (operating h),"25.5 % ; 21 C = Daimler press, 22 C = Ramesh Babu target; HDEV/VECTO uses 18 C (Bob decision 4: not reopened)"
+"F-setpoint heating set-point 21 C instead of 18 C, Q=100",191.878,kWh/yr (operating h),"28.3 % ; 21 C = Daimler press, 22 C = Ramesh Babu target; HDEV/VECTO uses 18 C (Bob decision 4: not reopened)"
+"F-setpoint heating set-point 22 C instead of 18 C, Q=0",151.7,kWh/yr (operating h),"34.6 % ; 21 C = Daimler press, 22 C = Ramesh Babu target; HDEV/VECTO uses 18 C (Bob decision 4: not reopened)"
+"F-setpoint heating set-point 22 C instead of 18 C, Q=100",260.653,kWh/yr (operating h),"38.4 % ; 21 C = Daimler press, 22 C = Ramesh Babu target; HDEV/VECTO uses 18 C (Bob decision 4: not reopened)"
+F v_fuel_eff: max |change| of electric HVAC W (must be 0),0.0,W,variant only changes the 2nd return value
+"F v_fuel_eff: annual fuel energy (heat/0.80, cap 30 kW) vs fuel_heat sum, HD3 shares",138.21,kWh fuel,"fuel_heat (heat basis) = 110.6 kWh; fuel share is 20-30 % between about -3.5 and +5 C in HD3, so most of it falls in the 2 C and -5 C point bands"

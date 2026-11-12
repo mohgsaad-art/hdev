@@ -1,0 +1,11 @@
+source,which,iso_week,mean_T_C,mean_W_operating_h,kWh_week
+(i) VECTO lorry table (.vmod P_aux_AC_el),coldest week,7,0.1,250.0,12.5
+(i) VECTO lorry table (.vmod P_aux_AC_el),hottest week,33,20.4,250.0,12.5
+(ii) HDEV placeholders Q=0,coldest week,7,0.1,415.2,20.76
+(ii) HDEV placeholders Q=0,hottest week,33,20.4,137.7,6.88
+(ii) HDEV placeholders Q=100,coldest week,7,0.1,689.0,34.45
+(ii) HDEV placeholders Q=100,hottest week,33,20.4,140.4,7.02
+(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],coldest week,7,0.1,593.4,29.67
+(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],hottest week,33,20.4,182.6,9.13
+(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],coldest week,7,0.1,867.2,43.36
+(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],hottest week,33,20.4,186.1,9.3

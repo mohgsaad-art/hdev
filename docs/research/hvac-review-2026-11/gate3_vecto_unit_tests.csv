@@ -1,0 +1,153 @@
+test,src,expected,port,diff,result
+HeatingDemand CFG1 env1,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",13475.4938,13475.4937,-5e-05,PASS
+HeatingDemand CFG1 env2,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",7261.9812,7261.9812,5e-05,PASS
+HeatingDemand CFG1 env3,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",4395.4812,4395.4812,5e-05,PASS
+HeatingDemand CFG1 env4,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",1973.9875,1973.9875,0.0,PASS
+HeatingDemand CFG1 env5,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",1494.6531,1494.6531,2.5e-05,PASS
+HeatingDemand CFG1 env6,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",0,0.0,0.0,PASS
+HeatingDemand CFG1 env7,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",0,0.0,0.0,PASS
+HeatingDemand CFG1 env8,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",0,0.0,0.0,PASS
+HeatingDemand CFG1 env9,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",0,0.0,0.0,PASS
+HeatingDemand CFG1 env10,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",0,0.0,0.0,PASS
+HeatingDemand CFG1 env11,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",0,0.0,0.0,PASS
+HeatingDemand CFG3 env1,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",13475.4938,13475.4937,-5e-05,PASS
+HeatingDemand CFG3 env2,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",7261.9812,7261.9812,5e-05,PASS
+HeatingDemand CFG3 env3,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",4395.4812,4395.4812,5e-05,PASS
+HeatingDemand CFG3 env4,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",1973.9875,1973.9875,0.0,PASS
+HeatingDemand CFG3 env5,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",1494.6531,1494.6531,2.5e-05,PASS
+HeatingDemand CFG3 env6,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",0,0.0,0.0,PASS
+HeatingDemand CFG3 env7,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",0,0.0,0.0,PASS
+HeatingDemand CFG3 env8,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",0,0.0,0.0,PASS
+HeatingDemand CFG3 env9,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",0,0.0,0.0,PASS
+HeatingDemand CFG3 env10,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",0,0.0,0.0,PASS
+HeatingDemand CFG3 env11,"SSMTestHeatingCooling.cs:322-331 (CFG1), 345-ff (CFG3)",0,0.0,0.0,PASS
+HD CFG1 1a demand,SSMTestHeatingCooling.cs:426-445,13475.4938,13475.4937,-5e-05,PASS
+HD CFG1 1a heater el,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 1a aux fuel in,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 1b demand,SSMTestHeatingCooling.cs:426-445,13475.4938,13475.4937,-5e-05,PASS
+HD CFG1 1b heater el,SSMTestHeatingCooling.cs:426-445,14489.7782,14489.7782,2.6e-05,PASS
+HD CFG1 1b aux fuel in,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 1c demand,SSMTestHeatingCooling.cs:426-445,13475.4938,13475.4937,-5e-05,PASS
+HD CFG1 1c heater el,SSMTestHeatingCooling.cs:426-445,14489.7782,14489.7782,2.6e-05,PASS
+HD CFG1 1c aux fuel in,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 1d demand,SSMTestHeatingCooling.cs:426-445,13475.4938,13475.4937,-5e-05,PASS
+HD CFG1 1d heater el,SSMTestHeatingCooling.cs:426-445,14489.7782,14489.7782,2.6e-05,PASS
+HD CFG1 1d aux fuel in,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 1e demand,SSMTestHeatingCooling.cs:426-445,13475.4938,13475.4937,-5e-05,PASS
+HD CFG1 1e heater el,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 1e aux fuel in,SSMTestHeatingCooling.cs:426-445,16844.3672,16844.3672,-1.3e-05,PASS
+HD CFG1 1f demand,SSMTestHeatingCooling.cs:426-445,13475.4938,13475.4937,-5e-05,PASS
+HD CFG1 1f heater el,SSMTestHeatingCooling.cs:426-445,2897.9556,2897.9556,4.5e-05,PASS
+HD CFG1 1f aux fuel in,SSMTestHeatingCooling.cs:426-445,13475.4938,13475.4937,-5e-05,PASS
+HD CFG1 1g demand,SSMTestHeatingCooling.cs:426-445,13475.4938,13475.4937,-5e-05,PASS
+HD CFG1 1g heater el,SSMTestHeatingCooling.cs:426-445,2897.9556,2897.9556,4.5e-05,PASS
+HD CFG1 1g aux fuel in,SSMTestHeatingCooling.cs:426-445,13475.4938,13475.4937,-5e-05,PASS
+HD CFG1 1h demand,SSMTestHeatingCooling.cs:426-445,13475.4938,13475.4937,-5e-05,PASS
+HD CFG1 1h heater el,SSMTestHeatingCooling.cs:426-445,2897.9556,2897.9556,4.5e-05,PASS
+HD CFG1 1h aux fuel in,SSMTestHeatingCooling.cs:426-445,13475.4938,13475.4937,-5e-05,PASS
+HD CFG1 2a demand,SSMTestHeatingCooling.cs:426-445,7261.9812,7261.9812,5e-05,PASS
+HD CFG1 2a heater el,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 2a aux fuel in,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 2b demand,SSMTestHeatingCooling.cs:426-445,7261.9812,7261.9812,5e-05,PASS
+HD CFG1 2b heater el,SSMTestHeatingCooling.cs:426-445,7808.582,7808.582,-1.1e-05,PASS
+HD CFG1 2b aux fuel in,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 2c demand,SSMTestHeatingCooling.cs:426-445,7261.9812,7261.9812,5e-05,PASS
+HD CFG1 2c heater el,SSMTestHeatingCooling.cs:426-445,7808.582,7808.582,-1.1e-05,PASS
+HD CFG1 2c aux fuel in,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 2d demand,SSMTestHeatingCooling.cs:426-445,7261.9812,7261.9812,5e-05,PASS
+HD CFG1 2d heater el,SSMTestHeatingCooling.cs:426-445,7808.582,7808.582,-1.1e-05,PASS
+HD CFG1 2d aux fuel in,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 2e demand,SSMTestHeatingCooling.cs:426-445,7261.9812,7261.9812,5e-05,PASS
+HD CFG1 2e heater el,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 2e aux fuel in,SSMTestHeatingCooling.cs:426-445,9077.4766,9077.4766,-3.7e-05,PASS
+HD CFG1 2f demand,SSMTestHeatingCooling.cs:426-445,7261.9812,7261.9812,5e-05,PASS
+HD CFG1 2f heater el,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 2f aux fuel in,SSMTestHeatingCooling.cs:426-445,9077.4766,9077.4766,-3.7e-05,PASS
+HD CFG1 2g demand,SSMTestHeatingCooling.cs:426-445,7261.9812,7261.9812,5e-05,PASS
+HD CFG1 2g heater el,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 2g aux fuel in,SSMTestHeatingCooling.cs:426-445,9077.4766,9077.4766,-3.7e-05,PASS
+HD CFG1 2h demand,SSMTestHeatingCooling.cs:426-445,7261.9812,7261.9812,5e-05,PASS
+HD CFG1 2h heater el,SSMTestHeatingCooling.cs:426-445,0,0.0,0.0,PASS
+HD CFG1 2h aux fuel in,SSMTestHeatingCooling.cs:426-445,9077.4766,9077.4766,-3.7e-05,PASS
+HD CFG2 2a HP el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2a HP mech,SSMTestHeatingCooling.cs:480-514,471.5572,471.5572,2.4e-05,PASS
+HD CFG2 2a heater el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2a aux fuel in,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2b HP el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2b HP mech,SSMTestHeatingCooling.cs:480-514,471.5572,471.5572,2.4e-05,PASS
+HD CFG2 2b heater el,SSMTestHeatingCooling.cs:480-514,7027.7238,7027.7238,-1e-05,PASS
+HD CFG2 2b aux fuel in,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2c HP el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2c HP mech,SSMTestHeatingCooling.cs:480-514,330.0901,330.0901,-4.3e-05,PASS
+HD CFG2 2c heater el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2c aux fuel in,SSMTestHeatingCooling.cs:480-514,8442.0532,8442.0532,3e-06,PASS
+HD CFG2 2d HP el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2d HP mech,SSMTestHeatingCooling.cs:480-514,330.0901,330.0901,-4.3e-05,PASS
+HD CFG2 2d heater el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2d aux fuel in,SSMTestHeatingCooling.cs:480-514,8442.0532,8442.0532,3e-06,PASS
+HD CFG2 2e HP el,SSMTestHeatingCooling.cs:480-514,407.9765,407.9765,-2.5e-05,PASS
+HD CFG2 2e HP mech,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2e heater el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2e aux fuel in,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2f HP el,SSMTestHeatingCooling.cs:480-514,407.9765,407.9765,-2.5e-05,PASS
+HD CFG2 2f HP mech,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2f heater el,SSMTestHeatingCooling.cs:480-514,7027.7238,7027.7238,-1e-05,PASS
+HD CFG2 2f aux fuel in,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2g HP el,SSMTestHeatingCooling.cs:480-514,285.5835,285.5835,3.2e-05,PASS
+HD CFG2 2g HP mech,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2g heater el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2g aux fuel in,SSMTestHeatingCooling.cs:480-514,8442.0532,8442.0532,3e-06,PASS
+HD CFG2 2h HP el,SSMTestHeatingCooling.cs:480-514,285.5835,285.5835,3.2e-05,PASS
+HD CFG2 2h HP mech,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2h heater el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2h aux fuel in,SSMTestHeatingCooling.cs:480-514,8442.0532,8442.0532,3e-06,PASS
+HD CFG2 2i HP el,SSMTestHeatingCooling.cs:480-514,355.9795,355.9795,-2.7e-05,PASS
+HD CFG2 2i HP mech,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2i heater el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2i aux fuel in,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2j HP el,SSMTestHeatingCooling.cs:480-514,355.9795,355.9795,-2.7e-05,PASS
+HD CFG2 2j HP mech,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2j heater el,SSMTestHeatingCooling.cs:480-514,7027.7238,7027.7238,-1e-05,PASS
+HD CFG2 2j aux fuel in,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2k HP el,SSMTestHeatingCooling.cs:480-514,249.1856,249.1856,3.1e-05,PASS
+HD CFG2 2k HP mech,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2k heater el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2k aux fuel in,SSMTestHeatingCooling.cs:480-514,8442.0532,8442.0532,3e-06,PASS
+HD CFG2 2l HP el,SSMTestHeatingCooling.cs:480-514,249.1856,249.1856,3.1e-05,PASS
+HD CFG2 2l HP mech,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2l heater el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 2l aux fuel in,SSMTestHeatingCooling.cs:480-514,8442.0532,8442.0532,3e-06,PASS
+HD CFG2 3a HP el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 3a HP mech,SSMTestHeatingCooling.cs:480-514,219.7741,219.7741,-3.8e-05,PASS
+HD CFG2 3a heater el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 3a aux fuel in,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 3b HP el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 3b HP mech,SSMTestHeatingCooling.cs:480-514,219.7741,219.7741,-3.8e-05,PASS
+HD CFG2 3b heater el,SSMTestHeatingCooling.cs:480-514,4253.6915,4253.6915,3.2e-05,PASS
+HD CFG2 3b aux fuel in,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 3e HP el,SSMTestHeatingCooling.cs:480-514,197.9947,197.9947,-4.9e-05,PASS
+HD CFG2 3e HP mech,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 3e heater el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 3e aux fuel in,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 3i HP el,SSMTestHeatingCooling.cs:480-514,175.8192,175.8192,5e-05,PASS
+HD CFG2 3i HP mech,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 3i heater el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 3i aux fuel in,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 3k HP el,SSMTestHeatingCooling.cs:480-514,140.6554,140.6554,0.0,PASS
+HD CFG2 3k HP mech,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 3k heater el,SSMTestHeatingCooling.cs:480-514,0,0.0,0.0,PASS
+HD CFG2 3k aux fuel in,SSMTestHeatingCooling.cs:480-514,5054.8034,5054.8034,3.7e-05,PASS
+Cooling/vent CFG1 env1 electric,SSMTestHeatingCooling.cs:54-64,299.88,299.88,0.0,PASS
+Cooling/vent CFG1 env6 electric,SSMTestHeatingCooling.cs:54-64,299.88,299.88,0.0,PASS
+Cooling/vent CFG1 env8 electric,SSMTestHeatingCooling.cs:54-64,287.8848,287.8848,0.0,PASS
+Cooling/vent CFG1 env11 electric,SSMTestHeatingCooling.cs:54-64,287.8848,287.8848,0.0,PASS
+Cooling/vent CFG3 env1 electric,SSMTestHeatingCooling.cs:54-64,428.4,428.4,0.0,PASS
+Cooling/vent CFG3 env6 electric,SSMTestHeatingCooling.cs:54-64,856.8,856.8,0.0,PASS
+Cooling/vent CFG3 env8 electric,SSMTestHeatingCooling.cs:54-64,822.528,822.528,0.0,PASS
+Cooling/vent CFG3 env11 electric,SSMTestHeatingCooling.cs:54-64,822.528,822.528,0.0,PASS
+Cooling weighted avg CFG1 driver HP=none,SSMTestHeatingCooling.cs:238-263,295.3949,295.395,9.5e-05,PASS
+Cooling weighted avg CFG3 driver HP=none,SSMTestHeatingCooling.cs:238-263,664.4004,664.4004,1.9e-05,PASS
+Cooling weighted avg CFG2 driver HP=non R-744 continuous,SSMTestHeatingCooling.cs:238-263,395.9945,395.9946,8.3e-05,PASS
+Cooling weighted avg CFG2 driver HP=R-744,SSMTestHeatingCooling.cs:238-263,418.4411,418.4411,2.4e-05,PASS
+Cooling weighted avg CFG4 driver HP=non R-744 continuous,SSMTestHeatingCooling.cs:238-263,676.364,676.364,4.8e-05,PASS
+Cooling weighted avg CFG4 driver HP=R-744,SSMTestHeatingCooling.cs:238-263,698.8106,698.8106,-1.2e-05,PASS

@@ -1,0 +1,18 @@
+item,value_kW,note
+"HDEV heat demand at -10 C, PLACEHOLDER cab, Q=0 m3/h, cab set-point 18 C",1.58,"heat (thermal) W, before COP; no solar, night"
+"HDEV heat demand at -10 C, PLACEHOLDER cab, Q=0 m3/h, cab set-point 22 C",1.82,"heat (thermal) W, before COP; no solar, night"
+"HDEV heat demand at -10 C, PLACEHOLDER cab, Q=100 m3/h, cab set-point 18 C",2.629,"heat (thermal) W, before COP; no solar, night"
+"HDEV heat demand at -10 C, PLACEHOLDER cab, Q=100 m3/h, cab set-point 22 C",3.018,"heat (thermal) W, before COP; no solar, night"
+"HDEV heat demand at -10 C, VECTO bus driver-compartment analogue, Q=0 m3/h, cab set-point 18 C",2.253,"heat (thermal) W, before COP; no solar, night"
+"HDEV heat demand at -10 C, VECTO bus driver-compartment analogue, Q=0 m3/h, cab set-point 22 C",2.582,"heat (thermal) W, before COP; no solar, night"
+"HDEV heat demand at -10 C, VECTO bus driver-compartment analogue, Q=100 m3/h, cab set-point 18 C",3.302,"heat (thermal) W, before COP; no solar, night"
+"HDEV heat demand at -10 C, VECTO bus driver-compartment analogue, Q=100 m3/h, cab set-point 22 C",3.781,"heat (thermal) W, before COP; no solar, night"
+"Ramesh Babu 2025 Table 4: heater rate at -10 C, 0 km/h (CFD / 0D)",3.87 / 4.07,"SIMULATED, target 22 C, fresh-air and humidity rules of the paper (Sec 5.3)"
+"Ramesh Babu 2025 Table 4: heater rate at -10 C, 30 km/h (CFD / 0D)",4.15 / 4.32,"SIMULATED, target 22 C, fresh-air and humidity rules of the paper (Sec 5.3)"
+"Ramesh Babu 2025 Table 4: heater rate at -10 C, 60 km/h (CFD / 0D)",4.21 / 4.39,"SIMULATED, target 22 C, fresh-air and humidity rules of the paper (Sec 5.3)"
+"Ramesh Babu 2025 Table 4: heater rate at -10 C, 90 km/h (CFD / 0D)",4.25 / 4.45,"SIMULATED, target 22 C, fresh-air and humidity rules of the paper (Sec 5.3)"
+[CALC] implied total conductance heater_rate/(22-(-10)) at 0 km/h and 90 km/h (0D),127 / 139 W/K,includes wall + ventilation/fresh air + window losses minus occupant heat; compare placeholder UA 60 W/K (+37 W/K for Q=100)
+[CALC] speed effect on heater rate (0 -> 90 km/h),"CFD +9.8 %, 0D +9.3 %",SIMULATED; only the heating load with ventilation as modelled
+"HDEV electric HVAC at -2 C, night, placeholder cab, Q=0, R-744 HD2, set-point 18 C",0.517,electric W
+"HDEV electric HVAC at -2 C, night, placeholder cab, Q=100, R-744 HD2, set-point 18 C",0.842,electric W
+[CALC] Daimler press: 5 points x E2 Regional 0.9749 kWh/km x 61.2 km/h,2.98,ONLY an order of magnitude: the eActros 600 is a different truck and the 5 points are relative to its own class-A-tyre consumption; set-point 21 C; not a measurement of E2

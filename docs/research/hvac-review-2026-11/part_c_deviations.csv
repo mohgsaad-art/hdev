@@ -1,0 +1,15 @@
+geometry,step,mean_W_operating_h,mean_W_all_h,delta_vs_Bob_Q0_W,delta_pct,kWh_per_year_operating
+PLACEHOLDER,"Bob hourly, Q=0 (VECTO maths, real weather)",167.9,190.12,0.0,0.0,438.2
+PLACEHOLDER,(a) + fresh air Q=100 m3/h,259.77,299.81,91.88,54.72,678.0
+PLACEHOLDER,"(c) Q=0, COP as step (nearest point) instead of np.interp",167.76,190.29,-0.14,-0.08,437.9
+PLACEHOLDER,"(d) Q=0, shares interpolated instead of nearest point",168.12,190.61,0.22,0.13,438.8
+PLACEHOLDER,(b) VECTO-weighted point mean (not hourly) for reference,193.39,,25.5,15.19,
+PLACEHOLDER,"(e) non-R744 continuous HP only, COP at -20 C: clip = value at -5 C (1.78) [parser rule 12 Nov]; hours < -5 C = 61",176.85,201.7,,,461.6
+PLACEHOLDER,"(e) non-R744 continuous HP only, COP at -20 C: floor COP = 1.0 (resistive limit); hours < -5 C = 61",177.05,202.19,,,462.1
+VECTO_DRIVER_ANALOGUE(bus),"Bob hourly, Q=0 (VECTO maths, real weather)",239.94,276.12,0.0,0.0,626.2
+VECTO_DRIVER_ANALOGUE(bus),(a) + fresh air Q=100 m3/h,331.83,386.05,91.88,38.29,866.1
+VECTO_DRIVER_ANALOGUE(bus),"(c) Q=0, COP as step (nearest point) instead of np.interp",239.78,276.38,-0.16,-0.07,625.8
+VECTO_DRIVER_ANALOGUE(bus),"(d) Q=0, shares interpolated instead of nearest point",240.26,276.82,0.31,0.13,627.1
+VECTO_DRIVER_ANALOGUE(bus),(b) VECTO-weighted point mean (not hourly) for reference,267.16,,27.21,11.34,
+VECTO_DRIVER_ANALOGUE(bus),"(e) non-R744 continuous HP only, COP at -20 C: clip = value at -5 C (1.78) [parser rule 12 Nov]; hours < -5 C = 61",253.06,293.07,,,660.5
+VECTO_DRIVER_ANALOGUE(bus),"(e) non-R744 continuous HP only, COP at -20 C: floor COP = 1.0 (resistive limit); hours < -5 C = 61",253.35,293.77,,,661.2
