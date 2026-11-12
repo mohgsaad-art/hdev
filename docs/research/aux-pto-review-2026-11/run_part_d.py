@@ -122,9 +122,9 @@ def d2_scenarios():
     rows.append(case("drive profile 600 s longer than the rest of the route -> truncated", r3, np.array([0, 1, 0.0]), drive_w=([0, 600], [3000, 0]),
                      stop_1s_w=(NONE_T, NONE_W), expect="truncated at the last row"))
     # edge: drive profile still running at next stop (keeps running)
-    r4 = build_route([100, 1000], [10, 20, 20])
+    r4 = build_route([100, 100, 1000], [10, 20, 20, 10])
     rows.append(case("drive profile 60 s starting at wp1, next stop wp2 after only 10 rows: keeps running through the stop", r4,
-                     np.array([0, 1, 0.0]), drive_w=([0, 60], [4000, 0]), stop_1s_w=(NONE_T, NONE_W), expect="60 s x 4000 W = 0.06667 kWh, rows past the stop"))
+                     np.array([0, 1, 0, 0.0]), drive_w=([0, 60], [4000, 0]), stop_1s_w=(NONE_T, NONE_W), expect="60 s x 4000 W = 0.06667 kWh, rows past the stop"))
     # overlap: wp1 and wp2 both start a 60 s drive profile; the second starts (after a 10-row leg + 20 s stop) while the first still runs
     r5 = build_route([100, 100, 1000], [10, 20, 20, 10])
     rows.append(case("OVERLAP: wp1 and wp2 both start a 60 s drive profile, second starts while first runs", r5, np.array([0, 1, 1.0, 0.0]),
