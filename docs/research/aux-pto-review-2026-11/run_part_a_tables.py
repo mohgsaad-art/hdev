@@ -120,3 +120,6 @@ for k, v in [("Padd_hv (cycle column PowerAdditonalHighVoltage)", "0 in all six 
     q10.append(dict(term=k, case="", size_kWh=np.nan, size_pct_of_battery_energy=np.nan, size_kWh_per_km=np.nan, tag=v))
 pd.DataFrame(q10).to_csv(os.path.join(HERE, "partA_q10_unmodelled_terms.csv"), index=False, float_format="%.4f")
 print(df[["doc", "claim", "line_found", "line_cited_in_old_doc", "status"]].to_string(index=False))
+print("\nfiles written:")
+for f in ("partA_reverification_06_07_14.csv", "partA_hardcoded_numbers.csv", "partA_q10_unmodelled_terms.csv"):
+    print("  ", os.path.relpath(os.path.join(HERE, f), REPO))
