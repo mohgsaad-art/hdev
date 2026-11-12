@@ -1,0 +1,127 @@
+component,group,valid_group,mission_in_segment_table,mission,n_technology_rows_failing,vecto_error,hdev_error,disagree
+HVAC,1,True,False,Municipal utility,1,"HVAC: no value for mission 'Municipal utility', technology 'Default', group 1",LookupError: HVAC empty cell,0
+SP,1,True,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 1",LookupError: SP baseline empty cell,0
+HVAC,1,True,False,Construction,1,"HVAC: no value for mission 'Construction', technology 'Default', group 1",LookupError: HVAC empty cell,0
+SP,1,True,False,Construction,30,"SP: no baseline for mission 'Construction', group 1",LookupError: SP baseline empty cell,0
+HVAC,2,True,False,Municipal utility,1,"HVAC: no value for mission 'Municipal utility', technology 'Default', group 2",LookupError: HVAC empty cell,0
+SP,2,True,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 2",LookupError: SP baseline empty cell,0
+HVAC,2,True,False,Construction,1,"HVAC: no value for mission 'Construction', technology 'Default', group 2",LookupError: HVAC empty cell,0
+SP,2,True,False,Construction,30,"SP: no baseline for mission 'Construction', group 2",LookupError: SP baseline empty cell,0
+HVAC,3,True,False,Municipal utility,1,"HVAC: no value for mission 'Municipal utility', technology 'Default', group 3",LookupError: HVAC empty cell,0
+SP,3,True,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 3",LookupError: SP baseline empty cell,0
+HVAC,3,True,False,Construction,1,"HVAC: no value for mission 'Construction', technology 'Default', group 3",LookupError: HVAC empty cell,0
+SP,3,True,False,Construction,30,"SP: no baseline for mission 'Construction', group 3",LookupError: SP baseline empty cell,0
+HVAC,6,False,False,Long haul,2,"HVAC: no value for mission 'Long haul', technology 'None', group 6",LookupError: HVAC row,0
+SP,6,False,False,Long haul,30,"SP: no baseline for mission 'Long haul', group 6",LookupError: SP baseline empty cell,0
+HVAC,6,False,False,Regional delivery,2,"HVAC: no value for mission 'Regional delivery', technology 'None', group 6",LookupError: HVAC row,0
+SP,6,False,False,Regional delivery,30,"SP: no baseline for mission 'Regional delivery', group 6",LookupError: SP baseline empty cell,0
+HVAC,6,False,False,Urban delivery,2,"HVAC: no value for mission 'Urban delivery', technology 'None', group 6",LookupError: HVAC row,0
+SP,6,False,False,Urban delivery,30,"SP: no baseline for mission 'Urban delivery', group 6",LookupError: SP baseline empty cell,0
+HVAC,6,False,False,Municipal utility,2,"HVAC: no value for mission 'Municipal utility', technology 'None', group 6",LookupError: HVAC row,0
+SP,6,False,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 6",LookupError: SP baseline empty cell,0
+HVAC,6,False,False,Construction,2,"HVAC: no value for mission 'Construction', technology 'None', group 6",LookupError: HVAC row,0
+SP,6,False,False,Construction,30,"SP: no baseline for mission 'Construction', group 6",LookupError: SP baseline empty cell,0
+HVAC,7,False,False,Long haul,2,"HVAC: no value for mission 'Long haul', technology 'None', group 7",LookupError: HVAC row,0
+SP,7,False,False,Long haul,30,"SP: no baseline for mission 'Long haul', group 7",LookupError: SP baseline empty cell,0
+HVAC,7,False,False,Regional delivery,2,"HVAC: no value for mission 'Regional delivery', technology 'None', group 7",LookupError: HVAC row,0
+SP,7,False,False,Regional delivery,30,"SP: no baseline for mission 'Regional delivery', group 7",LookupError: SP baseline empty cell,0
+HVAC,7,False,False,Urban delivery,2,"HVAC: no value for mission 'Urban delivery', technology 'None', group 7",LookupError: HVAC row,0
+SP,7,False,False,Urban delivery,30,"SP: no baseline for mission 'Urban delivery', group 7",LookupError: SP baseline empty cell,0
+HVAC,7,False,False,Municipal utility,2,"HVAC: no value for mission 'Municipal utility', technology 'None', group 7",LookupError: HVAC row,0
+SP,7,False,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 7",LookupError: SP baseline empty cell,0
+HVAC,7,False,False,Construction,2,"HVAC: no value for mission 'Construction', technology 'None', group 7",LookupError: HVAC row,0
+SP,7,False,False,Construction,30,"SP: no baseline for mission 'Construction', group 7",LookupError: SP baseline empty cell,0
+HVAC,8,False,False,Long haul,2,"HVAC: no value for mission 'Long haul', technology 'None', group 8",LookupError: HVAC row,0
+SP,8,False,False,Long haul,30,"SP: no baseline for mission 'Long haul', group 8",LookupError: SP baseline empty cell,0
+HVAC,8,False,False,Regional delivery,2,"HVAC: no value for mission 'Regional delivery', technology 'None', group 8",LookupError: HVAC row,0
+SP,8,False,False,Regional delivery,30,"SP: no baseline for mission 'Regional delivery', group 8",LookupError: SP baseline empty cell,0
+HVAC,8,False,False,Urban delivery,2,"HVAC: no value for mission 'Urban delivery', technology 'None', group 8",LookupError: HVAC row,0
+SP,8,False,False,Urban delivery,30,"SP: no baseline for mission 'Urban delivery', group 8",LookupError: SP baseline empty cell,0
+HVAC,8,False,False,Municipal utility,2,"HVAC: no value for mission 'Municipal utility', technology 'None', group 8",LookupError: HVAC row,0
+SP,8,False,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 8",LookupError: SP baseline empty cell,0
+HVAC,8,False,False,Construction,2,"HVAC: no value for mission 'Construction', technology 'None', group 8",LookupError: HVAC row,0
+SP,8,False,False,Construction,30,"SP: no baseline for mission 'Construction', group 8",LookupError: SP baseline empty cell,0
+HVAC,12,True,False,Municipal utility,1,"HVAC: no value for mission 'Municipal utility', technology 'Default', group 12",LookupError: HVAC empty cell,0
+SP,12,True,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 12",LookupError: SP baseline empty cell,0
+HVAC,13,False,False,Long haul,2,"HVAC: no value for mission 'Long haul', technology 'None', group 13",LookupError: HVAC row,0
+SP,13,False,False,Long haul,30,"SP: no baseline for mission 'Long haul', group 13",LookupError: SP group row,0
+HVAC,13,False,False,Regional delivery,2,"HVAC: no value for mission 'Regional delivery', technology 'None', group 13",LookupError: HVAC row,0
+SP,13,False,False,Regional delivery,30,"SP: no baseline for mission 'Regional delivery', group 13",LookupError: SP group row,0
+HVAC,13,False,False,Urban delivery,2,"HVAC: no value for mission 'Urban delivery', technology 'None', group 13",LookupError: HVAC row,0
+SP,13,False,False,Urban delivery,30,"SP: no baseline for mission 'Urban delivery', group 13",LookupError: SP group row,0
+HVAC,13,False,False,Municipal utility,2,"HVAC: no value for mission 'Municipal utility', technology 'None', group 13",LookupError: HVAC row,0
+SP,13,False,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 13",LookupError: SP group row,0
+HVAC,13,False,False,Construction,2,"HVAC: no value for mission 'Construction', technology 'None', group 13",LookupError: HVAC row,0
+SP,13,False,False,Construction,30,"SP: no baseline for mission 'Construction', group 13",LookupError: SP group row,0
+HVAC,14,False,False,Long haul,2,"HVAC: no value for mission 'Long haul', technology 'None', group 14",LookupError: HVAC row,0
+SP,14,False,False,Long haul,30,"SP: no baseline for mission 'Long haul', group 14",LookupError: SP group row,0
+HVAC,14,False,False,Regional delivery,2,"HVAC: no value for mission 'Regional delivery', technology 'None', group 14",LookupError: HVAC row,0
+SP,14,False,False,Regional delivery,30,"SP: no baseline for mission 'Regional delivery', group 14",LookupError: SP group row,0
+HVAC,14,False,False,Urban delivery,2,"HVAC: no value for mission 'Urban delivery', technology 'None', group 14",LookupError: HVAC row,0
+SP,14,False,False,Urban delivery,30,"SP: no baseline for mission 'Urban delivery', group 14",LookupError: SP group row,0
+HVAC,14,False,False,Municipal utility,2,"HVAC: no value for mission 'Municipal utility', technology 'None', group 14",LookupError: HVAC row,0
+SP,14,False,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 14",LookupError: SP group row,0
+HVAC,14,False,False,Construction,2,"HVAC: no value for mission 'Construction', technology 'None', group 14",LookupError: HVAC row,0
+SP,14,False,False,Construction,30,"SP: no baseline for mission 'Construction', group 14",LookupError: SP group row,0
+HVAC,15,False,False,Long haul,2,"HVAC: no value for mission 'Long haul', technology 'None', group 15",LookupError: HVAC row,0
+SP,15,False,False,Long haul,30,"SP: no baseline for mission 'Long haul', group 15",LookupError: SP group row,0
+HVAC,15,False,True,Regional delivery,2,"HVAC: no value for mission 'Regional delivery', technology 'None', group 15",LookupError: HVAC row,0
+SP,15,False,True,Regional delivery,30,"SP: no baseline for mission 'Regional delivery', group 15",LookupError: SP group row,0
+HVAC,15,False,False,Urban delivery,2,"HVAC: no value for mission 'Urban delivery', technology 'None', group 15",LookupError: HVAC row,0
+SP,15,False,False,Urban delivery,30,"SP: no baseline for mission 'Urban delivery', group 15",LookupError: SP group row,0
+HVAC,15,False,False,Municipal utility,2,"HVAC: no value for mission 'Municipal utility', technology 'None', group 15",LookupError: HVAC row,0
+SP,15,False,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 15",LookupError: SP group row,0
+HVAC,15,False,False,Construction,2,"HVAC: no value for mission 'Construction', technology 'None', group 15",LookupError: HVAC row,0
+SP,15,False,False,Construction,30,"SP: no baseline for mission 'Construction', group 15",LookupError: SP group row,0
+HVAC,16,True,False,Municipal utility,1,"HVAC: no value for mission 'Municipal utility', technology 'Default', group 16",LookupError: HVAC empty cell,0
+SP,16,True,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 16",LookupError: SP baseline empty cell,0
+HVAC,17,False,False,Long haul,2,"HVAC: no value for mission 'Long haul', technology 'None', group 17",LookupError: HVAC row,0
+SP,17,False,False,Long haul,30,"SP: no baseline for mission 'Long haul', group 17",LookupError: SP group row,0
+HVAC,17,False,False,Regional delivery,2,"HVAC: no value for mission 'Regional delivery', technology 'None', group 17",LookupError: HVAC row,0
+SP,17,False,False,Regional delivery,30,"SP: no baseline for mission 'Regional delivery', group 17",LookupError: SP group row,0
+HVAC,17,False,False,Urban delivery,2,"HVAC: no value for mission 'Urban delivery', technology 'None', group 17",LookupError: HVAC row,0
+SP,17,False,False,Urban delivery,30,"SP: no baseline for mission 'Urban delivery', group 17",LookupError: SP group row,0
+HVAC,17,False,False,Municipal utility,2,"HVAC: no value for mission 'Municipal utility', technology 'None', group 17",LookupError: HVAC row,0
+SP,17,False,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 17",LookupError: SP group row,0
+HVAC,17,False,False,Construction,2,"HVAC: no value for mission 'Construction', technology 'None', group 17",LookupError: HVAC row,0
+SP,17,False,False,Construction,30,"SP: no baseline for mission 'Construction', group 17",LookupError: SP group row,0
+HVAC,1s,True,False,Municipal utility,1,"HVAC: no value for mission 'Municipal utility', technology 'Default', group 1s",LookupError: HVAC empty cell,0
+SP,1s,True,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 1s",LookupError: SP baseline empty cell,0
+HVAC,1s,True,False,Construction,1,"HVAC: no value for mission 'Construction', technology 'Default', group 1s",LookupError: HVAC empty cell,0
+SP,1s,True,False,Construction,30,"SP: no baseline for mission 'Construction', group 1s",LookupError: SP baseline empty cell,0
+ES,51,False,False,Municipal utility,2,"ES: no value for mission 'Municipal utility', technology 'Standard technology', group 51",LookupError: ES empty cell,0
+HVAC,51,False,False,Municipal utility,1,"HVAC: no value for mission 'Municipal utility', technology 'Default', group 51",LookupError: HVAC empty cell,0
+SP,51,False,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 51",LookupError: SP baseline empty cell,0
+ES,51,False,False,Construction,2,"ES: no value for mission 'Construction', technology 'Standard technology', group 51",LookupError: ES empty cell,0
+HVAC,51,False,False,Construction,1,"HVAC: no value for mission 'Construction', technology 'Default', group 51",LookupError: HVAC empty cell,0
+SP,51,False,False,Construction,30,"SP: no baseline for mission 'Construction', group 51",LookupError: SP baseline empty cell,0
+ES,52,False,False,Municipal utility,2,"ES: no value for mission 'Municipal utility', technology 'Standard technology', group 52",LookupError: ES empty cell,0
+HVAC,52,False,False,Municipal utility,1,"HVAC: no value for mission 'Municipal utility', technology 'Default', group 52",LookupError: HVAC empty cell,0
+SP,52,False,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 52",LookupError: SP baseline empty cell,0
+ES,52,False,False,Construction,2,"ES: no value for mission 'Construction', technology 'Standard technology', group 52",LookupError: ES empty cell,0
+HVAC,52,False,False,Construction,1,"HVAC: no value for mission 'Construction', technology 'Default', group 52",LookupError: HVAC empty cell,0
+SP,52,False,False,Construction,30,"SP: no baseline for mission 'Construction', group 52",LookupError: SP baseline empty cell,0
+ES,53,True,False,Municipal utility,2,"ES: no value for mission 'Municipal utility', technology 'Standard technology', group 53",LookupError: ES empty cell,0
+HVAC,53,True,False,Municipal utility,1,"HVAC: no value for mission 'Municipal utility', technology 'Default', group 53",LookupError: HVAC empty cell,0
+SP,53,True,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 53",LookupError: SP baseline empty cell,0
+ES,53,True,False,Construction,2,"ES: no value for mission 'Construction', technology 'Standard technology', group 53",LookupError: ES empty cell,0
+HVAC,53,True,False,Construction,1,"HVAC: no value for mission 'Construction', technology 'Default', group 53",LookupError: HVAC empty cell,0
+SP,53,True,False,Construction,30,"SP: no baseline for mission 'Construction', group 53",LookupError: SP baseline empty cell,0
+ES,54,True,False,Municipal utility,2,"ES: no value for mission 'Municipal utility', technology 'Standard technology', group 54",LookupError: ES empty cell,0
+HVAC,54,True,False,Municipal utility,1,"HVAC: no value for mission 'Municipal utility', technology 'Default', group 54",LookupError: HVAC empty cell,0
+SP,54,True,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 54",LookupError: SP baseline empty cell,0
+ES,54,True,False,Construction,2,"ES: no value for mission 'Construction', technology 'Standard technology', group 54",LookupError: ES empty cell,0
+HVAC,54,True,False,Construction,1,"HVAC: no value for mission 'Construction', technology 'Default', group 54",LookupError: HVAC empty cell,0
+SP,54,True,False,Construction,30,"SP: no baseline for mission 'Construction', group 54",LookupError: SP baseline empty cell,0
+ES,55,False,False,Municipal utility,2,"ES: no value for mission 'Municipal utility', technology 'Standard technology', group 55",LookupError: ES empty cell,0
+HVAC,55,False,False,Municipal utility,1,"HVAC: no value for mission 'Municipal utility', technology 'Default', group 55",LookupError: HVAC empty cell,0
+SP,55,False,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 55",LookupError: SP baseline empty cell,0
+ES,55,False,False,Construction,2,"ES: no value for mission 'Construction', technology 'Standard technology', group 55",LookupError: ES empty cell,0
+HVAC,55,False,False,Construction,1,"HVAC: no value for mission 'Construction', technology 'Default', group 55",LookupError: HVAC empty cell,0
+SP,55,False,False,Construction,30,"SP: no baseline for mission 'Construction', group 55",LookupError: SP baseline empty cell,0
+ES,56,False,False,Municipal utility,2,"ES: no value for mission 'Municipal utility', technology 'Standard technology', group 56",LookupError: ES empty cell,0
+HVAC,56,False,False,Municipal utility,1,"HVAC: no value for mission 'Municipal utility', technology 'Default', group 56",LookupError: HVAC empty cell,0
+SP,56,False,False,Municipal utility,30,"SP: no baseline for mission 'Municipal utility', group 56",LookupError: SP baseline empty cell,0
+ES,56,False,False,Construction,2,"ES: no value for mission 'Construction', technology 'Standard technology', group 56",LookupError: ES empty cell,0
+HVAC,56,False,False,Construction,1,"HVAC: no value for mission 'Construction', technology 'Default', group 56",LookupError: HVAC empty cell,0
+SP,56,False,False,Construction,30,"SP: no baseline for mission 'Construction', group 56",LookupError: SP baseline empty cell,0

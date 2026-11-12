@@ -1,0 +1,54 @@
+cycle,loading,aux,state,seconds,diff_kWh
+RegionalDelivery,ReferenceLoad,SP,"accelerating (Accelerate, a>0.1)",424,0.000039
+RegionalDelivery,ReferenceLoad,SP,braking (Brake),369,0.000023
+RegionalDelivery,ReferenceLoad,SP,standing (Halt),746,0.000026
+RegionalDelivery,ReferenceLoad,COND,"accelerating (Accelerate, a>0.1)",424,0.001186
+RegionalDelivery,ReferenceLoad,COND,braking (Brake),369,0.003246
+RegionalDelivery,ReferenceLoad,COND,coasting (Coast),86,0.013633
+RegionalDelivery,ReferenceLoad,COND,"cruising (Accelerate, |a|<=0.1)",4211,0.000156
+RegionalDelivery,ReferenceLoad,COND,"decelerating under power (Accelerate, a<-0.1)",49,0.000370
+RegionalDelivery,ReferenceLoad,COND,standing (Halt),746,0.000022
+RegionalDelivery,LowLoading,SP,"accelerating (Accelerate, a>0.1)",423,0.000027
+RegionalDelivery,LowLoading,SP,braking (Brake),360,0.000036
+RegionalDelivery,LowLoading,SP,standing (Halt),746,0.000016
+RegionalDelivery,LowLoading,COND,"accelerating (Accelerate, a>0.1)",423,0.000856
+RegionalDelivery,LowLoading,COND,braking (Brake),360,0.003168
+RegionalDelivery,LowLoading,COND,coasting (Coast),71,0.011039
+RegionalDelivery,LowLoading,COND,"cruising (Accelerate, |a|<=0.1)",4236,0.000307
+RegionalDelivery,LowLoading,COND,"decelerating under power (Accelerate, a<-0.1)",49,0.000144
+RegionalDelivery,LowLoading,COND,standing (Halt),746,-0.000052
+UrbanDelivery,ReferenceLoad,SP,"accelerating (Accelerate, a>0.1)",2769,0.000261
+UrbanDelivery,ReferenceLoad,SP,braking (Brake),2349,0.000418
+UrbanDelivery,ReferenceLoad,SP,standing (Halt),3349,0.000389
+UrbanDelivery,ReferenceLoad,COND,"accelerating (Accelerate, a>0.1)",2769,0.004662
+UrbanDelivery,ReferenceLoad,COND,braking (Brake),2349,0.024816
+UrbanDelivery,ReferenceLoad,COND,coasting (Coast),281,0.039906
+UrbanDelivery,ReferenceLoad,COND,"cruising (Accelerate, |a|<=0.1)",4385,0.000985
+UrbanDelivery,ReferenceLoad,COND,"decelerating under power (Accelerate, a<-0.1)",345,0.001212
+UrbanDelivery,ReferenceLoad,COND,standing (Halt),3349,0.003260
+UrbanDelivery,LowLoading,SP,"accelerating (Accelerate, a>0.1)",2761,0.000236
+UrbanDelivery,LowLoading,SP,braking (Brake),2360,0.000459
+UrbanDelivery,LowLoading,SP,standing (Halt),3349,0.000284
+UrbanDelivery,LowLoading,COND,"accelerating (Accelerate, a>0.1)",2761,0.004347
+UrbanDelivery,LowLoading,COND,braking (Brake),2360,0.025602
+UrbanDelivery,LowLoading,COND,coasting (Coast),176,0.023547
+UrbanDelivery,LowLoading,COND,"cruising (Accelerate, |a|<=0.1)",4509,0.000502
+UrbanDelivery,LowLoading,COND,"decelerating under power (Accelerate, a<-0.1)",327,0.000828
+UrbanDelivery,LowLoading,COND,standing (Halt),3349,0.001494
+LongHaul,ReferenceLoad,SP,"accelerating (Accelerate, a>0.1)",221,-0.000000
+LongHaul,ReferenceLoad,SP,braking (Brake),165,0.000002
+LongHaul,ReferenceLoad,SP,standing (Halt),67,0.000002
+LongHaul,ReferenceLoad,COND,"accelerating (Accelerate, a>0.1)",221,0.000052
+LongHaul,ReferenceLoad,COND,braking (Brake),165,0.000969
+LongHaul,ReferenceLoad,COND,coasting (Coast),104,0.016787
+LongHaul,ReferenceLoad,COND,"cruising (Accelerate, |a|<=0.1)",3934,0.000137
+LongHaul,ReferenceLoad,COND,"decelerating under power (Accelerate, a<-0.1)",26,0.000101
+LongHaul,ReferenceLoad,COND,standing (Halt),67,-0.000083
+LongHaul,LowLoading,SP,"accelerating (Accelerate, a>0.1)",147,0.000000
+LongHaul,LowLoading,SP,braking (Brake),145,0.000002
+LongHaul,LowLoading,SP,standing (Halt),67,0.000002
+LongHaul,LowLoading,COND,"accelerating (Accelerate, a>0.1)",147,0.000170
+LongHaul,LowLoading,COND,braking (Brake),145,0.001421
+LongHaul,LowLoading,COND,coasting (Coast),36,0.005564
+LongHaul,LowLoading,COND,"cruising (Accelerate, |a|<=0.1)",4099,0.000099
+LongHaul,LowLoading,COND,"decelerating under power (Accelerate, a<-0.1)",9,0.000004
