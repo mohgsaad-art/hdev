@@ -1,0 +1,31 @@
+﻿{
+  "Header":  "AHSM",
+  "Body": {
+    "SSMDisabled": false,
+    "SSMInputs": {
+      "BC_GFactor": 0.95,
+      "BC_HeatingBoundaryTemperature": 18.0,
+      "BC_CoolingBoundaryTemperature": 23.0,
+      "BC_HighVentilation": 20.0,
+      "BC_lowVentilation": 7.0,
+      "BC_SpecificVentilationPower": 0.56,
+      "BC_AuxHeaterEfficiency": 0.84,
+      "BC_MaxTemperatureDeltaForLowFloorBusses": 4.0,
+      "BC_MaxPossibleBenefitFromTechnologyList": 0.03,
+      "EC_EnviromentalTemperature": 25.0,
+      "EC_Solar": 400.0,
+      "EC_EnviromentalConditions_BatchEnabled": true,
+      "AC_CompressorType": "2-stage",
+      "AC_CompressorCapacitykW": 18.0,
+      "VEN_VentilationOnDuringHeating": true,
+      "VEN_VentilationWhenBothHeatingAndACInactive": true,
+      "VEN_VentilationDuringAC": true,
+      "VEN_VentilationFlowSettingWhenHeatingAndACInactive": "high",
+      "VEN_VentilationDuringHeating": "high",
+      "VEN_VentilationDuringCooling": "high",
+      "AH_FuelFiredHeaterkW": 30.0,
+      "AH_FuelEnergyToHeatToCoolant": 0.2,
+      "AH_CoolantHeatTransferredToAirCabinHeater": 0.75
+    }
+  }
+}

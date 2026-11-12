@@ -1,0 +1,8 @@
+﻿Category    , BenefitName                     , LowFloorH , LowFloorC , LowFloorV , SemiLowFloorH , SemiLowFloorC , SemiLowFloorV , RaisedFloorH , RaisedFloorC , RaisedFloorV , ActiveVH , ActiveVV , ActiveVC ,
+Cooling     , Separate air distribution ducts , 0         , 0.04      , 0.04      , 0             , 0.04          , 0.04          , 0            , 0.04         , 0.04         , 0        , 0        , 1        ,
+Heating     , Adjustable auxiliary heater     , 0.02      , 0         , 0.02      , 0.02          , 0             , 0.02          , 0.02         , 0            , 0.02         , 1        , 0        , 0        ,
+Heating     , Adjustable coolant thermostat   , 0.02      , 0         , 0.02      , 0.02          , 0             , 0.02          , 0.02         , 0            , 0.02         , 1        , 0        , 0        ,
+Heating     , Engine waste gas heat exchanger , 0.04      , 0         , 0.04      , 0             , 0             , 0             , 0            , 0            , 0            , 1        , 0        , 0        ,
+#Heating     , Heat pump systems               , 0.06      , 0         , 0.06      , 0.04          , 0             , 0.04          , 0.04         , 0            , 0.04         , 1        , 0        , 0        ,
+Insulation  , Double-glazing                  , 0.04      , 0.04      , 0.04      , 0.04          , 0.04          , 0.04          , 0.04         , 0.04         , 0.04         , 1        , 1        , 1        ,
+#Insulation , Tinted windows                  , 0         , 0         , 0         , 0             , 0             , 0             , 0            , 0            , 0            , 0        , 0        , 0        ,

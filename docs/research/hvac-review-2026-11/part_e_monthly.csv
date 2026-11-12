@@ -1,0 +1,181 @@
+mission,source,month,kWh
+RegionalDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),1,57.5
+RegionalDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),2,50.0
+RegionalDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),3,52.5
+RegionalDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),4,55.0
+RegionalDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),5,55.0
+RegionalDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),6,52.5
+RegionalDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),7,57.5
+RegionalDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),8,52.5
+RegionalDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),9,55.0
+RegionalDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),10,57.5
+RegionalDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),11,50.0
+RegionalDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),12,57.5
+RegionalDelivery,(ii) HDEV placeholders Q=0,1,74.9
+RegionalDelivery,(ii) HDEV placeholders Q=0,2,70.2
+RegionalDelivery,(ii) HDEV placeholders Q=0,3,39.0
+RegionalDelivery,(ii) HDEV placeholders Q=0,4,22.9
+RegionalDelivery,(ii) HDEV placeholders Q=0,5,16.5
+RegionalDelivery,(ii) HDEV placeholders Q=0,6,15.8
+RegionalDelivery,(ii) HDEV placeholders Q=0,7,24.8
+RegionalDelivery,(ii) HDEV placeholders Q=0,8,20.2
+RegionalDelivery,(ii) HDEV placeholders Q=0,9,16.8
+RegionalDelivery,(ii) HDEV placeholders Q=0,10,25.8
+RegionalDelivery,(ii) HDEV placeholders Q=0,11,48.6
+RegionalDelivery,(ii) HDEV placeholders Q=0,12,62.7
+RegionalDelivery,(ii) HDEV placeholders Q=100,1,122.6
+RegionalDelivery,(ii) HDEV placeholders Q=100,2,117.2
+RegionalDelivery,(ii) HDEV placeholders Q=100,3,68.4
+RegionalDelivery,(ii) HDEV placeholders Q=100,4,38.5
+RegionalDelivery,(ii) HDEV placeholders Q=100,5,25.3
+RegionalDelivery,(ii) HDEV placeholders Q=100,6,16.4
+RegionalDelivery,(ii) HDEV placeholders Q=100,7,23.0
+RegionalDelivery,(ii) HDEV placeholders Q=100,8,19.8
+RegionalDelivery,(ii) HDEV placeholders Q=100,9,20.4
+RegionalDelivery,(ii) HDEV placeholders Q=100,10,44.1
+RegionalDelivery,(ii) HDEV placeholders Q=100,11,80.0
+RegionalDelivery,(ii) HDEV placeholders Q=100,12,102.4
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],1,108.7
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],2,100.4
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],3,55.4
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],4,32.5
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],5,23.1
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],6,22.1
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],7,33.0
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],8,27.0
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],9,22.7
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],10,38.7
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],11,71.0
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],12,91.5
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],1,156.4
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],2,147.4
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],3,84.7
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],4,47.8
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],5,31.6
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],6,22.7
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],7,31.5
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],8,26.9
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],9,26.5
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],10,57.0
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],11,102.4
+RegionalDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],12,131.2
+UrbanDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),1,43.1
+UrbanDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),2,37.5
+UrbanDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),3,39.4
+UrbanDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),4,41.2
+UrbanDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),5,41.2
+UrbanDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),6,39.4
+UrbanDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),7,43.1
+UrbanDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),8,39.4
+UrbanDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),9,41.2
+UrbanDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),10,43.1
+UrbanDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),11,37.5
+UrbanDelivery,(i) VECTO lorry table (.vmod P_aux_AC_el),12,43.1
+UrbanDelivery,(ii) HDEV placeholders Q=0,1,74.9
+UrbanDelivery,(ii) HDEV placeholders Q=0,2,70.2
+UrbanDelivery,(ii) HDEV placeholders Q=0,3,39.0
+UrbanDelivery,(ii) HDEV placeholders Q=0,4,22.9
+UrbanDelivery,(ii) HDEV placeholders Q=0,5,16.5
+UrbanDelivery,(ii) HDEV placeholders Q=0,6,15.8
+UrbanDelivery,(ii) HDEV placeholders Q=0,7,24.8
+UrbanDelivery,(ii) HDEV placeholders Q=0,8,20.2
+UrbanDelivery,(ii) HDEV placeholders Q=0,9,16.8
+UrbanDelivery,(ii) HDEV placeholders Q=0,10,25.8
+UrbanDelivery,(ii) HDEV placeholders Q=0,11,48.6
+UrbanDelivery,(ii) HDEV placeholders Q=0,12,62.7
+UrbanDelivery,(ii) HDEV placeholders Q=100,1,122.6
+UrbanDelivery,(ii) HDEV placeholders Q=100,2,117.2
+UrbanDelivery,(ii) HDEV placeholders Q=100,3,68.4
+UrbanDelivery,(ii) HDEV placeholders Q=100,4,38.5
+UrbanDelivery,(ii) HDEV placeholders Q=100,5,25.3
+UrbanDelivery,(ii) HDEV placeholders Q=100,6,16.4
+UrbanDelivery,(ii) HDEV placeholders Q=100,7,23.0
+UrbanDelivery,(ii) HDEV placeholders Q=100,8,19.8
+UrbanDelivery,(ii) HDEV placeholders Q=100,9,20.4
+UrbanDelivery,(ii) HDEV placeholders Q=100,10,44.1
+UrbanDelivery,(ii) HDEV placeholders Q=100,11,80.0
+UrbanDelivery,(ii) HDEV placeholders Q=100,12,102.4
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],1,108.7
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],2,100.4
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],3,55.4
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],4,32.5
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],5,23.1
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],6,22.1
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],7,33.0
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],8,27.0
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],9,22.7
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],10,38.7
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],11,71.0
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],12,91.5
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],1,156.4
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],2,147.4
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],3,84.7
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],4,47.8
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],5,31.6
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],6,22.7
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],7,31.5
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],8,26.9
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],9,26.5
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],10,57.0
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],11,102.4
+UrbanDelivery,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],12,131.2
+LongHaul,(i) VECTO lorry table (.vmod P_aux_AC_el),1,57.5
+LongHaul,(i) VECTO lorry table (.vmod P_aux_AC_el),2,50.0
+LongHaul,(i) VECTO lorry table (.vmod P_aux_AC_el),3,52.5
+LongHaul,(i) VECTO lorry table (.vmod P_aux_AC_el),4,55.0
+LongHaul,(i) VECTO lorry table (.vmod P_aux_AC_el),5,55.0
+LongHaul,(i) VECTO lorry table (.vmod P_aux_AC_el),6,52.5
+LongHaul,(i) VECTO lorry table (.vmod P_aux_AC_el),7,57.5
+LongHaul,(i) VECTO lorry table (.vmod P_aux_AC_el),8,52.5
+LongHaul,(i) VECTO lorry table (.vmod P_aux_AC_el),9,55.0
+LongHaul,(i) VECTO lorry table (.vmod P_aux_AC_el),10,57.5
+LongHaul,(i) VECTO lorry table (.vmod P_aux_AC_el),11,50.0
+LongHaul,(i) VECTO lorry table (.vmod P_aux_AC_el),12,57.5
+LongHaul,(ii) HDEV placeholders Q=0,1,74.9
+LongHaul,(ii) HDEV placeholders Q=0,2,70.2
+LongHaul,(ii) HDEV placeholders Q=0,3,39.0
+LongHaul,(ii) HDEV placeholders Q=0,4,22.9
+LongHaul,(ii) HDEV placeholders Q=0,5,16.5
+LongHaul,(ii) HDEV placeholders Q=0,6,15.8
+LongHaul,(ii) HDEV placeholders Q=0,7,24.8
+LongHaul,(ii) HDEV placeholders Q=0,8,20.2
+LongHaul,(ii) HDEV placeholders Q=0,9,16.8
+LongHaul,(ii) HDEV placeholders Q=0,10,25.8
+LongHaul,(ii) HDEV placeholders Q=0,11,48.6
+LongHaul,(ii) HDEV placeholders Q=0,12,62.7
+LongHaul,(ii) HDEV placeholders Q=100,1,122.6
+LongHaul,(ii) HDEV placeholders Q=100,2,117.2
+LongHaul,(ii) HDEV placeholders Q=100,3,68.4
+LongHaul,(ii) HDEV placeholders Q=100,4,38.5
+LongHaul,(ii) HDEV placeholders Q=100,5,25.3
+LongHaul,(ii) HDEV placeholders Q=100,6,16.4
+LongHaul,(ii) HDEV placeholders Q=100,7,23.0
+LongHaul,(ii) HDEV placeholders Q=100,8,19.8
+LongHaul,(ii) HDEV placeholders Q=100,9,20.4
+LongHaul,(ii) HDEV placeholders Q=100,10,44.1
+LongHaul,(ii) HDEV placeholders Q=100,11,80.0
+LongHaul,(ii) HDEV placeholders Q=100,12,102.4
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],1,108.7
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],2,100.4
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],3,55.4
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],4,32.5
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],5,23.1
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],6,22.1
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],7,33.0
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],8,27.0
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],9,22.7
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],10,38.7
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],11,71.0
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=0 [BUS values],12,91.5
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],1,156.4
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],2,147.4
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],3,84.7
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],4,47.8
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],5,31.6
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],6,22.7
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],7,31.5
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],8,26.9
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],9,26.5
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],10,57.0
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],11,102.4
+LongHaul,(iii-bus) VECTO driver-compartment analogue Q=100 [BUS values],12,131.2

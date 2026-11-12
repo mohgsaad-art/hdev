@@ -1,0 +1,26 @@
+Downloaded 2026-11-12 from DMI Open Data (opendataapi.dmi.dk), station 06188
+Monthly queries (items endpoint, no API key):
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=temp_mean_past1h&datetime=2025-01-01T00:00:00Z/2025-02-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=temp_mean_past1h&datetime=2025-02-01T00:00:00Z/2025-03-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=temp_mean_past1h&datetime=2025-03-01T00:00:00Z/2025-04-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=temp_mean_past1h&datetime=2025-04-01T00:00:00Z/2025-05-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=temp_mean_past1h&datetime=2025-05-01T00:00:00Z/2025-06-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=temp_mean_past1h&datetime=2025-06-01T00:00:00Z/2025-07-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=temp_mean_past1h&datetime=2025-07-01T00:00:00Z/2025-08-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=temp_mean_past1h&datetime=2025-08-01T00:00:00Z/2025-09-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=temp_mean_past1h&datetime=2025-09-01T00:00:00Z/2025-10-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=temp_mean_past1h&datetime=2025-10-01T00:00:00Z/2025-11-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=temp_mean_past1h&datetime=2025-11-01T00:00:00Z/2025-12-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=temp_mean_past1h&datetime=2025-12-01T00:00:00Z/2026-01-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=radia_glob_past1h&datetime=2025-01-01T00:00:00Z/2025-02-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=radia_glob_past1h&datetime=2025-02-01T00:00:00Z/2025-03-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=radia_glob_past1h&datetime=2025-03-01T00:00:00Z/2025-04-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=radia_glob_past1h&datetime=2025-04-01T00:00:00Z/2025-05-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=radia_glob_past1h&datetime=2025-05-01T00:00:00Z/2025-06-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=radia_glob_past1h&datetime=2025-06-01T00:00:00Z/2025-07-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=radia_glob_past1h&datetime=2025-07-01T00:00:00Z/2025-08-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=radia_glob_past1h&datetime=2025-08-01T00:00:00Z/2025-09-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=radia_glob_past1h&datetime=2025-09-01T00:00:00Z/2025-10-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=radia_glob_past1h&datetime=2025-10-01T00:00:00Z/2025-11-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=radia_glob_past1h&datetime=2025-11-01T00:00:00Z/2025-12-01T00:00:00Z&limit=3000
+https://opendataapi.dmi.dk/v2/metObs/collections/observation/items?stationId=06188&parameterId=radia_glob_past1h&datetime=2025-12-01T00:00:00Z/2026-01-01T00:00:00Z&limit=3000

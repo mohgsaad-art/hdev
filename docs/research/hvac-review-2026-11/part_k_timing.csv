@@ -1,0 +1,4 @@
+case,mean_ms,min_ms,cpu,python,numpy
+1 day (24 h),0.105,0.094,Intel(R) Xeon(R) Platinum 8488C,3.11.15,2.4.6
+"1 year (8760 h, 1-D)",0.698,0.67,Intel(R) Xeon(R) Platinum 8488C,3.11.15,2.4.6
+1 year as 2-D days x hours (365 x 24),0.683,0.659,Intel(R) Xeon(R) Platinum 8488C,3.11.15,2.4.6

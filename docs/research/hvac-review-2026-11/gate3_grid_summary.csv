@@ -1,0 +1,6 @@
+case,n_points,max_abs_diff_total_W,max_abs_diff_hp_W,max_abs_diff_eh_W,max_abs_diff_ac_W,max_abs_diff_fan_W,max_abs_diff_fuel_heat_W
+"A  R-744 + el.heater + fuel heater (HD3), caps 5 kW/5 kW",781,9.094947017729282e-13,9.094947017729282e-13,6.821210263296962e-13,2.2737367544323206e-13,0.0,0.0
+"B  R-744 + el.heater (HD2), no caps",781,0.0,1.8189894035458565e-12,1.8189894035458565e-12,4.547473508864641e-13,0.0,0.0
+"C  R-744 only (HD1), caps 3 kW/2 kW",781,0.0,2.2737367544323206e-13,0.0,1.1368683772161603e-13,0.0,0.0
+"D  electric heater only (HD9), no caps",781,0.0,0.0,1.8189894035458565e-12,4.547473508864641e-13,0.0,0.0
+"E  fuel heater only (HD11), heater 30 kW",781,0.0,0.0,0.0,2.2737367544323206e-13,0.0,0.0
