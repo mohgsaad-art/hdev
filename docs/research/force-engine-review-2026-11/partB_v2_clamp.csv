@@ -1,0 +1,2 @@
+note,v2_unclamped,v2_clamped,inertia_J_per_kg_engine,kinetic_J_per_kg,ratio
+ILLUSTRATIVE v=2 m/s a=-4 m/s2 dt=1 s,-2.0,0.0,-4.0,-2.0,2.0

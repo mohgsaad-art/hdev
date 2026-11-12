@@ -1,0 +1,10 @@
+item,rows,seconds_mean,seconds_std,note
+"force_engine, 1 Regional trip",5885,0.00013542280030378606,2.469522385879369e-05,
+"crosswind_engine, 24 hourly wind speeds",24,0.0030896650001523084,0.0004314008276097458,
+"crosswind_engine, 8760 hourly wind speeds (chunks of 500)",8760,1.0528811409994887,0.0,peak RSS after 191 MB (chunk 500 h: temporaries ~ 22 MB each)
+"steps 1-4 (copy), 1 trip",5885,0.000576678799916408,0.00011191545134219315,
+"full consumption_engine (steps 1-7), 1 trip",5885,0.0006661071998678381,8.424179575129076e-05,
+"365 days x 3 payloads, steps 1-4 (loop)",6444075,0.7267654889997175,0.004945416999817098,n=2 runs; weather arrays are 8760 h
+"coefficient arrays (5 x float64), 1 Regional trip",5885,0.0,0.0,235 kB
+all 1095 P_wheel arrays kept in memory,6444075,0.0,0.0,52 MB
+cpu,0,0.0,0.0,Intel(R) Xeon(R) Platinum 8488C ; python 3.11.15 ; numpy 2.4.6

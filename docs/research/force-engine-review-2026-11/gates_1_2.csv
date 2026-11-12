@@ -1,0 +1,4 @@
+gate,check,expected,got,tol,passed,run_steps_returncode
+1,Chain S V1 reference RegionalDelivery kWh/km,0.9749,0.9749,0.0005,True,0
+1,Chain S V1 reference UrbanDelivery kWh/km,0.8502,0.8502,0.0005,True,0
+2,force_engine body: notebook (code of record) vs src/engine/force_engine.py,identical statements,identical,,True,

@@ -1,0 +1,11 @@
+cycle,coast,rows,min_v_plus_a_dt,rows_clamped
+RegionalDelivery,True,5885,0.0,0
+RegionalDelivery,False,5889,0.0,0
+UrbanDelivery,True,13576,0.0,0
+UrbanDelivery,False,13563,0.0,0
+LongHaul,True,4498,0.0,0
+LongHaul,False,4500,0.0,0
+MunicipalUtility,True,2181,0.0,0
+MunicipalUtility,False,2182,0.0,0
+Construction,True,7879,0.0,0
+Construction,False,7856,0.0,0

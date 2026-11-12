@@ -1,0 +1,7 @@
+cycle,load,n_rows,max_abs_W_trac_identity,rms_W_trac_identity,max_abs_W_wheel_identity,rms_W_wheel_identity,rounding_of_vmod_W,identity
+LongHaul,LowLoading,4503,0.20000000001164153,0.05541918268530166,0.1000000000349246,0.013576507776362781,0.1,P_trac = P_roll+P_air+P_slope+P_veh_inertia ; P_wheel_in = P_trac + P_wheel_inertia
+LongHaul,ReferenceLoad,4521,0.20000000001164153,0.05564764173773831,0.1000000000349246,0.01927690856228602,0.1,P_trac = P_roll+P_air+P_slope+P_veh_inertia ; P_wheel_in = P_trac + P_wheel_inertia
+RegionalDelivery,LowLoading,5885,0.20000000001164153,0.05576379362785969,0.1000000000349246,0.019466111109793367,0.1,P_trac = P_roll+P_air+P_slope+P_veh_inertia ; P_wheel_in = P_trac + P_wheel_inertia
+RegionalDelivery,ReferenceLoad,5885,0.2000000000007276,0.05410898721911363,0.1000000000349246,0.019639919121946955,0.1,P_trac = P_roll+P_air+P_slope+P_veh_inertia ; P_wheel_in = P_trac + P_wheel_inertia
+UrbanDelivery,LowLoading,13482,0.20000000001164153,0.054210083246878725,0.10000000002037268,0.03362136350101193,0.1,P_trac = P_roll+P_air+P_slope+P_veh_inertia ; P_wheel_in = P_trac + P_wheel_inertia
+UrbanDelivery,ReferenceLoad,13489,0.20000000001164153,0.054175493178046416,0.1000000000349246,0.03357953900801181,0.1,P_trac = P_roll+P_air+P_slope+P_veh_inertia ; P_wheel_in = P_trac + P_wheel_inertia
