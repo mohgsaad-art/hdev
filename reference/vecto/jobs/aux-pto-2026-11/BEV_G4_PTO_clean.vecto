@@ -1,0 +1,49 @@
+{
+  "Header": {
+    "CreatedBy": "",
+    "Date": "2023-02-16T09:01:17.4590418Z",
+    "AppVersion": "3",
+    "FileVersion": 9
+  },
+  "Body": {
+    "SavedInDeclMode": true,
+    "VehicleFile": "BEV_G4_PTO_clean.vveh",
+    "GearboxFile": "AMT.vgbx",
+    "Padd_electric": 0.0,
+    "Aux": [
+      {
+        "ID": "STP",
+        "Type": "Steering pump",
+        "Technology": [
+          "Full electric steering gear"
+        ]
+      },
+      {
+        "ID": "AC",
+        "Type": "HVAC",
+        "Technology": [
+          "Default"
+        ]
+      },
+      {
+        "ID": "ES",
+        "Type": "Electric System",
+        "Technology": [
+          "Standard technology"
+        ]
+      },
+      {
+        "ID": "PS",
+        "Type": "Pneumatic System",
+        "Technology": [
+          "Vacuum pump + elec. driven"
+        ]
+      }
+    ],
+    "OverSpeedEcoRoll": {
+      "Mode": "Overspeed",
+      "MinSpeed": 50.0,
+      "OverSpeed": 2.5
+    }
+  }
+}

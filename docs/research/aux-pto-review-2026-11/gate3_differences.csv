@@ -1,0 +1,12 @@
+item,kind,appendix,notebook
+P_aux (1.1),IDENTICAL (whitespace-normalised),,
+SP_power_helper (1.2),IDENTICAL (whitespace-normalised),,
+pto_engine (1.3),IDENTICAL (whitespace-normalised),,
+consumption_engine steps 6-7 (1.4),IDENTICAL (whitespace-normalised),,
+src/engine contents,info,,"consumption.py, crosswind_engine.py, driver_model.py, force_engine.py, p_aux.py, payload_engine.py, power_step.py, weather_for_rows.py"
+src/engine/p_aux.py,DIFFERENT FUNCTION,"def p_aux(P_ES, P_HVAC, P_PS, P_SP, P_Cond, moving, motor_on, aux_weather_fn=None)","def P_aux(ES_power, PS_power, HVAC_power, SP_power, cond_power, PTO_always_on, ES_alteff=0.7, ..., PTO_eff=1.0)"
+src/engine/p_aux.py,no efficiency factors,returns P_ES + P_HVAC + P_PS + P_SP*moving + P_Cond*motor_on (row array),returns six electric-W values; factors 0.7/1.0/1.25/0.7/1.0 and PTO_eff inside
+src/engine/p_aux.py,"no PTO, no checks on sign",None-check only (blank cell),negative / efficiency checks (PTO ones missing)
+src/engine/p_aux.py,motor_on per row,Cond * motor_on (per-row bool given by caller),Cond * (moving | pto_active) inside consumption_engine step 6
+src/engine pto_engine,NOT PRESENT,(no pto_engine in src/engine),notebook cell 14 is the only pto_engine
+src/engine/consumption.py,different/older,"consumption(P_wheel, eta_drive=0.95, eta_regen=0.95, eta_dcdc=0.98, P_aux=0, dt_s=1.0)",consumption_engine(...) steps 1-7; DC/DC = 1.0 (no factor)

@@ -1,0 +1,21 @@
+case,result,energy_kWh,stop_rows,drive_rows,events,expected
+"sweeper, drive const 6000 W (ILLUSTRATIVE) from marker wp1 to next stop wp2",ok,0.185185,0,100,"[('drive_const', 1, 110, 210)]",6000/0.9 W x rows between marker and first standing row of wp2
+no wp on -> nothing placed,ok,0.000000,0,0,[],0 kWh
+refuse: VECTO profile at 2 stops (stop 2 s + 23 s),ok,0.299856,46,0,"[('stop_profile', 2, 211, 234), ('stop_profile', 4, 436, 459)]",2 x 0.14993 kWh
+mixed: stop profile + drive profile 60 s x 4000 W (ILLUSTRATIVE),ok,0.366522,46,60,"[('stop_profile', 2, 211, 234), ('drive_profile', 2, 235, 295), ('stop_profile', 4, 436, 459), ('drive_no_rows', 4, 460, 460)]",2 x (0.14993 + 0.06667) kWh
+PTO on the LAST waypoint: stop profile ok,ok,0.149928,23,0,"[('stop_profile', 2, 236, 259)]",0.14993 kWh
+PTO on the LAST waypoint with a drive profile: no rows after it,ok,0.149928,23,0,"[('stop_profile', 2, 236, 259), ('drive_no_rows', 2, 260, 260)]",stop profile only; drive part has no moving rows
+drive const with NO next stop: runs to the end of the route,ok,0.083333,0,100,"[('drive_const', 1, 135, 235)]",3000 W x all moving rows after wp1
+drive profile 600 s longer than the rest of the route -> truncated,ok,0.083333,0,100,"[('drive_profile', 1, 135, 235)]",truncated at the last row
+"drive profile 60 s starting at wp1, next stop wp2 after only 10 rows: keeps running through the stop",ok,0.066667,0,60,"[('drive_profile', 1, 40, 100)]","60 s x 4000 W = 0.06667 kWh, rows past the stop"
+"OVERLAP: wp1 and wp2 both start a 60 s drive profile, second starts while first runs",RAISES ValueError: drive PTO profile from waypoint 2 starts at row 70 while the previous drive profile still runs until row 100 (VECTO raises the same error),,0,0,,ValueError (VECTO PTODriveAuxiliary.cs 25-27 throws)
+"no overlap: wp1 drive profile 20 s (ends before wp2's drive starts), wp2 starts its own 20 s",ok,0.044444,0,40,"[('drive_profile', 1, 40, 60), ('drive_profile', 2, 70, 90)]",2 x 20 s x 4000 W = 0.04444 kWh
+"marker wp (stop 0) with a drive profile and a stop profile configured: stop profile ignored, drive starts",ok,0.066667,0,60,"[('drive_profile', 1, 110, 170)]",drive 60 s x 4000 W only
+"stop constant 3000 W (ILLUSTRATIVE), eff 0.8 -> 3750 W on all M==0 rows of the stop",ok,0.026042,25,0,"[('stop_const', 1, 110, 135)]",3750 W x 25 s = 0.02604 kWh
+two stop waypoints at the same distance,RAISES ValueError: two stop waypoints at the same distance: the parser must reject this,,0,0,,ValueError (parser must reject)
+waypoint distance differs from driver S by 0.0005 m (tolerance 1e-3),ok,0.149928,23,0,"[('stop_profile', 1, 111, 134)]","ok below 1e-3, ValueError above"
+waypoint distance differs from driver S by 0.002 m (tolerance 1e-3),RAISES ValueError: no standing rows found for stop at 1000.002 m (float drift in S or driver/waypoint mismatch),,0,0,,"ok below 1e-3, ValueError above"
+stop 22 s < PTO 23 s (parser did not extend),RAISES ValueError: PTO (23 s) is longer than the stop at waypoint(s) [1]; the parser must extend these stops,,0,0,,ValueError from pto_engine
+is_on at waypoint 0 (depot) is forced to 0,ok,0.000000,0,0,[],0 kWh
+"odd standing time 26 s: PTO start floor((26-23)/2)=1 -> 1 s before, 2 s after",ok,0.149928,23,0,"[('stop_profile', 1, 111, 134)]",0.14993 kWh
+"stop constant 3000 W, rows found by V==0 ONLY (current code's rule, no M)",ok,0.021667,26,0,26 rows,"25 rows expected, V==0 gives 26 (the first accelerating row)"

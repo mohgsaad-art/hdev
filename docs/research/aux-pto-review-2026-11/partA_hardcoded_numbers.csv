@@ -1,0 +1,20 @@
+function,number / rule,class,source,note
+P_aux,ES_alteff=0.7,VECTO constant,DeclarationData.cs:123 AlternatorEfficiency; HeavyLorryAuxiliaryDataAdapter.cs:118-120,"default argument, parser should pass it (engine purity)"
+P_aux,PS_alteff=1.0,VECTO constant (identity),HeavyLorryAuxiliaryDataAdapter.cs:140-143 (_el columns used as is),valid only for fully-electric PS (always the case for a PEV)
+P_aux,HVAC_eff=1.25,VECTO constant,DeclarationData.cs:126 (0.8) + HeavyLorryAuxiliaryDataAdapter.cs:78 (1/0.8),must be 1.0 for thermal-model HVAC
+P_aux,SP_alteff=0.7,VECTO constant,HeavyLorryAuxiliaryDataAdapter.cs:220,
+P_aux,cond_eff=1.0,VECTO constant (identity),HeavyLorryAuxiliaryDataAdapter.cs:106 (no factor),
+P_aux,PTO_eff=1.0,HDEV choice,no VECTO equivalent (E-PTO W taken as electric),parser input; default 1.0 = already electric
+P_aux,"< 0, <= 0 limits",numerical/validity guard,,unit-less guards
+SP_power_helper,/ 100,unit definition,SteeringPump.cs:142 (/100) combined with raw axle shares,percent -> fraction; equivalent form
+SP_power_helper,shape[1] != 3,"VECTO structure (UF, B, S)",SteeringPump.cs 87-99,
+pto_engine,is_on[0] = 0,HDEV decision,no VECTO equivalent,depot never PTO
+pto_engine,astype(int) on np.diff(t),numerical (truncation),,BUG for fractional seconds; parser must enforce whole seconds
+pto_engine,/ 2 and floor,VECTO rule (centred) + HDEV rounding,DistanceBasedDrivingCycle.cs:264-304 (StoppingTime/2 each side),floor for odd seconds is an HDEV choice (VECTO uses half seconds)
+pto_engine,"stop > 0, is_on > 0, pto_dur > 0, pto_start < 0",numerical comparisons,,is_on > 0 here vs == 1 in consumption_engine
+consumption_engine 6,V == 0,numerical tolerance (exact zero),driver_model sets V = 0.0 exactly,VECTO uses |v| <= 0.01 m/s on PreviousState (Vehicle.cs:262)
+consumption_engine 6,atol=1e-3 (m),numerical tolerance,,"driver sets S = waypoint exactly, so 0 would work; 1e-3 guards float drift"
+consumption_engine 6,pto_on_col == 1,HDEV choice,,pto_engine accepts any > 0
+consumption_engine 6,moving = V > 0,HDEV choice (close to VECTO),Vehicle.cs:262 uses > 0.01 m/s,0.01 m/s version is a one-line change; effect < 0.001 %
+consumption_engine 7,/ 3.6e6,unit definition,,W*s -> kWh
+consumption_engine 7,DC/DC eff 1.0 (comment only),VECTO constant,DeclarationData.cs:124,not a parameter: aux is added 1:1

@@ -1,0 +1,17 @@
+item,value,unit,detail,tag,compared_with
+F1 VECTO E2 RegionalDelivery ReferenceLoad: aux energy share of battery-terminal energy,3.08612,%,aux 3.241 kWh of 105.03 kWh over 100.0 km (0.0324 kWh/km),"[CALC] from .vmod P_aux_el, P_REESS_T",NOT FOUND: no measured aux share of a 12 t e-truck was read in full text (see Bob to fetch)
+F1 VECTO E2 UrbanDelivery ReferenceLoad: aux energy share of battery-terminal energy,7.88750,%,aux 6.627 kWh of 84.02 kWh over 100.0 km (0.0663 kWh/km),"[CALC] from .vmod P_aux_el, P_REESS_T",NOT FOUND: no measured aux share of a 12 t e-truck was read in full text (see Bob to fetch)
+F1 VECTO E2 LongHaul ReferenceLoad: aux energy share of battery-terminal energy,1.86274,%,aux 2.847 kWh of 152.83 kWh over 100.2 km (0.0284 kWh/km),"[CALC] from .vmod P_aux_el, P_REESS_T",NOT FOUND: no measured aux share of a 12 t e-truck was read in full text (see Bob to fetch)
+F2 HDEV Municipal (VECTO generic refuse profile): stop-PTO energy per PTO stop,0.14993,kWh/stop,5*8.42+4*33.69+14*25.92 kJ,[VECTO] file + [CALC],
+F2 HDEV Municipal: stop-PTO energy per km of route,1.28052,kWh/km,"14.393 kWh / 11.24 km, 96 stops",[TEST] run_part_d + [CALC],
+"F2 HDEV Municipal: aux (E2 Urban values, ASSUMPTION) energy per km, includes Cond during PTO",0.20238,kWh/km,2.275 kWh; route time 4389 s,[ASSUMPTION] Urban aux + [CALC],
+F2 HDEV Municipal: non-traction energy (PTO + aux) per km,1.48290,kWh/km,,[CALC],
+"F2 VTT/HSY e-refuse truck, winter pilot: total energy in refuse collection",2.30000,kWh/km,'approximately 2.3 kWh/km',"[SOURCE] full page read, 24 May 2023; one truck, Helsinki region, Feb conditions",
+F2 VTT: driving part,1.40000,kWh/km,'most ... comes from driving (1.4 kWh/km)',[SOURCE],
+"F2 VTT: everything that is not driving (body hydraulics, cabin heating/demisting, 24 V ...)",0.90000,kWh/km,2.3 - 1.4,[CALC] on [SOURCE],HDEV non-traction above: boundaries differ (VTT includes cabin heat in winter and an electric-driven hydraulic pump)
+F2 VTT: upper bound of non-driving energy per emptied container,0.21600,kWh/container,0.9 kWh/km x 120 km / 500 containers; page says 'more than five hundred containers' and 'over 120 km' so this is an upper bound,[CALC] on [SOURCE],VECTO generic profile 0.150 kWh per stop (one stop is not one container)
+F2 spread: HDEV (VECTO profile) stop PTO / VTT non-driving per container bound,0.69411,ratio,< 1 means HDEV/VECTO profile is below the VTT all-in non-driving figure; NOT like-for-like,[CALC],"n=1 vehicle: this is a plausibility check, not validation"
+F3 Concrete mixer drum kWh/hour,,,"BLOCKED: no sourced mixer vehicle set-up (mass, body, route) in the repo; Liebherr ETM sheet gives only drive rating 125 kW peak / 60 kW continuous [OEM], no consumption",BLOCKED / NOT FOUND,
+F3 Refrigerated body kWh/hour,,,"BLOCKED: no ATP certificate (K, surface S) or measured TRU load; Carrier eCool sheet gives only 19 kW max continuous battery discharge [OEM]",BLOCKED / NOT FOUND,
+F3 Measured standing aux power of a BEV truck (SP/Cond off at standstill in VECTO),,,NOT FOUND: no measured standing-aux figure was read in full text,BLOCKED / NOT FOUND,
+"F3 Measured Cond (battery/motor thermal management) power, summer and winter",,,NOT FOUND in full text; Dollinger 2021 (battery heating ~4 %) lead could not be opened,BLOCKED / NOT FOUND,

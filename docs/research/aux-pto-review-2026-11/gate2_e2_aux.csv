@@ -1,0 +1,16 @@
+mission,aux,table_value_W,table_meaning,hdev_electric_W,vmod_W_max_over_rows,diff_W,vmod_file
+LongHaul,ES,1714.2857,mechanical W,1200.0,1200.0,-0.0,BEV_E2_LongHaul_ReferenceLoad_1Hz.vmod
+LongHaul,HVAC,200.0,"HVAC-Table W (mech-equivalent, x1/0.8)",250.0,250.0,0.0,BEV_E2_LongHaul_ReferenceLoad_1Hz.vmod
+LongHaul,PS,237.0,electric W as is,237.0,237.0,0.0,BEV_E2_LongHaul_ReferenceLoad_1Hz.vmod
+LongHaul,SP,4.29,mechanical W,3.003,3.0,0.003,BEV_E2_LongHaul_ReferenceLoad_1Hz.vmod
+LongHaul,COND,600.0,electric W as is,600.0,600.0,0.0,BEV_E2_LongHaul_ReferenceLoad_1Hz.vmod
+RegionalDelivery,ES,1428.5714,mechanical W,1000.0,1000.0,-0.0,BEV_E2_RegionalDelivery_ReferenceLoad_1Hz.vmod
+RegionalDelivery,HVAC,200.0,"HVAC-Table W (mech-equivalent, x1/0.8)",250.0,250.0,0.0,BEV_E2_RegionalDelivery_ReferenceLoad_1Hz.vmod
+RegionalDelivery,PS,200.0,electric W as is,200.0,200.0,0.0,BEV_E2_RegionalDelivery_ReferenceLoad_1Hz.vmod
+RegionalDelivery,SP,32.87,mechanical W,23.009,23.0,0.009,BEV_E2_RegionalDelivery_ReferenceLoad_1Hz.vmod
+RegionalDelivery,COND,600.0,electric W as is,600.0,600.0,0.0,BEV_E2_RegionalDelivery_ReferenceLoad_1Hz.vmod
+UrbanDelivery,ES,1428.5714,mechanical W,1000.0,1000.0,-0.0,BEV_E2_UrbanDelivery_ReferenceLoad_1Hz.vmod
+UrbanDelivery,HVAC,150.0,"HVAC-Table W (mech-equivalent, x1/0.8)",187.5,187.5,0.0,BEV_E2_UrbanDelivery_ReferenceLoad_1Hz.vmod
+UrbanDelivery,PS,162.0,electric W as is,162.0,162.0,0.0,BEV_E2_UrbanDelivery_ReferenceLoad_1Hz.vmod
+UrbanDelivery,SP,45.73,mechanical W,32.011,32.0,0.011,BEV_E2_UrbanDelivery_ReferenceLoad_1Hz.vmod
+UrbanDelivery,COND,550.0,electric W as is,550.0,550.0,0.0,BEV_E2_UrbanDelivery_ReferenceLoad_1Hz.vmod

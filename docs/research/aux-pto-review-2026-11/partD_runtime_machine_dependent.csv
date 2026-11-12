@@ -1,0 +1,4 @@
+case,rows,pto_stops,seconds_current_loop,seconds_variant,identical_pto_row
+A: one MunicipalUtility route,4389,96,0.00224,0.00155,True
+B: 365 sequential days of that route,1601985,35040,0.83740,0.61657,True
+"C: 365 days in ONE array (variant measured; current loop measured on 5 days, x(365/5)^2 extrapolated)",1601985,35040,122.50560,0.59610,

@@ -1,0 +1,16 @@
+quantity,value,tag
+PTO stops flagged in MunicipalUtility.vdri (PTO column == 1),96,[VECTO] vdri
+PTO profile length [s] (.vptoel t=0..23),23,[VECTO] vptoel
+stop time in vdri for these stops [s],2.0,[VECTO] vdri
+final standing time per PTO stop [s] = stop + PTO,25.0,[CALC]
+"energy of ONE activation, left-hold [kWh]",0.14992777777777777,[CALC] 5*8.42+4*33.69+14*25.92 kJ
+"PTO energy on rows, all stops [kWh]",14.393066666666666,[TEST] step6 variant
+expected = stops x one activation [kWh],14.393066666666666,[CALC]
+difference [kWh],0.0,[TEST]
+distinct idle_before_s values,[1],[TEST]
+distinct idle_after_s values,[1],[TEST]
+rows with V==0 minus rows with M==0 per stop (the accelerating row),[1],[TEST]
+Cond energy during stop PTO if Cond is ON there (550 W) [kWh],0.3373333333333333,[CALC] Cond-Table + rows with PTO
+Cond energy during stop PTO if Cond is OFF there [kWh],0.0,[CALC]
+route time with the 23 s extension [s],4389.0,[TEST] driver rows
+route time without the extension [s] (what a Municipal run would be if PTO time were forgotten),2181.0,[TEST] driver rows

@@ -1,0 +1,25 @@
+cycle,loading,proxy,motor_off_seconds,VECTO_EM_off_seconds,abs_second_by_second_mismatch_s,COND_kWh_if_used,COND_kWh_VECTO,COND_diff_kWh
+RegionalDelivery,ReferenceLoad,P0_VECTO_EM_off_column_(fraction),852.659900,852.659900,0.000000,0.838723,0.838387,0.000336
+RegionalDelivery,ReferenceLoad,"P1_M in {0,3}",832.000000,852.659900,46.434900,0.842167,0.838387,0.003780
+RegionalDelivery,ReferenceLoad,"P2_M in {0,3} or (M==4 and V<=v_no_regen)",845.000000,852.659900,43.176500,0.840000,0.838387,0.001613
+RegionalDelivery,ReferenceLoad,P3_standing only (M==0),746.000000,852.659900,113.196300,0.856500,0.838387,0.018113
+RegionalDelivery,LowLoading,P0_VECTO_EM_off_column_(fraction),834.510000,834.510000,0.000000,0.841748,0.841371,0.000377
+RegionalDelivery,LowLoading,"P1_M in {0,3}",817.000000,834.510000,42.847800,0.844667,0.841371,0.003296
+RegionalDelivery,LowLoading,"P2_M in {0,3} or (M==4 and V<=v_no_regen)",834.000000,834.510000,37.568200,0.841833,0.841371,0.000462
+RegionalDelivery,LowLoading,P3_standing only (M==0),746.000000,834.510000,99.734000,0.856500,0.841371,0.015129
+UrbanDelivery,ReferenceLoad,P0_VECTO_EM_off_column_(fraction),3796.766400,3796.766400,0.000000,1.480758,1.481352,-0.000595
+UrbanDelivery,ReferenceLoad,"P1_M in {0,3}",3641.000000,3796.766400,347.681800,1.504556,1.481352,0.023203
+UrbanDelivery,ReferenceLoad,"P2_M in {0,3} or (M==4 and V<=v_no_regen)",3792.000000,3796.766400,289.544600,1.481486,1.481352,0.000134
+UrbanDelivery,ReferenceLoad,P3_standing only (M==0),3349.000000,3796.766400,541.851000,1.549167,1.481352,0.067814
+UrbanDelivery,LowLoading,P0_VECTO_EM_off_column_(fraction),3685.624000,3685.624000,0.000000,1.496669,1.497277,-0.000608
+UrbanDelivery,LowLoading,"P1_M in {0,3}",3525.000000,3685.624000,338.256200,1.521208,1.497277,0.023931
+UrbanDelivery,LowLoading,"P2_M in {0,3} or (M==4 and V<=v_no_regen)",3684.000000,3685.624000,271.669600,1.496917,1.497277,-0.000360
+UrbanDelivery,LowLoading,P3_standing only (M==0),3349.000000,3685.624000,440.034200,1.548097,1.497277,0.050820
+LongHaul,ReferenceLoad,P0_VECTO_EM_off_column_(fraction),175.571600,175.571600,0.000000,0.724238,0.724537,-0.000299
+LongHaul,ReferenceLoad,"P1_M in {0,3}",175.000000,175.571600,22.969200,0.724333,0.724537,-0.000204
+LongHaul,ReferenceLoad,"P2_M in {0,3} or (M==4 and V<=v_no_regen)",182.000000,175.571600,20.609000,0.723167,0.724537,-0.001370
+LongHaul,ReferenceLoad,P3_standing only (M==0),67.000000,175.571600,112.956600,0.742333,0.724537,0.017796
+LongHaul,LowLoading,P0_VECTO_EM_off_column_(fraction),111.557500,111.557500,0.000000,0.731907,0.732242,-0.000335
+LongHaul,LowLoading,"P1_M in {0,3}",103.000000,111.557500,17.919300,0.733333,0.732242,0.001092
+LongHaul,LowLoading,"P2_M in {0,3} or (M==4 and V<=v_no_regen)",109.000000,111.557500,14.517700,0.732333,0.732242,0.000092
+LongHaul,LowLoading,P3_standing only (M==0),67.000000,111.557500,47.154100,0.739333,0.732242,0.007092
