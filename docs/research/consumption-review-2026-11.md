@@ -10,14 +10,14 @@ Tags: `[VECTO]` `[REG]` `[STD]` `[SOURCE]` `[CALC]` `[TEST]` `[ASSUMPTION]` `[SI
 
 ## 0. Summary (one page, plain English)
 
-**What is right.** The way the engine puts the pieces together is right. When I feed VECTO's own rows (speed, acceleration, grade, gear) into the real `force_engine` and the proposed `consumption_engine`, and I give it the efficiencies VECTO actually had on each row, the battery energy matches VECTO's terminal energy within **+0.01 % to +0.31 %** on the six E2 runs (Regional, Urban, LongHaul × two loadings). The code of record with the same VECTO efficiencies is **0.4 % to 1.2 % low** `[TEST partC_vecto_rows.py, partC_columns.csv]`. So the assembly logic is sound; the difference to VECTO is almost all in the efficiency numbers.
+**What is right.** The way the engine puts the pieces together is right. When I feed VECTO's own rows (speed, acceleration, grade, gear) into the real `force_engine` and the proposed `consumption_engine`, and I give it the efficiencies VECTO actually had on each row, the battery energy matches VECTO's terminal energy within **−0.12 % to +0.31 %** on the six E2 runs (Regional, Urban, LongHaul × two loadings). The code of record with the same VECTO efficiencies is **0.4 % to 1.2 % low** `[TEST partC_vecto_rows.py, partC_columns.csv]`. So the assembly logic is sound; the difference to VECTO is almost all in the efficiency numbers.
 Gate 1 and Gate 2 pass. The code of record is byte-identical to Appendix 1.
 
 **What is wrong (ranked by size).**
 1. **The fixed efficiencies (0.95 / 0.95 / 0.98) put the result 23 % to 33 % below VECTO** (Regional reference load 0.722 vs 1.050 kWh/km, −31.3 %; Urban 0.598 vs 0.840, −28.8 %; LongHaul −23.4 %). VECTO's E2 chain is far less efficient than 0.884 wheel-to-battery: energy-weighted, driving is **0.64 (Regional) / 0.73 (Urban)**, because the axle and gearbox have a no-load loss that does not shrink with power `[TEST partD_scalar_eta_fit.csv]`. This is not a logic bug. It is the known placeholder problem, now measured. The HDEV result is the non-conservative side (rule 9).
 2. **The function cannot take the final producers** (Gate 3). `force_engine` now returns 6 values, the function expects 5, the keyword is `k_rot` not `k_rot_wheel`/`k_rot_rotor`, and `pto_engine` returns 4 values in a different order. Minimal adapter written and checked (bit-identical numbers when `k_rot_rotor = 0` and PTO is off).
 3. **Step 6 (PTO) has six defects** (minimal reproducing inputs in Part B): `V == 0` gives stop + 1 rows; a 0 s marker waypoint raises; `is_on = 1` with only a drive profile crashes on `int(NaN)`; drive PTO is silently dropped; no slot for constants; and the loop makes a **year in one array take 69 s instead of 0.25 s** `[TEST partK]`. `PTO_always_on` as an hourly array is not hour-indexed (it is added as-is and crashes).
-4. **Rotor inertia is missing** and the sign is decided once at the wheel. Measured effect with VECTO's efficiencies: +0.7 % to +1.3 % of trip energy for the sign split, +0.05 % to +0.4 % for the rotor `[TEST partC_causes.csv]`.
+4. **Rotor inertia is missing** and the sign is decided once at the wheel. Measured effect with VECTO's efficiencies: +0.4 % to +1.1 % of trip energy for the sign split, +0.05 % to +0.4 % for the rotor (together 0.4 % to 1.2 %, the whole gap of the code of record) `[TEST partC_causes.csv]`.
 5. **Regen speed limit:** VECTO's source gives **10 km/h for an AMT E2**, not 5 km/h (`GearboxData.cs` 90–99, `Constants.cs` 321). The 1 Hz data agree (no motor-off braking row above 10 km/h). Effect ≤ 0.1 %.
 6. **BUG-2 (re-confirmed) and unit conversions:** the `np.clip(...,0,None)` fix works; `+273.15` and `*3.6` can go with zero numerical effect.
 7. Empty route returns `0.0 kWh` without error; NaN passes through silently (parser jobs).
@@ -27,7 +27,7 @@ Gate 1 and Gate 2 pass. The code of record is byte-identical to Appendix 1.
 | # | Change | Effect | Layer | Basis | New user input |
 |---|---|---|---|---|---|
 | 1 | Replace placeholders with sourced losses (maps from EU standard values; later) | +31 % / +29 % toward VECTO | defaults + parser (lookup); engine already takes arrays | VECTO E2 `.vmod`; Gate 1 shows Chain S (EU standard values) already gets −7.2 % / +1.2 % `[TEST]` | no (drivetrain type chosen; maps from defaults) |
-| 2 | Split step 5: gearbox → (+rotor, +mech. PTO) at motor shaft → motor × inverter; sign per component | +0.7…1.3 % (VECTO-like losses); +0.07 / +0.35 % (scalar) | engine | `ElectricMotor.cs` 186–188, 297, 304–308 | no |
+| 2 | Split step 5: gearbox → (+rotor, +mech. PTO) at motor shaft → motor × inverter; sign per component | +0.4…1.1 % (VECTO-like losses); +0.07 / +0.35 % (scalar) | engine | `ElectricMotor.cs` 186–188, 297, 304–308 | no |
 | 3 | `k_rot_rotor` at the motor shaft | +0.05…0.4 % | engine | `ElectricMotor.cs` 186–188, 297; J = 0.4500 kg m² fitted from `.vmod` | `J_rotor` (OEM spec; default from motor type) |
 | 4 | `v_no_regen` from gearbox type (AMT 10 km/h, AT 5 km/h) | ≤ 0.1 % | defaults (+ parser picks by type) | `GearboxData.cs` 90–99, `Constants.cs` 321/323 | no |
 | 5 | Step 6 rebuilt: `M == 0` standing rows, `searchsorted`, stop/drive profile and constant, mech/electric drive PTO | removes +1 row; 69 s → 0.25 s per year | engine | PR #31 rules; `PTODriveAuxiliary.cs` 38–41 | "does the body have its own electric motor?" (decided) |
@@ -282,7 +282,7 @@ Tornado: the only inputs outside the 5 % target are the efficiencies (gearbox/ax
 | # | Difference (HDEV vs VECTO) | Size (E2) | Sentence for a client report (plain words, no method names) |
 |---|---|---|---|
 | E1 | Fixed drivetrain efficiencies 0.95/0.95/0.98 vs VECTO loss maps | −23 … −33 % energy | "Energy use is estimated with a simplified drivetrain model. In our checks against the EU reference simulation it comes out roughly 25–30 % lower, so treat it as a lower bound until detailed component data is added." |
-| E2 | One sign decision at the wheel vs per component | +0.7 … +1.3 % with VECTO-like losses; +0.07 / +0.35 % scalar | "Small losses at low power are approximated." |
+| E2 | One sign decision at the wheel vs per component | +0.4 … +1.1 % with VECTO-like losses; +0.07 / +0.35 % scalar | "Small losses at low power are approximated." |
 | E3 | Rotor inertia absent in Appendix 1 | 0.05 … 0.4 % | not needed (below 0.5 %) |
 | E4 | Regen speed limit 5 km/h (AMT is 10 km/h) | ≤ 0.1 % | not needed |
 | E5 | Cond rule (moving vs motor on) | < 0.1 % | not needed |
@@ -366,7 +366,7 @@ Tests: `tests/consumption/test_proposed.py` (the proposal equals the old functio
    P_motor = np.maximum(P_motor, -P_regen_max) if P_regen_max is not None else P_motor
    P_trac  = np.where(P_motor > 0, P_motor / eta_m, P_motor * eta_m)                 # sign at the motor
    ```
-   Why: Q1–Q3, Q5. Effect: **+0.7 … +1.3 %** with VECTO-like losses (C a+b), +0.07 / +0.35 % (+rotor +0.08 / +0.44 %) with scalars (D). New input: `J_rotor`, `i_total` (parser; default from motor/gear data). Layer: engine.
+   Why: Q1–Q3, Q5. Effect: **+0.4 … +1.1 %** (sign split) and +0.05 … +0.4 % (rotor) with VECTO-like losses (C a, b), +0.07 / +0.35 % (+rotor +0.08 / +0.44 %) with scalars (D). New input: `J_rotor`, `i_total` (parser; default from motor/gear data). Layer: engine.
 5. **Step 5e (engine + defaults)** — `v_no_regen` 5 → 10 km/h for an AMT. Effect ≤ 0.10 kWh (0.1 %). Layer: defaults (value by gearbox type), parser picks it.
 6. **Coasting with a running mechanical PTO (engine)** — `np.where(M == 3, 0.0, P_trac)` → `np.where(M == 3, pto_el, P_trac)`; `pto_el = P_pto_mech / eta_m`. `[OPEN]` Part J. Effect 0 without drive PTO.
 7. **Step 6a (engine)** — the per-stop `np.where` scan with `V == 0` → `pto_rows(...)` (`searchsorted`, `M == 0`, stop/drive, profile/constant, overlap error). Effect: removes the stop+1 row (one PTO second on the accelerating row, `[TEST]`); drive PTO now counted; **time per call on the refuse day 2.8 ms → 1.0 ms; year in one array 69.4 s → 0.30 s**.
