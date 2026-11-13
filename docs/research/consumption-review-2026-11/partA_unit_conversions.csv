@@ -1,0 +1,3 @@
+line_in_cell,value,class_,comment,code
+26,3.6,unit definition,m/s -> km/h: a unit conversion inside the engine (rule 7) -> goes (13 Nov decision 15),"v_kmh = np.clip(v_avg * 3.6, cdxa_v[0], cdxa_v[-1])              # hold end values: below 60 km/h uses the 60 "
+23,273.15,unit definition,0 deg C in kelvin: a unit conversion inside the engine (rule 7) -> goes (13 Nov decision 15),"rho_row = p_air / (R_air * (T_amb_h[hour] + 273.15))             # ideal gas, fixed pressure (HDEV; VECTO fixe"

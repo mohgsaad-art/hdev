@@ -1,0 +1,7 @@
+cycle,loading,braking_rows,min_start_speed_kmh_EM_on_braking,max_start_speed_kmh_EM_off_braking,EM_off_braking_rows_start_speed_over_10,EM_off_braking_rows_start_speed_5_to_10,EM_on_braking_rows_start_speed_below_10,regen_rows,max_regen_mech_kW,min_gen_limit_kW_when_regen,rows_regen_within_2pct_of_gen_limit,battery_charge_limit_kW,max_regen_electric_kW,friction_brake_kWh,friction_brake_rows
+RegionalDelivery,ReferenceLoad,327,4.51064,9.4375,0,8,8,546,121.3806,7.5399,0,1287.576,109.3838,0.08282713888888887,39
+RegionalDelivery,LowLoading,325,4.0526,9.84606,0,8,9,442,97.8363,4.0299,0,1287.576,87.9024,0.060005555555555555,42
+UrbanDelivery,ReferenceLoad,2198,3.36802,9.939239999999998,0,73,89,2930,191.5465,1.2013,0,1287.576,172.85,0.8764614444444445,410
+UrbanDelivery,LowLoading,2224,3.34638,9.88798,0,73,90,2779,142.5339,0.4346,0,1287.576,128.7499,0.6310300833333333,415
+LongHaul,ReferenceLoad,113,4.57748,7.5237799999999995,0,2,4,241,220.7112,16.945,0,1287.576,198.6882,0.07536058333333333,16
+LongHaul,LowLoading,122,4.2187,7.76394,0,3,2,142,120.6096,6.5442,0,1287.576,108.6944,0.033148027777777776,14
