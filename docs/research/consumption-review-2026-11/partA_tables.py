@@ -148,8 +148,25 @@ def q11():
     return rows
 
 
+def q7():
+    """Q7: battery terminal power = motor electric power - aux power (aux straight to the HV battery, DC/DC efficiency 1.0)."""
+    rows = []
+    for cyc, ld in CASES:
+        rw = E.vecto_rows(cyc, ld)
+        v = rw["vecto"]
+        res = v["P_REESS_T"] - (v["P_E2-em_el"] - v["P_aux_el"])
+        dcdc_in = VM.col(rw["cols"], "P_DC/DC_In") * 1000.0
+        dcdc_out = VM.col(rw["cols"], "P_DC/DC_Out") * 1000.0
+        rows.append(dict(cycle=cyc, loading=ld, max_abs_W_P_REESS_T_minus_em_el_plus_aux=float(np.abs(res).max()),
+                         rms_W=float(np.sqrt(np.mean(res ** 2))), max_abs_W_DCDC_in_minus_out=float(np.abs(dcdc_in - dcdc_out).max()),
+                         max_abs_W_DCDC_out_minus_P_aux_el=float(np.abs(dcdc_out - v["P_aux_el"]).max()),
+                         vmod_rounding_W=0.1))
+    return rows
+
+
 def main():
     lit, rs = literals()
+    write_csv("partA_q7_battery_identity.csv", q7())
     write_csv("partA_hardcoded_numbers.csv", lit)
     conv = [x for x in lit if x["value"] in (273.15, 3.6)]
     write_csv("partA_unit_conversions.csv", conv)
