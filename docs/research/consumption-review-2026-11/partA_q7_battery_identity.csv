@@ -1,0 +1,7 @@
+cycle,loading,max_abs_W_P_REESS_T_minus_em_el_plus_aux,rms_W,max_abs_W_DCDC_in_minus_out,max_abs_W_DCDC_out_minus_P_aux_el,vmod_rounding_W
+RegionalDelivery,ReferenceLoad,289.5999999999767,40.59734259774113,0.0,0.0,0.1
+RegionalDelivery,LowLoading,206.70000000001164,30.23454010669004,0.0,0.0,0.1
+UrbanDelivery,ReferenceLoad,292.5000000000582,28.643543605125668,0.0,0.0,0.1
+UrbanDelivery,LowLoading,292.6000000000349,18.901059407582537,0.0,0.0,0.1
+LongHaul,ReferenceLoad,292.5999999999767,107.35010821254392,0.0,0.0,0.1
+LongHaul,LowLoading,291.70000000001164,66.45515643658432,0.0,0.0,0.1

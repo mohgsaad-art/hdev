@@ -1,0 +1,26 @@
+line_in_cell,value,class_,comment,code
+16,1,index/shape,"searchsorted -1, 1 - w, +1 cell","k_pl = np.searchsorted(wp_s[has_pl], S, side=""right"") - 1        # last payload waypoint at or before each row"
+27,0,neutral value,no traction power,"j = np.clip(np.searchsorted(cdxa_v, v_kmh, side=""right"") - 1, 0, len(cdxa_v) - 2)  # grid cell of each row"
+37,0.0,neutral value,no traction power,"P_trac = np.where(M == 3, 0.0, P_trac)                           # coasting/rolling: no motor torque (VECTO Ba"
+38,0.0,neutral value,no traction power,"P_trac = np.where((M == 4) & (V <= v_no_regen), 0.0, P_trac)     # braking below v_no_regen: brakes only (same"
+47,0,neutral value,no traction power,for i in np.where(pto_on_col == 1)[0]:                           # loop over stops with PTO on (not over rows)
+58,0,neutral value,no traction power,moving = V > 0                                                   # SP on only when moving (VECTO ElectricAuxil
+68,3600000.0,unit definition,J per kWh,E_battery = np.sum(P_battery * dt) / 3.6e6                       # net trip energy [kWh]
+26,3.6,unit definition,m/s -> km/h: a unit conversion inside the engine (rule 7) -> goes (13 Nov decision 15),"v_kmh = np.clip(v_avg * 3.6, cdxa_v[0], cdxa_v[-1])              # hold end values: below 60 km/h uses the 60 "
+26,0,neutral value,no traction power,"v_kmh = np.clip(v_avg * 3.6, cdxa_v[0], cdxa_v[-1])              # hold end values: below 60 km/h uses the 60 "
+27,1,index/shape,"searchsorted -1, 1 - w, +1 cell","j = np.clip(np.searchsorted(cdxa_v, v_kmh, side=""right"") - 1, 0, len(cdxa_v) - 2)  # grid cell of each row"
+27,2,index/shape,len(cdxa_v) - 2,"j = np.clip(np.searchsorted(cdxa_v, v_kmh, side=""right"") - 1, 0, len(cdxa_v) - 2)  # grid cell of each row"
+36,0,neutral value,no traction power,"P_trac = np.where(P_wheel > 0, P_wheel / drivetrain_effeiciency, P_wheel * regen_effeiciency)  # Bob's old rul"
+37,3,HDEV choice (mode code),driver mode M == 3 coasting (driver_model contract),"P_trac = np.where(M == 3, 0.0, P_trac)                           # coasting/rolling: no motor torque (VECTO Ba"
+48,0,neutral value,no traction power,"at_stop = np.where((V == 0) & np.isclose(S, wp_s[i], rtol=0, atol=1e-3))[0]  # standing rows of this stop"
+49,0,neutral value,no traction power,if len(at_stop) == 0:
+20,3600,unit definition,seconds per hour (hour index),"hour = ((t_start + T) // 3600).astype(int)                      # index into T_amb_h, W1, W2, HVAC (if per hou"
+23,273.15,unit definition,0 deg C in kelvin: a unit conversion inside the engine (rule 7) -> goes (13 Nov decision 15),"rho_row = p_air / (R_air * (T_amb_h[hour] + 273.15))             # ideal gas, fixed pressure (HDEV; VECTO fixe"
+26,1,index/shape,"searchsorted -1, 1 - w, +1 cell","v_kmh = np.clip(v_avg * 3.6, cdxa_v[0], cdxa_v[-1])              # hold end values: below 60 km/h uses the 60 "
+29,1,index/shape,"searchsorted -1, 1 - w, +1 cell","cdxa_row = cdxa_tab[hour, j] * (1 - w) + cdxa_tab[hour, j+1] * w  # linear interpolation by speed, at the hour"
+38,4,HDEV choice (mode code),driver mode M == 4 braking (driver_model contract),"P_trac = np.where((M == 4) & (V <= v_no_regen), 0.0, P_trac)     # braking below v_no_regen: brakes only (same"
+47,1,index/shape,"searchsorted -1, 1 - w, +1 cell",for i in np.where(pto_on_col == 1)[0]:                           # loop over stops with PTO on (not over rows)
+51,0,neutral value,no traction power,"k0 = at_stop[0] + int(pto_start_col[i])                      # PTO start inside the stop (middle, from pto_eng"
+53,1,index/shape,"searchsorted -1, 1 - w, +1 cell",if k1 > at_stop[-1] + 1:
+28,1,index/shape,"searchsorted -1, 1 - w, +1 cell",w = (v_kmh - cdxa_v[j]) / (cdxa_v[j+1] - cdxa_v[j])              # position inside the cell
+48,0.001,HDEV choice,tolerance [m] to find the rows of a stop; TIME = distance noise; not a VECTO constant,"at_stop = np.where((V == 0) & np.isclose(S, wp_s[i], rtol=0, atol=1e-3))[0]  # standing rows of this stop"

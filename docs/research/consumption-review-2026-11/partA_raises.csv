@@ -1,0 +1,3 @@
+line_in_cell,code,can_parser_check_before_driver,where_the_check_belongs
+50,"raise ValueError(f""no standing rows found for stop at {wp_s[i]} m"")       # guard only",needs driver rows (do the driver rows contain a standing run at this waypoint?),POST-DRIVER check; the parser can only check that the stop time > 0
+54,"raise ValueError(f""PTO does not fit in stop at {wp_s[i]} m"")             # guard only; parser extends stops",stop length vs PTO length is known BEFORE the driver (stop_wp and pto_dur),"PARSER check (parser extends the stop: standing = stop + PTO, VECTO DistanceBasedDrivingCycle.cs 218-220)"
