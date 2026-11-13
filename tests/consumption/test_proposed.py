@@ -8,7 +8,7 @@ from _synth import base_args, old_call, rows
 
 def test_kelvin_and_ms_inside_give_the_same_numbers_as_celsius_and_kmh_inside():
     """[TEST] Q12: removing '+ 273.15' and '* 3.6' from the engine changes nothing numerically (zero rotor, ideal drivetrain, no PTO)."""
-    a = base_args(rows(), aux=(1000, 200, 250, 20, 600, 0), eff=(1.0, 1.0, 1.0), v_no_regen=-1.0)
+    a = base_args(rows(), aux=(1000, 200, 250, 20, 0, 0), eff=(1.0, 1.0, 1.0), v_no_regen=-1.0)   # cond = 0: the Cond rule is a separate, intended change (next test)
     old = old_call(a, regen_effeiciency=1.0)
     new = RC.consumption_engine_v_proposed(**a)
     assert np.allclose(new["P_wheel"], old[0], rtol=1e-12, atol=1e-9)
@@ -36,3 +36,14 @@ def test_proposal_returns_the_energy_split_the_battery_engine_needs():
     p = RC.consumption_engine_v_proposed(**a)
     assert p["E_battery"] == pytest.approx(p["E_drive"] + p["E_regen"] + p["E_aux"], rel=1e-12)
     assert p["E_regen"] <= 0 <= p["E_drive"]
+
+
+def test_cond_rule_difference_is_exactly_the_intended_one():
+    """[TEST] Appendix 1: Cond on when V > 0.  Proposal: Cond on when a motor is on (M not 0 and not 3), as VECTO Conditioning.cs 83-91.
+    The first accelerating row of every start (V == 0, M == 1) switches from off to on; coasting rows switch from on to off."""
+    r = rows()
+    r["M"] = r["M"].copy(); r["M"][20:25] = 3
+    a = base_args(r, aux=(0, 0, 0, 0, 600.0, 0), eff=(1.0, 1.0, 1.0), v_no_regen=-1.0)
+    old = old_call(a, regen_effeiciency=1.0)[2]
+    new = RC.consumption_engine_v_proposed(**a)["P_aux_row"]
+    assert (new > 0).sum() - (old > 0).sum() == 1 - 5

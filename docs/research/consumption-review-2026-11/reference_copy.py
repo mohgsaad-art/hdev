@@ -174,14 +174,14 @@ def consumption_engine_v_split_eff(T, S, V, M, dt,
                                    drive_pto_mechanical,
                                    gearbox_eff, motor_eff, inverter_eff, v_no_regen, P_regen_max,
                                    *, split_sign=True, rotor_at_motor=True, coast_zero=True, low_speed_rule=True,
-                                   cond_rule="moving", moving_rule="start_speed", return_parts=True,
+                                   cond_rule="em_on", moving_rule="start_speed", return_parts=True,
                                    aux_row_override=None):
     """Switches (default = the proposal in consumption_engine_v_proposed):
        split_sign     True: gearbox sign decided at the wheel, motor sign decided at the motor shaft.
                       False: ONE sign decision on P_wheel (Appendix 1), rotor/PTO added AFTER on the electric side without efficiency.
        rotor_at_motor True: k_rot_rotor added at the motor shaft (through motor x inverter efficiency).  False: dropped (Appendix 1).
        coast_zero     M == 3 -> no traction power.            low_speed_rule  M == 4 and V <= v_no_regen -> brakes only.
-       cond_rule      'moving' (Appendix 1: V>0 or stop PTO), 'em_on' (VECTO Conditioning.cs 83-91: motor on or E-PTO on)
+       cond_rule      'em_on' (default = proposal; VECTO Conditioning.cs 83-91: motor on or E-PTO on), 'moving' (Appendix 1: V>0 or stop PTO)
        aux_row_override  array of electric aux W per row (e.g. the VECTO .vmod column) -> skips step 6 completely.
        gearbox_eff / motor_eff / inverter_eff / v_no_regen / P_regen_max: scalar or per-row array.
     """

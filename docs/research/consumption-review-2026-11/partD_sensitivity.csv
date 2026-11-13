@@ -1,0 +1,39 @@
+cycle,item,setting,kWh_km,d_kWh_km,d_pct,vs_vecto_pct,source
+RegionalDelivery,"BASELINE (scalar gearbox 0.708, motor 0.828, both directions)",,1.1355790799318735,0.0,0.0,8.150388564940325,VECTO E2 .vmod energy-weighted
+RegionalDelivery,gearbox_eff (axle+gearbox),low 0.621,1.3032444852035097,0.1676654052716362,14.76474938950927,24.118522400334253,[VECTO] .vmod range over the 2 loadings and 2 directions
+RegionalDelivery,gearbox_eff (axle+gearbox),high 0.771,1.038039158905129,-0.09753992102674447,-8.589443284971065,-1.139127723321054,[VECTO] .vmod range over the 2 loadings and 2 directions
+RegionalDelivery,motor_eff (motor map incl. inverter),low 0.814,1.1560584189460879,0.020479339014214393,1.803426936628938,10.100801804389326,[VECTO] .vmod range over the 2 loadings and 2 directions
+RegionalDelivery,motor_eff (motor map incl. inverter),high 0.831,1.1313173819705964,-0.004261697961277067,-0.3752885234142189,7.744512568628226,[VECTO] .vmod range over the 2 loadings and 2 directions
+RegionalDelivery,regen chain separate from drive chain (VECTO drive and regen values),"gb 0.771/0.645, motor 0.825/0.831",1.0500819128215377,-0.08549716711033573,-7.528948764665944,0.007801221098824307,[VECTO] .vmod
+RegionalDelivery,inverter_eff separately,skipped,nan,nan,nan,nan,NO SOURCE: the VECTO E2 efficiency map already contains the inverter; no separate sourced value
+RegionalDelivery,v_no_regen,5 km/h [Constants.cs 323],1.1352229746514153,-0.00035610528045815215,-0.031358915178281155,8.116473776325272,[VECTO]
+RegionalDelivery,v_no_regen,"10 km/h [Constants.cs 321, GearboxData.cs 90-99, AMT]",1.1355790799318735,0.0,0.0,8.150388564940325,[VECTO]
+RegionalDelivery,P_regen_max,VECTO motor generating limit (per row),1.1355790799318735,0.0,0.0,8.150388564940325,[VECTO] .vmod P_E2-em_gen_max
+RegionalDelivery,P_regen_max single constant,skipped,nan,nan,nan,nan,NO SOURCE for one number: E2 limit is speed-dependent (min / max over the Regional run: 0 / 250 kW)
+RegionalDelivery,gear for k_rot_rotor (parser default = lowest gear),gear 1 (i_total 19.99),1.1384012389116271,0.002822158979753686,0.24852157191228574,8.419165610631163,[VECTO] AMT.vgbx
+RegionalDelivery,gear for k_rot_rotor (VECTO uses gear 2 in >99 % of driving rows),gear 2 (i_total 10.00),1.1355790799318735,0.0,0.0,8.150388564940325,"[VECTO] AMT.vgbx, .vmod Gear"
+RegionalDelivery,"J_rotor = 0 (rotor inertia not modelled, Appendix 1)",0,1.1346444800226216,-0.0009345999092518209,-0.08230161384338297,8.061379049773487,[VECTO] ElectricMotor.cs 186-188
+RegionalDelivery,Cond rule,V>0 or stop PTO (Appendix 1),1.135702413265207,0.00012333333333347518,0.010860831756498435,8.162134596686377,[VECTO] Conditioning.cs 83-91 says motor-on
+RegionalDelivery,Cond rule,motor on or E-PTO (VECTO),1.1355790799318735,0.0,0.0,8.150388564940325,[VECTO] Conditioning.cs 83-91
+RegionalDelivery,coasting rule,M==3 traction not forced to 0,1.1319649129217368,-0.0036141670101366152,-0.31826643111050323,7.806182183022559,[VECTO] BatteryElectricMotorController.cs 44-47
+RegionalDelivery,sign decision,one sign decision at the wheel (Appendix 1),1.1348320784254493,-0.0007470015064241498,-0.06578154878205122,8.079245564328508,[VECTO] ElectricMotor.cs 297 / TransmissionLossMap
+RegionalDelivery,PLACEHOLDERS 0.95/0.95/0.98 instead of fitted VECTO values,0.95 / 0.95 / 0.98,0.7230590129237079,-0.41252006700816557,-36.32684630232126,-31.13723686440878,"HDEV placeholder (harness v1.7 line 50), flagged"
+UrbanDelivery,"BASELINE (scalar gearbox 0.833, motor 0.882, both directions)",,0.8623907495139277,0.0,0.0,2.6655654183247224,VECTO E2 .vmod energy-weighted
+UrbanDelivery,gearbox_eff (axle+gearbox),low 0.792,0.9355334430686992,0.07314269355477154,8.481386609955788,11.373028936749918,[VECTO] .vmod range over the 2 loadings and 2 directions
+UrbanDelivery,gearbox_eff (axle+gearbox),high 0.844,0.8444240213558343,-0.017966728158093415,-2.0833628106771807,0.5266692090278857,[VECTO] .vmod range over the 2 loadings and 2 directions
+UrbanDelivery,motor_eff (motor map incl. inverter),low 0.869,0.8844125570400859,0.022021807526158232,2.5535765009736533,5.287209171438811,[VECTO] .vmod range over the 2 loadings and 2 directions
+UrbanDelivery,motor_eff (motor map incl. inverter),high 0.886,0.8565537044749799,-0.005837045038947775,-0.6768445791235256,1.9706791041642857,[VECTO] .vmod range over the 2 loadings and 2 directions
+UrbanDelivery,regen chain separate from drive chain (VECTO drive and regen values),"gb 0.844/0.822, motor 0.878/0.886",0.8557011779966586,-0.006689571517269122,-0.7757007506214109,1.8691878567450804,[VECTO] .vmod
+UrbanDelivery,inverter_eff separately,skipped,nan,nan,nan,nan,NO SOURCE: the VECTO E2 efficiency map already contains the inverter; no separate sourced value
+UrbanDelivery,v_no_regen,5 km/h [Constants.cs 323],0.8571921466367993,-0.0051986028771283666,-0.602812922107343,2.0466841234284994,[VECTO]
+UrbanDelivery,v_no_regen,"10 km/h [Constants.cs 321, GearboxData.cs 90-99, AMT]",0.8623907495139277,0.0,0.0,2.6655654183247224,[VECTO]
+UrbanDelivery,P_regen_max,VECTO motor generating limit (per row),0.8623907495139277,0.0,0.0,2.6655654183247224,[VECTO] .vmod P_E2-em_gen_max
+UrbanDelivery,P_regen_max single constant,skipped,nan,nan,nan,nan,NO SOURCE for one number: E2 limit is speed-dependent (min / max over the Regional run: 0 / 250 kW)
+UrbanDelivery,gear for k_rot_rotor (parser default = lowest gear),gear 1 (i_total 19.99),0.8737764939437799,0.011385744429852185,1.3202535435670626,4.02101118378333,[VECTO] AMT.vgbx
+UrbanDelivery,gear for k_rot_rotor (VECTO uses gear 2 in >99 % of driving rows),gear 2 (i_total 10.00),0.8623907495139277,0.0,0.0,2.6655654183247224,"[VECTO] AMT.vgbx, .vmod Gear"
+UrbanDelivery,"J_rotor = 0 (rotor inertia not modelled, Appendix 1)",0,0.8586002068236203,-0.00379054269030743,-0.4395388856436533,2.2143103361452754,[VECTO] ElectricMotor.cs 186-188
+UrbanDelivery,Cond rule,V>0 or stop PTO (Appendix 1),0.8626520004740983,0.00026125096017060034,0.030293803628800298,2.696666723106933,[VECTO] Conditioning.cs 83-91 says motor-on
+UrbanDelivery,Cond rule,motor on or E-PTO (VECTO),0.8623907495139277,0.0,0.0,2.6655654183247224,[VECTO] Conditioning.cs 83-91
+UrbanDelivery,coasting rule,M==3 traction not forced to 0,0.8491300917250153,-0.013260657788912389,-1.537662341158752,1.0869156815494385,[VECTO] BatteryElectricMotorController.cs 44-47
+UrbanDelivery,sign decision,one sign decision at the wheel (Appendix 1),0.8593613926112281,-0.003029356902699565,-0.35127428076043854,2.3049276918128747,[VECTO] ElectricMotor.cs 297 / TransmissionLossMap
+UrbanDelivery,PLACEHOLDERS 0.95/0.95/0.98 instead of fitted VECTO values,0.95 / 0.95 / 0.98,0.6089398012181658,-0.25345094829576187,-29.38933985998984,-27.50716652164692,"HDEV placeholder (harness v1.7 line 50), flagged"

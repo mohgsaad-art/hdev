@@ -1,0 +1,11 @@
+case,variant,rows_per_call,calls,mean_s,min_s,max_s,repeats,cpu,numpy,python
+"day (4389 rows, 96 PTO stops)",code of record (Appendix 1 loop),4389.0,1.0,0.0028050663997419177,0.002634556999510096,0.0031811539993213955,5.0,Intel(R) Xeon(R) Platinum 8488C (8 logical CPUs),2.4.6,3.11.15
+"day (4389 rows, 96 PTO stops)",step 6 searchsorted only,4389.0,1.0,0.0008951873998739757,0.0008638150002298062,0.0009393089994773618,5.0,Intel(R) Xeon(R) Platinum 8488C (8 logical CPUs),2.4.6,3.11.15
+"day (4389 rows, 96 PTO stops)",consumption_engine_v_proposed,4389.0,1.0,0.0010421179998957087,0.0009857139993982855,0.0010823100001289276,5.0,Intel(R) Xeon(R) Platinum 8488C (8 logical CPUs),2.4.6,3.11.15
+year = 250 calls (one per date),code of record (Appendix 1 loop),,250.0,0.6544551869998637,0.6453931149999335,0.6696921820002899,3.0,Intel(R) Xeon(R) Platinum 8488C (8 logical CPUs),2.4.6,3.11.15
+year = 250 calls (one per date),step 6 searchsorted only,,250.0,0.23158002100050604,0.22911236900017684,0.2351180130008288,3.0,Intel(R) Xeon(R) Platinum 8488C (8 logical CPUs),2.4.6,3.11.15
+year = 250 calls (one per date),consumption_engine_v_proposed,,250.0,0.27567366600032983,0.2687133570007063,0.28027409500009526,3.0,Intel(R) Xeon(R) Platinum 8488C (8 logical CPUs),2.4.6,3.11.15
+year = one array (1.1 M rows),step 6 searchsorted only,,1.0,0.2503157863332793,0.24836610500005918,0.2515944380002111,3.0,Intel(R) Xeon(R) Platinum 8488C (8 logical CPUs),2.4.6,3.11.15
+year = one array (1.1 M rows),consumption_engine_v_proposed,,1.0,0.29793338699982996,0.2948539519993574,0.30083096799990017,3.0,Intel(R) Xeon(R) Platinum 8488C (8 logical CPUs),2.4.6,3.11.15
+year = one array (1.1 M rows),"code of record (Appendix 1 loop), ONE run",,1.0,69.44067863000055,69.44067863000055,69.44067863000055,1.0,Intel(R) Xeon(R) Platinum 8488C (8 logical CPUs),2.4.6,3.11.15
+check,"step6 searchsorted == code of record (bit identical, refuse day)",,,1.0,,,,,,
