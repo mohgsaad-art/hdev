@@ -1,6 +1,7 @@
 import re, json, base64, pathlib
 from build_tool import tool_html, fonts_css, LICENSE, W
 from site_parts import *
+import site_v2 as V
 
 s = (W/'site_stripped.html').read_text(encoding='utf-8')
 orig = (W/'site.html').read_text(encoding='utf-8')
@@ -48,7 +49,7 @@ assert 'Plex Mono' not in s.split('</style>\n</head>')[0].split('[[FONTS]]')[1]
 rsub(r"\.kicker\{[^\n]*\n\.kicker::before\{[^\n]*\n", '', 1)
 sub(".cols .mono{font-size:12px;color:var(--accent);display:block;margin-bottom:12px}\n", '')
 sub(".appbar{flex:none;height:52px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px;border-bottom:1px solid var(--line)}\n", '')
-sub('</style>\n</head>', POLISH_CSS + '</style>\n</head>')
+sub('</style>\n</head>', POLISH_CSS + V.CSS2 + '</style>\n</head>')
 
 # ---------- markup ----------
 sub('<a class="skip" href="#depot">Skip to content</a>', '<a class="skip" href="#depot" id="skip">Skip to content</a>')
@@ -72,15 +73,41 @@ sub('''  <div class="appbar">
 ''', '')
 a = s.index('<footer id="siteFoot">'); b = s.index('</footer>', a) + len('</footer>')
 s = s[:a] + FOOTER + s[b:]
-sub('<section class="close">', peek_section(PEEK_ALT) + '\n<section class="close">')
 rsub(r'\.(</h[123]>)', r'\1')
 assert not re.search(r'[a-z]\.</h[1-4]>', s)
 
+# ---------- second pass: structure ----------
+sub('<a href="#depot">How it works</a><a href="#for">Who it\'s for</a><a href="#documents">Documents</a>', '<a href="#for">Who it\'s for</a><a href="#depot">How it works</a><a href="#demo">The tool</a><a href="#documents">Documents</a>', 2)
+sub('  <div class="glyphs" id="glyphs" aria-hidden="true"></div>\n', '')
+sub('Know what your trucks, depot and grid need. Before you spend a krone.', V.HERO_SUB)
+a = s.index('    <div class="ask in" data-ask'); b_ = s.index('    <div class="cta-row in"')
+s = s[:a] + s[b_:]
+sub('<a class="lnk" href="#depot">See how it works <span aria-hidden="true">↓</span></a>\n    </div>', '<a class="lnk" href="#app">Try the demo <span aria-hidden="true">→</span></a>\n    </div>\n    ' + V.HERO_PICK)
+rsub(r'  <div class="hero-foot in" id="heroFoot"[^\n]*\n', '', 1)
+a = s.index('<section class="aud" id="for">'); b_ = s.index('<section class="docs" id="documents">')
+s = s[:a] + V.peek_section2() + '\n' + s[b_:]
+sub('<section class="story" id="depot">', V.who_section() + '\n<section class="story" id="depot">')
+for oh, op, nh, np_ in V.STORY:
+    sub('<h3>' + oh + '</h3><p>' + op + '</p>', '<h3>' + nh + '</h3><p>' + np_ + '</p>')
+sub('Get the document you&nbsp;need', 'Pick the document you&nbsp;need')
+sub('One run. Pick the one your reader signs.', 'One run gives all six. Choose the one your reader signs.')
+
 # ---------- script ----------
+a = s.index('  /* ---------- hero glyphs'); e = "  inView(hero,function(v){ heroOn=v; if(v) paintGlyphs() });\n"; b_ = s.index(e) + len(e)
+s = s[:a] + "  var hero=$('top'); function paintGlyphs(){} function cachePos(){}\n" + s[b_:]
+a = s.index('  /* ---------- audiences ---------- */'); e = "  aud.set(0);\n"; b_ = s.index(e) + len(e)
+s = s[:a] + s[b_:]
+sub("    var ap=pinP(audSec), an=Math.min(3,Math.floor(ap*4)); aud.set(an); aud.progress(ap*4-an);\n", '')
+sub("    if(hoverI<0){ var k=Math.min(docs.length-1,Math.floor(pinP(dsec)*docs.length)); if(k!==scrollI){ scrollI=k; doc.set(k,'scroll') } }\n", '')
+sub("function goDoc(k){ k=(k+docs.length)%docs.length; doc.set(k,'user'); scrollToChapter(dsec,k,docs.length) }", "function goDoc(k){ k=(k+docs.length)%docs.length; scrollI=k; doc.set(k,'user') }")
+sub("hoverI=k; doc.set(k,'hover')", "hoverI=k; scrollI=k; doc.set(k,'hover')")
+sub("var sc=Math.max(.5,Math.min(1,hs,ws));", "var sc=Math.max(.5,Math.min(1,ws));")
+sub("  /* ---------- smooth scroll engine ---------- */", V.WHO_JS + "\n  /* ---------- smooth scroll engine ---------- */")
+sub("  addEventListener('hashchange',route);\n", "  addEventListener('hashchange',route);\n  function whoHash(){ var h=location.hash.slice(1); if(AIDS.indexOf(h)>=0) setTimeout(function(){ goWho(h,true) },90) }\n  addEventListener('hashchange',whoHash); whoHash();\n")
 sub("  var hdr=$('hdr'), body=document.body;\n", "  var hdr=$('hdr'), body=document.body;\n" + ORG_JS)
 sub("var fan=$('fan'), fanbox=$('fanbox'),", "$('fan').setAttribute('aria-hidden','true');\n  var fan=$('fan'), fanbox=$('fanbox'),")
-pts = json.loads((W/'peek.json').read_text())
-sub("  /* ---------- smooth scroll engine ---------- */", PEEK_JS.replace('__PTS__', json.dumps([pts[str(i)] for i in range(4)])) + "\n  /* ---------- smooth scroll engine ---------- */")
+pts = V.PK['pts']
+sub("  /* ---------- smooth scroll engine ---------- */", V.PEEK_JS2.replace('__PTS__', json.dumps(pts)) + "\n  /* ---------- smooth scroll engine ---------- */")
 sub("var PAGES=['about','contact','tool','app'], toolLoaded=false, signedIn=false, hadPage=false;\n  try{ signedIn=sessionStorage.getItem('evs-in')==='1' }catch(e){}\n",
     "var PAGES=['about','contact','tool','app','privacy','terms'], toolLoaded=false, hadPage=false;\n")
 sub("fr.srcdoc=new TextDecoder('utf-8').decode(by) }", "fr.srcdoc=new TextDecoder('utf-8').decode(by).replace('/*EVS_FONTS*/',function(){ return $('evs-fonts').textContent }) }")
@@ -105,8 +132,9 @@ for L in D:
         v = D[L].pop(old)
         D[L][new] = vals[L] if vals else v.rstrip('.')
     for k, v in NEW.items(): D[L][k] = v[L]
+    for k, v in V.NEW2.items(): D[L][k] = v[L]
     for i, a in enumerate(PEEK_ALT): D[L][a] = ALT_TR[i][L]
-    for k in [k for k in D[L] if re.match(r'0\d · ', k)] + ['Open the tool', 'Sign in to EV Scope.', 'Password', 'Sign in', 'No account yet? Ask for early access.', 'Early-access customers sign in here.', 'The tool', 'Inside one depot', 'Questions we get', 'Every vehicle, one method', 'Scope · Denmark & EU', 'Your results, kept current', 'Run your own studies', 'We run it for you', 'Sending opens your email app with the message filled in.']:
+    for k in [k for k in D[L] if re.match(r'0\d · ', k)] + ['Open the tool', 'Sign in to EV Scope.', 'Password', 'Sign in', 'No account yet? Ask for early access.', 'Early-access customers sign in here.', 'Inside one depot', 'Questions we get', 'Every vehicle, one method', 'Scope · Denmark & EU', 'Your results, kept current', 'Run your own studies', 'We run it for you', 'Sending opens your email app with the message filled in.']:
         D[L].pop(k, None)
 s = s[:m.start(1)] + json.dumps(D, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/') + s[m.end(1):]
 
@@ -121,7 +149,7 @@ print('untranslated text nodes:', miss)
 
 # ---------- put the heavy parts back ----------
 for i, b64 in enumerate(imgs): s = s.replace('data:image/webp;base64,[[IMG%d]]' % i, 'data:image/webp;base64,' + b64)
-for i in range(4): s = s.replace('[[PEEK%d]]' % i, base64.b64encode((W/('peek%d.webp' % i)).read_bytes()).decode())
+for i in range(3): s = s.replace('[[PEEK%d]]' % i, base64.b64encode((W/('peek%d.webp' % i)).read_bytes()).decode())
 tool = tool_html(False)
 s = s.replace('[[TOOL_B64]]', base64.b64encode(tool.encode('utf-8')).decode())
 s = s.replace('[[FONTS]]', fonts_css())
