@@ -1,13 +1,13 @@
 /* ---------- assistant: fixed questions, answered from the current run ---------- */
 const QA=[
   ['What happens in a cold winter?',/winter|cold|frost|snow/,R=>{const keep=P.wx.year;P.wx.year='cold';const C=compute();P.wx.year=keep;const a=Math.max(...R.G.map(g=>g.worst)),b=Math.max(...C.G.map(g=>g.worst));
-    return keep==='cold'?'This run is already sized for a cold winter. The hardest day is <b>'+fmt(a)+' kWh</b> for one vehicle.':'In a cold winter the hardest day goes from <b>'+fmt(a)+'</b> to <b>'+fmt(b)+' kWh</b> for one vehicle. '+(C.feasible?'Every check still passes'+(C.G.some((g,i)=>g.batt!==R.G[i].batt)?', with a battery of '+fmt(Math.max(...C.G.map(g=>g.batt)))+' kWh.':'.'):'Then this fails: '+C.checks.find(c=>!c.ok).t.toLowerCase()+'.')+' Change the weather under Setup, Assumptions to run it.';}],
+    return keep==='cold'?'This run is already sized for a cold winter. The hardest day is <b>'+fmt(a)+' kWh</b> for one vehicle.':'In a cold winter the hardest day goes from <b>'+fmt(a)+'</b> to <b>'+fmt(b)+' kWh</b> for one vehicle. '+(C.feasible?'Every check still passes'+(C.G.some((g,i)=>g.batt!==R.G[i].batt)?', with a battery of '+fmt(Math.max(...C.G.map(g=>g.batt)))+' kWh.':'.'):'Then this fails: '+C.checks.find(c=>!c.ok).t.toLowerCase()+'.')+' Change it under Setup, Weather to run it.';}],
   ['Will the vehicles make it through the day?',/day|range|make it|batter|far|last/,R=>{const g=R.G.reduce((a,b)=>b.worst/b.usableEol>a.worst/a.usableEol?b:a);
-    return(R.checks[0].ok&&R.checks[1].ok?'Yes. ':'Not all of them. ')+'The tightest group is “'+esc(g.name)+'”: <b>'+fmt(g.worst)+' kWh</b> on the hardest day against <b>'+fmt(g.usableEol)+' kWh</b> usable at year 8.';},'en'],
-  ['Do we need a bigger grid connection?',/grid|connection|upgrade|capacity|amp/,R=>R.isNew?'The depot needs a connection of about <b>'+fmt(Math.ceil(R.peak/10)*10)+' kW</b>, roughly '+fmt(amps(R.peak))+' A.':'The depot peaks at <b>'+fmt(R.peak)+' kW</b> against a connection of <b>'+fmt(R.limit)+' kW</b>. '+(R.peak<=R.limit?'No upgrade is needed.':'That is '+fmt(R.peak-R.limit)+' kW too much. Try another charging plan first.'),'ch'],
+    return(R.checks[0].ok&&R.checks[1].ok?'Yes. ':'Not all of them. ')+'The tightest group is “'+esc(g.name)+'”: <b>'+fmt(g.worst)+' kWh</b> on the hardest day against <b>'+fmt(g.usableEol)+' kWh</b> usable at year 8.';},'bat'],
+  ['Do we need a bigger grid connection?',/grid|connection|upgrade|capacity|amp/,R=>R.isNew?'The depot needs a connection of about <b>'+fmt(Math.ceil(R.peak/10)*10)+' kW</b>, roughly '+fmt(amps(R.peak))+' A.':'The depot peaks at <b>'+fmt(R.peak)+' kW</b> against a connection of <b>'+fmt(R.limit)+' kW</b>. '+(R.peak<=R.limit?'No upgrade is needed.':'That is '+fmt(R.peak-R.limit)+' kW too much. Try another charging plan first.'),'gr'],
   ['How long does charging take?',/how long|charg|plug/,R=>'On the hardest day:<ul>'+R.G.map(g=>'<li>“'+esc(g.name)+'”: '+(g.c.ready?hm(g.c.start)+' to '+hm(g.c.end)+' on a '+g.c.kw+' kW charger':'not full before '+hm(g.out))+'</li>').join('')+'</ul>','ch'],
   ['Is electric cheaper than diesel?',/cheap|cost|diesel|sav|price|money|pay/,R=>'Over '+R.Y+' years electric costs <b>'+fmt(R.totE/1e6,1)+' M DKK</b> and diesel <b>'+fmt(R.totD/1e6,1)+' M DKK</b>. '+(R.be?'Electric is ahead from year '+R.be+'.':'Electric is not ahead within the period.'),'cost'],
-  ['How much CO₂ does it save?',/co2|co₂|climate|emission|green/,R=>'About <b>'+fmt(R.co2D-R.co2E)+' t</b> in the first year and <b>'+fmt(R.co2Saved)+' t</b> over '+R.Y+' years. Production is not counted.','cost'],
+  ['How much CO₂ does it save?',/co2|co₂|climate|emission|green/,R=>'About <b>'+fmt(R.co2D-R.co2E)+' t</b> in the first year and <b>'+fmt(R.co2Saved)+' t</b> over '+R.Y+' years. Production is not counted.','co2'],
   ['What have you assumed?',/assum|source|trust|sample|sure|where/,()=>{const c=srcCounts(S.runs[S.runs.length-1].rows);return'This run used <b>'+(c.sample||0)+' sample values</b> and <b>'+(c.assume||0)+' assumptions</b> next to '+(c.std||0)+' standard values. All of them are listed with their source.';},'src']];
 function aiSay(cls,html){const d=document.createElement('div');d.className=cls;d.innerHTML=html;$('msgs').appendChild(d);$('msgs').scrollTop=1e6;}
 function aiAsk(txt){
@@ -24,22 +24,22 @@ const EMB=window.parent!==window;
 document.addEventListener('click',e=>{
   const t=e.target,c=s=>t.closest(s);let el;
   if((el=c('[data-close]'))||(DLG&&t===DLG.el)){closeDlg();return;}
-  if((el=c('[data-reset]'))){const inp=el.closest('.fr').querySelector('[data-o]'),r=REG[+inp.dataset.o];r.o[el.dataset.reset]=r.o._d[el.dataset.reset];DLG?drawDlg():render();return;}
+  if((el=c('[data-reset]'))){const inp=el.closest('[data-s]').querySelector('[data-o]'),r=REG[+inp.dataset.o];r.o[el.dataset.reset]=r.o._d[el.dataset.reset];DLG?drawDlg():render();return;}
   if(DLG&&DLG.cfg.lib){const lib=DLG.cfg.lib,g=P.groups.find(x=>x.id===DLG.cfg.gid),d=DEFS[lib];
     if(c('[data-tplnew]')||c('[data-tpldup]')){const src=c('[data-tpldup]')?tpl(lib,g[lib]):null,o=src?clone(src):BLANK[lib]();
       o.id=lib+(P.nid++);o.name=src?src.name+' (copy)':'New '+d.one;if(!src)o._d=clone(o),delete o._d.id,delete o._d.name;P.lib[lib].push(o);g[lib]=o.id;drawDlg();$('tplName').focus();$('tplName').select();return;}}
+  if(DLG&&(el=c('[data-goto]'))){const p=el.dataset.goto;DLG.el.remove();DLG=null;go(p);return;}
   if(DLG)return;
   if((el=c('[data-main]'))){if(!el.disabled){const m=el.dataset.main;go(S.last[m]||m);}return;}
   if((el=c('[data-tab]'))){go(el.dataset.tab);return;}
   if(c('[data-run]')||c('#bRun')){run();return;}
   if((el=c('[data-tpl]'))){const a=el.dataset.tpl.split('|');openTpl(a[0],+a[1]);return;}
-  if((el=c('[data-set]'))){openSet(el.dataset.set);return;}
   if((el=c('[data-miss]'))){openAt(missing()[+el.dataset.miss].open);return;}
   if(c('[data-gadd]')){const g0=P.groups[P.groups.length-1];P.groups.push({id:P.nid++,name:'New group',n:1,veh:g0?g0.veh:'',rt:g0?g0.rt:'',load:g0?g0.load:'',eq:g0?g0.eq:'',sch:g0?g0.sch:''});render();const i=document.querySelectorAll('.gname');i[i.length-1].focus();i[i.length-1].select();return;}
   if((el=c('[data-gdup]'))){const g=P.groups.find(x=>x.id===+el.dataset.gdup);P.groups.splice(P.groups.indexOf(g)+1,0,Object.assign({},g,{id:P.nid++,name:g.name+' (copy)'}));render();return;}
   if((el=c('[data-gdel]'))){P.groups=P.groups.filter(x=>x.id!==+el.dataset.gdel);render();return;}
-  if((el=c('[data-plan]'))){P.depot.plan=el.dataset.plan;run('ch');return;}
-  if((el=c('[data-whatif]'))){const w=el.dataset.whatif;if(w==='cold')P.wx.year=P.wx.year==='cold'?'normal':'cold';if(w==='plan')P.depot.plan=P.depot.plan==='grid'?'cost':'grid';if(w==='more')P.groups[0].n+=2;run('cmp');return;}
+  if((el=c('[data-plan]'))){P.chg.plan=el.dataset.plan;run('ch');return;}
+  if((el=c('[data-whatif]'))){const w=el.dataset.whatif;if(w==='cold')P.wx.year=P.wx.year==='cold'?'normal':'cold';if(w==='plan')P.chg.plan=P.chg.plan==='grid'?'cost':'grid';if(w==='more')P.groups[0].n+=2;run('cmp');return;}
   if((el=c('[data-doc]'))){$('printRep').innerHTML=buildDoc(el.dataset.doc,S.run);setTimeout(()=>window.print(),80);return;}
   if(c('[data-csv]')){csv(S.run);return;}
   if(c('#bAi')){setAi(!S.ai);return;}
@@ -48,8 +48,8 @@ document.addEventListener('click',e=>{
   if(c('#bExit')||(EMB&&c('#brand'))){e.preventDefault();window.parent.postMessage({evs:'exit'},'*');return;}
   if(c('.skip')){e.preventDefault();$('page').focus();}
 });
-function liveField(inp){const r=REG[+inp.dataset.o],f=setVal(+inp.dataset.o,inp.dataset.k,inp.value),s=$('s'+inp.id),m=isMissing(f,r.o);
-  if(s)s.innerHTML=srcHtml(f,r.o);inp.classList.toggle('miss',m);if(m)inp.setAttribute('aria-invalid','true');else inp.removeAttribute('aria-invalid');drawNav();}
+function liveField(inp){const r=REG[+inp.dataset.o],f=setVal(+inp.dataset.o,inp.dataset.k,inp.value),w=inp.closest('[data-s]'),m=isMissing(f,r.o);
+  if(w)w.dataset.s=srcOf(f,r.o);inp.classList.toggle('miss',m);if(m)inp.setAttribute('aria-invalid','true');else inp.removeAttribute('aria-invalid');drawNav();}
 document.addEventListener('input',e=>{const t=e.target;
   if(t.dataset.name!==undefined){REG[+t.dataset.name].o.name=t.value||'Untitled';const o=document.querySelector('#tplSel option:checked');if(o)o.textContent=t.value||'Untitled';return;}
   if(t.dataset.g){const a=t.dataset.g.split('|'),g=P.groups.find(x=>x.id===+a[1]);if(a[0]==='name')g.name=t.value||'Group';else{const n=parseInt(t.value,10);g.n=n>=1&&n<=500?n:0;t.classList.toggle('miss',!g.n);

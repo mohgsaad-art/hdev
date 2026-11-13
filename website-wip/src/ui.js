@@ -10,8 +10,10 @@ const stat=(ok,yes,no)=>`<span class="st ${ok?'ok-t':'no-t'}">${ico(ok?'ok':'no'
 
 /* ---------- state and navigation ---------- */
 const S={tab:'fleet',run:null,runNo:0,snap:null,runs:[],ai:false,enG:0,cmpA:1,cmpB:1,last:{setup:'fleet',results:'ov'}};
-const MAIN=[['setup','Setup',['fleet','depot','assume','check']],['results','Results',['ov','en','ch','cost','src']],['cmp','Compare',['cmp']],['docs','Documents',['docs']]];
-const TITLE={fleet:'Fleet',depot:'Depot',assume:'Assumptions',check:'Check and run',ov:'Overview',en:'Energy and battery',ch:'Charging and grid',cost:'Cost and CO₂',src:'Inputs and sources'};
+const SETUP=['fleet','depot','charging','weather','prices','costs','co2in','check'];
+const MAIN=[['setup','Setup',SETUP],['results','Results',['ov','en','bat','ch','gr','cost','co2','src']],['cmp','Compare',['cmp']],['docs','Documents',['docs']]];
+const TITLE={fleet:'Fleet',depot:'Depot',charging:'Charging',weather:'Weather',prices:'Energy prices',costs:'Costs',co2in:'CO₂',check:'Check and run',
+  ov:'Overview',en:'Energy',bat:'Battery',ch:'Charging',gr:'Grid',cost:'Cost',co2:'CO₂',src:'Inputs and sources'};
 const mainOf=t=>MAIN.find(m=>m[2].includes(t))[0];
 const dirty=()=>S.snap!==null&&S.snap!==snapshot();
 function drawNav(){
@@ -19,7 +21,7 @@ function drawNav(){
   $('nmain').innerHTML=MAIN.map(m=>`<button class="mtab" data-main="${m[0]}"${cur===m[0]?' aria-current="page"':''}${m[0]!=='setup'&&!S.run?' disabled title="Run the sample first"':''}>${ico(m[0],16)}<span>${m[1]}</span></button>`).join('');
   const subs=MAIN.find(m=>m[0]===cur)[2];
   $('nsub').innerHTML=subs.length>1?subs.map(t=>{
-    const flag=(t==='fleet'&&miss.some(x=>x.open.lib||x.open.page==='fleet'))||(t==='depot'&&miss.some(x=>x.open.page==='depot'))||(t==='assume'&&miss.some(x=>x.open.set))||(S.run&&cur==='results'&&S.run.checks.some(c=>!c.ok&&c.go===t));
+    const flag=cur==='setup'?miss.some(x=>x.open.page===t||(t==='fleet'&&x.open.lib)):(S.run&&S.run.checks.some(c=>!c.ok&&c.go===t));
     return `<button class="stab" data-tab="${t}"${S.tab===t?' aria-current="page"':''}>${TITLE[t]}${flag?'<i class="flag" title="Needs attention"></i>':''}</button>`;}).join(''):'';
   $('nsub').hidden=subs.length<2;
   const st=$('runState'),n=miss.length;
@@ -47,37 +49,42 @@ function run(goto){
 const REG=[],OPEN=new Set();
 const syncOpen=root=>root.querySelectorAll('details[data-sec]').forEach(d=>{d.open?OPEN.add(d.dataset.sec):OPEN.delete(d.dataset.sec);});
 function reg(type,o){let i=REG.findIndex(r=>r.o===o);if(i<0){REG.push({type,o});i=REG.length-1;}return i;}
-function srcHtml(f,o){
-  if(f.t==='radio')return'';const s=srcOf(f,o),d=o._d?o._d[f.k]:undefined;
-  let h=`<b class="${s==='you'?'you':s==='need'?'need':''}">${SRCN[s]}</b>`;
-  if(s!=='you'&&s!=='need'&&f.r)h+=' · '+esc(f.r);
-  if(s==='you'&&d!==undefined&&d!==''&&f.t!=='sel')h+=`<button class="lnk" data-reset="${f.k}">Reset to ${esc(typeof d==='number'?fmt(d,f.dec||0):d)}</button>`;
-  return h;}
+/* how a field is marked: blue when it is the user's own value, a small asterisk when it is a sample or an assumption, a red ring when it is missing */
+const starred=f=>f.s==='sample'||f.s==='assume';
+const ast=f=>starred(f)?`<sup class="ast" title="${esc(SRCN[f.s]+(f.r?'. '+f.r:''))}">*</sup>`:'';
+function rst(f,o){const d=o._d?o._d[f.k]:undefined;if(d===undefined||d===''||f.t==='info')return'';
+  const lab=f.o?(f.o.find(q=>String(q[0])===String(d))||[0,d])[1]:typeof d==='number'?fmt(d,f.dec||0):d;
+  return`<button class="lnk rst" data-reset="${f.k}" title="Back to ${esc(lab)}">Reset</button>`;}
+function ctl(f,o,oid,noUnit,aria){
+  const id='f'+oid+'_'+f.k,v=o[f.k],at=`id="${id}" data-o="${oid}" data-k="${f.k}"${aria?` aria-label="${esc(aria)}"`:''}`,miss=isMissing(f,o);
+  if(f.t==='info')return`<span class="fi">${esc(f.v(o))}</span>`;
+  if(f.t==='sel')return`<select class="in" ${at}>${f.o.map(q=>`<option value="${q[0]}"${String(v)===String(q[0])?' selected':''}>${q[1]}</option>`).join('')}</select>`;
+  return`<input class="in${f.t==='num'?' n':''}${miss?' miss':''}" ${at} ${f.t==='num'?'inputmode="decimal"':f.t==='time'?'type="time"':''} value="${esc(v==null?'':f.t==='num'&&typeof v==='number'?v.toLocaleString('en-GB',{maximumFractionDigits:6}):v)}"${miss?' aria-invalid="true"':''}>${f.u&&!noUnit?`<span class="u">${f.u}</span>`:''}`;}
 function fieldHtml(f,o,oid){
-  const id='f'+oid+'_'+f.k,v=o[f.k],lab=labelOf(f,o),at=`id="${id}" data-o="${oid}" data-k="${f.k}"`;
+  const id='f'+oid+'_'+f.k,v=o[f.k],lab=labelOf(f,o);
   if(f.t==='radio')return`<fieldset class="choice"><legend>${lab}</legend>${f.o.map(q=>q[3]
     ?`<div class="opt off"><input type="radio" disabled aria-label="${esc(q[1])}"><span><b>${q[1]}</b><small>${q[2]}</small></span></div>`
     :`<label class="opt"><input type="radio" name="${id}" value="${q[0]}" data-o="${oid}" data-k="${f.k}"${v===q[0]?' checked':''}><span><b>${q[1]}</b>${q[2]?`<small>${q[2]}</small>`:''}</span></label>`).join('')}</fieldset>`;
-  let c;const miss=isMissing(f,o);
-  if(f.t==='info')c=`<span>${esc(f.v(o))}</span>`;
-  else if(f.t==='sel')c=`<select class="in" ${at}>${f.o.map(q=>`<option value="${q[0]}"${String(v)===String(q[0])?' selected':''}>${q[1]}</option>`).join('')}</select>`;
-  else c=`<input class="in${f.t==='num'?' n':''}${miss?' miss':''}" ${at} ${f.t==='num'?'inputmode="decimal"':f.t==='time'?'type="time"':''} value="${esc(v==null?'':v)}"${miss?' aria-invalid="true"':''} aria-describedby="s${id}">${f.u?`<span class="u">${f.u}</span>`:''}`;
-  return`<div class="fr">${f.t==='info'?`<span>${lab}</span>`:`<label for="${id}">${lab}</label>`}<div class="fc">${c}</div><div class="fsrc" id="s${id}">${srcHtml(f,o)}</div></div>`;}
+  return`<div class="fr" data-s="${srcOf(f,o)}">${f.t==='info'?`<span class="fl0">${lab}${ast(f)}</span>`:`<label for="${id}">${lab}${ast(f)}</label>`}<div class="fc">${ctl(f,o,oid)}${rst(f,o)}</div></div>`;}
 function formHtml(type,o,keys){
-  const oid=reg(type,o);let fs=visible(type,o);if(keys)fs=fs.filter(f=>keys.includes(f.k));
+  const oid=reg(type,o);let fs=visible(type,o);fs=keys?fs.filter(f=>keys.includes(f.k)):fs.filter(f=>!f.pg);
   const secs=[...new Set(fs.filter(f=>f.sec).map(f=>f.sec))];
   return fs.filter(f=>!f.sec).map(f=>fieldHtml(f,o,oid)).join('')+secs.map(sn=>{
     const ff=fs.filter(f=>f.sec===sn),ed=ff.filter(f=>srcOf(f,o)==='you').length,ms=ff.filter(f=>isMissing(f,o)).length;
     return`<details class="fold" data-sec="${esc(sn)}"${OPEN.has(sn)||ms?' open':''}><summary>${sn}<small>${plural(ff.length,'value')}${ed?', '+ed+' changed':''}${ms?', '+ms+' needed':''}</small></summary><div>${ff.map(f=>fieldHtml(f,o,oid)).join('')}</div></details>`;}).join('');}
+/* a small grid of inputs: one row for each item, one column for each side */
+function matrix(type,o,cols,rows){
+  const oid=reg(type,o),fd=k=>DEFS[type].fields.find(f=>f.k===k);
+  return`<div class="tw"><table class="mx"><thead><tr><th scope="col"><span class="sr">Item</span></th>${cols.map(c=>`<th scope="col">${c}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr><th scope="row">${r[0]}<small>${r[1]}</small></th>${r.slice(2).map((k,i)=>{const f=fd(k);
+    return`<td data-s="${srcOf(f,o)}"><div class="fc">${ctl(f,o,oid,1,r[0]+', '+cols[i].toLowerCase())}${ast(f)}${rst(f,o)}</div></td>`;}).join('')}</tr>`).join('')}</tbody></table></div>`;}
+const LEGEND='<p class="legend"><span><sup class="ast on">*</sup> Sample or assumed value</span><span><i class="sw"></i>Changed by you</span><span>Every source is listed under Check and run and in the reports.</span></p>';
 function setVal(oid,k,raw){
   const {type,o}=REG[oid],f=DEFS[type].fields.find(x=>x.k===k);let v=raw;
-  if(f.t==='num'){const x=parseFloat(String(raw).replace(/\s/g,'').replace(',','.'));v=String(raw).trim()===''||isNaN(x)?'':x;}
+  if(f.t==='num'){let t=String(raw).replace(/\s/g,'');t=/^\d{1,3}(,\d{3})+(\.\d+)?$/.test(t)?t.replace(/,/g,''):t.replace(',','.');const x=parseFloat(t);v=String(raw).trim()===''||isNaN(x)?'':x;}
   o[k]=v;
   if(type==='veh'&&k==='cls'){const c=CLS.find(q=>q[0]===o.cls)[2];if(o.cdxa===o._d.cdxa||o.cdxa==='')o.cdxa=c;o._d.cdxa=c;}
   if(type==='rt'&&k==='road'){const sp=ROAD_V[o.road];if(o.speed===o._d.speed||o.speed==='')o.speed=sp;o._d.speed=sp;}
   return f;}
-function mix(type,o){const c={};visible(type,o).forEach(f=>{if(f.t==='radio'||f.t==='info')return;const s=srcOf(f,o);c[s]=(c[s]||0)+1;});
-  return['need','you','std','sample','assume'].filter(s=>c[s]).map(s=>c[s]+' '+({need:'needed',you:'your own',std:'standard',sample:'sample',assume:'assumed'})[s]).join(', ');}
 
 /* ---------- dialogs ---------- */
 let DLG=null;
@@ -89,7 +96,7 @@ function openDlg(cfg){
 function drawDlg(){
   syncOpen(DLG.el);const c=DLG.cfg,a=document.activeElement,fid=a&&DLG.el.contains(a)?a.id:null,sc=$('dlgB').scrollTop;
   $('dlgT').textContent=c.title();$('dlgS').textContent=c.sub?c.sub():'';$('dlgB').innerHTML=c.body();
-  $('dlgF').innerHTML=(c.foot?c.foot():'')+'<span class="sp"></span><button class="btn pri" data-close>Done</button>';
+  $('dlgF').innerHTML='<p class="legend"><span><sup class="ast on">*</sup> Sample or assumed value</span><span><i class="sw"></i>Changed by you</span></p><span class="sp"></span><button class="btn pri" data-close>Done</button>';
   $('dlgB').scrollTop=sc;if(fid&&$(fid))$(fid).focus();}
 function closeDlg(){if(!DLG)return;const fk=DLG.cfg.fk;DLG.el.remove();DLG=null;render();const b=fk&&document.querySelector('[data-fk="'+fk+'"]');if(b)b.focus();}
 function openTpl(lib,gid){
@@ -100,11 +107,10 @@ function openTpl(lib,gid){
       if(!t)return h+`<p class="note">Choose a saved ${d.one} or make a new one.</p>`;
       const oth=P.groups.filter(x=>x.id!==gid&&x[lib]===t.id),oid=reg(lib,t);
       if(oth.length)h+=`<p class="used">Also used by ${oth.map(x=>'“'+esc(x.name)+'”').join(' and ')}. Changes here apply there too. Copy it first to change only this group.</p>`;
-      h+=`<div class="fr"><label for="tplName">Name</label><div class="fc"><input class="in" id="tplName" data-name="${oid}" value="${esc(t.name)}"></div><div class="fsrc"></div></div>`;
-      return h+formHtml(lib,t);},
+      h+=`<div class="fr"><label for="tplName">Name</label><div class="fc"><input class="in" id="tplName" data-name="${oid}" value="${esc(t.name)}"></div></div>`;
+      return h+formHtml(lib,t)+(lib==='veh'?'<p class="note" style="margin-top:14px">Price, service and insurance are on the <button class="lnk" data-goto="costs">Costs page</button>.</p>':'');},
     lib,gid});}
-function openSet(k){openDlg({fk:'set-'+k,title:()=>DEFS[k].title,sub:()=>k==='wx'?'Location: '+(P.depot.addr||'not set')+'. Change it on the Depot page.':'Standard and sample values are filled in. Change what you know better.',body:()=>formHtml(k,P[k])});}
-function openAt(o){if(o.lib)openTpl(o.lib,o.gid);else if(o.set)openSet(o.set);else go(o.page);}
+function openAt(o){if(o.lib)openTpl(o.lib,o.gid);else go(o.page);}
 
 /* ---------- setup pages ---------- */
 const DAYS={mf:'Monday to Friday',ms:'Monday to Saturday',all:'every day'};
@@ -118,7 +124,7 @@ function pageFleet(){
   const tot=sum(P.groups.map(g=>+g.n||0));
   const cell=(g,l)=>{const t=tpl(l,g[l]),bad=!t||visible(l,t).some(f=>isMissing(f,t));
     return`<td data-l="${DEFS[l].title}"><button class="cellbtn${bad?' miss':''}" data-tpl="${l}|${g.id}" data-fk="${l}-${g.id}"><b>${t?esc(t.name):'Choose'}</b><span>${t?SUMM[l](t):'Not chosen yet'}</span></button></td>`;};
-  return`<h1>Fleet</h1><p class="lede">One row for each group of identical vehicles doing the same day. Select any blue name to see or change what is behind it.</p>
+  return`<h1>Fleet</h1><p class="lede">One row for each group of identical vehicles doing the same day. Select a blue name to see or change the vehicle, the route, the load, the equipment or the shift.</p>
   <div class="tw" style="margin-top:22px"><table class="t fleet"><thead><tr><th scope="col">Group</th><th scope="col">Vehicles</th><th scope="col">Vehicle</th><th scope="col">Route</th><th scope="col">Load</th><th scope="col">Body equipment</th><th scope="col">Shift</th><th scope="col"><span class="sr">Actions</span></th></tr></thead><tbody>
   ${P.groups.map(g=>`<tr><td data-l="Group"><input class="in gname" data-g="name|${g.id}" value="${esc(g.name)}" aria-label="Group name"></td>
     <td data-l="Vehicles"><input class="in n cnt${g.n>=1?'':' miss'}" data-g="n|${g.id}" inputmode="numeric" value="${g.n}" aria-label="Number of vehicles in ${esc(g.name)}"></td>
@@ -126,24 +132,47 @@ function pageFleet(){
     <td class="rowact" data-l=""><span><button class="lnk" data-gdup="${g.id}">Copy</button><button class="lnk" data-gdel="${g.id}"${P.groups.length<2?' hidden':''}>Remove</button></span></td></tr>`).join('')}
   </tbody></table></div>
   <p style="margin-top:14px"><button class="lnk" data-gadd>Add a group</button><span class="mut" id="fleetTot" style="margin-left:18px">${plural(tot,'vehicle')} in ${plural(P.groups.length,'group')}</span></p>
-  <div class="nextrow"><span></span><button class="btn" data-tab="depot">Next: Depot</button></div>`;}
+  ${nav('fleet')}`;}
+const nav=t=>{const i=SETUP.indexOf(t),p=SETUP[i-1],n=SETUP[i+1];return`<div class="nextrow">${p?`<button class="btn" data-tab="${p}">Back: ${TITLE[p]}</button>`:'<span></span>'}${n?`<button class="btn" data-tab="${n}">Next: ${TITLE[n]}</button>`:'<span></span>'}</div>`;};
+const sect=(t,note,body,hl)=>`<section class="sect${hl?' hl':''}"><h2>${t}</h2>${note?`<p class="note">${note}</p>`:''}${body}</section>`;
 function pageDepot(){
-  const D=P.depot,sec=(t,note,keys)=>`<section class="sect"><h2>${t}</h2>${note?`<p class="note">${note}</p>`:''}${formHtml('depot',D,keys)}</section>`;
   return`<h1>Depot</h1><p class="lede">Where the vehicles park and charge, and what the grid connection allows.</p>
-  ${sec('Site','',['name','addr'])}
-  ${sec('Grid connection','',['mode','limit','dso','base'])}
-  ${sec('Chargers and charging','One charger for each vehicle in this demo.',['chgMode','kw','plan','loadF','loss'])}
-  <div class="nextrow"><button class="btn" data-tab="fleet">Back: Fleet</button><button class="btn" data-tab="assume">Next: Assumptions</button></div>`;}
-const SETSUM={
-  wx:()=>(P.depot.addr||'Location not set')+'. '+(P.wx.year==='cold'?'Sized for a cold winter.':'Sized for a normal year.'),
-  pr:()=>'Electricity '+(P.pr.elPrice===''?'?':fmt(P.pr.elPrice,2))+' DKK/kWh at the '+({low:'low',exp:'expected',high:'high'})[P.pr.level]+' level. Diesel '+(P.pr.dPrice===''?'?':fmt(P.pr.dPrice,2))+' DKK/l.',
-  fin:()=>P.fin.years+' years of ownership at '+(P.fin.interest===''?'?':fmt(P.fin.interest,2))+' % interest.',
-  tax:()=>'Danish road tax per km. '+(P.tax.grant?'Grant of '+fmt(P.tax.grant)+' DKK.':'No grant applied.'),
-  co2:()=>(P.co2.gridMode==='path'?'Grid electricity follows the Danish Energy Agency projection.':'Grid electricity at '+(P.co2.gridEF===''?'?':fmt(P.co2.gridEF,2))+' g/kWh.')+' Diesel '+(P.co2.co2D===''?'?':fmt(P.co2.co2D,2))+' kg/l.'};
-function pageAssume(){
-  return`<h1>Assumptions</h1><p class="lede">These are already filled in with standard and sample values. Change only what you know better.</p>
-  <div style="margin-top:18px">${SETS.map(k=>`<div class="setrow"><b>${DEFS[k].title}</b><span>${esc(SETSUM[k]())}${mix(k,P[k])?`<small>${mix(k,P[k])}</small>`:''}</span><button class="btn" data-set="${k}" data-fk="set-${k}">Change</button></div>`).join('')}</div>
-  <div class="nextrow"><button class="btn" data-tab="depot">Back: Depot</button><button class="btn" data-tab="check">Next: Check and run</button></div>`;}
+  ${sect('Site','',formHtml('depot',P.depot,['name','addr']))}
+  ${sect('Grid connection','',formHtml('depot',P.depot,['mode','limit','dso','base']))}
+  ${LEGEND}${nav('depot')}`;}
+function pageCharging(){
+  return`<h1>Charging</h1><p class="lede">How big the chargers are and when the vehicles charge. This demo gives every vehicle its own charger.</p>
+  ${sect('Chargers','',formHtml('chg',P.chg,['chgMode','kw']),1)}
+  ${sect('When to charge','',formHtml('chg',P.chg,['plan']),1)}
+  <div class="sect">${formHtml('chg',P.chg,['loadF','loss'])}</div>
+  ${LEGEND}${nav('charging')}`;}
+function pageWeather(){
+  const mf=MONTH_F.map((f,i)=>P.wx.year==='cold'&&(i<2||i>9)?f*DEMO.cold:f);
+  return`<h1>Weather</h1><p class="lede">Cold days take more energy. The fleet is sized for the hardest day of the year you choose here.</p>
+  ${sect('Location','',`<div class="fr"><span class="fl0">Depot</span><div class="fc"><span class="fi">${esc(P.depot.addr||'Not set')}</span><button class="lnk" data-tab="depot">Change on the Depot page</button></div></div>`)}
+  ${sect('Year to size for','',formHtml('wx',P.wx),1)}
+  ${sect('What that means month by month','Energy on a working day in each month, compared with April. Stand-in factors in this demo, the same for every location. They are not measured weather.',
+    `<div class="tw"><table class="t months"><thead><tr>${MONTHS.map(m=>`<th scope="col" class="r">${m}</th>`).join('')}</tr></thead><tbody><tr>${mf.map(f=>`<td class="r">${signed((f-1)*100,0)} %</td>`).join('')}</tr></tbody></table></div>`)}
+  ${nav('weather')}`;}
+function pagePrices(){
+  return`<h1>Energy prices</h1><p class="lede">What a kilowatt-hour and a litre cost. They decide the running cost on both sides of the comparison.</p>
+  ${sect('Electricity','',formHtml('pr',P.pr,['elPrice','level']))}
+  ${sect('Diesel','',formHtml('pr',P.pr,['dPrice']))}
+  ${LEGEND}${nav('prices')}`;}
+function pageCosts(){
+  const seen={},vs=[];P.groups.forEach(g=>{const v=tpl('veh',g.veh);if(v&&!seen[v.id]){seen[v.id]=1;vs.push(v);}});
+  return`<h1>Costs</h1><p class="lede">What the vehicles cost to buy and to keep, on the electric side and on the diesel side.</p>
+  ${sect('Vehicles',vs.length>1?'One table for each vehicle used in the fleet.':'',vs.map(v=>(vs.length>1?`<h3>${esc(v.name)}</h3>`:'')+matrix('veh',v,['Electric','Diesel'],[['Purchase price','DKK','priceEV','priceD'],['Service','DKK a month','svcEV','svcD'],['Insurance','DKK a month','insEV','insD']])).join(''))}
+  ${sect('Financing','',formHtml('fin',P.fin,['years','interest','resid']))}
+  ${sect('Drivers','The same on both sides, so it does not change the difference.',formHtml('fin',P.fin,['wage']))}
+  ${sect('Road tax','Danish road tax per km, by period.',matrix('tax',P.tax,['Electric','Diesel'],[['2026 to 2027','DKK per km','e1','d1'],['2028','DKK per km','e2','d2'],['From 2029','DKK per km','e3','d3']]))}
+  ${sect('Grants','',formHtml('tax',P.tax,['grant']))}
+  ${LEGEND}${nav('costs')}`;}
+function pageCo2in(){
+  return`<h1>CO₂</h1><p class="lede">How much CO₂ a kilowatt-hour and a litre of diesel stand for.</p>
+  ${sect('Grid electricity','',formHtml('co2',P.co2,['gridMode','gridEF']),1)}
+  ${sect('Diesel','',formHtml('co2',P.co2,['co2D']))}
+  ${LEGEND}${nav('co2in')}`;}
 function srcTable(rows){
   let last='';return`<div class="tw"><table class="t"><thead><tr><th scope="col">Value</th><th scope="col">Used</th><th scope="col">Where it comes from</th></tr></thead><tbody>${rows.map(r=>{
     const hd=r.where!==last?`<tr><td colspan="3" style="font-weight:600;padding-top:18px">${esc(r.where)}</td></tr>`:'';last=r.where;
@@ -163,4 +192,4 @@ function pageCheck(){
     <tr><th scope="row">Assumptions</th><td class="r">${c.assume||0}</td><td class="mut">Choices made where no data exists. Check them.</td></tr>
   </tbody></table></div>
   <details class="more"><summary>Show every value and its source</summary>${srcTable(rows)}</details>
-  <div class="nextrow"><button class="btn" data-tab="assume">Back: Assumptions</button><span></span></div>`;}
+  ${nav('check')}`;}

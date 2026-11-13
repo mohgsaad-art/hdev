@@ -37,84 +37,118 @@ function gantt(R){
   <div class="lgd"><span><i class="box" style="background:${PALE}"></i>On the road</span><span><i class="box" style="background:${BLUE}"></i>Charging</span><span><i class="box" style="background:#EEF0F3"></i>Parked</span></div>`;}
 
 /* ---------- result pages ---------- */
-const key=(l,v,u,n,bad)=>`<div class="key${bad?' bad':''}"><div class="kl">${l}</div><div class="kv">${v}${u?`<small>${u}</small>`:''}</div>${n?`<div class="kn">${n}</div>`:''}</div>`;
-const kvt=rows=>`<div class="tw"><table class="t kvt"><tbody>${rows.map(r=>`<tr><th scope="row">${r[0]}</th><td class="r">${r[1]}</td><td class="mut">${r[2]||''}</td></tr>`).join('')}</tbody></table></div>`;
+const fig=(l,v,u,n,bad)=>`<div class="fig${bad?' bad':''}"><div class="fl">${l}</div><div class="fv">${v}${u?`<span>${u}</span>`:''}</div>${n?`<div class="fn">${n}</div>`:''}</div>`;
+const figs=a=>`<div class="figs">${a.join('')}</div>`;
+const kvt=rows=>`<div class="tw"><table class="t kvt"><tbody>${rows.map(r=>`<tr><th scope="row">${r[0]}</th><td class="v">${r[1]}</td><td class="mut">${r[2]||''}</td></tr>`).join('')}</tbody></table></div>`;
 const tbl=(head,rows,foot,cls)=>`<div class="tw"><table class="t ${cls||''}"><thead><tr>${head.map((h,i)=>`<th scope="col"${i&&h[0]!=='<'?' class="r"':''}>${h[0]==='<'?h.slice(1):h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr${r.cur?' class="cur"':''}>${(r.c||r).map((x,i)=>`<td${i&&head[i][0]!=='<'?' class="r"':''}>${x}</td>`).join('')}</tr>`).join('')}</tbody>${foot?`<tfoot><tr>${foot.map((x,i)=>`<td${i?' class="r"':''}>${x}</td>`).join('')}</tr></tfoot>`:''}</table></div>`;
-const head=(ok,title,text)=>`<div class="verd">${mark(ok)}<div><h1>${title}</h1>${text?`<p class="lede">${text}</p>`:''}</div></div>${stale()}`;
+/* every result page opens the same way: its name, one line that says how it went, then the figures */
+const head=(name,ok,line)=>`<h1>${name}</h1><p class="status">${ok===null?'':mark(ok)}<span>${line}</span></p>${stale()}`;
 const signed=(v,d,u)=>Math.abs(v)<Math.pow(10,-(d||0))/2?fmt(0,d):(v<0?'−':'+')+fmt(Math.abs(v),d)+(u?' '+u:'');
+const chk=(R,k)=>R.checks.find(c=>c.k===k);
+const pick=(R)=>R.G.length>1?`<p class="pickg"><label for="enG">Group</label><select class="in" id="enG">${R.G.map((x,i)=>`<option value="${i}"${i===(R.G[S.enG]?S.enG:0)?' selected':''}>${esc(x.name)}</option>`).join('')}</select></p>`:'';
 function pageOv(R){
-  const G=R.G,b=G.map(g=>g.batt),kws=[...new Set(G.map(g=>g.c.kw))];
-  return head(R.feasible,R.title,R.text)+`<div class="keys">
-    ${key('Battery in each vehicle',fmt(Math.max(...b)),'kWh',Math.min(...b)===Math.max(...b)?(G.every(g=>g.v.battMode==='size')?'Sized for the hardest day at year 8':''):'The largest. The smallest is '+fmt(Math.min(...b))+' kWh')}
-    ${key('Chargers',R.N,kws.length===1?'× '+kws[0]+' kW':'in '+kws.length+' sizes',kws.length===1?'Plan: '+PLAN_N[R.plan].toLowerCase():G.map(g=>g.n+' × '+g.c.kw+' kW').join(', '))}
-    ${key('Depot peak',fmt(R.peak),'kW',R.isNew?'About '+fmt(amps(R.peak))+' A to apply for':'Connection today: '+fmt(R.limit)+' kW',!R.isNew&&R.peak>R.limit)}
-    ${key('Against diesel',fmt(Math.abs(R.save)/1e6,1),'M DKK '+(R.save>=0?'less':'more'),'Over '+R.Y+' years'+(R.be?', ahead from year '+R.be:''),R.save<0)}</div>
-  <h2>The fleet at a glance</h2><p class="note">What went in and what came out, one row for each group.</p>
-  ${tbl(['<Group','Vehicles','<Route','<Load','Hardest day','Battery','Charger','Full again'],G.map(g=>[esc(g.name),g.n,fmt(g.rt.km)+' km, '+fmt(g.rt.stops)+' stops',SUMM.load(g.l),fmt(g.worst)+' kWh',fmt(g.batt)+' kWh',g.c.kw+' kW',g.c.ready?hm(g.c.end):'<span class="no-t">Not full</span>']))}
-  <h2>Checks</h2>
-  <div class="tw"><table class="t"><tbody>${R.checks.map(c=>`<tr><td>${stat(c.ok,c.k==='grid'&&R.isNew?'Sized':'Passes','Fails')}</td><td>${c.t}</td><td class="mut">${esc(c.d)}</td><td class="r" style="font-family:inherit"><button class="lnk" data-tab="${c.go}">Details</button></td></tr>`).join('')}</tbody></table></div>
-  <h2>A day at the depot</h2><p class="note">The hardest day of the year, midnight to midnight.</p>${gantt(R)}`;}
+  const G=R.G,b=G.map(g=>g.batt),kws=[...new Set(G.map(g=>g.c.kw))],same=Math.min(...b)===Math.max(...b);
+  return head('Overview',R.feasible,R.title)+figs([
+    fig('Battery in each vehicle',fmt(Math.max(...b)),'kWh',same?(G.every(g=>g.v.battMode==='size')?'Sized for the hardest day at year 8':'From your datasheet'):'The largest. The smallest is '+fmt(Math.min(...b))+' kWh'),
+    fig('Chargers',R.N,kws.length===1?'× '+kws[0]+' kW':'in '+kws.length+' sizes',kws.length===1?'One for each vehicle':G.map(g=>g.n+' × '+g.c.kw+' kW').join(', ')),
+    fig('Depot peak',fmt(R.peak),'kW',R.isNew?'About '+fmt(amps(R.peak))+' A to apply for':'Of the '+fmt(R.limit)+' kW connected today',!R.isNew&&R.peak>R.limit),
+    fig(R.save>=0?'Saved against diesel':'Extra cost against diesel',fmt(Math.abs(R.save)/1e6,1),'M DKK','Over '+R.Y+' years'+(R.be?', ahead from year '+R.be:''),R.save<0)])+
+  `<h2>Checks</h2>
+  <div class="tw"><table class="t checks"><tbody>${R.checks.map(c=>`<tr><td>${stat(c.ok,c.k==='grid'&&R.isNew?'Sized':'Passes','Fails')}</td><td class="ct">${c.t}</td><td class="mut">${esc(c.d)}</td><td class="r"><button class="lnk" data-tab="${c.go}">${TITLE[c.go]}</button></td></tr>`).join('')}</tbody></table></div>
+  <h2>The fleet</h2><p class="note">What went in and what came out, one row for each group.</p>
+  ${tbl(['<Group','Vehicles','<Route','<Load','Hardest day','Battery','Charger','Full again'],G.map(g=>[esc(g.name),g.n,fmt(g.rt.km)+' km, '+fmt(g.rt.stops)+' stops',SUMM.load(g.l),fmt(g.worst)+' kWh',fmt(g.batt)+' kWh',g.c.kw+' kW',g.c.ready?hm(g.c.end):'<span class="no-t">Not full</span>']))}`;}
 function pageEn(R){
-  const G=R.G,g=G[S.enG]||G[0],top=Math.max(...G.map(x=>x.worst)),parts=[['Driving',g.drive],['On-board systems',g.auxE],['Body equipment',g.eqE]].filter(p=>p[1]>0),mx=Math.max(...parts.map(p=>p[1]));
-  const okN=g.worst<=g.usable,okE=g.worst<=g.usableEol,okT=g.tNeed<=g.shiftH,okP=g.payMax<=g.payLimit;
-  return head(R.checks[0].ok&&R.checks[1].ok,'Each vehicle uses up to '+fmt(top)+' kWh on its hardest day','')+
-  (G.length>1?`<p style="margin-top:20px"><label for="enG" class="mut">Showing </label><select class="in" id="enG" style="width:auto">${G.map((x,i)=>`<option value="${i}"${x===g?' selected':''}>${esc(x.name)}</option>`).join('')}</select></p>`:'')+
-  `<div class="keys">${key('Average day',fmt(g.mean),'kWh','One vehicle')}${key('Hardest day',fmt(g.worst),'kWh',P.wx.year==='cold'?'In a cold winter':'In a normal year')}${key('Per km',fmt(g.mean/g.rt.km,2),'kWh','Average day')}${key('Battery',fmt(g.batt),'kWh',g.v.battMode==='size'?'Sized by the tool':'From your datasheet',!okE)}</div>
-  <div class="cols2"><div><h2>Where the energy goes</h2><p class="note">One vehicle on an average day, before weather.</p>
-    <div class="hb">${parts.map((p,i)=>`<span>${p[0]}</span><div class="bar"><i${i?' class="alt"':''} style="width:${(p[1]/mx*100).toFixed(1)}%"></i></div><span class="num">${fmt(p[1])} kWh · ${fmt(p[1]/g.avg*100)} %</span>`).join('')}</div>
-    <p class="note" style="margin-top:12px">Braking gives back ${fmt(g.regen)} kWh a day. That is already taken off the driving figure.</p></div>
+  const G=R.G,g=G[S.enG]||G[0],top=Math.max(...G.map(x=>x.worst)),parts=[['Driving',g.drive],['On-board systems',g.auxE],['Body equipment',g.eqE]].filter(p=>p[1]>0),mx=Math.max(...parts.map(p=>p[1])),okT=g.tNeed<=g.shiftH;
+  return head('Energy',null,'Each vehicle uses up to '+fmt(top)+' kWh on its hardest day')+pick(R)+figs([
+    fig('Average day',fmt(g.mean),'kWh','One vehicle, across the year'),
+    fig('Hardest day',fmt(g.worst),'kWh',P.wx.year==='cold'?'In a cold winter':'In a normal year'),
+    fig('Per km',fmt(g.mean/g.rt.km,2),'kWh','On an average day'),
+    fig('From the grid each year',fmt(g.n*g.kWhGrid/1000),'MWh',plural(g.n,'vehicle')+', charger losses included')])+
+  `<div class="cols2"><div><h2>Where the energy goes</h2><p class="note">One vehicle on a day in April.</p>
+    <div class="hb">${parts.map((p,i)=>`<span>${p[0]}</span><div class="bar"><i${i?' class="alt"':''} style="width:${(p[1]/mx*100).toFixed(1)}%"></i></div><span class="num"><b>${fmt(p[1])} kWh</b> ${fmt(p[1]/g.avg*100)} %</span>`).join('')}</div>
+    <p class="note" style="margin-top:14px">Braking gives back ${fmt(g.regen)} kWh a day. That is already taken off the driving figure.</p></div>
   <div><h2>Through the year</h2><p class="note">kWh for one vehicle on a working day, by month.</p><div class="viz" id="vMon"></div></div></div>
-  <h2>Battery</h2>${kvt([
-    ['Installed',fmt(g.batt)+' kWh',g.v.battMode==='size'?'Smallest size, in steps of 10 kWh, that passes the year 8 check':'From your datasheet'],
-    ['Usable when new',fmt(g.usable)+' kWh',fmt(g.v.usable)+' % of the installed size'],
-    ['Usable at year 8',fmt(g.usableEol)+' kWh','At '+fmt(g.v.guar)+' % of the capacity'],
-    ['Left after the hardest day, new',stat(okN,fmt((1-g.worst/g.usable)*100)+' %','Short by '+fmt(g.worst-g.usable)+' kWh'),'Of the usable energy'],
-    ['Left after the hardest day, year 8',stat(okE,fmt((1-g.worst/g.usableEol)*100)+' %','Short by '+fmt(g.worst-g.usableEol)+' kWh'),'Of the usable energy']])}
-  <h2>Time and weight</h2>${kvt([
-    ['Time the route needs',stat(okT,fmt(g.tNeed,1)+' h',fmt(g.tNeed,1)+' h'),'Shift of '+fmt(g.shiftH,1)+' h. Driving '+fmt(g.tDrive,1)+' h, at stops '+fmt(g.tStop+g.tEq,1)+' h'],
-    ['Heaviest load',stat(okP,fmt(g.payMax,1)+' t',fmt(g.payMax,1)+' t'),'Limit '+fmt(g.payLimit,1)+' t. The weight of the battery is not counted yet'],
-    ['Average weight on the road',fmt(g.mass/1000,1)+' t','Chassis, body and average load']])}`;}
+  <h2>Time on the route</h2>${kvt([
+    ['The route needs',stat(okT,fmt(g.tNeed,1)+' h',fmt(g.tNeed,1)+' h'),'Against a shift of '+fmt(g.shiftH,1)+' h, '+hm(g.out)+' to '+hm(g.back)],
+    ['Driving',fmt(g.tDrive,1)+' h','At '+fmt(g.rt.speed)+' km/h between stops'],
+    ['At stops',fmt(g.tStop+g.tEq,1)+' h',fmt(g.rt.stops)+' stops'],
+    ['Working days',fmt(g.days)+' a year',fmt(g.kmYr)+' km a year for each vehicle']])}`;}
 function drawEn(R){const g=R.G[S.enG]||R.G[0],hi=g.months.indexOf(Math.max(...g.months)),lo=g.months.indexOf(Math.min(...g.months));
   cols($('vMon'),{v:g.months,x:MONTHS,unit:'kWh',hi,lo,h:210,label:'Energy per working day by month. Highest '+fmt(g.months[hi])+' kWh in '+MONTHS[hi]+', lowest '+fmt(g.months[lo])+' kWh in '+MONTHS[lo]});}
+function pageBat(R){
+  const G=R.G,t=G.reduce((a,b)=>b.worst/b.usableEol>a.worst/a.usableEol?b:a),bad=['batt','eol','pay'].map(k=>chk(R,k)).find(c=>!c.ok),okE=t.worst<=t.usableEol,who=G.length>1?'“'+esc(t.name)+'”, the tightest group':'';
+  const pc=(a,b)=>a<=b?fmt((1-a/b)*100)+' %':'<span class="no-t">Short by '+fmt(a-b)+' kWh</span>';
+  return head('Battery',!bad,bad?({batt:'The battery is too small for the hardest day',eol:'The battery is too small once it has aged',pay:'The load is over the weight limit'})[bad.k]:'The battery covers the hardest day, also at year 8')+figs([
+    fig('Installed',fmt(t.batt),'kWh',t.v.battMode==='size'?'Sized by the tool, in steps of 10 kWh':'From your datasheet'),
+    fig('Usable when new',fmt(t.usable),'kWh',fmt(t.v.usable)+' % of the installed size'),
+    fig('Usable at year 8',fmt(t.usableEol),'kWh','At '+fmt(t.v.guar)+' % of the capacity'),
+    okE?fig('Left after the hardest day',fmt((1-t.worst/t.usableEol)*100),'%','At year 8'+(who?'. '+who:'')):fig('Short on the hardest day',fmt(t.worst-t.usableEol),'kWh','At year 8'+(who?'. '+who:''),1)])+
+  `<h2>The hardest day against the battery</h2><p class="note">Each bar is the full installed battery.</p>
+  <div class="bul">${G.map(g=>`<span>${esc(g.name)}</span><div class="btrack" role="img" aria-label="${esc(g.name)}: hardest day ${fmt(g.worst)} kWh, usable ${fmt(g.usable)} kWh when new and ${fmt(g.usableEol)} kWh at year 8, of ${fmt(g.batt)} kWh installed"><i style="width:${Math.min(100,g.worst/g.batt*100).toFixed(1)}%"${g.worst>g.usableEol?' class="over"':''}></i><b style="left:${(g.usable/g.batt*100).toFixed(1)}%"></b><b class="eol" style="left:${(g.usableEol/g.batt*100).toFixed(1)}%"></b></div><span class="num">${fmt(g.worst)} of ${fmt(g.batt)} kWh</span>`).join('')}</div>
+  <div class="lgd"><span><i class="box" style="background:${BLUE}"></i>Used on the hardest day</span><span><i class="tick"></i>Usable when new</span><span><i class="tick eol"></i>Usable at year 8</span></div>
+  ${tbl(['<Group','Hardest day','Installed','Usable, new','Usable, year 8','Left, new','Left, year 8'],G.map(g=>[esc(g.name),fmt(g.worst)+' kWh',fmt(g.batt)+' kWh',fmt(g.usable)+' kWh',fmt(g.usableEol)+' kWh',pc(g.worst,g.usable),pc(g.worst,g.usableEol)]))}
+  <h2>Weight</h2><p class="note">What the vehicle may carry against what the load asks for. The weight of the battery is not counted yet.</p>
+  ${tbl(['<Group','Heaviest load','May carry','Room left','Average weight on the road'],G.map(g=>[esc(g.name),fmt(g.payMax,1)+' t',fmt(g.payLimit,1)+' t',g.payMax<=g.payLimit?fmt(g.payLimit-g.payMax,1)+' t':'<span class="no-t">Over by '+fmt(g.payMax-g.payLimit,1)+' t</span>',fmt(g.mass/1000,1)+' t']))}`;}
 function pageCh(R){
-  const G=R.G,rdy=G.every(g=>g.c.ready),fits=R.isNew||R.peak<=R.limit,per=Math.max(...G.map(g=>g.c.p)),minSp=Math.min(...G.map(g=>g.c.spare));
-  const title=!rdy?'The vehicles are not full before they leave':R.isNew?'The depot needs a connection of about '+fmt(Math.ceil(R.peak/10)*10)+' kW':fits?'Every vehicle is full in time and the depot peaks at '+fmt(R.peak)+' kW':'Charging goes '+fmt(R.peak-R.limit)+' kW over the grid connection';
-  return head(rdy&&fits,title,'')+
-  `<h2>Depot power over the hardest day</h2><p class="note">Buildings and charging together, in kW.</p><div class="viz" id="vLoad"></div>
-  <h2>Charging for each group</h2>
+  const G=R.G,rdy=G.every(g=>g.c.ready),kws=[...new Set(G.map(g=>g.c.kw))],minSp=Math.min(...G.map(g=>g.c.spare)),lg=G.reduce((a,b)=>b.c.hours>a.c.hours?b:a);
+  return head('Charging',rdy,rdy?'Every vehicle is full before it leaves':'The vehicles are not full before they leave')+figs([
+    fig('Chargers',R.N,kws.length===1?'× '+kws[0]+' kW':'in '+kws.length+' sizes',D_note(R)),
+    fig('Longest charge',fmt(lg.c.hours,1),'h',hm(lg.c.start)+' to '+hm(lg.c.end)+(G.length>1?', “'+esc(lg.name)+'”':'')),
+    rdy?fig('Time to spare',fmt(minSp,1),'h','Before the tightest group leaves'):fig('Time to spare','None','','A vehicle leaves before it is full',1),
+    fig('Charged on the hardest day',fmt(sum(G.map(g=>g.n*g.c.need))),'kWh','Whole fleet, from the grid')])+
+  `<h2>A day at the depot</h2><p class="note">The hardest day of the year, midnight to midnight.</p>${gantt(R)}
+  <h2>Each group</h2>
   ${tbl(['<Group','Vehicles','Charger','Back','Charging','Leaves','Time to spare'],G.map(g=>[esc(g.name),g.n,g.c.kw+' kW',hm(g.back),g.c.ready?hm(g.c.start)+' to '+hm(g.c.end):'<span class="no-t">Short by '+fmt(g.c.short)+' kWh</span>',hm(g.out),g.c.ready?fmt(g.c.spare,1)+' h':'<span class="no-t">None</span>']))}
   <h2>The three charging plans</h2><p class="note">The same fleet, charged three ways. Choosing another plan runs the project again.</p>
   ${tbl(['<Plan','Chargers','Depot peak','<Fits the connection','<Full in time','Electricity a year','<'],R.alts.map(A=>{const k=[...new Set(A.G.map(g=>g.c.kw))],ok=A.isNew||A.peak<=A.limit,rd=A.G.every(g=>g.c.ready);
-    return{cur:A.plan===R.plan,c:[PLAN_N[A.plan],k.join(' and ')+' kW',fmt(A.peak)+' kW',A.isNew?'New connection':stat(ok,'Yes','No'),stat(rd,'Yes','No'),fmt(A.rowsE[0].energy/1000)+' k DKK',A.plan===R.plan?'<span class="mut">In use</span>':`<button class="lnk" data-plan="${A.plan}">Use this plan</button>`]};}))}
-  <h2>Grid connection</h2>${kvt([
-    ['Depot peak',fmt(R.peak)+' kW','About '+fmt(amps(R.peak))+' A at 400 V, at '+hm(R.peakAt)],
-    R.isNew?['Connection to apply for',fmt(Math.ceil(R.peak/10)*10)+' kW','Rounded up to the next 10 kW']:['Connection today',fmt(R.limit)+' kW','About '+fmt(amps(R.limit))+' A at 400 V'],
+    return{cur:A.plan===R.plan,c:[PLAN_N[A.plan],k.join(' and ')+' kW',fmt(A.peak)+' kW',A.isNew?'New connection':stat(ok,'Yes','No'),stat(rd,'Yes','No'),fmt(A.rowsE[0].energy/1000)+' k DKK',A.plan===R.plan?'<span class="mut">In use</span>':`<button class="lnk" data-plan="${A.plan}">Use this plan</button>`]};}))}`;}
+const D_note=R=>'Plan: '+PLAN_N[R.plan].toLowerCase();
+function pageGr(R){
+  const G=R.G,rdy=G.every(g=>g.c.ready),fits=R.isNew||R.peak<=R.limit,per=Math.max(...G.map(g=>g.c.p)),minSp=Math.min(...G.map(g=>g.c.spare)),ask=Math.ceil(R.peak/10)*10;
+  return head('Grid',fits,R.isNew?'The depot needs a connection of about '+fmt(ask)+' kW':fits?'Charging fits the grid connection the depot has today':'Charging goes '+fmt(R.peak-R.limit)+' kW over the grid connection')+figs([
+    fig('Depot peak',fmt(R.peak),'kW','At '+hm(R.peakAt)+', about '+fmt(amps(R.peak))+' A',!fits),
+    R.isNew?fig('Connection to apply for',fmt(ask),'kW','Rounded up to the next 10 kW'):fig('Connection today',fmt(R.limit),'kW','About '+fmt(amps(R.limit))+' A at 400 V'),
+    R.isNew?fig('Buildings',fmt(P.depot.base),'kW','Already in use, before charging'):fits?fig('Room at the peak',fmt(R.limit-R.peak),'kW','Enough for '+plural(Math.floor((R.limit-R.peak)/per),'more vehicle')):fig('Over at the peak',fmt(R.peak-R.limit),'kW','Try another charging plan first',1),
+    fig('Cost of the connection',fmt(R.conn),'DKK',R.conn?(R.isNew?'New connection':'For the extra amperes'):R.isNew?'No price list for this grid company':'No upgrade needed')])+
+  `<h2>Depot power over the hardest day</h2><p class="note">Buildings and charging together, in kW.</p><div class="viz" id="vLoad"></div>
+  <h2>Behind the figures</h2>${kvt([
     ['Buildings',fmt(P.depot.base)+' kW','A steady value in the demo'],
-    R.isNew?null:['Room at the peak hour',fits?fmt(Math.floor((R.limit-R.peak)/per))+' more vehicles':stat(false,'','None'),'At '+fmt(per)+' kW for each vehicle'],
-    ['Cost of the connection',fmt(R.conn)+' DKK',R.fee.ref],
-    ['Charging that could be paused',fmt(R.peak-P.depot.base)+' kW',rdy?'For up to '+fmt(minSp,1)+' h without a late start':'']].filter(Boolean))}`;}
-function drawCh(R){const x=[];for(let i=0;i<96;i++)x.push(i%12===0?String(i/4).padStart(2,'0')+':00':'');
-  chart($('vLoad'),{h:250,step:1,x,unit:'kW',series:[{v:R.load,color:BLUE,area:1}],refs:R.isNew?[]:[{v:R.limit,label:'Grid connection '+fmt(R.limit)+' kW'}],
+    ['Charging at the peak',fmt(R.peak-P.depot.base)+' kW',R.N+' chargers, plan: '+PLAN_N[R.plan].toLowerCase()],
+    ['Charging that could be paused',fmt(R.peak-P.depot.base)+' kW',rdy?'For up to '+fmt(minSp,1)+' h without a late start':'Not without a late start'],
+    ['Price for each ampere',R.fee.perA?fmt(R.fee.perA,2)+' DKK':'Not in the demo',R.fee.ref],
+    ['Voltage','400 V','Three-phase, used to turn kW into amperes']])}`;}
+function drawGr(R){const x=[];for(let i=0;i<96;i++)x.push(i%12===0?String(i/4).padStart(2,'0')+':00':'');
+  chart($('vLoad'),{h:260,step:1,x,unit:'kW',series:[{v:R.load,color:BLUE,area:1}],refs:R.isNew?[]:[{v:R.limit,label:'Grid connection '+fmt(R.limit)+' kW'}],
     marks:[{i:R.load.indexOf(R.peak)+0.5,v:R.peak,label:'Peak '+fmt(R.peak)+' kW'}],tip:i=>hm(i/4)+'  '+fmt(R.load[i])+' kW',
     label:'Depot power by time of day. Peak '+fmt(R.peak)+' kW at '+hm(R.peakAt)+(R.isNew?'':', connection '+fmt(R.limit)+' kW')});}
 function pageCost(R){
   const Y=R.Y,s=R.save,M=v=>fmt(v/1e6,2),dif=(d,e)=>`<span class="${e-d<=0?'ok-t':'no-t'}">${signed((e-d)/1e6,2)}</span>`;
-  return head(s>=0,s>=0?'Electric costs '+fmt(s/1e6,1)+' M DKK less than diesel over '+Y+' years':'Electric costs '+fmt(-s/1e6,1)+' M DKK more than diesel over '+Y+' years','')+
-  `<div class="keys">${key('Electric',fmt(R.totE/1e6,1),'M DKK',fmt(R.totE/R.kmTot,2)+' DKK per km')}${key('Diesel',fmt(R.totD/1e6,1),'M DKK',fmt(R.totD/R.kmTot,2)+' DKK per km')}${key('Difference',fmt(Math.abs(s)/1e6,1),'M DKK',s>=0?'Electric is cheaper':'Electric costs more',s<0)}${key('Electric is ahead from year',R.be?R.be:'–','',R.be?'Counted from the first year':'Not within '+Y+' years',!R.be)}</div>
-  <h2>How far electric is ahead, year by year</h2><p class="note">What the fleet has saved against diesel so far, in million DKK. Below zero means electric has cost more up to that year.</p><div class="viz" id="vCum"></div>
+  return head('Cost',s>=0,s>=0?'Electric costs '+fmt(s/1e6,1)+' M DKK less than diesel over '+Y+' years':'Electric costs '+fmt(-s/1e6,1)+' M DKK more than diesel over '+Y+' years')+figs([
+    fig('Electric',fmt(R.totE/1e6,1),'M DKK',fmt(R.totE/R.kmTot,2)+' DKK per km'),
+    fig('Diesel',fmt(R.totD/1e6,1),'M DKK',fmt(R.totD/R.kmTot,2)+' DKK per km'),
+    fig(s>=0?'Saved with electric':'Extra with electric',fmt(Math.abs(s)/1e6,1),'M DKK','Whole fleet, '+Y+' years',s<0),
+    R.be?fig('Electric is ahead from','Year '+R.be,'','Counted from the first year'):fig('Electric is ahead from','Never','','Not within '+Y+' years',1)])+
+  `<h2>How far electric is ahead, year by year</h2><p class="note">What the fleet has saved against diesel so far, in million DKK. Below zero means electric has cost more up to that year.</p><div class="viz" id="vCum"></div>
   <h2>Where the difference comes from</h2><p class="note">Whole fleet over ${Y} years, million DKK. Driver wages are the same on both sides.</p>
   ${tbl(['<Cost','Diesel','Electric','Electric against diesel'],R.cats.map(c=>[c[0],M(c[1]),M(c[2]),dif(c[1],c[2])]),['Total',M(R.totD),M(R.totE),dif(R.totD,R.totE)])}
-  <details class="more"><summary>Show year by year</summary>${tbl(['<Year','Electric','Diesel','Difference','Saved so far'],R.rowsE.map((E,i)=>[E.yr,fmt(E.tot/1000),fmt(R.rowsD[i].tot/1000),signed((E.tot-R.rowsD[i].tot)/1000,0),fmt((R.cumD[i+1]-R.cumE[i+1])/1000)]))}<p class="note" style="margin-top:8px">Thousand DKK, whole fleet.</p></details>
-  <h2>CO₂</h2>${kvt([
-    ['Diesel fleet',fmt(R.co2D)+' t a year','From the diesel burned'],
-    ['Electric fleet, '+DEMO.elStart,fmt(R.co2E,1)+' t a year','From grid electricity'],
-    ['Saved over '+Y+' years',fmt(R.co2Saved)+' t',P.co2.gridMode==='path'?'The grid gets cleaner each year':'One grid value for every year'],
-    ['Not counted','','Making the trucks, the batteries and the diesel']])}
-  <details class="more"><summary>Show CO₂ year by year</summary>${tbl(['<Year','Grid, g/kWh','Electric, t','Diesel, t','Saved so far, t'],R.co2Rows.map(r=>[r[0],fmt(r[1],2),fmt(r[2],1),fmt(r[3]),fmt(r[4])]))}</details>`;}
+  <h2>Year by year</h2><p class="note">Whole fleet, thousand DKK.</p>
+  ${tbl(['<Year','Electric','Diesel','Difference','Saved so far'],R.rowsE.map((E,i)=>[E.yr,fmt(E.tot/1000),fmt(R.rowsD[i].tot/1000),signed((E.tot-R.rowsD[i].tot)/1000,0),fmt((R.cumD[i+1]-R.cumE[i+1])/1000)]))}`;}
 function drawCost(R){const x=[],Y=R.Y,v=R.cumD.map((d,i)=>(d-R.cumE[i])/1e6);for(let y=0;y<=Y;y++)x.push(String(y));
-  chart($('vCum'),{h:240,x,unit:'M DKK',zero:1,series:[{v,color:BLUE,area:1}],
-    marks:R.be?[{i:R.be,v:v[R.be],label:'Ahead from year '+R.be}]:[],tip:i=>'Year '+i+'  '+signed(v[i],2)+' M DKK',
+  chart($('vCum'),{h:250,x,unit:'M DKK',zero:1,series:[{v,color:BLUE,area:1}],
+    marks:R.be?[{i:R.be,v:v[R.be],below:1,label:'Ahead from year '+R.be}]:[],tip:i=>'Year '+i+'  '+signed(v[i],2)+' M DKK',
     label:'Saving against diesel building up over '+Y+' years, ending at '+signed(v[Y],1)+' million DKK'});}
+function pageCo2(R){
+  const Y=R.Y,first=R.co2D-R.co2E;
+  return head('CO₂',R.co2Saved>=0,'Electric saves '+fmt(R.co2Saved)+' t of CO₂ over '+Y+' years')+figs([
+    fig('Diesel fleet',fmt(R.co2D),'t a year','From the diesel burned'),
+    fig('Electric fleet',fmt(R.co2E,1),'t a year','From grid electricity, '+DEMO.elStart),
+    fig('Saved in the first year',fmt(first),'t',fmt(first/R.co2D*100)+' % less than diesel'),
+    fig('Saved over '+Y+' years',fmt(R.co2Saved),'t',P.co2.gridMode==='path'?'The grid gets cleaner each year':'One grid value for every year')])+
+  `<h2>Year by year</h2><p class="note">Whole fleet, tonnes of CO₂.</p>
+  ${tbl(['<Year','Grid, g/kWh','Electric','Diesel','Saved so far'],R.co2Rows.map(r=>[r[0],fmt(r[1],2),fmt(r[2],1),fmt(r[3]),fmt(r[4])]))}
+  <h2>What is counted</h2>${kvt([
+    ['Counted','Diesel burned and electricity from the grid',fmt(sum(R.G.map(g=>g.n*g.dieselL)))+' l of diesel and '+fmt(R.kWhFleet/1000)+' MWh a year'],
+    ['Not counted','Making the trucks, the batteries and the diesel','']])}`;}
 function demoRows(R){return[
   ['Air density','1.2 kg/m³','Constant in the demo driving model'],
   ['Speeding up and braking','1.0 m/s²','Demo value'],
@@ -147,7 +181,7 @@ function pageCmp(){
   const L=S.runs;let h=`<h1>Compare runs</h1><p class="lede">Every run keeps its inputs and results. Change something in Setup, run again, and see the difference here.</p>${stale()}`;
   if(L.length<2)h+=`<h2>Try a change</h2><p class="note">Each of these changes one input and runs the project again.</p>
     <ul class="misslist"><li><button class="lnk" data-whatif="cold">${P.wx.year==='cold'?'Size for a normal year':'Size for a cold winter'}</button></li>
-    <li><button class="lnk" data-whatif="plan">${P.depot.plan==='grid'?'Charge at the lowest cost':'Charge grid-friendly'}</button></li>
+    <li><button class="lnk" data-whatif="plan">${P.chg.plan==='grid'?'Charge at the lowest cost':'Charge grid-friendly'}</button></li>
     <li><button class="lnk" data-whatif="more">Add two vehicles to “${esc(P.groups[0].name)}”</button></li></ul>`;
   else{const A=L.find(r=>r.n===S.cmpA)||L[0],B=L.find(r=>r.n===S.cmpB)||L[L.length-1],d=diffRows(A.rows,B.rows),opt=s=>L.map(r=>`<option value="${r.n}"${r.n===s?' selected':''}>Run ${r.n}</option>`).join('');
     h+=`<p style="margin-top:22px"><label for="cmpA">Compare </label><select class="in" id="cmpA" style="width:auto">${opt(A.n)}</select><label for="cmpB"> with </label><select class="in" id="cmpB" style="width:auto">${opt(B.n)}</select></p>
@@ -200,4 +234,4 @@ function csv(R){const rows=[['Year','Financing','Chargers and connection','Elect
   rows.push([]);rows.push(['Sample case with illustrative figures from the EV Scope demo engine. DKK, whole fleet.']);
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([rows.map(r=>r.join(';')).join('\n')],{type:'text/csv'}));a.download='ev-scope-financial-model-run'+S.runNo+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);}
 
-const PAGES={fleet:[pageFleet],depot:[pageDepot],assume:[pageAssume],check:[pageCheck],ov:[pageOv],en:[pageEn,drawEn],ch:[pageCh,drawCh],cost:[pageCost,drawCost],src:[pageSrc],cmp:[pageCmp],docs:[pageDocs]};
+const PAGES={fleet:[pageFleet],depot:[pageDepot],charging:[pageCharging],weather:[pageWeather],prices:[pagePrices],costs:[pageCosts],co2in:[pageCo2in],check:[pageCheck],ov:[pageOv],en:[pageEn,drawEn],bat:[pageBat],ch:[pageCh],gr:[pageGr,drawGr],cost:[pageCost,drawCost],co2:[pageCo2],src:[pageSrc],cmp:[pageCmp],docs:[pageDocs]};

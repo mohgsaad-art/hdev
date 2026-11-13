@@ -55,12 +55,12 @@ const DEFS={
     F('condW','Battery and motor cooling','W','num','std','EU standard value',{sec:'On-board systems',min0:1}),
     F('usable','Usable share of the battery','%','num','sample','',{sec:'Battery ageing',max:100}),
     F('guar','Capacity guaranteed at year 8','%','num','assume','Rambøll 2023: warranties often go down to 70 %. Use the value in the offer',{sec:'Battery ageing',max:100}),
-    F('priceEV','Electric truck price','DKK','num','sample','No source yet',{sec:'Price and service'}),
-    F('priceD','Diesel truck price','DKK','num','sample','No source yet',{sec:'Price and service'}),
-    F('svcEV','Service, electric','DKK/month','num','sample','No source yet',{sec:'Price and service',min0:1}),
-    F('svcD','Service, diesel','DKK/month','num','sample','No source yet',{sec:'Price and service',min0:1}),
-    F('insEV','Insurance, electric','DKK/month','num','sample','No source yet',{sec:'Price and service',min0:1}),
-    F('insD','Insurance, diesel','DKK/month','num','sample','No source yet',{sec:'Price and service',min0:1})]},
+    F('priceEV','Electric truck price','DKK','num','sample','No source yet',{pg:'costs'}),
+    F('priceD','Diesel truck price','DKK','num','sample','No source yet',{pg:'costs'}),
+    F('svcEV','Service, electric','DKK/month','num','sample','No source yet',{pg:'costs',min0:1}),
+    F('svcD','Service, diesel','DKK/month','num','sample','No source yet',{pg:'costs',min0:1}),
+    F('insEV','Insurance, electric','DKK/month','num','sample','No source yet',{pg:'costs',min0:1}),
+    F('insD','Insurance, diesel','DKK/month','num','sample','No source yet',{pg:'costs',min0:1})]},
   rt:{one:'route',many:'routes',title:'Route',lead:'What one vehicle drives on a working day.',fields:[
     F('method','How do you want to describe the route?','','radio','','',{o:[['typed','Type in distance and stops','Enough for a first answer.'],['cycle','Use a standard EU test route','Not part of this demo.',1],['gps','Upload a GPS log','Not part of this demo.',1]]}),
     F('km','Distance per day','km','num','sample',''),
@@ -91,24 +91,25 @@ const DEFS={
     F('mode','Is there a grid connection today?','','radio','','',{o:[['existing','Yes, and I know its size','The tool checks whether charging fits.'],['new','No, or I want it sized','The tool works out the connection you need.']]}),
     F('limit','Connection size','kW','num','sample','',{when:o=>o.mode==='existing'}),
     F('dso','Grid company','','sel','sample','',{o:[['radius','Radius'],['cerius','Cerius'],['other','Other']]}),
-    F('base','Power the buildings already use','kW','num','sample','A steady value in the demo',{min0:1}),
+    F('base','Power the buildings already use','kW','num','sample','A steady value in the demo',{min0:1})]},
+  chg:{title:'Charging',fields:[
     F('chgMode','Chargers','','radio','','',{o:[['auto','Size the chargers for me','The smallest size that has every vehicle full before it leaves.'],['set','I choose the size','']]}),
     F('kw','Charger power','','sel','','',{when:o=>o.chgMode==='set',o:SIZES.map(z=>[String(z),z+' kW'])}),
     F('plan','Charging plan','','radio','','',{o:[['cost','Lowest cost','Charge in the night hours, when power is cheapest.'],['grid','Grid-friendly','Spread charging over the whole stay to keep the peak low.'],['early','Ready earliest','Charge at full power as soon as vehicles are back.']]}),
-    F('loadF','Average charger load while charging','%','num','std','COWI truck cost sheet',{sec:'Charger behaviour',max:100}),
-    F('loss','Charger losses','%','num','assume','4-leaf 2023 gives 3 to 4 %',{sec:'Charger behaviour',min0:1,max:50})]},
+    F('loadF','Average charger load while charging','%','num','std','COWI truck cost sheet',{sec:'Fine tuning: charger losses and load',max:100}),
+    F('loss','Charger losses','%','num','assume','4-leaf 2023 gives 3 to 4 %',{sec:'Fine tuning: charger losses and load',min0:1,max:50})]},
   wx:{title:'Weather',fields:[
     F('year','Which year should the fleet be sized for?','','radio','','',{o:[['normal','A normal year',''],['cold','A cold winter','More energy in November to February.']]})]},
   pr:{title:'Energy prices',fields:[
-    F('elPrice','Electricity, all in','DKK/kWh','num','sample','Demo value. The full tool uses hourly prices, tariffs and taxes',{dec:2}),
+    F('elPrice','Electricity price, all in','DKK/kWh','num','sample','Demo value. The full tool uses hourly prices, tariffs and taxes',{dec:2}),
     F('level','Electricity price level','','sel','assume','Tool default. Low is 20 % under, high is 25 % over',{o:[['low','Low'],['exp','Expected'],['high','High']]}),
-    F('dPrice','Diesel','DKK/l','num','std','OK.dk, January to June 2024, plus 0.50 DKK duty. Refresh before use',{dec:2})]},
-  fin:{title:'Costs and financing',fields:[
+    F('dPrice','Diesel price','DKK/l','num','std','OK.dk, January to June 2024, plus 0.50 DKK duty. Refresh before use',{dec:2})]},
+  fin:{title:'Costs',fields:[
     F('years','Ownership period','','sel','assume','Tool default',{o:[['8','8 years'],['10','10 years'],['12','12 years']]}),
     F('interest','Interest rate','%','num','sample','No source yet',{dec:2,min0:1}),
     F('wage','Driver wage','DKK/month','num','sample','No source yet. Same for electric and diesel',{min0:1}),
     F('resid','Value at the end','','info','sample','Depreciation table from the COWI truck cost sheet. No source given there',{v:o=>residPct(+o.years)+' % of the price'})]},
-  tax:{title:'Road tax and grants',fields:[
+  tax:{title:'Costs',fields:[
     F('e1','Road tax, electric, 2026 to 2027','DKK/km','num','std','Danish Ministry of Taxation rates, via the COWI truck cost sheet',{dec:4,min0:1}),
     F('d1','Road tax, diesel, 2026 to 2027','DKK/km','num','std','Danish Ministry of Taxation rates, via the COWI truck cost sheet',{dec:4,min0:1}),
     F('e2','Road tax, electric, 2028','DKK/km','num','std','As above',{dec:4,min0:1}),
@@ -116,13 +117,14 @@ const DEFS={
     F('e3','Road tax, electric, from 2029','DKK/km','num','std','As above',{dec:4,min0:1}),
     F('d3','Road tax, diesel, from 2029','DKK/km','num','std','As above',{dec:4,min0:1}),
     F('grant','Grant or subsidy, paid once','DKK','num','assume','None applied',{min0:1})]},
-  co2:{title:'CO₂ factors',fields:[
+  co2:{title:'CO₂',fields:[
     F('gridMode','CO₂ from grid electricity','','radio','','',{o:[['path','Danish Energy Agency projection','19.35 g/kWh in 2026, falling to 8.26 g/kWh in 2034. Includes upstream.'],['fixed','My own value','One value for every year.']]}),
-    F('gridEF','Grid electricity','g/kWh','num','','',{dec:2,min0:1,when:o=>o.gridMode==='fixed'}),
+    F('gridEF','Grid electricity, every year','g/kWh','num','','',{dec:2,min0:1,when:o=>o.gridMode==='fixed'}),
     F('co2D','Diesel','kg/l','num','sample','Source pending',{dec:2})]}
 };
 const LIBS=['veh','rt','load','eq','sch'];
-const SETS=['wx','pr','fin','tax','co2'];
+const SETS=['chg','wx','pr','fin','tax','co2'];
+const SETPAGE={chg:'charging',wx:'weather',pr:'prices',fin:'costs',tax:'costs',co2:'co2in'};
 
 /* ---------- project data ---------- */
 const mk=o=>{o._d=clone(o);if(o.id){delete o._d.id;delete o._d.name;}return o;};
@@ -143,7 +145,8 @@ function sampleProject(){return{
     eq:[mk({id:'e1',name:'Bin lift',type:'stop',kwhStop:0.15,sStop:23,wOn:'',eff:1}),mk({id:'e0',name:'None',type:'none',kwhStop:0.15,sStop:23,wOn:'',eff:1})],
     sch:[mk({id:'s1',name:'Day shift',out:'06:00',back:'16:00',days:'mf',hol:'dk'}),mk({id:'s2',name:'Night shift',out:'19:00',back:'05:00',days:'mf',hol:'dk'})]},
   groups:[{id:1,name:'Refuse, day shift',n:4,n0:4,veh:'v1',rt:'r1',load:'l1',eq:'e1',sch:'s1'},{id:2,name:'Refuse, night shift',n:2,n0:2,veh:'v1',rt:'r1',load:'l1',eq:'e1',sch:'s2'}],
-  depot:mk({name:'Main depot',addr:'Copenhagen',mode:'existing',limit:400,dso:'radius',base:30,chgMode:'auto',kw:'50',plan:'cost',loadF:85,loss:4}),
+  depot:mk({name:'Main depot',addr:'Copenhagen',mode:'existing',limit:400,dso:'radius',base:30}),
+  chg:mk({chgMode:'auto',kw:'50',plan:'cost',loadF:85,loss:4}),
   wx:mk({year:'normal'}),
   pr:mk({elPrice:1.6,level:'exp',dPrice:11.65}),
   fin:mk({years:'10',interest:3.45,wage:30000}),
@@ -165,12 +168,12 @@ function shown(f,o){const v=f.t==='info'?f.v(o):o[f.k];if(f.o){const x=f.o.find(
 function parts(){const out=[],seen={};
   P.groups.forEach(g=>LIBS.forEach(l=>{const t=tpl(l,g[l]);if(t&&!seen[l+t.id]){seen[l+t.id]=1;out.push({type:l,o:t,where:DEFS[l].title+': '+t.name,open:{lib:l,gid:g.id}});}}));
   out.push({type:'depot',o:P.depot,where:'Depot',open:{page:'depot'}});
-  SETS.forEach(s=>out.push({type:s,o:P[s],where:DEFS[s].title,open:{set:s}}));return out;}
+  SETS.forEach(s=>out.push({type:s,o:P[s],where:DEFS[s].title,open:{page:SETPAGE[s]}}));return out;}
 function missing(){const m=[];
   P.groups.forEach(g=>{if(!(g.n>=1))m.push({where:'Fleet: '+g.name,label:'Number of vehicles',open:{page:'fleet'}});
     LIBS.forEach(l=>{if(!tpl(l,g[l]))m.push({where:'Fleet: '+g.name,label:DEFS[l].title+' not chosen',open:{lib:l,gid:g.id}});});});
   if(!P.groups.length)m.push({where:'Fleet',label:'Add at least one group of vehicles',open:{page:'fleet'}});
-  parts().forEach(p=>visible(p.type,p.o).forEach(f=>{if(isMissing(f,p.o))m.push({where:p.where,label:labelOf(f,p.o),open:p.open});}));
+  parts().forEach(p=>visible(p.type,p.o).forEach(f=>{if(isMissing(f,p.o))m.push({where:p.where,label:labelOf(f,p.o),open:f.pg?{page:f.pg}:p.open});}));
   P.groups.forEach(g=>{const s=tpl('sch',g.sch);if(s&&!isNaN(hrs(s.out))&&hrs(s.out)===hrs(s.back))m.push({where:'Shift: '+s.name,label:'Leaving and return time are the same',open:{lib:'sch',gid:g.id}});});
   return m;}
 function inputRows(){const rows=[];
@@ -195,7 +198,7 @@ function chargeGroup(g,plan,D){const N=96,lf=D.loadF/100,loss=D.loss/100,st=Math
   return{kw,p,slot,need,start:nS?S[a]/4:g.back,end,ready:rem<=0.5,short:rem*(1-loss),spare:Math.max(0,(nS-1-b)/4+0.25*(1-lastFrac)),hours:on.length/4};}
 
 function compute(planOv){
-  const D=Object.assign({},P.depot,planOv?{plan:planOv}:{}),plan=D.plan,loss=D.loss/100,Y=+P.fin.years,r=P.fin.interest/100;
+  const D=Object.assign({},P.depot,P.chg,planOv?{plan:planOv}:{}),plan=D.plan,loss=D.loss/100,Y=+P.fin.years,r=P.fin.interest/100;
   const mf=MONTH_F.map((f,i)=>P.wx.year==='cold'&&(i<2||i>9)?f*DEMO.cold:f);
   const elP=P.pr.elPrice*PRICE_F[P.pr.level]*PLAN_F[plan];
   const rate=(yr,el)=>yr<=2027?(el?P.tax.e1:P.tax.d1):yr===2028?(el?P.tax.e2:P.tax.d2):(el?P.tax.e3:P.tax.d3);
@@ -241,13 +244,13 @@ function compute(planOv){
   const fNew=g=>g.worst<=g.usable,fEol=g=>g.worst<=g.usableEol,fRdy=g=>g.c.ready,fTime=g=>g.tNeed<=g.shiftH,fPay=g=>g.payMax<=g.payLimit;
   const minLeft=fn=>Math.min(...G.map(fn));
   const checks=[
-    {k:'batt',t:'The battery covers the hardest day when new',ok:all(fNew),d:all(fNew)?fmt(minLeft(g=>100-g.worst/g.batt*100))+' % left at the lowest':'Too small for: '+bad(fNew),go:'en'},
-    {k:'eol',t:'The battery still covers the hardest day at year 8',ok:all(fEol),d:all(fEol)?'Within the guaranteed capacity':'Too small for: '+bad(fEol),go:'en'},
+    {k:'batt',t:'The battery covers the hardest day when new',ok:all(fNew),d:all(fNew)?fmt(minLeft(g=>100-g.worst/g.batt*100))+' % left at the lowest':'Too small for: '+bad(fNew),go:'bat'},
+    {k:'eol',t:'The battery still covers the hardest day at year 8',ok:all(fEol),d:all(fEol)?'Within the guaranteed capacity':'Too small for: '+bad(fEol),go:'bat'},
     {k:'rdy',t:'Every vehicle is full before it leaves',ok:all(fRdy),d:all(fRdy)?fmt(minLeft(g=>g.c.spare),1)+' h to spare at the tightest':'Not full in time: '+bad(fRdy),go:'ch'},
-    isNew?{k:'grid',t:'Grid connection needed',ok:true,d:fmt(peak)+' kW, about '+fmt(amps(peak))+' A',go:'ch'}
-         :{k:'grid',t:'Charging fits the grid connection',ok:peak<=limit,d:peak<=limit?fmt(limit-peak)+' kW to spare at the peak':fmt(peak-limit)+' kW over at the peak',go:'ch'},
+    isNew?{k:'grid',t:'Grid connection needed',ok:true,d:fmt(peak)+' kW, about '+fmt(amps(peak))+' A',go:'gr'}
+         :{k:'grid',t:'Charging fits the grid connection',ok:peak<=limit,d:peak<=limit?fmt(limit-peak)+' kW to spare at the peak':fmt(peak-limit)+' kW over at the peak',go:'gr'},
     {k:'time',t:'The route fits in the shift',ok:all(fTime),d:all(fTime)?fmt(minLeft(g=>g.shiftH-g.tNeed),1)+' h to spare at the tightest':'Too long for: '+bad(fTime),go:'en'},
-    {k:'pay',t:'The load is within the weight limit',ok:all(fPay),d:all(fPay)?fmt(minLeft(g=>g.payLimit-g.payMax),1)+' t to spare. Battery weight is not counted yet':'Over the limit: '+bad(fPay),go:'en'}];
+    {k:'pay',t:'The load is within the weight limit',ok:all(fPay),d:all(fPay)?fmt(minLeft(g=>g.payLimit-g.payMax),1)+' t to spare. Battery weight is not counted yet':'Over the limit: '+bad(fPay),go:'bat'}];
   const feasible=checks.every(c=>c.ok),save=totD-totE,first=checks.find(c=>!c.ok);
   const title=feasible?(isNew?'All '+N+' vehicles can run electric with a '+fmt(Math.ceil(peak/10)*10)+' kW grid connection':'All '+N+' vehicles can run electric on today’s grid connection')
     :({batt:'The battery is too small for the hardest day',eol:'The battery is too small once it has aged',rdy:'The vehicles are not full before they leave',grid:'Charging goes over the grid connection',time:'The route does not fit in the shift',pay:'The load is over the weight limit'})[first.k];
