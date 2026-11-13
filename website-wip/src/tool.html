@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EV Scope demo</title>
+<meta name="description" content="EV Scope demo: size an electric truck fleet, its chargers and its grid connection on a sample project.">
+<style id="evs-fonts">/*EVS_FONTS*/</style>
+<style>
+/*TOOL_CSS*/
+</style>
+</head>
+<body>
+<a class="skip" href="#page">Skip to content</a>
+<div class="prog" id="prog"></div>
+<div id="app">
+  <header class="top">
+    <button class="brand" id="brand" type="button" aria-label="EV Scope"><svg width="28" height="28" viewBox="0 0 48 48" aria-hidden="true"><rect x="1" y="1" width="46" height="46" rx="9" fill="#1F4E9E"/><rect x="4.5" y="4.5" width="39" height="39" rx="6.5" fill="none" stroke="#fff" stroke-width="1.8"/><text x="24" y="31.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="19" fill="#fff" letter-spacing="-0.5">EV</text></svg><span><b>EV</b> Scope</span></button>
+    <nav class="main" id="nmain" aria-label="Main"></nav>
+    <span class="sp"></span>
+    <span class="rstate" id="runState" role="status"></span>
+    <button class="btn pri" id="bRun" type="button" title="Run the project (Ctrl+Enter)"><svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14l11-7z" fill="currentColor"/></svg>Run</button>
+    <button class="btn" id="bAi" type="button" aria-pressed="false" aria-controls="ai">Assistant</button>
+    <button class="lnk exit" id="bExit" type="button" hidden>Back to site</button>
+  </header>
+  <nav class="sub" id="nsub" aria-label="Pages in this section"></nav>
+  <div class="body">
+    <main class="page" id="page" tabindex="-1"><div class="wrap" id="content"></div></main>
+    <aside class="ai" id="ai" aria-label="Assistant" hidden>
+      <div class="aih">Assistant<button class="x" id="aiClose" type="button" aria-label="Close the assistant"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <div class="msgs" id="msgs" aria-live="polite"></div>
+      <div class="sugs" id="sugs"></div>
+      <form class="ask" id="aiForm"><label class="sr" for="aiIn">Your question</label><input class="in" id="aiIn" autocomplete="off" placeholder="Ask about this run"><button class="btn pri" type="submit">Ask</button></form>
+    </aside>
+  </div>
+</div>
+<div id="printRep"></div>
+<script>
+(function(){
+/*TOOL_JS*/
+})();
+</script>
+</body>
+</html>

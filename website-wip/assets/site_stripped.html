@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>EV Scope · Scope before you sign.</title>
+<meta name="description" content="EV Scope sizes vehicle electrification before anyone signs: the vehicles, chargers and grid connection a depot really needs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap">
+<script>try{var t=localStorage.getItem('evs-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'night':'day';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='day'}</script>
+<style>
+:root{--hh:68px;--ink:#12182B;--muted:#5A6275;--faint:#8A92A3;--line:#E6E9EF;--bg:#FFFFFF;--tint:#F5F7FA;--blue:#1F4E9E;--blue-d:#193F80;--accent:#1F4E9E;--blue-soft:#E9EFF8;--slate:#3A3F48;--paper:#FFFFFF;--hdr:rgba(255,255,255,.88);
+  --raise:-3px -3px 8px rgba(255,255,255,.95),3px 4px 10px rgba(18,24,43,.12);--sunk:inset 2px 2px 6px rgba(18,24,43,.11),inset -3px -3px 7px #fff;--btn:-5px -5px 12px rgba(255,255,255,.95),5px 6px 14px rgba(31,78,158,.26),inset 0 1px 0 rgba(255,255,255,.14);
+  --ease:cubic-bezier(.2,.8,.2,1)}
+[data-theme=night]{--ink:#E9EDF5;--muted:#A3ABBB;--faint:#6F788A;--line:rgba(255,255,255,.09);--bg:#000;--tint:#0A0D12;--accent:#7FA6F5;--blue-soft:rgba(127,166,245,.16);--slate:#C9D0DC;--paper:#0F141C;--hdr:rgba(0,0,0,.78);
+  --raise:-2px -2px 6px rgba(255,255,255,.05),3px 4px 10px rgba(0,0,0,.9);--sunk:inset 2px 2px 6px rgba(0,0,0,.95),inset -2px -2px 6px rgba(255,255,255,.05);--btn:0 0 0 1px rgba(127,166,245,.25),0 6px 22px rgba(31,78,158,.55),inset 0 1px 0 rgba(255,255,255,.18)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+.skip{position:fixed;left:12px;top:-64px;z-index:100;background:var(--blue);color:#fff;padding:10px 14px;border-radius:10px;font-size:14px}.skip:focus{top:12px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 'IBM Plex Sans',system-ui,-apple-system,Segoe UI,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background-color .6s ease,color .6s ease}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+img{display:block}
+.mono{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+h1,h2,h3{font-weight:500;letter-spacing:-.028em;margin:0}
+h2{font-size:clamp(28px,3.4vw,44px);line-height:1.1;text-wrap:balance}
+.kicker{font:500 12px/1 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);display:flex;align-items:center;gap:10px;margin:0 0 16px}
+.kicker::before{content:"";width:18px;height:1px;background:currentColor}
+.center{text-align:center}.center .kicker{justify-content:center}
+.lead{margin:12px 0 0;color:var(--muted);max-width:540px}
+.center .lead{margin-left:auto;margin-right:auto}
+
+/* day / night pictures: day images sit on white (multiply), night images on black */
+.n{display:none}
+[data-theme=night] .d{display:none}[data-theme=night] .n{display:block}
+.d{mix-blend-mode:multiply}
+
+.tx-n{display:none}[data-theme=night] .tx-d{display:none}[data-theme=night] .tx-n{display:inline}
+[data-theme=night] div.tx-n,[data-theme=night] p.tx-n{display:block}
+/* assistant (search bar in the hero + panel from the header) */
+.ask{position:relative;max-width:680px;margin:0 auto 34px;text-align:left}
+.ask form{display:flex;align-items:center;gap:8px;padding:7px 7px 7px 18px;border-radius:16px;background:var(--tint);box-shadow:var(--sunk)}
+.ask input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:16px;color:var(--ink);outline:none;padding:9px 0}
+.ask input::placeholder{color:var(--faint)}
+.ask button{flex:none;width:40px;height:40px;border:0;border-radius:11px;background:var(--blue);color:#fff;cursor:pointer;font-size:17px;box-shadow:var(--btn)}
+.ask .hint{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+.ask .hint button{width:auto;height:auto;padding:6px 10px;border-radius:8px;background:transparent;color:var(--muted);font-size:13px;box-shadow:0 0 0 1px var(--line)}
+.ask .hint button:hover{color:var(--ink)}
+.answer{margin-top:12px;padding:14px 16px;border-radius:14px;background:var(--paper);box-shadow:0 0 0 1px var(--line),0 10px 26px rgba(18,24,43,.07);font-size:15px;display:none}
+.answer.on{display:block;animation:rise .5s var(--ease)}
+.answer b{display:block;font-weight:500;margin-bottom:4px}
+.answer .yes{color:var(--accent)}.answer .no{color:#B4483B}
+.answer small{display:block;margin-top:8px;font:400 11.5px/1.4 'IBM Plex Mono',monospace;color:var(--faint)}
+.answer a{color:var(--accent);text-decoration:underline}
+.askpanel{position:fixed;top:calc(var(--hh) + 8px);right:max(20px,calc(50% - 580px));width:min(420px,calc(100vw - 40px));z-index:60;padding:16px;border-radius:18px;background:var(--bg);box-shadow:0 0 0 1px var(--line),0 24px 60px rgba(18,24,43,.18);display:none}
+.askpanel.on{display:block;animation:rise .4s var(--ease)}
+.askpanel .ask{margin:0}
+.askpanel .ttl{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:15px;font-weight:500}
+.askpanel .x{border:0;background:transparent;color:var(--faint);font-size:20px;cursor:pointer}
+.iconbtn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 13px;border:0;border-radius:11px;background:var(--tint);color:var(--slate);cursor:pointer;font-size:14px;box-shadow:var(--raise)}
+.iconbtn:active{box-shadow:var(--sunk)}
+.ico.chat{width:16px;height:12px;border:1.6px solid currentColor;border-radius:5px;margin-bottom:2px}
+.ico.chat::after{content:"";position:absolute;left:3px;bottom:-5px;width:5px;height:5px;border-left:1.6px solid currentColor;border-bottom:1.6px solid currentColor;background:var(--tint);transform:skewY(-30deg)}
+/* pages */
+.view{display:none;min-height:100vh;min-height:100svh;padding:calc(var(--hh) + 56px) 0 90px}
+body.page-about #v-about,body.page-contact #v-contact,body.page-tool #v-tool{display:block}
+body.page-about #home,body.page-contact #home,body.page-tool #home,body.page-app #home{display:none}
+.view h1{font-size:clamp(32px,4vw,52px);line-height:1.08;margin-bottom:16px;text-wrap:balance}
+.view .lead{font-size:18px;max-width:640px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;margin-top:50px;border-top:1px solid var(--line)}
+.cols>div{padding:26px 26px 26px 0;border-bottom:1px solid var(--line)}
+.cols h3{font-size:19px;margin-bottom:8px;letter-spacing:-.01em}
+.cols p{margin:0;color:var(--muted);font-size:15.5px}
+.cols .mono{font-size:12px;color:var(--accent);display:block;margin-bottom:12px}
+.cols .price{margin-top:8px;color:var(--faint);font-size:14.5px}
+.form{display:grid;gap:16px;max-width:560px;margin-top:40px}
+.form label{display:grid;gap:7px;font-size:14px;color:var(--muted)}
+.form input,.form select,.form textarea{font:inherit;font-size:16px;color:var(--ink);border:0;border-radius:12px;padding:13px 15px;background:var(--tint);box-shadow:var(--sunk);outline:none}
+.form textarea{min-height:130px;resize:vertical}
+.form .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form .note{font:400 12px/1.5 'IBM Plex Mono',monospace;color:var(--faint)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:70px;align-items:start}
+.signin{max-width:420px}
+@media (max-width:860px){.split{grid-template-columns:1fr;gap:30px}.form .row{grid-template-columns:1fr}}
+/* logo */
+.logo{width:30px;height:30px;border-radius:7px;background:var(--blue);padding:3px;flex:none}
+.logo i{display:flex;width:100%;height:100%;border:1.5px solid #fff;border-radius:4.5px;align-items:center;justify-content:center;color:#fff;font:800 11.5px/1 Arial,Helvetica,sans-serif;font-style:normal;letter-spacing:-.3px}
+.wm{font-size:18px;letter-spacing:-.01em}.wm b{color:var(--blue);font-weight:800}
+[data-theme=night] .wm b{color:var(--accent)}
+
+header{position:fixed;inset:0 0 auto 0;z-index:50;transition:background-color .4s ease,box-shadow .4s ease,transform .45s var(--ease)}
+header.hide{transform:translateY(-100%)}
+header.solid{background:var(--hdr);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);box-shadow:0 1px 0 var(--line)}
+.hbar{display:flex;align-items:center;justify-content:space-between;gap:20px;height:var(--hh)}
+.brand{display:flex;align-items:center;gap:10px}
+nav.links{display:flex;gap:2px}
+nav.links a{font-size:15px;color:var(--muted);padding:8px 11px;border-radius:8px;transition:color .25s ease}
+nav.links a:hover{color:var(--ink)}
+.hright{display:flex;align-items:center;gap:10px}
+header.menu-open{background:var(--bg);box-shadow:0 1px 0 var(--line)}
+/* language: flag + dropdown */
+.lang{position:relative}
+.langbtn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 12px;border:0;border-radius:11px;background:var(--tint);cursor:pointer;color:var(--slate);box-shadow:var(--raise);transition:box-shadow .2s ease}
+.langbtn:active,.langbtn[aria-expanded=true]{box-shadow:var(--sunk)}
+.flag{display:block;flex:none;width:22px;height:15px;border-radius:3px;box-shadow:0 0 0 1px rgba(128,138,160,.35)}
+.langbtn .chev{transition:transform .25s var(--ease)}
+.langbtn[aria-expanded=true] .chev{transform:rotate(180deg)}
+.langmenu{list-style:none;margin:0;padding:6px;position:absolute;right:0;top:calc(100% + 10px);min-width:182px;border-radius:14px;background:var(--paper);box-shadow:0 0 0 1px var(--line),0 18px 44px rgba(18,24,43,.16);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .2s ease,transform .25s var(--ease),visibility 0s .25s;z-index:70;outline:none}
+[data-theme=night] .langmenu{box-shadow:0 0 0 1px var(--line),0 18px 44px rgba(0,0,0,.8)}
+.lang.open .langmenu{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.langmenu li{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:9px;font-size:15px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.langmenu li:hover,.langmenu li.kb{background:var(--tint);color:var(--ink)}
+.langmenu li[aria-selected=true]{color:var(--ink);font-weight:500}
+.langmenu li[aria-selected=true]::after{content:"";margin-left:auto;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+/* menu (small screens) */
+.menubtn{display:none;width:40px;padding:0;justify-content:center}
+.bars{display:block;position:relative;width:16px;height:12px}
+.bars i{position:absolute;left:0;right:0;height:1.6px;border-radius:1px;background:currentColor;transition:transform .3s var(--ease),opacity .2s ease}
+.bars i:nth-child(1){top:0}.bars i:nth-child(2){top:5.2px}.bars i:nth-child(3){top:10.4px}
+.menubtn[aria-expanded=true] .bars i:nth-child(1){transform:translateY(5.2px) rotate(45deg)}
+.menubtn[aria-expanded=true] .bars i:nth-child(2){opacity:0}
+.menubtn[aria-expanded=true] .bars i:nth-child(3){transform:translateY(-5.2px) rotate(-45deg)}
+.mpanel{display:none}
+.theme .sw-track button{padding:6px 9px}
+.theme .lbl{display:none}
+
+.btn{position:relative;display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 24px;border:0;border-radius:14px;cursor:pointer;background:var(--blue);color:#fff;font-weight:500;font-size:16px;box-shadow:var(--btn);transition:transform .25s var(--ease),box-shadow .25s ease,background-color .25s ease}
+.btn:hover{background:var(--blue-d)}
+.btn:active{transform:translateY(1px);box-shadow:inset 3px 3px 7px rgba(0,0,0,.28),inset -2px -2px 5px rgba(255,255,255,.12)}
+.btn .ar{transition:transform .3s var(--ease)}.btn:hover .ar{transform:translateX(3px)}
+.btn.sm{height:40px;padding:0 16px;font-size:14.5px;border-radius:11px}
+.lnk{font-size:15px;color:var(--muted);display:inline-flex;gap:8px;align-items:center;transition:color .2s ease}.lnk:hover{color:var(--ink)}
+
+/* ONE switcher everywhere (also the day/night toggle) */
+.switch{display:flex;align-items:center;gap:10px;max-width:100%}
+.switch.c{justify-content:center}
+.sw-track{display:flex;gap:4px;padding:6px;border-radius:14px;background:var(--tint);box-shadow:var(--sunk);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;max-width:100%;min-width:0}
+.sw-track::-webkit-scrollbar{display:none}
+.sw-track button{position:relative;flex:none;scroll-snap-align:center;border:0;background:transparent;border-radius:10px;padding:10px 15px;font-size:14.5px;color:var(--muted);cursor:pointer;white-space:nowrap;overflow:hidden;transition:background-color .3s ease,box-shadow .3s ease,color .3s ease}
+.sw-track button:hover{color:var(--ink)}
+.sw-track button.on{background:var(--paper);color:var(--ink);box-shadow:var(--raise)}
+.sw-track button i{position:absolute;left:12px;right:12px;bottom:5px;height:2px;border-radius:1px;transform-origin:left;transform:scaleX(0);background:var(--accent);opacity:0}
+.sw-track button.on i{opacity:.85}
+.sw-arrow{flex:none;width:42px;height:42px;border-radius:50%;border:0;background:var(--tint);cursor:pointer;color:var(--slate);font-size:17px;box-shadow:var(--raise);transition:box-shadow .2s ease,color .2s ease}
+.sw-arrow:hover{color:var(--accent)}
+.sw-arrow:active{box-shadow:var(--sunk)}
+.theme .sw-track{padding:4px;border-radius:11px}
+.theme .sw-track button{padding:6px 11px;font-size:13px;border-radius:8px}
+.theme .sw-track button i{display:none}
+.theme .sw-track button{display:inline-flex;align-items:center;gap:7px}
+.ico{display:inline-block;flex:none;position:relative}
+.ico.sun{width:7px;height:7px;border-radius:50%;background:currentColor;margin:0 3px;box-shadow:0 -6px 0 -2.4px currentColor,0 6px 0 -2.4px currentColor,6px 0 0 -2.4px currentColor,-6px 0 0 -2.4px currentColor,4.3px 4.3px 0 -2.4px currentColor,-4.3px -4.3px 0 -2.4px currentColor,4.3px -4.3px 0 -2.4px currentColor,-4.3px 4.3px 0 -2.4px currentColor}
+.ico.moon{width:11px;height:11px;border-radius:50%;box-shadow:inset -3.5px -1.5px 0 0 currentColor;transform:rotate(-20deg)}
+.sw-track button.on .ico{color:var(--accent)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;padding:calc(var(--hh) + 70px) 0 54px;overflow:hidden}
+.glyphs{position:absolute;left:0;right:0;top:0;display:grid;gap:6px;pointer-events:none}
+.g{font:400 clamp(7px,.74vw,10.5px)/1 'IBM Plex Mono',monospace;text-align:center;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-radius:5px;color:#7C879D;opacity:.1}
+.hero-copy{position:relative;z-index:2;text-align:center;max-width:900px;margin:0 auto;padding:0 24px}
+.hero h1{font-size:clamp(40px,5.6vw,80px);line-height:1.02;letter-spacing:-.034em;text-wrap:balance}
+.hero p.sub{margin:22px auto 34px;max-width:700px;font-size:clamp(17px,1.5vw,20px);font-weight:300;color:var(--muted)}
+.cta-row{display:flex;gap:26px;justify-content:center;align-items:center;flex-wrap:wrap}
+.hero-depot{position:relative;width:min(1120px,94vw);margin:48px auto 0}
+.hero-depot img{width:100%;height:auto;opacity:0;animation:fadein 1.6s ease .45s forwards}
+.hero-depot .n{mix-blend-mode:screen}
+.hero-foot{position:relative;z-index:2;display:flex;justify-content:center;gap:12px 28px;flex-wrap:wrap;margin-top:16px;padding:0 20px;font:400 13px/1.3 'IBM Plex Mono',monospace;color:var(--faint)}
+.hero-foot span::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent);margin-right:9px;vertical-align:2px;opacity:.7}
+.in{opacity:0;transform:translateY(12px);animation:rise 1.1s var(--ease) forwards}
+.fade{opacity:0;animation:fadein 1.6s ease .45s forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+@keyframes fadein{to{opacity:1}}
+
+/* ---------- INSIDE ONE DEPOT ---------- */
+.story{position:relative;height:720vh}
+.pin{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;padding:calc(var(--hh) + 12px) 0 22px}
+.sgrid{display:grid;grid-template-columns:minmax(0,4.4fr) minmax(0,7.6fr);column-gap:56px;row-gap:0;align-items:center;width:100%}
+.sgrid>*,.stage>*{min-width:0}
+.stext{display:grid}
+.ch{grid-area:1/1;opacity:0;will-change:opacity,transform}
+.ch .n2{font:500 12.5px/1 'IBM Plex Mono',monospace;color:var(--accent);display:block;margin-bottom:16px}
+.ch h3{font-size:clamp(26px,2.8vw,40px);line-height:1.1;margin-bottom:14px;text-wrap:balance}
+.ch p{margin:0;color:var(--muted);font-size:17px;max-width:420px}
+.ch p.rev{margin-top:14px;padding-left:14px;border-left:2px solid var(--accent);color:var(--ink);opacity:0;will-change:opacity,transform}
+.story .switch{margin-top:26px;grid-column:1/-1}
+.sstage{position:relative;height:min(60vh,580px);overflow:hidden}
+.layer{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;will-change:opacity,transform}
+.layer img{max-width:100%;max-height:100%;width:auto;height:auto}
+.zoom{position:absolute;inset:0;overflow:hidden}
+.zoom .zi{position:absolute;left:0;top:50%;width:100%;transform-origin:var(--ox) var(--oy);will-change:transform}
+.zoom .zi img{width:100%;height:auto}
+.chgwrap{position:relative;height:100%;aspect-ratio:768/1376;transform-origin:50% 33%;will-change:transform}
+.chgwrap img{width:100%;height:100%}
+.chip{font:400 12px/1 'IBM Plex Mono',monospace;color:var(--slate);background:var(--paper);border-radius:8px;padding:8px 11px;box-shadow:0 6px 18px rgba(18,24,43,.08),0 0 0 1px var(--line);white-space:nowrap;opacity:0;will-change:opacity,transform}
+.chip.b{color:var(--accent)}
+.chip::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:1px}
+.chip.tx-d{display:inline-block}[data-theme=night] .chip.tx-d{display:none}.chip.tx-n{display:none}[data-theme=night] .chip.tx-n{display:inline-block}
+.chips{position:absolute;left:0;right:0;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;pointer-events:none}
+.loadbar{position:absolute;left:12%;right:12%;top:2%;z-index:3}
+.loadbar .tr{height:6px;border-radius:3px;background:rgba(18,24,43,.09);overflow:hidden}
+[data-theme=night] .loadbar .tr{background:rgba(255,255,255,.12)}
+.loadbar .tr i{display:block;height:100%;background:var(--accent);transform-origin:left}
+.loadbar .lb{display:flex;justify-content:space-between;margin-top:9px;font:400 12px/1 'IBM Plex Mono',monospace;color:var(--faint)}
+.loadbar .lb span.on{color:var(--accent)}
+.tl{position:absolute;left:6%;right:6%;bottom:0;height:27%;padding-top:6px}
+.tl .t{font:400 12px/1 'IBM Plex Mono',monospace;color:var(--faint);margin-bottom:22px}
+.tl .rows{position:relative;height:52px;background:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 25%)}
+.tl .r{position:absolute;left:0;right:0;height:11px}
+.tl .r span{position:absolute;top:0;bottom:0;border-radius:6px;transform-origin:left}
+.tl .r em{position:absolute;top:-17px;font:normal 400 12px/1 'IBM Plex Mono',monospace;color:var(--slate);white-space:nowrap}
+.tl .ax{display:flex;justify-content:space-between;margin-top:8px;font:400 11.5px/1 'IBM Plex Mono',monospace;color:var(--faint)}
+.snote{position:absolute;right:0;bottom:0;font:400 11.5px/1 'IBM Plex Mono',monospace;color:var(--faint)}
+
+/* ---------- AUDIENCES ---------- */
+.aud{position:relative;height:420vh}
+.aud .pin{flex-direction:column;justify-content:center}
+.aud h2{font-size:clamp(26px,3vw,40px)}
+.aud .lead{margin-top:8px}
+.aud .pin>.wrap{width:100%}
+.stage{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;align-items:center;min-height:0;margin-top:clamp(26px,4.6vh,48px)}
+.aud .switch{margin-top:clamp(16px,3vh,30px)}
+.copybox{display:grid}
+.panel{grid-area:1/1;opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .7s var(--ease);pointer-events:none}
+.panel.on{opacity:1;transform:none;pointer-events:auto;transition-delay:.15s}
+.panel h3{font-size:clamp(22px,2.3vw,32px);line-height:1.14;margin:0 0 12px;text-wrap:balance}
+.panel .why{margin:0 0 20px;color:var(--muted);font-size:15.5px;max-width:440px}
+.panel ul{list-style:none;padding:0;margin:0 0 24px}
+.panel li{position:relative;padding-left:24px;margin-bottom:8px;font-size:16px}
+.panel li::before{content:"";position:absolute;left:0;top:.72em;width:12px;height:1.5px;background:var(--accent)}
+.panel .get{display:inline-flex;gap:10px;align-items:baseline;padding-top:16px;border-top:1px solid var(--line);font-size:15px}
+.panel .get span{font:500 11.5px/1 'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.vstage{position:relative;height:min(38vh,340px)}
+.veh{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateX(-30px) scale(.98);transition:transform 1s var(--ease),opacity .7s ease}
+.veh.on{opacity:1;transform:none}
+.veh img{max-width:100%;max-height:100%;width:auto;height:auto}
+
+/* ---------- DOCUMENTS ---------- */
+.docs{position:relative;height:300vh;background:var(--tint)}
+.docs .pin{overflow:hidden}
+.docs .pin{flex-direction:column;justify-content:center}
+.fanbox{position:relative;width:100%;max-width:820px;height:350px;margin:22px auto 0}
+.fan{position:absolute;left:0;right:0;top:0;height:350px;transform-origin:50% 0}
+.sheet{position:absolute;left:50%;top:30px;width:212px;height:276px;margin-left:-106px;background:var(--paper);border-radius:8px;padding:18px 18px 14px;cursor:pointer;box-shadow:0 1px 2px rgba(18,24,43,.06),0 8px 22px rgba(18,24,43,.07);transition:transform .8s var(--ease),box-shadow .6s ease;display:flex;flex-direction:column;gap:10px}
+[data-theme=night] .sheet{box-shadow:0 0 0 1px rgba(255,255,255,.06),0 10px 26px rgba(0,0,0,.8)}
+.sheet>*{transition:opacity .5s ease}.sheet.dim>*{opacity:.2}
+.sheet.on{box-shadow:0 2px 4px rgba(18,24,43,.06),0 26px 50px rgba(18,24,43,.17)}
+[data-theme=night] .sheet.on{box-shadow:0 0 0 1px rgba(127,166,245,.3),0 26px 50px rgba(0,0,0,.9)}
+.sheet .sh-top{display:flex;align-items:center;gap:7px}
+.sheet .logo{width:18px;height:18px;padding:2px;border-radius:4px}.sheet .logo i{font-size:7px;border-width:1px;border-radius:2.5px}
+.sheet .sh-top span{font:400 9.5px/1 'IBM Plex Mono',monospace;color:var(--faint)}
+.sheet h4{margin:4px 0 2px;font-size:15px;line-height:1.22;font-weight:500;letter-spacing:-.01em}
+.sheet .rw{display:flex;flex-direction:column;gap:4px}
+.sheet .rw span{font:400 9.5px/1.2 'IBM Plex Mono',monospace;color:var(--faint)}
+.sheet .rw i{display:block;height:6px;border-radius:3px;background:var(--line)}
+.sheet .rw i.b{background:var(--blue-soft)}
+.sheet .foot{margin-top:auto;font:400 9px/1 'IBM Plex Mono',monospace;color:var(--faint)}
+.docinfo{position:relative;z-index:60;display:grid;width:100%;max-width:560px;margin:22px auto 20px;padding:0 20px;text-align:center}
+.docinfo div{grid-area:1/1;opacity:0;transform:translateY(8px);transition:opacity .45s ease,transform .55s var(--ease)}
+.docinfo div.on{opacity:1;transform:none;transition-delay:.1s}
+.docinfo b{display:block;font-size:20px;font-weight:500;letter-spacing:-.012em}
+.docinfo em{display:block;font:normal 400 12.5px/1.4 'IBM Plex Mono',monospace;color:var(--accent);margin:4px 0 6px}
+.docinfo span{color:var(--muted);font-size:16px}
+.docs .switch{width:100%;padding:0 20px}
+
+/* ---------- CLOSE ---------- */
+.close{padding:130px 0 56px;text-align:center;overflow:hidden}
+.close p{margin:16px auto 32px;color:var(--muted);font-size:18px;font-weight:300}
+.fleet{position:relative;margin:76px auto 0;overflow:hidden}
+.rail{display:flex;align-items:flex-end;gap:56px;width:max-content;animation:drive 60s linear infinite;will-change:transform}
+.rail>div{flex:none;width:calc(var(--len) * 22px)}
+.rail img{width:100%;height:auto}
+@keyframes drive{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.fleet:hover .rail{animation-play-state:paused}
+[data-theme=night] .rail .nd{display:none}
+footer{border-top:1px solid var(--line)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap;padding-top:28px;padding-bottom:32px;font-size:13px;color:var(--faint)}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .9s ease,transform 1s var(--ease)}
+.rv.vis{opacity:1;transform:none}
+
+/* app view (the tool) */
+.appview{display:none}
+body.page-app{overflow:hidden}
+body.page-app #v-app{display:flex;flex-direction:column;position:fixed;inset:0;z-index:80;background:var(--bg)}
+body.page-app header,body.page-app footer,body.page-app .askpanel{display:none}
+.appbar{flex:none;height:52px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px;border-bottom:1px solid var(--line)}
+#toolFrame{flex:1;min-height:0;width:100%;border:0;background:#fff}
+
+/* ---------- responsive ---------- */
+@media (max-width:1180px){
+  nav.links{display:none}
+  .menubtn{display:inline-flex}
+  .mpanel{display:block;position:absolute;left:0;right:0;top:100%;background:var(--bg);box-shadow:0 1px 0 var(--line),0 24px 50px rgba(18,24,43,.12);max-height:0;overflow:hidden;visibility:hidden;transition:max-height .45s var(--ease),visibility 0s .45s}
+  header.menu-open .mpanel{max-height:calc(100svh - var(--hh));overflow:auto;visibility:visible;transition-delay:0s}
+  .mpanel .wrap{display:flex;flex-direction:column;padding-top:8px;padding-bottom:24px}
+  .mpanel a:not(.btn),.mlink{display:block;width:100%;padding:15px 2px;font-size:18px;color:var(--ink);background:none;border:0;border-bottom:1px solid var(--line);text-align:left;cursor:pointer}
+  .mpanel .btn{margin-top:20px;justify-content:center}
+}
+@media (max-width:960px){
+  .sgrid{grid-template-columns:1fr;row-gap:12px}
+  .sstage{height:min(38svh,380px);order:-1}
+  .ch h3{font-size:24px}.ch p{font-size:15.5px}
+  .story .switch{margin-top:8px}
+  .stage{grid-template-columns:1fr;gap:14px}
+  .vstage{height:min(24svh,230px)}
+  .stage .vstage{order:-1}
+  .aud h2{font-size:23px}.aud .lead{display:none}.aud .kicker{margin-bottom:8px}
+  .vstage{height:min(19svh,170px)}
+  .stage{margin-top:16px}
+  .panel h3{font-size:21px;margin-bottom:8px}.panel .why{margin-bottom:10px;font-size:14.5px}
+  .panel li{font-size:14.5px;margin-bottom:5px}.panel ul{margin-bottom:14px}.panel .get{padding-top:12px;font-size:14px}
+  .aud .switch{margin-top:16px}
+}
+@media (max-width:960px) and (max-height:720px){
+  .panel .why,.panel li:nth-child(3),.panel>.kicker{display:none}
+  .vstage{height:min(16svh,120px)}
+}
+@media (max-width:760px){.tool-btn{display:none}}
+@media (max-width:620px){
+  .wrap{padding:0 20px}
+  .hbar{gap:10px}
+  .wm{font-size:16px}.hright{gap:6px}
+  .iconbtn .lbl{display:none}.iconbtn{padding:0 11px}
+  .hero{padding-top:calc(var(--hh) + 36px)}
+  .hero h1{font-size:clamp(38px,11vw,52px)}
+  .ask form{padding-left:14px}
+  .ask .hint button{font-size:12.5px}
+  .sw-arrow{display:none}
+  .sw-track{justify-content:flex-start}
+  .lg,.snote{display:none}
+  .theme .sw-track button{padding:6px 8px}
+  .hero-foot{font-size:12px}
+  .close{padding-top:90px}
+  .fleet{margin-top:56px}
+  .cols>div{padding-right:0}
+}
+@media (max-width:480px){#askOpen{display:none}}
+/* short windows (laptops with browser chrome) */
+@media (min-width:961px) and (max-height:760px){
+  .aud h2{font-size:30px}.aud .lead{font-size:15px;margin-top:6px}
+  .aud .kicker,.docs .kicker{margin-bottom:10px}
+  .stage{margin-top:16px;gap:44px}
+  .panel h3{font-size:24px;margin-bottom:8px}.panel .why{margin-bottom:12px;font-size:14.5px}
+  .panel li{font-size:14.5px;margin-bottom:5px}.panel ul{margin-bottom:14px}
+  .panel .get{padding-top:12px}
+  .vstage{height:min(34vh,280px)}
+  .docs h2{font-size:30px}.docs .lead{font-size:15px;margin-top:6px}
+  .ch h3{font-size:30px}.ch p{font-size:15.5px}
+}
+@media (min-width:961px) and (max-height:640px){
+  .aud .lead,.docs .lead{display:none}
+  .stage{margin-top:12px}
+  .panel .why{display:none}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}.in,.fade,.rv,.hero-depot img{opacity:1;transform:none}}
+@media (max-width:620px){.close .kicker{font-size:11px;letter-spacing:.08em}.close .kicker::before{display:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="f-en" viewBox="0 0 24 16"><rect width="24" height="16" fill="#012169"/><path d="M0 0L24 16M24 0L0 16" stroke="#fff" stroke-width="3.4"/><path d="M0 0L24 16M24 0L0 16" stroke="#C8102E" stroke-width="1.2"/><path d="M12 0V16M0 8H24" stroke="#fff" stroke-width="5.4"/><path d="M12 0V16M0 8H24" stroke="#C8102E" stroke-width="3.2"/></symbol>
+    <symbol id="f-da" viewBox="0 0 24 16"><rect width="24" height="16" fill="#C8102E"/><rect x="7.4" width="3.2" height="16" fill="#fff"/><rect y="6.4" width="24" height="3.2" fill="#fff"/></symbol>
+    <symbol id="f-de" viewBox="0 0 24 16"><rect width="24" height="16" fill="#FFCE00"/><rect width="24" height="10.67" fill="#DD0000"/><rect width="24" height="5.33" fill="#000"/></symbol>
+    <symbol id="f-nl" viewBox="0 0 24 16"><rect width="24" height="16" fill="#21468B"/><rect width="24" height="10.67" fill="#fff"/><rect width="24" height="5.33" fill="#AE1C28"/></symbol>
+  </defs>
+</svg>
+<a class="skip" href="#depot">Skip to content</a>
+<header id="hdr">
+  <div class="wrap hbar">
+    <a href="#top" class="brand" aria-label="EV Scope home"><span class="logo" aria-hidden="true"><i>EV</i></span><span class="wm"><b>EV</b> Scope</span></a>
+    <nav class="links" aria-label="Sections">
+      <a href="#depot">How it works</a><a href="#for">Who it's for</a><a href="#documents">Documents</a><a href="#about">About</a><a href="#contact">Contact</a>
+    </nav>
+    <div class="hright">
+      <button class="iconbtn" id="askOpen" aria-label="Ask EV Scope"><span class="ico chat"></span><span class="lbl">Ask</span></button>
+      <div class="lang" id="lang">
+        <button class="langbtn" id="langBtn" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="langMenu" aria-label="Language"><svg class="flag" aria-hidden="true"><use href="#f-en" id="langUse"/></svg><svg class="chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5L5 6.5L8 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <ul class="langmenu" id="langMenu" role="listbox" aria-label="Language" tabindex="-1">
+          <li role="option" data-lang="en" lang="en"><svg class="flag" aria-hidden="true"><use href="#f-en"/></svg><span>English</span></li>
+          <li role="option" data-lang="da" lang="da"><svg class="flag" aria-hidden="true"><use href="#f-da"/></svg><span>Dansk</span></li>
+          <li role="option" data-lang="de" lang="de"><svg class="flag" aria-hidden="true"><use href="#f-de"/></svg><span>Deutsch</span></li>
+          <li role="option" data-lang="nl" lang="nl"><svg class="flag" aria-hidden="true"><use href="#f-nl"/></svg><span>Nederlands</span></li>
+        </ul>
+      </div>
+      <div class="switch theme" data-switch="theme"><div class="sw-track" role="tablist" aria-label="Day or night"><button role="tab" aria-label="Day" title="Day"><span class="ico sun"></span><span class="lbl">Day</span><i></i></button><button role="tab" aria-label="Night" title="Night"><span class="ico moon"></span><span class="lbl">Night</span><i></i></button></div></div>
+      <a class="btn sm tool-btn" href="#tool">Open the tool</a>
+      <button class="iconbtn menubtn" id="menuBtn" type="button" aria-expanded="false" aria-controls="mpanel" aria-label="Menu"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+    </div>
+  </div>
+  <div class="mpanel" id="mpanel">
+    <div class="wrap">
+      <a href="#depot">How it works</a><a href="#for">Who it's for</a><a href="#documents">Documents</a><a href="#about">About</a><a href="#contact">Contact</a>
+      <button type="button" class="mlink" id="askOpen2"><span>Ask EV Scope</span></button>
+      <a class="btn" href="#tool">Open the tool</a>
+    </div>
+  </div>
+</header>
+<div class="askpanel" id="askPanel" role="dialog" aria-label="Ask EV Scope">
+  <div class="ttl"><span>Ask EV Scope</span><button class="x" id="askClose" aria-label="Close">×</button></div>
+  <div class="ask" data-ask><form><input type="text" placeholder="What do you need solved?" aria-label="Your question"><button type="submit" aria-label="Ask">→</button></form><div class="answer"></div></div>
+</div>
+
+<main id="home">
+<section class="hero" id="top">
+  <div class="glyphs" id="glyphs" aria-hidden="true"></div>
+  <div class="hero-copy" id="heroCopy">
+    <h1 class="in" style="animation-delay:.05s">Scope before you&nbsp;sign.</h1>
+    <p class="sub in" style="animation-delay:.2s">Know what your trucks, depot and grid need. Before you spend a krone.</p>
+    <div class="ask in" data-ask style="animation-delay:.3s">
+      <form><input type="text" placeholder="Ask what you need solved, e.g. will our trucks manage winter routes?" aria-label="Ask what you need solved"><button type="submit" aria-label="Ask">→</button></form>
+      <div class="hint"><button type="button">Do we need a bigger grid connection?</button><button type="button">Can you install our chargers?</button><button type="button">Is it cheaper than diesel?</button></div>
+      <div class="answer"></div>
+    </div>
+    <div class="cta-row in" style="animation-delay:.4s">
+      <a class="btn" href="#contact">Get early access <span class="ar" aria-hidden="true">→</span></a>
+      <a class="lnk" href="#depot">See how it works <span aria-hidden="true">↓</span></a>
+    </div>
+  </div>
+  <div class="hero-depot fade"><img class="d" src="data:image/webp;base64,[[IMG0]]" alt="Model of an electric truck depot"><img class="n" src="data:image/webp;base64,[[IMG1]]" alt="The same depot at night, chargers lit"></div>
+  <div class="hero-foot in" id="heroFoot" style="animation-delay:.6s"><span>Ready for winter</span><span>Grid request ready</span><span>Tender ready</span><span>Every source shown</span></div>
+</section>
+
+<section class="story" id="depot">
+  <div class="pin">
+    <div class="wrap sgrid">
+      <div>
+        <p class="kicker">Inside one depot</p>
+        <div class="stext">
+          <div class="ch"><div class="tx-d"><span class="n2">01 · On the road</span><h3>Every route, every stop, every&nbsp;day.</h3><p>Your real operation goes in first: routes, stops, payload and the hours trucks spend away from the depot.</p></div><div class="tx-n"><span class="n2">01 · Overnight</span><h3>While the city sleeps, the depot&nbsp;charges.</h3><p>Trucks plug in when the shift ends. EV Scope plans the night so every one is full by morning, under the grid limit.</p></div></div>
+          <div class="ch"><span class="n2">02 · Battery</span><h3>Will the battery last the&nbsp;route?</h3><p>Every route checked against the battery, with charge to spare when the truck is back.</p><p class="rev" id="r0">Sized to your hardest route, with margin left at year 8.</p></div>
+          <div class="ch"><span class="n2">03 · Winter</span><h3>And on the coldest day, at year&nbsp;8?</h3><p>Cold air, cabin heating and an aged battery, together. No optimistic averages.</p><p class="rev" id="r1">Still enough charge on the coldest morning of the year.</p></div>
+          <div class="ch"><span class="n2">04 · Charging</span><h3>How big do the chargers need to&nbsp;be?</h3><p>Just big enough to have every truck full before the morning shift. Parked overnight, even the smallest one is enough.</p></div>
+          <div class="ch"><span class="n2">05 · Payload</span><h3>How much can it still&nbsp;carry?</h3><p>Batteries weigh. See the payload left on every route, before you order.</p></div>
+          <div class="ch"><span class="n2">06 · Grid</span><h3>When can the grid connect&nbsp;you?</h3><p>Waits run from months to years. Apply early, with the numbers already done.</p></div>
+        </div>
+      </div>
+      <div class="sstage" id="sstage" aria-hidden="true">
+        <div class="layer" id="L-op" style="opacity:1"><img class="d" src="data:image/webp;base64,[[IMG2]]" alt=""><div class="zoom n"><div class="zi" id="Zov" style="--ox:50%;--oy:50%"><img src="data:image/webp;base64,[[IMG3]]" alt=""></div></div></div>
+        <div class="chips" style="top:8%"><span class="chip tx-d" id="k-o1">Route length</span><span class="chip tx-d" id="k-o2">Stops per day</span><span class="chip b tx-d" id="k-o3">Payload per trip</span><span class="chip tx-n" id="k-v1">Plugged in at 18:00</span><span class="chip tx-n" id="k-v2">Full by 06:00</span><span class="chip b tx-n" id="k-v3">Under the grid limit</span></div>
+        <div class="layer" id="L-t"><img class="d" src="data:image/webp;base64,[[IMG4]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG5]]" alt=""></div>
+        <div class="layer" id="L-tb"><img class="d" src="data:image/webp;base64,[[IMG6]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG7]]" alt=""></div>
+        <div class="layer" id="L-tf"><img class="d" src="data:image/webp;base64,[[IMG8]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG9]]" alt=""></div>
+        <div class="chips" style="top:8%"><span class="chip" id="k-b2">Route energy, every working day</span><span class="chip b" id="k-b1">Usable energy at year 8</span></div>
+        <div class="chips" style="top:8%"><span class="chip" id="k-w1">Coldest week of the year</span><span class="chip" id="k-w2">Cabin heating on</span><span class="chip b" id="k-w3">Year 8 battery</span></div>
+        <div class="layer" id="L-chg"><div class="chgwrap" id="chgwrap"><img class="d" src="data:image/webp;base64,[[IMG10]]" alt=""></div></div>
+        <div class="layer" id="L-s0"><img class="d" src="data:image/webp;base64,[[IMG11]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG12]]" alt=""></div>
+        <div class="layer" id="L-s1"><img class="d" src="data:image/webp;base64,[[IMG13]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG14]]" alt=""></div>
+        <div class="layer" id="L-s2"><img class="d" src="data:image/webp;base64,[[IMG15]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG16]]" alt=""></div>
+        <div class="layer" id="L-p0"><img class="d" src="data:image/webp;base64,[[IMG17]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG18]]" alt=""></div>
+        <div class="layer" id="L-p1"><img class="d" src="data:image/webp;base64,[[IMG19]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG20]]" alt=""></div>
+        <div class="layer" id="L-p2"><img class="d" src="data:image/webp;base64,[[IMG21]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG22]]" alt=""></div>
+        <div class="loadbar" id="k-load"><div class="tr"><i id="loadfill"></i></div><div class="lb"><span id="lb0">Empty</span><span id="lb1">Half</span><span id="lb2">Full<em class="lg" style="font-style:normal">, within the weight limit</em></span></div></div>
+        <div class="layer" id="L-sub" style="bottom:28%"><img class="d" src="data:image/webp;base64,[[IMG23]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG24]]" alt=""></div>
+        <div class="tl" id="k-tl">
+          <div class="t">Time to a grid connection (Radius)</div>
+          <div class="rows">
+            <div class="r" style="top:4px"><em style="left:25%">With free capacity · 12–18 months</em><span id="t0" style="left:25%;width:12.5%;background:var(--accent)"></span></div>
+            <div class="r" style="top:38px"><em style="left:50%">Without · 2–4 years</em><span id="t1" style="left:50%;width:50%;background:#8FA6CC"></span></div>
+          </div>
+          <div class="ax"><span>0</span><span>1 yr</span><span>2 yrs</span><span>3 yrs</span><span>4 yrs</span></div>
+        </div>
+        <span class="snote" id="snote">Sample case · illustrative</span>
+      </div>
+      <div class="switch c" data-switch="story">
+        <button class="sw-arrow" data-dir="-1" aria-label="Previous">←</button>
+        <div class="sw-track" role="tablist" aria-label="Inside one depot"><button role="tab"><span class="tx-d">On the road</span><span class="tx-n">Overnight</span><i></i></button><button role="tab">Battery<i></i></button><button role="tab">Winter<i></i></button><button role="tab">Charging<i></i></button><button role="tab">Payload<i></i></button><button role="tab">Grid<i></i></button></div>
+        <button class="sw-arrow" data-dir="1" aria-label="Next">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="aud" id="for">
+  <div class="pin"><div class="wrap">
+    <div class="center rv">
+      <p class="kicker">Questions we get</p>
+      <h2>Different assets. The same&nbsp;question.</h2>
+      <p class="lead">How much power, at what moment, and can it be supported?</p>
+    </div>
+    <div class="stage rv">
+      <div class="copybox">
+        <div class="panel on"><p class="kicker">Fleet owners</p><h3>Battery, chargers and connection, sized before capital is&nbsp;committed.</h3><ul><li>How much battery do our vehicles actually need?</li><li>Will they finish a full winter shift?</li><li>Do we have to upgrade the grid connection?</li></ul><p class="get"><span>You get</span>Feasibility report · Financial model</p></div>
+        <div class="panel"><p class="kicker">Housing associations</p><h3>From 2026, residents have the right to&nbsp;charge.</h3><p class="why">Unless a real capacity limit says otherwise.</p><ul><li>How much charging can our supply actually carry?</li><li>What happens when everyone plugs in after work?</li><li>Do we need a larger incoming connection?</li></ul><p class="get"><span>You get</span>Feasibility report · Grid connection application</p></div>
+        <div class="panel"><p class="kicker">Municipalities</p><h3>Fixed budget years. Brand-agnostic&nbsp;procurement.</h3><ul><li>Which vehicles can we electrify now, and which wait?</li><li>Can we spread the spend across budget years?</li><li>Will this hold up if a supplier complains?</li></ul><p class="get"><span>You get</span>Tender annex · Grant application data</p></div>
+        <div class="panel"><p class="kicker">Truck makers</p><h3>Your spec sheet, tested on the buyer's own&nbsp;routes.</h3><ul><li>Will our truck finish the buyer's hardest winter route?</li><li>Does our battery still meet the tender at year 8?</li><li>How do we compare on the same case as every other bid?</li></ul><p class="get"><span>You get</span>Tender annex · Client presentation</p></div>
+      </div>
+      <div class="vstage" aria-hidden="true">
+        <div class="veh on"><img class="d" src="data:image/webp;base64,[[IMG25]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG26]]" alt=""></div>
+        <div class="veh"><img class="d" src="data:image/webp;base64,[[IMG27]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG28]]" alt=""></div>
+        <div class="veh"><img class="d" src="data:image/webp;base64,[[IMG29]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG30]]" alt=""></div>
+        <div class="veh"><img class="d" src="data:image/webp;base64,[[IMG31]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG32]]" alt=""></div>
+      </div>
+    </div>
+    <div class="switch c rv" data-switch="aud">
+      <button class="sw-arrow" data-dir="-1" aria-label="Previous">←</button>
+      <div class="sw-track" role="tablist" aria-label="Who it's for"><button role="tab">Fleet owners<i></i></button><button role="tab">Housing associations<i></i></button><button role="tab">Municipalities<i></i></button><button role="tab">Truck makers<i></i></button></div>
+      <button class="sw-arrow" data-dir="1" aria-label="Next">→</button>
+    </div>
+  </div></div>
+</section>
+
+<section class="docs" id="documents">
+  <div class="pin">
+    <div class="wrap center">
+      <p class="kicker">Documents</p>
+      <h2>Get the document you&nbsp;need.</h2>
+      <p class="lead">One run. Pick the one your reader signs.</p>
+    </div>
+    <div class="fanbox" id="fanbox"><div class="fan" id="fan"></div></div>
+    <div class="docinfo" id="docinfo" aria-live="polite"></div>
+    <div class="switch c" data-switch="doc">
+      <button class="sw-arrow" data-dir="-1" aria-label="Previous document">←</button>
+      <div class="sw-track" role="tablist" aria-label="Documents"></div>
+      <button class="sw-arrow" data-dir="1" aria-label="Next document">→</button>
+    </div>
+  </div>
+</section>
+
+<section class="close">
+  <div class="wrap rv">
+    <p class="kicker" style="justify-content:center">Every vehicle, one method</p>
+    <h2>Start with one depot.</h2>
+    <p>Send us your routes. We reply with what's possible and the next steps.</p>
+    <a class="btn" href="#contact">Get early access <span class="ar" aria-hidden="true">→</span></a>
+  </div>
+  <div class="fleet" id="fleet" aria-hidden="true"><div class="rail" id="rail">
+    <div style="--len:4.9"><img class="d" src="data:image/webp;base64,[[IMG33]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG34]]" alt=""></div>
+    <div class="nd" style="--len:6"><img class="d" src="data:image/webp;base64,[[IMG35]]" alt=""></div>
+    <div style="--len:7.5"><img class="d" src="data:image/webp;base64,[[IMG36]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG37]]" alt=""></div>
+    <div class="nd" style="--len:9"><img class="d" src="data:image/webp;base64,[[IMG38]]" alt=""></div>
+    <div style="--len:10"><img class="d" src="data:image/webp;base64,[[IMG39]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG40]]" alt=""></div>
+    <div style="--len:10"><img class="d" src="data:image/webp;base64,[[IMG41]]" alt=""><img class="n" src="data:image/webp;base64,[[IMG42]]" alt=""></div>
+    <div class="nd" style="--len:12"><img class="d" src="data:image/webp;base64,[[IMG43]]" alt=""></div>
+    <div class="nd" style="--len:16.5"><img class="d" src="data:image/webp;base64,[[IMG44]]" alt=""></div>
+  </div></div>
+</section>
+</main>
+
+<section class="view" id="v-about"><div class="wrap">
+  <p class="kicker">About</p>
+  <h1>Advice before the money is spent.</h1>
+  <p class="lead">EV Scope sizes vehicle electrification before anyone signs: the vehicles, the chargers and the grid connection a depot really needs, and what it costs against diesel.</p>
+  <div class="cols">
+    <div><span class="mono">01</span><h3>Built on EU methods</h3><p>Vehicle energy follows the methods of EU Regulation 2017/2400, the standard used to certify the energy use of heavy-duty vehicles.</p></div>
+    <div><span class="mono">02</span><h3>Conservative by design</h3><p>Where the data is uncertain, we choose the option that does not underestimate energy use.</p></div>
+    <div><span class="mono">03</span><h3>Brand-neutral</h3><p>We don't sell vehicles or chargers. The same numbers work for every supplier.</p></div>
+    <div><span class="mono">04</span><h3>Every source shown</h3><p>Each input says where it came from, so a board, a bank or a grid company can check it.</p></div>
+  </div>
+  <p class="lead" style="margin-top:40px">Founded in Copenhagen by an energy engineer from DTU, the Technical University of Denmark.</p>
+  <div style="margin-top:30px"><a class="btn" href="#contact">Talk to us <span class="ar" aria-hidden="true">→</span></a></div>
+</div></section>
+
+<section class="view" id="v-contact"><div class="wrap split">
+  <div>
+    <p class="kicker">Contact</p>
+    <h1>Start with one depot.</h1>
+    <p class="lead">Tell us about your vehicles, routes or site. We reply with what's possible and the next steps.</p>
+    <div class="cols" style="grid-template-columns:1fr;margin-top:36px">
+      <div><span class="mono">Email</span><p>[YOUR EMAIL]</p></div>
+      <div><span class="mono">Based in</span><p>Copenhagen, Denmark</p></div>
+    </div>
+  </div>
+  <form class="form" id="contactForm">
+    <div class="row"><label>Name<input name="name" required></label><label>Company or organisation<input name="org"></label></div>
+    <label>Email<input type="email" name="email" required></label>
+    <label>You are<select name="who"><option>Fleet owner</option><option>Housing association</option><option>Municipality</option><option>Truck maker</option><option>Other</option></select></label>
+    <label>What do you need solved?<textarea name="msg"></textarea></label>
+    <div><button class="btn" type="submit">Send <span class="ar" aria-hidden="true">→</span></button></div>
+    <p class="note">Sending opens your email app with the message filled in.</p>
+  </form>
+</div></section>
+
+<section class="view" id="v-tool"><div class="wrap">
+  <div class="split">
+    <div>
+      <p class="kicker">The tool</p>
+      <h1>Sign in to EV Scope.</h1>
+      <p class="lead">Early-access customers sign in here.</p>
+      <form class="form signin" id="signinForm">
+        <label>Email<input type="email" name="email" autocomplete="username" required></label>
+        <label>Password<input type="password" name="pw" autocomplete="current-password" required></label>
+        <div><button class="btn" type="submit">Sign in <span class="ar" aria-hidden="true">→</span></button></div>
+        <p class="note">No account yet? <a href="#contact" style="color:var(--accent)">Get early access</a></p>
+      </form>
+    </div>
+    <div class="cols" style="grid-template-columns:1fr;margin-top:0">
+      <div><span class="mono">Dashboard</span><h3>Your results, kept current</h3><p>See your study and keep your fleet data up to date for the next tender.</p><p class="price">Price on request</p></div>
+      <div><span class="mono">Full tool</span><h3>Run your own studies</h3><p>Every input, every result and all six documents.</p><p class="price">Price on request</p></div>
+      <div><span class="mono">Project</span><h3>We run it for you</h3><p>Send your data. We deliver the study and the documents you need.</p><p class="price">Price on request</p></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="appview" id="v-app" aria-label="EV Scope tool">
+  <div class="appbar">
+    <a href="#top" class="brand" aria-label="EV Scope home"><span class="logo" aria-hidden="true"><i>EV</i></span><span class="wm"><b>EV</b> Scope</span></a>
+    <a class="lnk" href="#tool"><span aria-hidden="true">←</span> Back to site</a>
+  </div>
+  <iframe id="toolFrame" title="EV Scope tool" allow="clipboard-write; fullscreen"></iframe>
+</section>
+
+<footer id="siteFoot"><div class="wrap"><span class="wm" style="font-size:14px"><b>EV</b> Scope · Denmark &amp; EU</span><span><a href="#about">About</a> · <a href="#contact">Contact</a> · <a href="#tool">Open the tool</a></span><span>Sample figures are illustrative. Grid lead times: Radius.</span></div></footer>
+
+<script id="toolsrc" type="text/plain">[[TOOL_B64]]</script>
+<script>window.__I18N={"da": {"How it works": "Sådan virker det", "Who it's for": "Hvem er det for", "Documents": "Dokumenter", "About": "Om os", "Contact": "Kontakt", "Ask": "Spørg", "Day": "Dag", "Night": "Nat", "Open the tool": "Åbn værktøjet", "Ask EV Scope": "Spørg EV Scope", "Know what your trucks, depot and grid need. Before you spend a krone.": "Ved, hvad dine lastbiler, dit depot og elnettet har brug for. Før du bruger en krone.", "Do we need a bigger grid connection?": "Har vi brug for en større nettilslutning?", "Can you install our chargers?": "Kan I installere vores ladere?", "Is it cheaper than diesel?": "Er det billigere end diesel?", "Get early access": "Få tidlig adgang", "See how it works": "Se, hvordan det virker", "Ready for winter": "Klar til vinter", "Grid request ready": "Klar til netansøgning", "Tender ready": "Klar til udbud", "Every source shown": "Alle kilder vist", "Inside one depot": "Inde i ét depot", "01 · On the road": "01 · På vejen", "Every route, every stop, every day.": "Hver rute, hvert stop, hver dag.", "Your real operation goes in first: routes, stops, payload and the hours trucks spend away from the depot.": "Jeres faktiske drift kommer ind først: ruter, stop, last og de timer, lastbilerne er væk fra depotet.", "01 · Overnight": "01 · Om natten", "While the city sleeps, the depot charges.": "Mens byen sover, lader depotet.", "Trucks plug in when the shift ends. EV Scope plans the night so every one is full by morning, under the grid limit.": "Lastbilerne sættes til, når vagten slutter. EV Scope planlægger natten, så alle er fulde om morgenen, under netgrænsen.", "02 · Battery": "02 · Batteri", "Will the battery last the route?": "Holder batteriet hele ruten?", "Every route checked against the battery, with charge to spare when the truck is back.": "Hver rute tjekket mod batteriet, med strøm til overs, når lastbilen er hjemme.", "Sized to your hardest route, with margin left at year 8.": "Dimensioneret til jeres hårdeste rute, med margin tilbage ved år 8.", "03 · Winter": "03 · Vinter", "And on the coldest day, at year 8?": "Og på den koldeste dag, ved år 8?", "Cold air, cabin heating and an aged battery, together. No optimistic averages.": "Kold luft, kabinevarme og et ældet batteri, på én gang. Ingen optimistiske gennemsnit.", "Still enough charge on the coldest morning of the year.": "Stadig strøm nok på årets koldeste morgen.", "04 · Charging": "04 · Opladning", "How big do the chargers need to be?": "Hvor store skal laderne være?", "Just big enough to have every truck full before the morning shift. Parked overnight, even the smallest one is enough.": "Lige store nok til, at hver lastbil er fuld før morgenvagten. Parkeret natten over er selv den mindste nok.", "05 · Payload": "05 · Last", "How much can it still carry?": "Hvor meget kan den stadig laste?", "Batteries weigh. See the payload left on every route, before you order.": "Batterier vejer. Se den nyttelast, der er tilbage på hver rute, før du bestiller.", "06 · Grid": "06 · Elnet", "When can the grid connect you?": "Hvornår kan elnettet tilslutte jer?", "Waits run from months to years. Apply early, with the numbers already done.": "Ventetiden går fra måneder til år. Søg tidligt, med tallene klar.", "Route length": "Rutelængde", "Stops per day": "Stop pr. dag", "Payload per trip": "Last pr. tur", "Plugged in at 18:00": "Sat til kl. 18:00", "Full by 06:00": "Fuld kl. 06:00", "Under the grid limit": "Under netgrænsen", "Route energy, every working day": "Ruteenergi, hver arbejdsdag", "Usable energy at year 8": "Brugbar energi ved år 8", "Coldest week of the year": "Årets koldeste uge", "Cabin heating on": "Kabinevarme tændt", "Year 8 battery": "Batteri ved år 8", "Empty": "Tom", "Half": "Halv", "Full": "Fuld", ", within the weight limit": ", inden for vægtgrænsen", "Time to a grid connection (Radius)": "Tid til nettilslutning (Radius)", "With free capacity · 12–18 months": "Med ledig kapacitet · 12–18 måneder", "Without · 2–4 years": "Uden · 2–4 år", "1 yr": "1 år", "2 yrs": "2 år", "3 yrs": "3 år", "4 yrs": "4 år", "Sample case · illustrative": "Eksempel · illustrativt", "On the road": "På vejen", "Overnight": "Om natten", "Battery": "Batteri", "Winter": "Vinter", "Charging": "Opladning", "Payload": "Last", "Grid": "Elnet", "Questions we get": "Spørgsmål vi får", "Different assets. The same question.": "Forskellige aktiver. Samme spørgsmål.", "How much power, at what moment, and can it be supported?": "Hvor meget effekt, hvornår, og kan nettet bære det?", "Fleet owners": "Flådeejere", "Battery, chargers and connection, sized before capital is committed.": "Batteri, ladere og tilslutning, dimensioneret før pengene er bundet.", "How much battery do our vehicles actually need?": "Hvor meget batteri har vores køretøjer reelt brug for?", "Will they finish a full winter shift?": "Klarer de en hel vintervagt?", "Do we have to upgrade the grid connection?": "Skal vi opgradere nettilslutningen?", "You get": "Du får", "Feasibility report · Financial model": "Forundersøgelse · Økonomisk model", "Housing associations": "Boligforeninger", "From 2026, residents have the right to charge.": "Fra 2026 har beboere ret til at lade.", "Unless a real capacity limit says otherwise.": "Medmindre en reel kapacitetsgrænse siger noget andet.", "How much charging can our supply actually carry?": "Hvor meget opladning kan vores forsyning reelt bære?", "What happens when everyone plugs in after work?": "Hvad sker der, når alle sætter stikket i efter arbejde?", "Do we need a larger incoming connection?": "Har vi brug for en større stikledning?", "Feasibility report · Grid connection application": "Forundersøgelse · Nettilslutningsansøgning", "Municipalities": "Kommuner", "Fixed budget years. Brand-agnostic procurement.": "Faste budgetår. Brandneutrale indkøb.", "Which vehicles can we electrify now, and which wait?": "Hvilke køretøjer kan vi elektrificere nu, og hvilke må vente?", "Can we spread the spend across budget years?": "Kan vi sprede udgiften over flere budgetår?", "Will this hold up if a supplier complains?": "Holder det, hvis en leverandør klager?", "Tender annex · Grant application data": "Udbudsbilag · Data til tilskudsansøgning", "Truck makers": "Lastbilproducenter", "Your spec sheet, tested on the buyer's own routes.": "Jeres datablad, testet på købers egne ruter.", "Will our truck finish the buyer's hardest winter route?": "Klarer vores lastbil købers hårdeste vinterrute?", "Does our battery still meet the tender at year 8?": "Opfylder vores batteri stadig udbuddet ved år 8?", "How do we compare on the same case as every other bid?": "Hvordan klarer vi os på samme case som alle andre bud?", "Tender annex · Client presentation": "Udbudsbilag · Kundepræsentation", "Get the document you need.": "Få det dokument, du har brug for.", "One run. Pick the one your reader signs.": "Én kørsel. Vælg det, din læser skriver under på.", "EV Scope · sample case": "EV Scope · eksempel", "Feasibility report": "Forundersøgelse", "Summary": "Resumé", "Inputs and sources": "Input og kilder", "Results per route": "Resultater pr. rute", "Audit trail": "Revisionsspor", "Illustrative": "Illustrativt", "Grid connection application": "Nettilslutningsansøgning", "Address": "Adresse", "Desired power": "Ønsket effekt", "Commissioning date": "Idriftsættelsesdato", "System services": "Systemydelser", "Tender annex": "Udbudsbilag", "Usable battery at year 8": "Brugbart batteri ved år 8", "Route energy, winter": "Ruteenergi, vinter", "Charging power window": "Ladeeffektvindue", "Financial model": "Økonomisk model", "Year 1": "År 1", "Year 2": "År 2", "Year 3": "År 3", "Year 4": "År 4", "Year 10": "År 10", "Grant application data": "Data til tilskudsansøgning", "Trucks charging daily": "Lastbiler, der lader dagligt", "Chargers and their power": "Ladere og deres effekt", "Budget excl. VAT": "Budget ekskl. moms", "Lease and term": "Leasing og løbetid", "Client presentation": "Kundepræsentation", "The decision": "Beslutningen", "The cost": "Omkostningen", "The risks": "Risiciene", "For the fleet owner and board": "Til flådeejer og bestyrelse", "The full study, with every input and source shown.": "Hele undersøgelsen, med alle input og kilder vist.", "For Radius, Cerius and other grid companies": "Til Radius, Cerius og andre netselskaber", "Everything the grid company asks for at screening.": "Alt det, netselskabet spørger om ved screening.", "For buyers and bidders": "Til købere og tilbudsgivere", "Route-based requirements every offer must meet.": "Rutebaserede krav, som alle tilbud skal opfylde.", "For the CFO": "Til økonomichefen", "Electric against diesel, year by year.": "El mod diesel, år for år.", "For grant bodies such as Vejdirektoratet": "Til tilskudsgivere som Vejdirektoratet", "The figures the application form asks for.": "De tal, ansøgningsskemaet beder om.", "For management and politicians": "Til ledelse og politikere", "The decision, the cost and the risk, in five slides.": "Beslutningen, omkostningen og risikoen, på fem slides.", "Every vehicle, one method": "Alle køretøjer, én metode", "Start with one depot.": "Start med ét depot.", "Send us your routes. We reply with what's possible and the next steps.": "Send os jeres ruter. Vi svarer med, hvad der er muligt, og de næste skridt.", "Advice before the money is spent.": "Rådgivning, før pengene er brugt.", "EV Scope sizes vehicle electrification before anyone signs: the vehicles, the chargers and the grid connection a depot really needs, and what it costs against diesel.": "EV Scope dimensionerer elektrificering, før nogen skriver under: de køretøjer, ladere og den nettilslutning, et depot reelt har brug for, og hvad det koster mod diesel.", "Built on EU methods": "Bygget på EU-metoder", "Vehicle energy follows the methods of EU Regulation 2017/2400, the standard used to certify the energy use of heavy-duty vehicles.": "Køretøjernes energiforbrug følger metoderne i EU-forordning 2017/2400, standarden for certificering af tunge køretøjers energiforbrug.", "Conservative by design": "Konservativ som udgangspunkt", "Where the data is uncertain, we choose the option that does not underestimate energy use.": "Hvor data er usikre, vælger vi det, der ikke undervurderer energiforbruget.", "Brand-neutral": "Brandneutral", "We don't sell vehicles or chargers. The same numbers work for every supplier.": "Vi sælger ikke køretøjer eller ladere. De samme tal gælder for alle leverandører.", "Each input says where it came from, so a board, a bank or a grid company can check it.": "Hvert input viser, hvor det kommer fra, så en bestyrelse, en bank eller et netselskab kan tjekke det.", "Founded in Copenhagen by an energy engineer from DTU, the Technical University of Denmark.": "Grundlagt i København af en energiingeniør fra DTU, Danmarks Tekniske Universitet.", "Talk to us": "Tal med os", "Tell us about your vehicles, routes or site. We reply with what's possible and the next steps.": "Fortæl os om jeres køretøjer, ruter eller grund. Vi svarer med, hvad der er muligt, og de næste skridt.", "Email": "E-mail", "Based in": "Baseret i", "Copenhagen, Denmark": "København, Danmark", "Name": "Navn", "Company or organisation": "Virksomhed eller organisation", "You are": "Du er", "Fleet owner": "Flådeejer", "Housing association": "Boligforening", "Municipality": "Kommune", "Truck maker": "Lastbilproducent", "Other": "Andet", "What do you need solved?": "Hvad skal løses?", "Send": "Send", "Sending opens your email app with the message filled in.": "Når du sender, åbnes din mailapp med beskeden udfyldt.", "The tool": "Værktøjet", "Sign in to EV Scope.": "Log ind på EV Scope.", "Password": "Adgangskode", "Sign in": "Log ind", "No account yet? Ask for early access.": "Ingen konto endnu? Bed om tidlig adgang.", "Dashboard": "Dashboard", "Your results, kept current": "Jeres resultater, holdt opdateret", "See your study and keep your fleet data up to date for the next tender.": "Se jeres undersøgelse, og hold flådedata opdateret til næste udbud.", "Price on request": "Pris efter aftale", "Full tool": "Fuldt værktøj", "Run your own studies": "Kør jeres egne undersøgelser", "Every input, every result and all six documents.": "Alle input, alle resultater og alle seks dokumenter.", "Project": "Projekt", "We run it for you": "Vi kører det for jer", "Send your data. We deliver the study and the documents you need.": "Send jeres data. Vi leverer undersøgelsen og de dokumenter, I har brug for.", "Scope · Denmark & EU": "Scope · Danmark & EU", "Sample figures are illustrative. Grid lead times: Radius.": "Eksempeltal er illustrative. Ventetider på nettilslutning: Radius.", "EV Scope home": "EV Scope forside", "Sections": "Sektioner", "Language": "Sprog", "Day or night": "Dag eller nat", "Close": "Luk", "Your question": "Dit spørgsmål", "Ask what you need solved, e.g. will our trucks manage winter routes?": "Spørg om det, du vil have løst, fx klarer vores lastbiler vinterruterne?", "Ask what you need solved": "Spørg om det, du vil have løst", "Previous": "Forrige", "Next": "Næste", "Previous document": "Forrige dokument", "Next document": "Næste dokument", "Scope before you sign.": "Scope, før du skriver under.", "Menu": "Menu", "Back to site": "Tilbage til siden", "EV Scope tool": "EV Scope-værktøj", "Early-access customers sign in here.": "Kunder med tidlig adgang logger ind her.", "Skip to content": "Spring til indhold"}, "de": {"How it works": "So funktioniert's", "Who it's for": "Für wen", "Documents": "Dokumente", "About": "Über uns", "Contact": "Kontakt", "Ask": "Fragen", "Day": "Tag", "Night": "Nacht", "Open the tool": "Tool öffnen", "Ask EV Scope": "EV Scope fragen", "Know what your trucks, depot and grid need. Before you spend a krone.": "Wissen Sie, was Ihre Lkw, Ihr Depot und das Netz brauchen. Bevor Sie einen Cent ausgeben.", "Do we need a bigger grid connection?": "Brauchen wir einen größeren Netzanschluss?", "Can you install our chargers?": "Können Sie unsere Ladestationen installieren?", "Is it cheaper than diesel?": "Ist es günstiger als Diesel?", "Get early access": "Frühen Zugang sichern", "See how it works": "So funktioniert's", "Ready for winter": "Winterfest", "Grid request ready": "Netzanfrage bereit", "Tender ready": "Ausschreibungsreif", "Every source shown": "Jede Quelle sichtbar", "Inside one depot": "Ein Depot von innen", "01 · On the road": "01 · Unterwegs", "Every route, every stop, every day.": "Jede Route, jeder Halt, jeden Tag.", "Your real operation goes in first: routes, stops, payload and the hours trucks spend away from the depot.": "Zuerst kommt Ihr realer Betrieb hinein: Routen, Stopps, Nutzlast und die Stunden, die die Lkw außerhalb des Depots verbringen.", "01 · Overnight": "01 · Über Nacht", "While the city sleeps, the depot charges.": "Während die Stadt schläft, lädt das Depot.", "Trucks plug in when the shift ends. EV Scope plans the night so every one is full by morning, under the grid limit.": "Die Lkw werden nach Schichtende angeschlossen. EV Scope plant die Nacht so, dass jeder bis zum Morgen voll ist, unter dem Netzlimit.", "02 · Battery": "02 · Batterie", "Will the battery last the route?": "Reicht die Batterie für die Route?", "Every route checked against the battery, with charge to spare when the truck is back.": "Jede Route gegen die Batterie geprüft, mit Restladung, wenn der Lkw zurück ist.", "Sized to your hardest route, with margin left at year 8.": "Ausgelegt auf Ihre härteste Route, mit Reserve im Jahr 8.", "03 · Winter": "03 · Winter", "And on the coldest day, at year 8?": "Und am kältesten Tag, im Jahr 8?", "Cold air, cabin heating and an aged battery, together. No optimistic averages.": "Kalte Luft, Fahrerhausheizung und eine gealterte Batterie, alles zusammen. Keine optimistischen Durchschnittswerte.", "Still enough charge on the coldest morning of the year.": "Noch genug Ladung am kältesten Morgen des Jahres.", "04 · Charging": "04 · Laden", "How big do the chargers need to be?": "Wie groß müssen die Ladestationen sein?", "Just big enough to have every truck full before the morning shift. Parked overnight, even the smallest one is enough.": "Gerade groß genug, damit jeder Lkw vor der Frühschicht voll ist. Über Nacht geparkt, reicht schon die kleinste.", "05 · Payload": "05 · Nutzlast", "How much can it still carry?": "Wie viel kann er noch laden?", "Batteries weigh. See the payload left on every route, before you order.": "Batterien wiegen. Sehen Sie die verbleibende Nutzlast auf jeder Route, bevor Sie bestellen.", "06 · Grid": "06 · Netz", "When can the grid connect you?": "Wann kann das Netz Sie anschließen?", "Waits run from months to years. Apply early, with the numbers already done.": "Die Wartezeiten reichen von Monaten bis zu Jahren. Beantragen Sie früh, mit fertigen Zahlen.", "Route length": "Routenlänge", "Stops per day": "Stopps pro Tag", "Payload per trip": "Nutzlast pro Fahrt", "Plugged in at 18:00": "Um 18:00 angeschlossen", "Full by 06:00": "Um 06:00 voll", "Under the grid limit": "Unter dem Netzlimit", "Route energy, every working day": "Routenenergie, jeder Arbeitstag", "Usable energy at year 8": "Nutzbare Energie im Jahr 8", "Coldest week of the year": "Kälteste Woche des Jahres", "Cabin heating on": "Fahrerhausheizung an", "Year 8 battery": "Batterie im Jahr 8", "Empty": "Leer", "Half": "Halb", "Full": "Voll", ", within the weight limit": ", innerhalb der Gewichtsgrenze", "Time to a grid connection (Radius)": "Zeit bis zum Netzanschluss (Radius)", "With free capacity · 12–18 months": "Mit freier Kapazität · 12–18 Monate", "Without · 2–4 years": "Ohne · 2–4 Jahre", "1 yr": "1 J.", "2 yrs": "2 J.", "3 yrs": "3 J.", "4 yrs": "4 J.", "Sample case · illustrative": "Beispielfall · illustrativ", "On the road": "Unterwegs", "Overnight": "Über Nacht", "Battery": "Batterie", "Winter": "Winter", "Charging": "Laden", "Payload": "Nutzlast", "Grid": "Netz", "Questions we get": "Fragen, die wir hören", "Different assets. The same question.": "Verschiedene Anlagen. Dieselbe Frage.", "How much power, at what moment, and can it be supported?": "Wie viel Leistung, wann, und kann das Netz sie tragen?", "Fleet owners": "Flottenbetreiber", "Battery, chargers and connection, sized before capital is committed.": "Batterie, Ladestationen und Anschluss, ausgelegt, bevor Kapital gebunden wird.", "How much battery do our vehicles actually need?": "Wie viel Batterie brauchen unsere Fahrzeuge wirklich?", "Will they finish a full winter shift?": "Schaffen sie eine volle Winterschicht?", "Do we have to upgrade the grid connection?": "Müssen wir den Netzanschluss ausbauen?", "You get": "Sie erhalten", "Feasibility report · Financial model": "Machbarkeitsstudie · Finanzmodell", "Housing associations": "Wohnungsgesellschaften", "From 2026, residents have the right to charge.": "Ab 2026 haben Bewohner ein Recht auf Laden.", "Unless a real capacity limit says otherwise.": "Es sei denn, eine echte Kapazitätsgrenze steht dagegen.", "How much charging can our supply actually carry?": "Wie viel Laden kann unsere Versorgung tatsächlich tragen?", "What happens when everyone plugs in after work?": "Was passiert, wenn alle nach der Arbeit anstecken?", "Do we need a larger incoming connection?": "Brauchen wir einen größeren Hausanschluss?", "Feasibility report · Grid connection application": "Machbarkeitsstudie · Netzanschlussantrag", "Municipalities": "Kommunen", "Fixed budget years. Brand-agnostic procurement.": "Feste Haushaltsjahre. Herstellerneutrale Beschaffung.", "Which vehicles can we electrify now, and which wait?": "Welche Fahrzeuge können wir jetzt elektrifizieren, und welche warten?", "Can we spread the spend across budget years?": "Können wir die Ausgaben auf mehrere Haushaltsjahre verteilen?", "Will this hold up if a supplier complains?": "Hält das stand, wenn sich ein Anbieter beschwert?", "Tender annex · Grant application data": "Ausschreibungsanlage · Förderantragsdaten", "Truck makers": "Lkw-Hersteller", "Your spec sheet, tested on the buyer's own routes.": "Ihr Datenblatt, getestet auf den eigenen Routen des Käufers.", "Will our truck finish the buyer's hardest winter route?": "Schafft unser Lkw die härteste Winterroute des Käufers?", "Does our battery still meet the tender at year 8?": "Erfüllt unsere Batterie die Ausschreibung auch im Jahr 8?", "How do we compare on the same case as every other bid?": "Wie schneiden wir im selben Fall wie jedes andere Angebot ab?", "Tender annex · Client presentation": "Ausschreibungsanlage · Kundenpräsentation", "Get the document you need.": "Das Dokument, das Sie brauchen.", "One run. Pick the one your reader signs.": "Ein Lauf. Wählen Sie das, was Ihr Leser unterschreibt.", "EV Scope · sample case": "EV Scope · Beispielfall", "Feasibility report": "Machbarkeitsstudie", "Summary": "Zusammenfassung", "Inputs and sources": "Eingaben und Quellen", "Results per route": "Ergebnisse pro Route", "Audit trail": "Prüfpfad", "Illustrative": "Illustrativ", "Grid connection application": "Netzanschlussantrag", "Address": "Adresse", "Desired power": "Gewünschte Leistung", "Commissioning date": "Inbetriebnahmedatum", "System services": "Systemdienstleistungen", "Tender annex": "Ausschreibungsanlage", "Usable battery at year 8": "Nutzbare Batterie im Jahr 8", "Route energy, winter": "Routenenergie, Winter", "Charging power window": "Ladeleistungsfenster", "Financial model": "Finanzmodell", "Year 1": "Jahr 1", "Year 2": "Jahr 2", "Year 3": "Jahr 3", "Year 4": "Jahr 4", "Year 10": "Jahr 10", "Grant application data": "Förderantragsdaten", "Trucks charging daily": "Täglich ladende Lkw", "Chargers and their power": "Ladestationen und ihre Leistung", "Budget excl. VAT": "Budget exkl. MwSt.", "Lease and term": "Leasing und Laufzeit", "Client presentation": "Kundenpräsentation", "The decision": "Die Entscheidung", "The cost": "Die Kosten", "The risks": "Die Risiken", "For the fleet owner and board": "Für Flottenbetreiber und Vorstand", "The full study, with every input and source shown.": "Die vollständige Studie, mit jeder Eingabe und Quelle.", "For Radius, Cerius and other grid companies": "Für Radius, Cerius und andere Netzbetreiber", "Everything the grid company asks for at screening.": "Alles, was der Netzbetreiber bei der Prüfung verlangt.", "For buyers and bidders": "Für Käufer und Bieter", "Route-based requirements every offer must meet.": "Routenbasierte Anforderungen, die jedes Angebot erfüllen muss.", "For the CFO": "Für den Finanzchef", "Electric against diesel, year by year.": "Elektro gegen Diesel, Jahr für Jahr.", "For grant bodies such as Vejdirektoratet": "Für Förderstellen wie Vejdirektoratet", "The figures the application form asks for.": "Die Zahlen, die das Antragsformular verlangt.", "For management and politicians": "Für Management und Politik", "The decision, the cost and the risk, in five slides.": "Entscheidung, Kosten und Risiko, auf fünf Folien.", "Every vehicle, one method": "Jedes Fahrzeug, eine Methode", "Start with one depot.": "Beginnen Sie mit einem Depot.", "Send us your routes. We reply with what's possible and the next steps.": "Senden Sie uns Ihre Routen. Wir antworten mit dem, was möglich ist, und den nächsten Schritten.", "Advice before the money is spent.": "Beratung, bevor das Geld ausgegeben ist.", "EV Scope sizes vehicle electrification before anyone signs: the vehicles, the chargers and the grid connection a depot really needs, and what it costs against diesel.": "EV Scope dimensioniert die Fahrzeugelektrifizierung, bevor jemand unterschreibt: die Fahrzeuge, die Ladestationen und den Netzanschluss, die ein Depot wirklich braucht, und was es im Vergleich zu Diesel kostet.", "Built on EU methods": "Auf EU-Methoden gebaut", "Vehicle energy follows the methods of EU Regulation 2017/2400, the standard used to certify the energy use of heavy-duty vehicles.": "Der Fahrzeugenergiebedarf folgt den Methoden der EU-Verordnung 2017/2400, dem Standard zur Zertifizierung des Energieverbrauchs schwerer Nutzfahrzeuge.", "Conservative by design": "Konservativ ausgelegt", "Where the data is uncertain, we choose the option that does not underestimate energy use.": "Wo Daten unsicher sind, wählen wir die Option, die den Energieverbrauch nicht unterschätzt.", "Brand-neutral": "Herstellerneutral", "We don't sell vehicles or chargers. The same numbers work for every supplier.": "Wir verkaufen weder Fahrzeuge noch Ladestationen. Dieselben Zahlen gelten für jeden Anbieter.", "Each input says where it came from, so a board, a bank or a grid company can check it.": "Jede Eingabe nennt ihre Herkunft, damit Vorstand, Bank oder Netzbetreiber sie prüfen können.", "Founded in Copenhagen by an energy engineer from DTU, the Technical University of Denmark.": "Gegründet in Kopenhagen von einem Energieingenieur der DTU, der Technischen Universität Dänemarks.", "Talk to us": "Sprechen Sie mit uns", "Tell us about your vehicles, routes or site. We reply with what's possible and the next steps.": "Erzählen Sie uns von Ihren Fahrzeugen, Routen oder Ihrem Standort. Wir antworten mit dem, was möglich ist, und den nächsten Schritten.", "Email": "E-Mail", "Based in": "Sitz in", "Copenhagen, Denmark": "Kopenhagen, Dänemark", "Name": "Name", "Company or organisation": "Unternehmen oder Organisation", "You are": "Sie sind", "Fleet owner": "Flottenbetreiber", "Housing association": "Wohnungsgesellschaft", "Municipality": "Kommune", "Truck maker": "Lkw-Hersteller", "Other": "Andere", "What do you need solved?": "Was soll gelöst werden?", "Send": "Senden", "Sending opens your email app with the message filled in.": "Beim Senden öffnet sich Ihre E-Mail-App mit ausgefüllter Nachricht.", "The tool": "Das Tool", "Sign in to EV Scope.": "Bei EV Scope anmelden.", "Early-access customers sign in here.": "Kunden mit frühem Zugang melden sich hier an.", "Password": "Passwort", "Sign in": "Anmelden", "No account yet? Ask for early access.": "Noch kein Konto? Fragen Sie nach frühem Zugang.", "Dashboard": "Dashboard", "Your results, kept current": "Ihre Ergebnisse, stets aktuell", "See your study and keep your fleet data up to date for the next tender.": "Sehen Sie Ihre Studie und halten Sie Ihre Flottendaten für die nächste Ausschreibung aktuell.", "Price on request": "Preis auf Anfrage", "Full tool": "Vollständiges Tool", "Run your own studies": "Eigene Studien durchführen", "Every input, every result and all six documents.": "Jede Eingabe, jedes Ergebnis und alle sechs Dokumente.", "Project": "Projekt", "We run it for you": "Wir führen es für Sie durch", "Send your data. We deliver the study and the documents you need.": "Senden Sie Ihre Daten. Wir liefern die Studie und die Dokumente, die Sie brauchen.", "Scope · Denmark & EU": "Scope · Dänemark & EU", "Sample figures are illustrative. Grid lead times: Radius.": "Beispielzahlen sind illustrativ. Netzanschluss-Wartezeiten: Radius.", "EV Scope home": "EV Scope Startseite", "Sections": "Bereiche", "Language": "Sprache", "Day or night": "Tag oder Nacht", "Close": "Schließen", "Your question": "Ihre Frage", "Ask what you need solved, e.g. will our trucks manage winter routes?": "Fragen Sie, was gelöst werden soll, z. B. schaffen unsere Lkw die Winterrouten?", "Ask what you need solved": "Fragen Sie, was gelöst werden soll", "Previous": "Zurück", "Next": "Weiter", "Previous document": "Vorheriges Dokument", "Next document": "Nächstes Dokument", "Scope before you sign.": "Scope, bevor Sie unterschreiben.", "Menu": "Menü", "Back to site": "Zurück zur Seite", "EV Scope tool": "EV Scope Tool", "Skip to content": "Zum Inhalt springen"}, "nl": {"How it works": "Hoe het werkt", "Who it's for": "Voor wie", "Documents": "Documenten", "About": "Over ons", "Contact": "Contact", "Ask": "Vraag", "Day": "Dag", "Night": "Nacht", "Open the tool": "Open de tool", "Ask EV Scope": "Vraag EV Scope", "Know what your trucks, depot and grid need. Before you spend a krone.": "Weet wat je vrachtwagens, depot en net nodig hebben. Voordat je een cent uitgeeft.", "Do we need a bigger grid connection?": "Hebben we een zwaardere netaansluiting nodig?", "Can you install our chargers?": "Kunnen jullie onze laders installeren?", "Is it cheaper than diesel?": "Is het goedkoper dan diesel?", "Get early access": "Vroege toegang aanvragen", "See how it works": "Zie hoe het werkt", "Ready for winter": "Klaar voor de winter", "Grid request ready": "Netaanvraag klaar", "Tender ready": "Klaar voor aanbesteding", "Every source shown": "Elke bron zichtbaar", "Inside one depot": "Binnen in één depot", "01 · On the road": "01 · Onderweg", "Every route, every stop, every day.": "Elke route, elke stop, elke dag.", "Your real operation goes in first: routes, stops, payload and the hours trucks spend away from the depot.": "Eerst gaat jouw echte operatie erin: routes, stops, lading en de uren die vrachtwagens buiten het depot doorbrengen.", "01 · Overnight": "01 · 's Nachts", "While the city sleeps, the depot charges.": "Terwijl de stad slaapt, laadt het depot.", "Trucks plug in when the shift ends. EV Scope plans the night so every one is full by morning, under the grid limit.": "Vrachtwagens gaan aan de lader als de dienst eindigt. EV Scope plant de nacht zo dat elke wagen 's ochtends vol is, binnen de netlimiet.", "02 · Battery": "02 · Batterij", "Will the battery last the route?": "Haalt de batterij de route?", "Every route checked against the battery, with charge to spare when the truck is back.": "Elke route getoetst aan de batterij, met lading over als de vrachtwagen terug is.", "Sized to your hardest route, with margin left at year 8.": "Gedimensioneerd op jouw zwaarste route, met marge over in jaar 8.", "03 · Winter": "03 · Winter", "And on the coldest day, at year 8?": "En op de koudste dag, in jaar 8?", "Cold air, cabin heating and an aged battery, together. No optimistic averages.": "Koude lucht, cabineverwarming en een verouderde batterij, allemaal tegelijk. Geen optimistische gemiddelden.", "Still enough charge on the coldest morning of the year.": "Nog genoeg lading op de koudste ochtend van het jaar.", "04 · Charging": "04 · Laden", "How big do the chargers need to be?": "Hoe groot moeten de laders zijn?", "Just big enough to have every truck full before the morning shift. Parked overnight, even the smallest one is enough.": "Precies groot genoeg om elke vrachtwagen vol te hebben voor de ochtenddienst. 's Nachts geparkeerd is zelfs de kleinste genoeg.", "05 · Payload": "05 · Lading", "How much can it still carry?": "Hoeveel kan hij nog laden?", "Batteries weigh. See the payload left on every route, before you order.": "Batterijen wegen. Zie de resterende lading op elke route, voordat je bestelt.", "06 · Grid": "06 · Net", "When can the grid connect you?": "Wanneer kan het net je aansluiten?", "Waits run from months to years. Apply early, with the numbers already done.": "Wachttijden lopen van maanden tot jaren. Vraag vroeg aan, met de cijfers al klaar.", "Route length": "Routelengte", "Stops per day": "Stops per dag", "Payload per trip": "Lading per rit", "Plugged in at 18:00": "Om 18:00 aangesloten", "Full by 06:00": "Om 06:00 vol", "Under the grid limit": "Binnen de netlimiet", "Route energy, every working day": "Routeenergie, elke werkdag", "Usable energy at year 8": "Bruikbare energie in jaar 8", "Coldest week of the year": "Koudste week van het jaar", "Cabin heating on": "Cabineverwarming aan", "Year 8 battery": "Batterij in jaar 8", "Empty": "Leeg", "Half": "Half", "Full": "Vol", ", within the weight limit": ", binnen de gewichtslimiet", "Time to a grid connection (Radius)": "Tijd tot een netaansluiting (Radius)", "With free capacity · 12–18 months": "Met vrije capaciteit · 12–18 maanden", "Without · 2–4 years": "Zonder · 2–4 jaar", "1 yr": "1 jr", "2 yrs": "2 jr", "3 yrs": "3 jr", "4 yrs": "4 jr", "Sample case · illustrative": "Voorbeeldcase · illustratief", "On the road": "Onderweg", "Overnight": "'s Nachts", "Battery": "Batterij", "Winter": "Winter", "Charging": "Laden", "Payload": "Lading", "Grid": "Net", "Questions we get": "Vragen die we krijgen", "Different assets. The same question.": "Verschillende assets. Dezelfde vraag.", "How much power, at what moment, and can it be supported?": "Hoeveel vermogen, op welk moment, en kan het net dat aan?", "Fleet owners": "Wagenparkbeheerders", "Battery, chargers and connection, sized before capital is committed.": "Batterij, laders en aansluiting, gedimensioneerd voordat er kapitaal wordt vastgelegd.", "How much battery do our vehicles actually need?": "Hoeveel batterij hebben onze voertuigen echt nodig?", "Will they finish a full winter shift?": "Halen ze een hele wintershift?", "Do we have to upgrade the grid connection?": "Moeten we de netaansluiting uitbreiden?", "You get": "Je krijgt", "Feasibility report · Financial model": "Haalbaarheidsstudie · Financieel model", "Housing associations": "Woningcorporaties", "From 2026, residents have the right to charge.": "Vanaf 2026 hebben bewoners recht op laden.", "Unless a real capacity limit says otherwise.": "Tenzij een echte capaciteitsgrens anders bepaalt.", "How much charging can our supply actually carry?": "Hoeveel laden kan onze aansluiting echt aan?", "What happens when everyone plugs in after work?": "Wat gebeurt er als iedereen na het werk aansluit?", "Do we need a larger incoming connection?": "Hebben we een zwaardere hoofdaansluiting nodig?", "Feasibility report · Grid connection application": "Haalbaarheidsstudie · Netaansluitingsaanvraag", "Municipalities": "Gemeenten", "Fixed budget years. Brand-agnostic procurement.": "Vaste begrotingsjaren. Merkonafhankelijke inkoop.", "Which vehicles can we electrify now, and which wait?": "Welke voertuigen kunnen we nu elektrificeren, en welke moeten wachten?", "Can we spread the spend across budget years?": "Kunnen we de uitgaven over meerdere begrotingsjaren spreiden?", "Will this hold up if a supplier complains?": "Houdt dit stand als een leverancier klaagt?", "Tender annex · Grant application data": "Aanbestedingsbijlage · Subsidieaanvraagdata", "Truck makers": "Vrachtwagenfabrikanten", "Your spec sheet, tested on the buyer's own routes.": "Jouw specificatieblad, getest op de eigen routes van de koper.", "Will our truck finish the buyer's hardest winter route?": "Haalt onze vrachtwagen de zwaarste winterroute van de koper?", "Does our battery still meet the tender at year 8?": "Voldoet onze batterij in jaar 8 nog aan de aanbesteding?", "How do we compare on the same case as every other bid?": "Hoe scoren we op dezelfde case als elk ander bod?", "Tender annex · Client presentation": "Aanbestedingsbijlage · Klantpresentatie", "Get the document you need.": "Het document dat je nodig hebt.", "One run. Pick the one your reader signs.": "Eén run. Kies het document dat je lezer tekent.", "EV Scope · sample case": "EV Scope · voorbeeldcase", "Feasibility report": "Haalbaarheidsstudie", "Summary": "Samenvatting", "Inputs and sources": "Invoer en bronnen", "Results per route": "Resultaten per route", "Audit trail": "Audit trail", "Illustrative": "Illustratief", "Grid connection application": "Netaansluitingsaanvraag", "Address": "Adres", "Desired power": "Gewenst vermogen", "Commissioning date": "Datum ingebruikname", "System services": "Systeemdiensten", "Tender annex": "Aanbestedingsbijlage", "Usable battery at year 8": "Bruikbare batterij in jaar 8", "Route energy, winter": "Routeenergie, winter", "Charging power window": "Laadvermogenvenster", "Financial model": "Financieel model", "Year 1": "Jaar 1", "Year 2": "Jaar 2", "Year 3": "Jaar 3", "Year 4": "Jaar 4", "Year 10": "Jaar 10", "Grant application data": "Subsidieaanvraagdata", "Trucks charging daily": "Dagelijks ladende vrachtwagens", "Chargers and their power": "Laders en hun vermogen", "Budget excl. VAT": "Budget excl. btw", "Lease and term": "Lease en looptijd", "Client presentation": "Klantpresentatie", "The decision": "De beslissing", "The cost": "De kosten", "The risks": "De risico's", "For the fleet owner and board": "Voor de wagenparkbeheerder en de directie", "The full study, with every input and source shown.": "Het volledige onderzoek, met elke invoer en bron zichtbaar.", "For Radius, Cerius and other grid companies": "Voor Radius, Cerius en andere netbeheerders", "Everything the grid company asks for at screening.": "Alles wat de netbeheerder bij de screening vraagt.", "For buyers and bidders": "Voor kopers en inschrijvers", "Route-based requirements every offer must meet.": "Routegebaseerde eisen waar elk aanbod aan moet voldoen.", "For the CFO": "Voor de CFO", "Electric against diesel, year by year.": "Elektrisch tegenover diesel, jaar na jaar.", "For grant bodies such as Vejdirektoratet": "Voor subsidieverstrekkers zoals Vejdirektoratet", "The figures the application form asks for.": "De cijfers waar het aanvraagformulier om vraagt.", "For management and politicians": "Voor management en politici", "The decision, the cost and the risk, in five slides.": "De beslissing, de kosten en het risico, in vijf slides.", "Every vehicle, one method": "Elk voertuig, één methode", "Start with one depot.": "Begin met één depot.", "Send us your routes. We reply with what's possible and the next steps.": "Stuur ons je routes. Wij antwoorden met wat mogelijk is en de volgende stappen.", "Advice before the money is spent.": "Advies voordat het geld is uitgegeven.", "EV Scope sizes vehicle electrification before anyone signs: the vehicles, the chargers and the grid connection a depot really needs, and what it costs against diesel.": "EV Scope dimensioneert voertuigelektrificatie voordat iemand tekent: de voertuigen, laders en netaansluiting die een depot echt nodig heeft, en wat het kost ten opzichte van diesel.", "Built on EU methods": "Gebouwd op EU-methoden", "Vehicle energy follows the methods of EU Regulation 2017/2400, the standard used to certify the energy use of heavy-duty vehicles.": "Het energieverbruik van voertuigen volgt de methoden van EU-Verordening 2017/2400, de standaard voor het certificeren van het energieverbruik van zware bedrijfsvoertuigen.", "Conservative by design": "Bewust conservatief", "Where the data is uncertain, we choose the option that does not underestimate energy use.": "Waar data onzeker zijn, kiezen we de optie die het energieverbruik niet onderschat.", "Brand-neutral": "Merkonafhankelijk", "We don't sell vehicles or chargers. The same numbers work for every supplier.": "Wij verkopen geen voertuigen of laders. Dezelfde cijfers gelden voor elke leverancier.", "Each input says where it came from, so a board, a bank or a grid company can check it.": "Elke invoer vermeldt de herkomst, zodat een bestuur, een bank of een netbeheerder het kan controleren.", "Founded in Copenhagen by an energy engineer from DTU, the Technical University of Denmark.": "Opgericht in Kopenhagen door een energie-ingenieur van DTU, de Technische Universiteit van Denemarken.", "Talk to us": "Praat met ons", "Tell us about your vehicles, routes or site. We reply with what's possible and the next steps.": "Vertel ons over je voertuigen, routes of locatie. Wij antwoorden met wat mogelijk is en de volgende stappen.", "Email": "E-mail", "Based in": "Gevestigd in", "Copenhagen, Denmark": "Kopenhagen, Denemarken", "Name": "Naam", "Company or organisation": "Bedrijf of organisatie", "You are": "Je bent", "Fleet owner": "Wagenparkbeheerder", "Housing association": "Woningcorporatie", "Municipality": "Gemeente", "Truck maker": "Vrachtwagenfabrikant", "Other": "Anders", "What do you need solved?": "Wat moet er opgelost worden?", "Send": "Verstuur", "Sending opens your email app with the message filled in.": "Bij verzenden opent je e-mailapp met het bericht al ingevuld.", "The tool": "De tool", "Sign in to EV Scope.": "Log in bij EV Scope.", "Early-access customers sign in here.": "Klanten met vroege toegang loggen hier in.", "Password": "Wachtwoord", "Sign in": "Inloggen", "No account yet? Ask for early access.": "Nog geen account? Vraag vroege toegang aan.", "Dashboard": "Dashboard", "Your results, kept current": "Jouw resultaten, altijd actueel", "See your study and keep your fleet data up to date for the next tender.": "Bekijk je onderzoek en houd je wagenparkgegevens up-to-date voor de volgende aanbesteding.", "Price on request": "Prijs op aanvraag", "Full tool": "Volledige tool", "Run your own studies": "Voer je eigen onderzoeken uit", "Every input, every result and all six documents.": "Elke invoer, elk resultaat en alle zes documenten.", "Project": "Project", "We run it for you": "Wij voeren het voor je uit", "Send your data. We deliver the study and the documents you need.": "Stuur je gegevens. Wij leveren het onderzoek en de documenten die je nodig hebt.", "Scope · Denmark & EU": "Scope · Denemarken & EU", "Sample figures are illustrative. Grid lead times: Radius.": "Voorbeeldcijfers zijn illustratief. Wachttijden netaansluiting: Radius.", "EV Scope home": "EV Scope startpagina", "Sections": "Secties", "Language": "Taal", "Day or night": "Dag of nacht", "Close": "Sluiten", "Your question": "Je vraag", "Ask what you need solved, e.g. will our trucks manage winter routes?": "Vraag wat er opgelost moet worden, bijv. halen onze vrachtwagens de winterroutes?", "Ask what you need solved": "Vraag wat er opgelost moet worden", "Previous": "Vorige", "Next": "Volgende", "Previous document": "Vorig document", "Next document": "Volgend document", "Scope before you sign.": "Scope, voordat je tekent.", "Menu": "Menu", "Back to site": "Terug naar de site", "EV Scope tool": "EV Scope tool", "Skip to content": "Naar de inhoud"}};</script>
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, fine=matchMedia('(pointer:fine)').matches;
+  var root=document.documentElement;
+  function night(){return root.dataset.theme==='night'}
+  function clamp(x){return x<0?0:x>1?1:x}
+  function seg(v,a,b){return clamp((v-a)/(b-a))}
+  function ease(x){return x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2}
+  function inView(el,cb,th){ if(!('IntersectionObserver' in window)){cb(true);return} new IntersectionObserver(function(es){es.forEach(function(e){cb(e.isIntersecting)})},{threshold:th||0}).observe(el) }
+  function pinH(el){ var p=el.firstElementChild; return p?p.offsetHeight:innerHeight }
+  function pinP(el){ var r=el.getBoundingClientRect(), s=r.height-pinH(el); return s>0?clamp(-r.top/s):1 }
+  function $(id){return document.getElementById(id)}
+  var hdr=$('hdr'), body=document.body;
+
+  /* ---------- one switcher component ---------- */
+  function Switch(rootEl,labels,onChange,go){
+    var track=rootEl.querySelector('.sw-track');
+    if(labels) track.innerHTML=labels.map(function(l){return '<button role="tab">'+l+'<i></i></button>'}).join('');
+    var btns=[].slice.call(track.querySelectorAll('button')), api={i:-1};
+    api.set=function(n,src){ n=(n+btns.length)%btns.length; if(n===api.i) return; api.i=n;
+      btns.forEach(function(b,k){ b.classList.toggle('on',k===n); b.setAttribute('aria-selected',k===n); if(k!==n) b.lastChild.style.transform='scaleX(0)' });
+      var t=btns[n]; if(track.scrollWidth>track.clientWidth+2) track.scrollTo({left:t.offsetLeft-track.clientWidth/2+t.offsetWidth/2,behavior:reduce?'auto':'smooth'});
+      onChange&&onChange(n,src) };
+    api.progress=function(f){ if(api.i>=0) btns[api.i].lastChild.style.transform='scaleX('+clamp(f).toFixed(4)+')' };
+    var g=go||api.set;
+    btns.forEach(function(b,k){ b.addEventListener('click',function(){ g(k,'user') }) });
+    [].slice.call(rootEl.querySelectorAll('.sw-arrow')).forEach(function(a){ a.addEventListener('click',function(){ g(api.i+(+a.dataset.dir),'user') }) });
+    track.addEventListener('keydown',function(e){ if(e.key==='ArrowRight'){g(api.i+1,'user');e.preventDefault()} if(e.key==='ArrowLeft'){g(api.i-1,'user');e.preventDefault()} });
+    return api;
+  }
+  function scrollToChapter(sec,k,n){ var r=sec.getBoundingClientRect(), top=r.top+scrollY, span=r.height-pinH(sec); scrollTo({top:top+span*((k+.55)/n),behavior:reduce?'auto':'smooth'}) }
+
+  /* ---------- day / night ---------- */
+  var theme=Switch(document.querySelector('[data-switch="theme"]'),null,function(n,src){
+    if(src==='user'){ root.dataset.theme=n?'night':'day'; try{localStorage.setItem('evs-theme',root.dataset.theme)}catch(e){} paintGlyphs(true); kick() }
+  });
+  theme.set(night()?1:0);
+
+  /* ---------- hero glyphs: breathe, glow toward the cursor, never behind the text ---------- */
+  var G=$('glyphs'), hero=$('top'), COLS=0, ROWS=0, cells=[];
+  var units=['kW','kWh','A','%','°C','€','CO₂','kV','h','km','t','→'];
+  var textEls=[].slice.call(document.querySelectorAll('#heroCopy h1, #heroCopy .sub, #heroCopy .cta-row, #heroCopy .ask, #heroFoot'));
+  function buildGlyphs(){
+    var w=hero.clientWidth, h=hero.clientHeight, cols=Math.max(12,Math.round(w/(innerWidth<700?28:40))), rows=Math.ceil(h/(w/cols))+1;
+    if(cols===COLS&&rows===ROWS) return;
+    COLS=cols; ROWS=rows; G.innerHTML=''; cells=[]; G.style.gridTemplateColumns='repeat('+cols+',1fr)';
+    var fr=document.createDocumentFragment();
+    for(var r=0;r<rows;r++) for(var c=0;c<cols;c++){ var sp=document.createElement('span'); sp.className='g'; sp.textContent=units[(r*5+c*7)%units.length]; fr.appendChild(sp); cells.push({el:sp,c:c,r:r,o:-1,p:-1,hide:false}) }
+    G.appendChild(fr);
+  }
+  function cachePos(){
+    buildGlyphs();
+    var hr=hero.getBoundingClientRect(), boxes=[]; textEls.forEach(function(e){ var targets=e.classList.contains('cta-row')?[].slice.call(e.children):e.classList.contains('ask')?[e.querySelector('form')]:[e]; targets.forEach(function(t){ var rg=document.createRange(); rg.selectNodeContents(t); var rs=t.tagName==='FORM'?[t.getBoundingClientRect()]:[].slice.call(rg.getClientRects()); rs.forEach(function(q){ if(q.width>2) boxes.push([q.left-hr.left,q.top-hr.top+4,q.right-hr.left,q.bottom-hr.top-4]) }) }) });
+    cells.forEach(function(k,i){ var b=k.el.getBoundingClientRect(); k.x=b.left+b.width/2-hr.left; k.y=b.top+b.height/2-hr.top;
+      var dmin=1e9; boxes.forEach(function(q){ var dx=Math.max(q[0]-k.x,0,k.x-q[2]), dy=Math.max(q[1]-k.y,0,k.y-q[3]); var inside=(k.x>q[0]&&k.x<q[2]&&k.y>q[1]&&k.y<q[3]); dmin=Math.min(dmin,inside?-1:Math.sqrt(dx*dx+dy*dy)) });
+      var jit=((i*9301+49297)%233280)/233280*26-6;   /* fixed per-cell jitter: a rough, organic edge */
+      k.m=dmin<0?0:clamp((dmin-jit)/18); k.hide=k.m<=0.01; if(k.hide){k.el.style.opacity=0;k.o=0} else if(reduce){k.el.style.opacity=.12} });
+    force=true; paintGlyphs(true);
+  }
+  var mx=-1e4,my=-1e4,tx=-1e4,ty=-1e4,heroOn=true,gRaf=0,RAD=210,force=false;
+  hero.addEventListener('pointermove',function(e){ var hr=hero.getBoundingClientRect(); tx=e.clientX-hr.left; ty=e.clientY-hr.top; if(mx<-999){mx=tx;my=ty} });
+  hero.addEventListener('pointerleave',function(){ tx=ty=-1e4 });
+  function paintGlyphs(f){ force=!!f; if(!gRaf&&heroOn&&!reduce) gRaf=requestAnimationFrame(gFrame) }
+  function gFrame(t){
+    gRaf=0; if(!heroOn) return;
+    if(tx<-999){mx=my=-1e4} else {mx+=(tx-mx)*.16; my+=(ty-my)*.16}
+    var tt=t/1000, nt=night(), base=nt?[64,76,98]:[124,135,157], hot=nt?[132,172,255]:[31,78,158];
+    for(var i=0;i<cells.length;i++){
+      var k=cells[i]; if(k.hide) continue;
+      var o=(nt?.08:.06)+.12*(.5+.5*Math.sin(tt*.7-k.c*.32-k.r*.18)), p=0;
+      if(mx>-999){ var dx=k.x-mx, dy=k.y-my, d=Math.sqrt(dx*dx+dy*dy); if(d<RAD){ p=1-d/RAD; p=p*p*(3-2*p) } }
+      o=(o+p*.85)*(k.m===undefined?1:k.m);
+      if(force||Math.abs(o-k.o)>.008){k.el.style.opacity=o.toFixed(3);k.o=o}
+      if(force||Math.abs(p-k.p)>.02){
+        k.el.style.color='rgb('+Math.round(base[0]+(hot[0]-base[0])*p)+','+Math.round(base[1]+(hot[1]-base[1])*p)+','+Math.round(base[2]+(hot[2]-base[2])*p)+')';
+        k.el.style.backgroundColor=p>.02?(nt?'rgba(127,166,245,'+(p*.12).toFixed(3)+')':'rgba(31,78,158,'+(p*.09).toFixed(3)+')'):'';
+        k.el.style.textShadow=nt&&p>.05?'0 0 '+(8*p).toFixed(1)+'px rgba(127,166,245,.9)':'';
+        k.p=p }
+    }
+    force=false; gRaf=requestAnimationFrame(gFrame);
+  }
+  inView(hero,function(v){ heroOn=v; if(v) paintGlyphs() });
+
+  /* ---------- story ---------- */
+  var story=$('depot'), N=6, chs=[].slice.call(document.querySelectorAll('.ch'));
+  var sw=Switch(document.querySelector('[data-switch="story"]'),null,null,function(k){ scrollToChapter(story,(k+N)%N,N) });
+  var L={}; ['op','t','tb','tf','chg','s0','s1','s2','p0','p1','p2','sub'].forEach(function(k){L[k]=$('L-'+k)});
+  var K={}; ['b1','b2','w1','w2','w3','load','tl'].forEach(function(k){K[k]=$('k-'+k)});
+  var stage=$('sstage'), chgwrap=$('chgwrap'), loadfill=$('loadfill'), lbs=[$('lb0'),$('lb1'),$('lb2')];
+  function op(el,o,dy){ el.style.opacity=o.toFixed(3); el.style.transform=dy===undefined?'':('translateY('+dy.toFixed(1)+'px)') }
+  function lay(el,o,sc){ el.style.opacity=o.toFixed(3); el.style.transform='scale('+sc.toFixed(4)+')'; el.style.visibility=o<.003?'hidden':'visible' }
+  function drawStory(p){
+    var all=p*N, n=Math.min(N-1,Math.floor(all)), nt=night(), raw=all-1;
+    sw.set(n,'scroll'); sw.progress(clamp(all-n));
+    chs.forEach(function(ch,k){ var d=all-(k+.5), o=clamp((.5-Math.abs(d))/.08); if(k===0&&all<.5) o=1; if(k===N-1&&all>N-.5) o=1; op(ch,o,-d*28) });
+    /* 0 on the road (day) / overnight (night) */
+    var o0=1-seg(all,.92,1.02);
+    lay(L.op,o0,1); $('Zov').style.transform='translateY(-50%) scale('+(1+.18*ease(seg(all,0,.9))).toFixed(4)+')';
+    ['o1','o2','o3','v1','v2','v3'].forEach(function(id,i){ var a=seg(all,.15+(i%3)*.07,.25+(i%3)*.07)*o0; op($('k-'+id),a,(1-a)*8) });
+    /* 1 battery: reveal early, then hold */
+    var bat=ease(seg(raw,.1,.3)), back=ease(seg(raw,.94,1.04));
+    var tOut=seg(raw,1.94,2.02), frost=ease(seg(raw,1.1,1.3));
+    var tIn=seg(all,.95,1.05);
+    lay(L.t,tIn*(1-tOut),1); lay(L.tb,bat*(1-back),1); lay(L.tf,frost*(1-tOut),1);
+    var rb=seg(raw,.26,.38), rw=seg(raw,1.26,1.38);
+    op($('r0'),rb,(1-rb)*8); op($('r1'),rw,(1-rw)*8);
+    var b1=seg(raw,.3,.4)*(1-seg(raw,.9,.96)), b2=seg(raw,.36,.46)*(1-seg(raw,.9,.96));
+    op(K.b2,b1,(1-b1)*8); op(K.b1,b2,(1-b2)*8);
+    [K.w1,K.w2,K.w3].forEach(function(k,i){ var a=seg(raw,1.3+i*.05,1.4+i*.05)*(1-seg(raw,1.9,1.98)); op(k,a,(1-a)*8) });
+    /* 3 charging: zoom into the screen, then 350 → 150 → 50 kW, each held */
+    var cIn=seg(raw,2,2.06), cOut=seg(raw,2.94,3), z=ease(seg(raw,2.04,2.22));
+    var H=stage.clientHeight, W=stage.clientWidth;
+    var chW=H*768/1376, scrChg=chW*136/768;
+    var closeW=Math.min(W,H*1376/768), closeH=closeW*768/1376, scrClose=closeW*270/1376;
+    var Zmax=scrClose/scrChg, s=1+(Zmax-1)*z;
+    var dy=((H/2+(.544-.5)*closeH)-.33*H)*z;
+    chgwrap.style.transform='translateY('+dy.toFixed(1)+'px) scale('+s.toFixed(4)+')';
+    var s0In=nt?seg(raw,2.02,2.12):seg(raw,2.18,2.26);
+    lay(L.chg,nt?0:cIn*(1-s0In),1);
+    var s1=seg(raw,2.42,2.47), s2=seg(raw,2.64,2.69);
+    var s0sc=nt?.84+.16*ease(seg(raw,2.02,2.22)):1;
+    lay(L.s0,s0In*(1-cOut),s0sc); lay(L.s1,s1*(1-cOut),s0sc); lay(L.s2,s2*(1-cOut),s0sc);
+    /* 4 payload: fills in the first half, full load held */
+    var pIn=seg(raw,3,3.06), pOut=seg(raw,3.94,4), f1=ease(seg(raw,3.1,3.28)), f2=ease(seg(raw,3.34,3.52));
+    lay(L.p0,pIn*(1-pOut),1); lay(L.p1,pIn*f1*(1-pOut),1); lay(L.p2,pIn*f2*(1-pOut),1);
+    op(K.load,pIn*(1-pOut)); loadfill.style.transform='scaleX('+(.5*f1+.5*f2).toFixed(3)+')';
+    var lvl=f2>.5?2:f1>.5?1:0; lbs.forEach(function(l,i){l.classList.toggle('on',i===lvl)});
+    /* 5 grid: the substation, then the waiting times */
+    var sIn=seg(raw,4,4.08);
+    lay(L.sub,sIn,1.04-.04*ease(sIn));
+    var tl=seg(raw,4.1,4.2); op(K.tl,tl,(1-tl)*10);
+    $('t0').style.transform='scaleX('+ease(seg(raw,4.16,4.32)).toFixed(3)+')'; $('t1').style.transform='scaleX('+ease(seg(raw,4.24,4.45)).toFixed(3)+')';
+  }
+
+  /* ---------- audiences ---------- */
+  var panels=[].slice.call(document.querySelectorAll('.panel')), vehs=[].slice.call(document.querySelectorAll('.veh'));
+  var audSec=$('for'), audI=-1;
+  var aud=Switch(document.querySelector('[data-switch="aud"]'),null,function(n){ panels.forEach(function(p,k){p.classList.toggle('on',k===n)}); vehs.forEach(function(v,k){v.classList.toggle('on',k===n)}) },function(k){ scrollToChapter(audSec,(k+4)%4,4) });
+  aud.set(0);
+
+  /* ---------- documents ---------- */
+  var docs=[
+    {t:'Feasibility report',w:'For the fleet owner and board',l:'The full study, with every input and source shown.',r:[['Summary',90],['Inputs and sources',72],['Results per route',84],['Audit trail',60]]},
+    {t:'Grid connection application',w:'For Radius, Cerius and other grid companies',l:'Everything the grid company asks for at screening.',r:[['Address',70],['Desired power',48],['FNA / BNA',56],['Commissioning date',40],['System services',62]]},
+    {t:'Tender annex',w:'For buyers and bidders',l:'Route-based requirements every offer must meet.',r:[['Usable battery at year 8',52],['Route energy, winter',74],['Charging power window',60]]},
+    {t:'Financial model',w:'For the CFO',l:'Electric against diesel, year by year.',r:[['Year 1',80],['Year 2',72],['Year 3',66],['Year 4',60],['Year 10',44]]},
+    {t:'Grant application data',w:'For grant bodies such as Vejdirektoratet',l:'The figures the application form asks for.',r:[['Trucks charging daily',46],['Chargers and their power',66],['Budget excl. VAT',58],['Lease and term',38]]},
+    {t:'Client presentation',w:'For management and politicians',l:'The decision, the cost and the risk, in five slides.',r:[['The decision',78],['The cost',64],['The risks',70]]}
+  ];
+  var fan=$('fan'), fanbox=$('fanbox'), info=$('docinfo'), dsec=$('documents'), sheets=[], infos=[], hoverI=-1, scrollI=0, FANH=350;
+  docs.forEach(function(d,k){
+    var s=document.createElement('div'); s.className='sheet';
+    s.innerHTML='<div class="sh-top"><span class="logo"><i>EV</i></span><span>EV Scope · sample case</span></div><h4>'+d.t+'</h4>'+d.r.map(function(x,j){return '<div class="rw"><span>'+x[0]+'</span><i class="'+(j===0?'b':'')+'" style="width:'+x[1]+'%"></i></div>'}).join('')+'<span class="foot">Illustrative</span>';
+    if(fine) s.addEventListener('pointerenter',function(){ hoverI=k; doc.set(k,'hover') });
+    s.addEventListener('click',function(){ goDoc(k) });
+    fan.appendChild(s); sheets.push(s);
+    var dv=document.createElement('div'); dv.innerHTML='<b>'+d.t+'</b><em>'+d.w+'</em><span>'+d.l+'</span>'; info.appendChild(dv); infos.push(dv);
+  });
+  fan.addEventListener('pointerleave',function(){ if(hoverI>=0){ hoverI=-1; doc.set(scrollI,'scroll') } });
+  function fanSpread(){ return Math.min(70,Math.max(18,(fan.clientWidth-212)/(docs.length-1))) }
+  function fitFan(){
+    var pin=dsec.firstElementChild, cs=getComputedStyle(pin), used=parseFloat(cs.paddingTop)+parseFloat(cs.paddingBottom);
+    [].forEach.call(pin.children,function(c){ if(c===fanbox) return; var st=getComputedStyle(c); used+=c.offsetHeight+parseFloat(st.marginTop)+parseFloat(st.marginBottom) });
+    used+=parseFloat(getComputedStyle(fanbox).marginTop);
+    var hs=(pin.clientHeight-used)/FANH, ws=fanbox.clientWidth/(212+(docs.length-1)*fanSpread()+80);
+    var sc=Math.max(.5,Math.min(1,hs,ws));
+    fan.style.transform='scale('+sc.toFixed(3)+')'; fanbox.style.height=Math.round(FANH*sc)+'px';
+  }
+  function layoutFan(di){
+    var n=docs.length, sp=fanSpread();
+    sheets.forEach(function(s,k){ var rel=k-(n-1)/2, dk=k-di, on=k===di;
+      var x=rel*sp+(dk<0?-1:dk>0?1:0)*30, y=on?-24:Math.abs(rel)*6, rot=on?0:rel*3.2, sc=on?1.05:.95;
+      s.style.zIndex=on?50:(40-Math.abs(dk)*5);
+      s.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) rotate('+rot.toFixed(2)+'deg) scale('+sc+')';
+      s.classList.toggle('on',on); s.classList.toggle('dim',!on) });
+  }
+  var doc=Switch(document.querySelector('[data-switch="doc"]'),docs.map(function(d){return d.t}),function(n){ infos.forEach(function(x,j){x.classList.toggle('on',j===n)}); layoutFan(n); doc.progress(1) },function(k){ goDoc(k) });
+  function goDoc(k){ k=(k+docs.length)%docs.length; doc.set(k,'user'); scrollToChapter(dsec,k,docs.length) }
+  doc.set(0);
+  var sx=null; fan.addEventListener('pointerdown',function(e){sx=e.clientX}); fan.addEventListener('pointerup',function(e){ if(sx!==null&&Math.abs(e.clientX-sx)>40) goDoc(doc.i+(e.clientX<sx?1:-1)); sx=null });
+
+  /* ---------- smooth scroll engine ---------- */
+  var cur=0,tgt=0,raf=0,last=0,lastY=scrollY;
+  function measure(){
+    hdr.classList.toggle('solid',scrollY>20);
+    var y=scrollY; if(Math.abs(y-lastY)>6){ hdr.classList.toggle('hide',y>lastY&&y>140&&!askPanel.classList.contains('on')&&!hdr.classList.contains('menu-open')&&!langEl.classList.contains('open')); lastY=y }
+    tgt=pinP(story);
+    var ap=pinP(audSec), an=Math.min(3,Math.floor(ap*4)); aud.set(an); aud.progress(ap*4-an);
+    if(hoverI<0){ var k=Math.min(docs.length-1,Math.floor(pinP(dsec)*docs.length)); if(k!==scrollI){ scrollI=k; doc.set(k,'scroll') } }
+  }
+  function frame(now){ raf=0; var dt=last?Math.min(64,now-last):16; last=now; var k=1-Math.exp(-dt/110), d=tgt-cur, mv=Math.abs(d)>.0002; cur=mv?cur+d*k:tgt; drawStory(cur); if(mv) raf=requestAnimationFrame(frame); else last=0 }
+  function kick(){ measure(); if(reduce){cur=tgt;drawStory(cur);return} if(!raf) raf=requestAnimationFrame(frame); else drawStory(cur) }
+  addEventListener('scroll',kick,{passive:true});
+  var rzT=0, lastW=innerWidth; addEventListener('resize',function(){ clearTimeout(rzT); rzT=setTimeout(function(){ if(innerWidth!==lastW){ lastW=innerWidth; cachePos() } kick(); layoutFan(doc.i); fitFan() },80) });
+  fitFan();
+
+  var rvs=[].slice.call(document.querySelectorAll('.rv'));
+  var rail=$('rail'); rail.innerHTML+=rail.innerHTML;
+  if('IntersectionObserver' in window){ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}})},{threshold:.12}); rvs.forEach(function(el){io.observe(el)}) } else rvs.forEach(function(el){el.classList.add('vis')});
+  /* ---------- pages (about / contact / tool gate / the tool itself) ---------- */
+  var PAGES=['about','contact','tool','app'], toolLoaded=false, signedIn=false, hadPage=false;
+  try{ signedIn=sessionStorage.getItem('evs-in')==='1' }catch(e){}
+  function loadTool(){
+    if(toolLoaded) return; toolLoaded=true; var fr=$('toolFrame');
+    try{ var bin=atob($('toolsrc').textContent.trim()), by=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++) by[i]=bin.charCodeAt(i); fr.srcdoc=new TextDecoder('utf-8').decode(by) }
+    catch(e){ fr.srcdoc='<p style="font:16px system-ui;padding:24px">The tool could not be loaded.</p>' }
+  }
+  function route(){
+    var h=location.hash.slice(1), pg=PAGES.indexOf(h)>=0?h:'';
+    if(pg==='tool'&&signedIn){ location.hash='app'; return }
+    PAGES.forEach(function(p){ body.classList.remove('page-'+p) }); setMenu(false);
+    if(pg){ body.classList.add('page-'+pg); scrollTo({top:0,behavior:'instant'}); hadPage=true; if(pg==='app') loadTool() }
+    else { var back=hadPage; hadPage=false; setTimeout(function(){ cachePos(); kick(); fitFan(); var t=h&&document.getElementById(h); if(back){ if(t) t.scrollIntoView(); else scrollTo({top:0,behavior:'instant'}) } },30) }
+  }
+  addEventListener('hashchange',route);
+  $('contactForm').addEventListener('submit',function(e){ e.preventDefault(); var f=e.target, body='Name: '+f.name.value+'\nOrganisation: '+f.org.value+'\nEmail: '+f.email.value+'\nI am: '+f.who.value+'\n\n'+f.msg.value; location.href='mailto:[YOUR EMAIL]?subject='+encodeURIComponent('EV Scope: '+f.who.value)+'&body='+encodeURIComponent(body) });
+  $('signinForm').addEventListener('submit',function(e){ e.preventDefault(); signedIn=true; try{sessionStorage.setItem('evs-in','1')}catch(x){} location.hash='app' });
+
+  /* ---------- small-screen menu ---------- */
+  var mbtn=$('menuBtn');
+  function setMenu(v){ hdr.classList.toggle('menu-open',!!v); mbtn.setAttribute('aria-expanded',!!v); if(v) hdr.classList.remove('hide') }
+  mbtn.addEventListener('click',function(){ setMenu(!hdr.classList.contains('menu-open')) });
+  [].slice.call($('mpanel').querySelectorAll('a')).forEach(function(a){ a.addEventListener('click',function(){ setMenu(false) }) });
+  addEventListener('keydown',function(e){ if(e.key==='Escape') setMenu(false) });
+
+  /* ---------- assistant: fixed answers, matched on keywords ---------- */
+  var FAQ=[
+    {k:['install','installation','installer','fit','montere','installere','opsæt','installier','einbau','montage','installeer','installatie','monteren'],no:1,
+      en:['Not us, but we tell you what to install.','We don’t sell or install chargers. We size them, so your installer quotes the right kit.'],
+      da:['Ikke os, men vi siger, hvad der skal installeres.','Vi sælger og installerer ikke ladere. Vi dimensionerer dem, så din installatør giver tilbud på det rigtige udstyr.'],
+      de:['Nicht wir, aber wir sagen Ihnen, was installiert werden muss.','Wir verkaufen und installieren keine Ladestationen. Wir dimensionieren sie, damit Ihr Installateur das richtige Material anbietet.'],
+      nl:['Niet wij, maar wij vertellen wat er geïnstalleerd moet worden.','Wij verkopen en installeren geen laders. Wij dimensioneren ze, zodat je installateur de juiste apparatuur offreert.']},
+    {k:['sell','buy','køb','sælg','lease','leasing','dealer','forhandler','verkauf','kaufen','händler','verkoop','kopen','koop'],no:1,
+      en:['We don’t sell vehicles or chargers.','EV Scope is brand-neutral. You get the requirements, then choose any supplier.'],
+      da:['Vi sælger ikke køretøjer eller ladere.','EV Scope er brandneutral. Du får kravene og vælger selv leverandør.'],
+      de:['Wir verkaufen keine Fahrzeuge oder Ladestationen.','EV Scope ist herstellerneutral. Sie erhalten die Anforderungen und wählen dann einen beliebigen Anbieter.'],
+      nl:['Wij verkopen geen voertuigen of laders.','EV Scope is merkonafhankelijk. Je krijgt de eisen en kiest daarna zelf een leverancier.']},
+    {k:['home','private','my car','min bil','hjemme','privat','zuhause','wallbox','mein auto','thuis','mijn auto','particulier'],no:1,
+      en:['Mostly not: we work with fleets and sites.','A single home charger isn’t what we do. Fleets, depots, housing associations and municipalities are.'],
+      da:['Som regel ikke: vi arbejder med flåder og pladser.','En enkelt hjemmelader er ikke det, vi laver. Flåder, depoter, boligforeninger og kommuner er.'],
+      de:['Meist nicht: wir arbeiten mit Flotten und Standorten.','Eine einzelne Wallbox ist nicht, was wir machen. Flotten, Depots, Wohnungsgesellschaften und Kommunen schon.'],
+      nl:['Meestal niet: wij werken met wagenparken en locaties.','Eén enkele thuislader is niet wat wij doen. Wagenparken, depots, woningcorporaties en gemeenten wel.']},
+    {k:['grid','connection','radius','cerius','fna','bna','kva','kw connection','net','tilslutning','elnet','stikledning','forsyning','netz','anschluss','netzbetreiber','aansluiting','netbeheerder'],
+      en:['Yes. That’s a core part of what we do.','We work out the peak and daily load, compare full and limited access (FNA or BNA) and prepare the grid connection application.'],
+      da:['Ja. Det er en kerne i det, vi laver.','Vi beregner spidslast og døgnlast, sammenligner fuld og begrænset netadgang (FNA eller BNA) og forbereder nettilslutningsansøgningen.'],
+      de:['Ja. Das ist ein Kernbereich unserer Arbeit.','Wir ermitteln Spitzen- und Tageslast, vergleichen vollen und eingeschränkten Netzzugang (FNA oder BNA) und bereiten den Netzanschlussantrag vor.'],
+      nl:['Ja. Dat is een kern van wat wij doen.','Wij berekenen piek- en daglast, vergelijken volledige en beperkte netaansluiting (FNA of BNA) en bereiden de netaansluitingsaanvraag voor.']},
+    {k:['winter','cold','range','route','battery','vinter','kulde','rækkevidde','rute','batteri','year 8','år 8','kälte','reichweite','batterie','akku','jahr 8','koud','bereik','batterij','accu','jaar 8'],
+      en:['Yes. We check every route against the battery.','On the coldest days and with an aged battery at year 8, with charge to spare when the vehicle is back.'],
+      da:['Ja. Vi tjekker hver rute mod batteriet.','På de koldeste dage og med et ældet batteri ved år 8, med strøm til overs, når køretøjet er hjemme.'],
+      de:['Ja. Wir prüfen jede Route gegen die Batterie.','An den kältesten Tagen und mit gealterter Batterie im Jahr 8, mit Restladung, wenn das Fahrzeug zurück ist.'],
+      nl:['Ja. Wij toetsen elke route aan de batterij.','Op de koudste dagen en met een verouderde batterij in jaar 8, met lading over als het voertuig terug is.']},
+    {k:['charger','charging','kw','lader','opladning','ladestander','ladeeffekt','ladestation','laden','ladegerät','ladepunkt','laadpaal','laders','laad'],
+      en:['Yes. We size the chargers.','How many, how big, and whether every vehicle is full before the next shift.'],
+      da:['Ja. Vi dimensionerer laderne.','Hvor mange, hvor store, og om hvert køretøj er fuldt før næste vagt.'],
+      de:['Ja. Wir dimensionieren die Ladestationen.','Wie viele, wie groß, und ob jedes Fahrzeug vor der nächsten Schicht voll ist.'],
+      nl:['Ja. Wij dimensioneren de laders.','Hoeveel, hoe groot, en of elk voertuig vol is voor de volgende dienst.']},
+    {k:['cost','diesel','tco','cheaper','price','money','pris','billigere','økonomi','omkostning','kosten','günstiger','preis','wirtschaft','goedkoper','prijs','rendabel'],
+      en:['Yes. Electric against diesel, year by year.','You get a financial model your CFO, board or bank can check.'],
+      da:['Ja. El mod diesel, år for år.','Du får en økonomisk model, som din økonomichef, bestyrelse eller bank kan tjekke.'],
+      de:['Ja. Elektro gegen Diesel, Jahr für Jahr.','Sie erhalten ein Finanzmodell, das Ihr Finanzchef, Ihr Vorstand oder Ihre Bank prüfen kann.'],
+      nl:['Ja. Elektrisch tegenover diesel, jaar na jaar.','Je krijgt een financieel model dat je CFO, bestuur of bank kan controleren.']},
+    {k:['tender','udbud','procure','municipal','kommune','council','byråd','ausschreibung','beschaffung','vergabe','aanbesteding','inkoop','gemeente'],
+      en:['Yes. We write tender requirements from your routes.','Battery, charging and range requirements every offer must meet, with trucks and chargers tendered together or apart.'],
+      da:['Ja. Vi skriver udbudskrav ud fra jeres ruter.','Krav til batteri, opladning og rækkevidde, som alle tilbud skal opfylde, med lastbiler og ladere i samme eller hver sit udbud.'],
+      de:['Ja. Wir schreiben Ausschreibungsanforderungen aus Ihren Routen.','Anforderungen an Batterie, Laden und Reichweite, die jedes Angebot erfüllen muss, mit Lkw und Ladestationen gemeinsam oder getrennt ausgeschrieben.'],
+      nl:['Ja. Wij schrijven aanbestedingseisen uit je routes.','Eisen aan batterij, laden en bereik waaraan elk aanbod moet voldoen, met vrachtwagens en laders samen of apart aanbesteed.']},
+    {k:['grant','subsidy','tilskud','pulje','vejdirektoratet','støtte','förder','zuschuss','subvention','antrag','subsidie','aanvraag'],
+      en:['Yes. We prepare the figures a grant form asks for.','For grant bodies such as Vejdirektoratet.'],
+      da:['Ja. Vi laver de tal, en ansøgning om tilskud skal bruge.','Til tilskudsgivere som Vejdirektoratet.'],
+      de:['Ja. Wir bereiten die Zahlen vor, die ein Förderantrag verlangt.','Für Förderstellen wie Vejdirektoratet.'],
+      nl:['Ja. Wij bereiden de cijfers voor die een subsidieaanvraag vraagt.','Voor subsidieverstrekkers zoals Vejdirektoratet.']},
+    {k:['housing','residents','apartment','boligforening','andelsbolig','ejerforening','beboer','lejlighed','wohnung','mieter','bewohner','eigentümer','woning','corporatie','bewoners','appartement','vve'],
+      en:['Yes. We check how much charging your supply can carry.','What happens when everyone plugs in after work, and whether you need a larger incoming connection.'],
+      da:['Ja. Vi tjekker, hvor meget opladning jeres forsyning kan bære.','Hvad der sker, når alle sætter stikket i efter arbejde, og om I har brug for en større stikledning.'],
+      de:['Ja. Wir prüfen, wie viel Laden Ihre Versorgung tragen kann.','Was passiert, wenn alle nach der Arbeit anstecken, und ob Sie einen größeren Hausanschluss brauchen.'],
+      nl:['Ja. Wij toetsen hoeveel laden je aansluiting aankan.','Wat er gebeurt als iedereen na het werk aansluit, en of je een zwaardere hoofdaansluiting nodig hebt.']},
+    {k:['oem','truck maker','manufacturer','spec','producent','fabrikant','hersteller','datenblatt','specificatie'],
+      en:['Yes. We test your truck on the buyer’s own routes.','Including the battery at year 8, on the same case as every other bid.'],
+      da:['Ja. Vi tester jeres lastbil på købers egne ruter.','Også batteriet ved år 8, på samme case som alle andre bud.'],
+      de:['Ja. Wir testen Ihren Lkw auf den eigenen Routen des Käufers.','Einschließlich der Batterie im Jahr 8, im selben Fall wie jedes andere Angebot.'],
+      nl:['Ja. Wij testen jouw vrachtwagen op de eigen routes van de koper.','Inclusief de batterij in jaar 8, op dezelfde case als elk ander bod.']},
+    {k:['payload','weight','nyttelast','vægt','last','zuladung','gewicht','lading'],
+      en:['Yes. We show the payload left after the battery.','Per route, before you order.'],
+      da:['Ja. Vi viser den nyttelast, der er tilbage efter batteriet.','Pr. rute, før du bestiller.'],
+      de:['Ja. Wir zeigen die Nutzlast, die nach der Batterie bleibt.','Pro Route, bevor Sie bestellen.'],
+      nl:['Ja. Wij tonen de lading die na de batterij overblijft.','Per route, voordat je bestelt.']},
+    {k:['co2','co₂','emission','udledning','klima','uitstoot','emissie'],
+      en:['Yes. CO₂ against diesel.','Reported per year, ready for the council or the board.'],
+      da:['Ja. CO₂ mod diesel.','Opgjort pr. år, klar til byrådet eller bestyrelsen.'],
+      de:['Ja. CO₂ gegenüber Diesel.','Pro Jahr ausgewiesen, bereit für Stadtrat oder Vorstand.'],
+      nl:['Ja. CO₂ ten opzichte van diesel.','Per jaar weergegeven, klaar voor de gemeenteraad of het bestuur.']},
+    {k:[],
+      en:['Pricing isn’t public yet.','Ask for early access and we’ll send it.'],
+      da:['Priserne er ikke offentlige endnu.','Bed om tidlig adgang, så sender vi dem.'],
+      de:['Preise sind noch nicht öffentlich.','Fragen Sie nach frühem Zugang, dann senden wir sie Ihnen.'],
+      nl:['Prijzen zijn nog niet openbaar.','Vraag vroege toegang aan, dan sturen we ze je toe.']}
+  ];
+  var UI={
+    en:{foot:'Quick answers from a fixed list. Ask us about anything else.',contact:'Contact',unk:'We’re not sure we cover that.',unkb:'Send it to us and we’ll tell you honestly whether we can help.',unkc:'Contact us'},
+    da:{foot:'Hurtige svar fra en fast liste. Spørg os om alt andet.',contact:'Kontakt',unk:'Det er vi ikke sikre på, at vi dækker.',unkb:'Send os spørgsmålet, så svarer vi ærligt, om vi kan hjælpe.',unkc:'Kontakt os'},
+    de:{foot:'Kurzantworten aus einer festen Liste. Fragen Sie uns alles andere.',contact:'Kontakt',unk:'Da sind wir nicht sicher, ob wir es abdecken.',unkb:'Senden Sie es uns, dann sagen wir Ihnen ehrlich, ob wir helfen können.',unkc:'Kontakt aufnehmen'},
+    nl:{foot:'Snelle antwoorden uit een vaste lijst. Vraag ons al het andere.',contact:'Contact',unk:'Daar weten we niet zeker of we het dekken.',unkb:'Stuur het ons, dan zeggen we eerlijk of we kunnen helpen.',unkc:'Neem contact op'}
+  };
+  function answerFor(q){ q=' '+q.toLowerCase()+' ';
+    if(/cost of ev scope|what does (it|ev scope) cost|subscription|abonnement|hvad koster (det|ev scope)|was kostet (es|ev scope)|wat kost (het|ev scope)/.test(q)) return FAQ[FAQ.length-1];
+    for(var i=0;i<FAQ.length;i++) for(var j=0;j<FAQ[i].k.length;j++) if(q.indexOf(FAQ[i].k[j])>=0) return FAQ[i];
+    return null }
+  function renderAnswer(box,q){
+    var a=answerFor(q), L=root.lang||'en', u=UI[L]||UI.en, out=box.querySelector('.answer');
+    if(!q.trim()){ out.classList.remove('on'); return }
+    if(a){ var t=a[L]||a.en; out.innerHTML='<b class="'+(a.no?'no':'yes')+'">'+t[0]+'</b>'+t[1]+'<small>'+u.foot+' <a href="#contact">'+u.contact+'</a></small>' }
+    else out.innerHTML='<b>'+u.unk+'</b>'+u.unkb+'<small><a href="#contact">'+u.unkc+'</a></small>';
+    out.classList.remove('on'); void out.offsetWidth; out.classList.add('on');
+  }
+  [].slice.call(document.querySelectorAll('[data-ask]')).forEach(function(box){
+    var f=box.querySelector('form'), inp=box.querySelector('input');
+    f.addEventListener('submit',function(e){ e.preventDefault(); renderAnswer(box,inp.value) });
+    [].slice.call(box.querySelectorAll('.hint button')).forEach(function(b){ b.addEventListener('click',function(){ inp.value=b.textContent; renderAnswer(box,inp.value) }) });
+  });
+  var askPanel=$('askPanel');
+  function openAsk(){ askPanel.classList.add('on'); askPanel.querySelector('input').focus() }
+  $('askOpen').addEventListener('click',function(){ askPanel.classList.contains('on')?askPanel.classList.remove('on'):openAsk() });
+  $('askOpen2').addEventListener('click',function(){ setMenu(false); openAsk() });
+  $('askClose').addEventListener('click',function(){ askPanel.classList.remove('on') });
+  addEventListener('keydown',function(e){ if(e.key==='Escape') askPanel.classList.remove('on') });
+
+  /* ---------- language: flag + dropdown (English, Dansk, Deutsch, Nederlands) ---------- */
+  var I18N=window.__I18N||{}, LANGS=['en','da','de','nl'], orig=new Map();
+  function T(t){ var d=I18N[root.lang]; return d&&d[t]?d[t]:t }
+  function norm(t){ return t.replace(/ /g,' ').replace(/\s+/g,' ').trim() }
+  function translate(lang){
+    var D=I18N[lang]||null; root.lang=lang;
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){ var p=n.parentNode; if(!p||/SCRIPT|STYLE/.test(p.nodeName)||p.closest('.glyphs,.langmenu')) return NodeFilter.FILTER_REJECT; return n.nodeValue.trim()?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT }}), n;
+    while(n=w.nextNode()){ if(!orig.has(n)) orig.set(n,n.nodeValue); var o=orig.get(n), k=norm(o);
+      if(D&&D[k]){ var lead=o.match(/^\s*/)[0], trail=o.match(/\s*$/)[0]; n.nodeValue=lead+D[k]+trail } else n.nodeValue=o }
+    [].slice.call(document.querySelectorAll('[placeholder],[aria-label],[title]')).forEach(function(el){ ['placeholder','aria-label','title'].forEach(function(at){ if(!el.hasAttribute(at)) return; var key='o_'+at.replace('-',''); if(!el.dataset[key]) el.dataset[key]=el.getAttribute(at); var o=el.dataset[key]; el.setAttribute(at,D&&D[o]?D[o]:o) }) });
+    document.title='EV Scope · '+(D&&D['Scope before you sign.']||'Scope before you sign.');
+    try{localStorage.setItem('evs-lang',lang)}catch(e){}
+    $('langUse').setAttribute('href','#f-'+lang);
+    [].slice.call(langMenu.querySelectorAll('li')).forEach(function(li){ li.setAttribute('aria-selected',li.dataset.lang===lang) });
+    [].slice.call(document.querySelectorAll('[data-ask]')).forEach(function(box){ var v=box.querySelector('input').value; if(v&&box.querySelector('.answer').classList.contains('on')) renderAnswer(box,v) });
+    setTimeout(function(){cachePos();layoutFan(doc.i);fitFan()},40);
+  }
+  var langEl=$('lang'), langBtn=$('langBtn'), langMenu=$('langMenu'), langOpts=[].slice.call(langMenu.querySelectorAll('li')), kbI=-1;
+  function openLang(v){ langEl.classList.toggle('open',v); langBtn.setAttribute('aria-expanded',v); kbI=-1; langOpts.forEach(function(o){o.classList.remove('kb')}); if(v) langMenu.focus() }
+  function pickLang(l){ translate(l); openLang(false); langBtn.focus() }
+  langBtn.addEventListener('click',function(e){ e.stopPropagation(); openLang(!langEl.classList.contains('open')) });
+  langOpts.forEach(function(o){ o.addEventListener('click',function(e){ e.stopPropagation(); pickLang(o.dataset.lang) }) });
+  addEventListener('click',function(e){ if(!langEl.contains(e.target)) openLang(false) });
+  langMenu.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){ openLang(false); langBtn.focus(); return }
+    if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); kbI=(kbI+(e.key==='ArrowDown'?1:-1)+langOpts.length)%langOpts.length; langOpts.forEach(function(o,i){o.classList.toggle('kb',i===kbI)}) }
+    if((e.key==='Enter'||e.key===' ')&&kbI>=0){ e.preventDefault(); pickLang(langOpts[kbI].dataset.lang) } });
+  var startLang='en'; try{ var sv=localStorage.getItem('evs-lang'); if(LANGS.indexOf(sv)>=0) startLang=sv; else { var nv=(navigator.language||'en').slice(0,2).toLowerCase(); if(LANGS.indexOf(nv)>=0) startLang=nv } }catch(e){}
+  if(startLang!=='en') translate(startLang); else { root.lang='en'; $('langUse').setAttribute('href','#f-en'); langOpts[0].setAttribute('aria-selected',true) }
+
+  route();
+  addEventListener('load',cachePos); setTimeout(cachePos,400); setTimeout(cachePos,1400);
+  document.fonts&&document.fonts.ready&&document.fonts.ready.then(function(){ cachePos(); fitFan() });
+  cachePos(); drawStory(0); kick();
+})();
+</script>
+</body>
+</html>
