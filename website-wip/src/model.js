@@ -54,6 +54,7 @@ const DEFS={
     F('dUse','Diesel the truck uses today','l/100 km','num','sample','',{dec:1}),
     F('battMode','Battery','','radio','','',{o:[['size','Let the tool size it','The smallest battery that still covers the hardest day at year 8.'],['sheet','I have a battery size','From a datasheet or a supplier offer.']]}),
     F('battKwh','Installed battery','kWh','num','','',{when:o=>o.battMode==='sheet'}),
+    F('guar','Battery capacity guaranteed at year 8','%','num','assume','Rambøll 2023: warranties often go down to 70 %. Use the value in the offer or tender',{max:100}),
     F('trMass','Trailer weight','kg','num','','',{pop:'Trailer and wheels',opt:1}),
     F('mRed','Weight of the rotating wheels','kg','num','','',{pop:'Trailer and wheels',opt:1}),
     F('thetaRed','Inertia reduction factor','','num','','',{pop:'Trailer and wheels',opt:1,dec:3}),
@@ -77,7 +78,7 @@ const DEFS={
     F('pRegen','Largest braking power back','kW','num','','',{pop:'Braking energy',opt:1}),
     F('effRegen','Efficiency when braking','','num','','',{pop:'Braking energy',opt:1,dec:2,max:1}),
     F('usable','Usable share of the battery','%','num','sample','',{pop:'Battery details',max:100}),
-    F('guar','Capacity guaranteed at year 8','%','num','assume','Rambøll 2023: warranties often go down to 70 %. Use the value in the offer',{pop:'Battery details',max:100}),
+    
     F('battMass','Battery weight','kg','num','','',{pop:'Battery details',opt:1}),
     F('chem','Cell chemistry','','sel','','',{pop:'Battery details',o:[['','Not given'],['lfp','LFP'],['nmc','NMC'],['other','Other']]}),
     F('dcMax','Fastest DC charging','kW','num','','',{pop:'Battery details',opt:1}),
