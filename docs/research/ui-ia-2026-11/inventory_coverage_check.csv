@@ -1,0 +1,179 @@
+inventory_section,inventory_row,register_ids
+1. Project and Operation,"Project name, scenario name",proj.name
+1. Project and Operation,Fleet size (trucks),cal.fleet_size
+1. Project and Operation,Shift start / end (hh:mm),cal.shift_out
+1. Project and Operation,Working days (Mon–Sun),cal.days
+1. Project and Operation,Holidays,cal.holidays
+1. Project and Operation,"Calendar pattern: route, days, departure/return, exceptions",cal.exceptions
+1. Project and Operation,"Per-truck assignment: route, PTO profile, payload profile",asg.route; asg.payload; asg.pto; asg.bulk
+1. Project and Operation,"Saved libraries: routes, PTO profiles, payload profiles",lib.save_template; pl.save; pto.save; rt.name
+1. Project and Operation,Run mode: sizing (P = E/t) or simulation (per timestep),proj.mode
+1. Project and Operation,Brand-agnostic flag (tender comparison),proj.brand
+2. Route and stops,VDRI template,rt.vdri_mission
+2. Route and stops,Typed,rt.source
+2. Route and stops,GPS upload,rt.gps_file
+2. Route and stops,"AI ""describe it""",rt.ai_text
+2. Route and stops,VDRI,stop.table
+2. Route and stops,Typed,rt.source
+2. Route and stops,GPS,stop.table
+2. Route and stops,Leg distance (km),rt.leg_km
+2. Route and stops,Road type per leg: deep urban / urban / non-urban,rt.road_type
+2. Route and stops,Speed per road type (km/h),rt.speed
+2. Route and stops,Grade (%),rt.grade
+2. Route and stops,Number of stops,rt.stops_n
+2. Route and stops,Dwell time per stop (min),rt.dwell
+2. Route and stops,Departure time at depot,rt.depart
+2. Route and stops,"Route name, save to library",rt.name
+3. Payload,Payload basis,pl.basis
+3. Payload,Payload shape,pl.shape
+3. Payload,Payload value (t),pl.start; pl.end
+3. Payload,Payload per stop (t),pl.custom; stop.payload
+3. Payload,Saved payload profile,pl.save
+4. Vehicle,Vehicle source,veh.source
+4. Vehicle,Library vehicle,veh.library
+4. Vehicle,VECTO vehicle group (1–16),veh.group
+4. Vehicle,Vehicle (curb) mass (kg or t),veh.curb_mass
+4. Vehicle,Body type,veh.body_type
+4. Vehicle,Body mass (kg),veh.body_mass
+4. Vehicle,Trailer type / mass (kg),veh.trailer
+4. Vehicle,Max payload / gross vehicle weight (t),veh.gvw
+4. Vehicle,"Mass of rotating wheels, `m_red_wheels` (kg)",veh.m_red_wheels
+4. Vehicle,CdxA (m²),veh.cdxa
+4. Vehicle,CdxA vs yaw or speed table,veh.cdxa_file
+4. Vehicle,Vehicle height (m),veh.height
+4. Vehicle,"Rolling resistance coefficient, Crr (–)",veh.crr
+4. Vehicle,Dynamic tyre radius r_dyn (m),veh.r_dyn
+4. Vehicle,Tyre load index,veh.load_idx
+4. Vehicle,Cold-tyre factor Kt,veh.kt
+4. Vehicle,Wet / ice road factor,veh.wet
+4. Vehicle,Inertia reduction `theta_red` (–),veh.theta_red
+4. Vehicle,Motor / e-axle / iePC,veh.motor
+4. Vehicle,Max motor power `P_max` (kW),veh.p_max
+4. Vehicle,Gearbox: single speed or gear table with ratios,veh.gear_type
+4. Vehicle,Total ratio `i_total` per row (–),veh.i_total
+4. Vehicle,Rotor inertia `J_rotor` (kg·m²),veh.j_rotor
+4. Vehicle,Efficiency method,veh.eff_method
+4. Vehicle,"Loss maps (motor, inverter, gearbox)",veh.loss_maps
+4. Vehicle,Drive / regen efficiency numbers,veh.eff_motor; veh.eff_inv; veh.eff_gb
+4. Vehicle,"Regeneration: no-regen speed (km/h), max regen power (kW), regen efficiency (–)",veh.v_no_regen; veh.p_regen; veh.eff_regen
+4. Vehicle,Battery mode,bat.mode
+4. Vehicle,Installed energy (kWh),bat.installed
+4. Vehicle,Battery mass (kg),bat.mass
+4. Vehicle,VECTO-usable energy (kWh),bat.usable_share
+4. Vehicle,OEM-usable energy (kWh),bat.usable_oem
+4. Vehicle,Cell chemistry,bat.chem
+4. Vehicle,Warranty / SoH curve,age.soh_curve; age.warranty_years; age.guarantee
+4. Vehicle,OCV points (× V_nom at 0/10/50/90/100 % SOC),bat.ocv
+4. Vehicle,Internal resistance Ri (mΩ·Ah at 2/10/20/120 s),bat.ri
+4. Vehicle,Max charge rate (C),bat.c_rate
+4. Vehicle,"Max DC charging power (kW), connector",bat.dc_max; bat.connector
+5. On-board systems,Electric system ES (W),aux.es
+5. On-board systems,Power steering PS (W),aux.ps
+5. On-board systems,Pneumatic system SP (W),aux.sp
+5. On-board systems,Condensing / other cond (W),aux.cond
+5. On-board systems,"Factors per load (ES, PS, HVAC, SP, cond)",aux.factors
+5. On-board systems,Always-on PTO power (W),aux.always_pto; pto.always_w
+5. On-board systems,No auxiliary power during depot charging,aux.depot_rule
+5. On-board systems,HVAC mode,hv.mode
+5. On-board systems,Thermal: number of persons,hv.persons
+5. On-board systems,Thermal: heater type (heat-pump type for the HD case; electric heater yes/no; fuel heater yes/no),hv.heater
+5. On-board systems,Thermal: COP and share tables by ambient temperature,hv.cop
+5. On-board systems,Set-points: heat / cool / cool-off (°C),hv.setpoints
+5. On-board systems,Cab surface area `A_surface` (m²),hv.a_surface
+5. On-board systems,Heat transfer coefficient `U` (W/m²K),hv.u
+5. On-board systems,Window area `A_window` (m²),hv.a_window
+5. On-board systems,Cab volume (m³),hv.volume
+5. On-board systems,Max heating power / max cooling power (W),hv.p_max
+5. On-board systems,Ventilation rate and heating ventilation rate (m³/h in UI),hv.vent
+5. On-board systems,Electric heater efficiency,hv.constants
+5. On-board systems,Specific ventilation power,hv.constants
+5. On-board systems,"Heat per person (W): (50, 80) · STD (VECTO)",hv.constants
+5. On-board systems,Clouding factors,hv.constants
+5. On-board systems,Boundary temperature,hv.constants
+5. On-board systems,Solar transmission g / solar factor,hv.constants
+5. On-board systems,Waste heat,hv.constants
+5. On-board systems,Fresh-air flow Q,hv.constants
+5. On-board systems,"Pressure 101,325 Pa; gas constant 287.05",hid.physics
+5. On-board systems,"Specific heat of air cp 1,005",hv.constants
+"6. PTO (power take-off for bodies: refuse, mixer, crane, tipper…)",PTO on this route,pto.type; stop.pto_on
+"6. PTO (power take-off for bodies: refuse, mixer, crane, tipper…)","Stop PTO: constant power (kW) or profile (t in s, W)",pto.stop_kwh; pto.profile
+"6. PTO (power take-off for bodies: refuse, mixer, crane, tipper…)",Drive PTO: constant power (kW) or profile,pto.drive_w
+"6. PTO (power take-off for bodies: refuse, mixer, crane, tipper…)",Stop PTO efficiency / drive PTO efficiency (–),pto.eff_stop; pto.eff_drive
+"6. PTO (power take-off for bodies: refuse, mixer, crane, tipper…)",Does the body have its own electric motor?,pto.own_motor
+"6. PTO (power take-off for bodies: refuse, mixer, crane, tipper…)",Electric PTO motor efficiency,pto.eff_motor
+"6. PTO (power take-off for bodies: refuse, mixer, crane, tipper…)",Use stop time as PTO time,pto.stop_as_pto
+"6. PTO (power take-off for bodies: refuse, mixer, crane, tipper…)",Saved PTO profile,pto.save
+"6. PTO (power take-off for bodies: refuse, mixer, crane, tipper…)",Always-on PTO (W),aux.always_pto; pto.always_w
+7. Weather,"Location (address, place or depot)",wx.location
+7. Weather,Weather station,wx.station
+7. Weather,Weather year,wx.year
+7. Weather,Detail level,wx.detail
+7. Weather,Temperature shift (K),wx.shift
+7. Weather,Reference wind (m/s at 10 m),wx.wind
+7. Weather,Worst-day case,wx.worst
+8. Charging,Charging strategy,chg.strategy
+8. Charging,Charger power per point (kW),chg.power
+8. Charging,Number of charge points,chg.points
+8. Charging,Load factor (–),chg.load_factor
+8. Charging,Ready-by time (hh:mm),chg.ready_by
+8. Charging,Time step (min),chg.step
+8. Charging,Truck-to-point assignment,chg.assign
+8. Charging,Available power over time `available_power(t)`,dep.spare
+8. Charging,Offer flexibility to markets,flex.offer
+8. Charging,Markets,flex.markets
+9. Depot and grid,Site mode,dep.mode
+9. Depot and grid,Site address,dep.address
+9. Depot and grid,Grid company,dep.dso
+9. Depot and grid,Connection size,dep.conn_size
+9. Depot and grid,Building load,dep.base_mode; dep.base_kw
+9. Depot and grid,Spare power (kW),dep.spare
+9. Depot and grid,Parking spaces and power per space,dep.spaces
+9. Depot and grid,Access: full or limited (FNA / BNA),dep.access
+9. Depot and grid,Connect to Eloverblik,dep.eloverblik
+10. Prices,Price area,pr.area
+10. Prices,"Electricity spot price (DKK/kWh, hourly)",pr.spot; pr.own_hourly
+10. Prices,Price level,pr.level
+10. Prices,Grid tariff and taxes (DKK/kWh),pr.tariff
+10. Prices,Diesel (DKK/l),pr.diesel
+10. Prices,AdBlue (DKK/l),pr.adblue
+10. Prices,HVO100 (DKK/l),pr.hvo
+10. Prices,Public fast-charging price (DKK/kWh),pr.public
+10. Prices,Current diesel use (l/100 km),veh.diesel_use
+11. Costs and finance,Ownership period (years),fin.years
+11. Costs and finance,Financing,fin.financing
+11. Costs and finance,Interest rate (%),fin.interest
+11. Costs and finance,EV truck price (DKK),fin.price_ev
+11. Costs and finance,Diesel truck price (DKK),fin.price_d
+11. Costs and finance,"Service, EV vs diesel (DKK/month)",fin.service
+11. Costs and finance,"Insurance, EV vs diesel (DKK/month)",fin.insurance
+11. Costs and finance,Driver wage (DKK/month),fin.wage
+11. Costs and finance,"Residual value (% of price, per year)",fin.residual
+11. Costs and finance,Charger hardware and trenching (DKK),fin.charger_price
+11. Costs and finance,Grid connection fee (DKK),fin.conn_fee
+11. Costs and finance,Depot amortisation period (years),fin.depot_years
+11. Costs and finance,22,fin.charger_price (price band row)
+11. Costs and finance,43.5,fin.charger_price (price band row)
+11. Costs and finance,50,fin.charger_price (price band row)
+11. Costs and finance,80,fin.charger_price (price band row)
+11. Costs and finance,150,fin.charger_price (price band row)
+11. Costs and finance,400,fin.charger_price (price band row)
+"12. Taxes, subsidies and CO₂","Km-based road tax inputs: weight class, CO₂ class, zone",tax.km_class
+"12. Taxes, subsidies and CO₂",Road tax rate (DKK/km),tax.km_rate
+"12. Taxes, subsidies and CO₂",Subsidy,tax.subsidy
+"12. Taxes, subsidies and CO₂",Grid CO₂ intensity (g/kWh),co2.grid
+"12. Taxes, subsidies and CO₂",Diesel CO₂ factor (kg/l),co2.diesel
+"12. Taxes, subsidies and CO₂",CO₂ at actual charging hours,co2.hours
+13. Scenario levers,Fleet size,cal.fleet_size
+13. Scenario levers,Charging priority (strategy),scn.levers
+13. Scenario levers,Electricity price (level),scn.levers
+13. Scenario levers,Weather year,wx.year
+13. Scenario levers,Ownership years,scn.levers
+14. Hidden and auto-filled values (not in the UI),"VECTO reference payload table, body and trailer masses, reference height, CdxA_Default",hid.vecto_payload
+14. Hidden and auto-filled values (not in the UI),"Truck acceleration curves (`vacc_v`, `vacc_acc`, `vacc_dec`), design speed 85 km/h",hid.vacc
+14. Hidden and auto-filled values (not in the UI),"Driver-model parameters (`lac_*`, `df_*`, `os_*`), `brake_margin`, `v_min_coast`",hid.driver_consts
+14. Hidden and auto-filled values (not in the UI),"Reference mass for the first driver-model pass, then the exact final pass",hid.ref_mass
+14. Hidden and auto-filled values (not in the UI),"Yaw clamp 10 degrees, never average across years",wx.yaw
+14. Hidden and auto-filled values (not in the UI),"Gravity g, air density inputs (`p_air`, `R_air`), `beta`",hid.physics
+14. Hidden and auto-filled values (not in the UI),"Run fingerprint (inputs, versions, sources, dates)",proj.fingerprint
+14. Hidden and auto-filled values (not in the UI),"Slot metadata `{value, unit, source, date, label, provided_by, locked, version}`",hid.slot_meta
+14. Hidden and auto-filled values (not in the UI),"Units conversion, kelvin, SI",hid.units

@@ -1,0 +1,74 @@
+function,arguments_or_inputs,register_ids
+crosswind_engine,vehicle height,veh.height
+crosswind_engine,CdxA(0),veh.cdxa
+crosswind_engine,yaw coefficients a1-a3,veh.yaw_coef (hidden)
+crosswind_engine,v_ref 5.028 m/s at h_ref 10 m,wx.wind
+crosswind_engine,wind exponent,wx.wind_exp (hidden)
+crosswind_engine,speed grid 60-130 km/h,hid.crosswind_grid (hidden)
+crosswind_engine,yaw clamp 10 degrees,wx.yaw (hidden)
+payload_engine,stop,stop.table (derived from route)
+payload_engine,shape,pl.shape
+payload_engine,payload_start,pl.start
+payload_engine,payload_end,pl.end
+payload_engine,payload_custom,pl.custom / stop.payload
+pto_engine,stop,stop.table (derived)
+pto_engine,is_on,stop.pto_on / pto.type
+pto_engine,"stop_pto_t, stop_pto_w","pto.stop_kwh, pto.stop_s, pto.profile"
+pto_engine,"drive_pto_t, drive_pto_w","pto.drive_w, pto.profile"
+pto_engine,stop_pto_eff,pto.eff_stop
+pto_engine,drive_pto_eff,pto.eff_drive
+driver_model,"wp_s, wp_v, wp_stop, wp_grade",rt.* and stop.table
+driver_model,.vacc curves,hid.vacc (hidden)
+driver_model,dt,hid.dt (hidden)
+driver_model,coast_mass,hid.ref_mass (hidden)
+driver_model,m_red_wheels,veh.m_red_wheels
+driver_model,"cdxa_v, cdxa","veh.cdxa, crosswind_engine output"
+driver_model,"Crr, beta",veh.crr; hid.physics
+driver_model,"rho, g",hid.physics (hidden)
+driver_model,"drag_v, drag_F",veh.* drivetrain drag (planned loss lookup)
+driver_model,P_max,veh.p_max
+driver_model,"lac_*, df_*, os_*, brake_margin, v_min_coast",hid.driver_consts (hidden)
+force_engine,g,hid.physics
+force_engine,Crr,veh.crr
+force_engine,"speed, accel, dt_s, grade",driver_model output
+force_engine,r_dyn,veh.r_dyn
+force_engine,theta_red,veh.theta_red
+force_engine,J_rotor,veh.j_rotor
+force_engine,i_total,veh.i_total
+P_aux,"ES, PS, HVAC, SP, Cond powers","aux.es, aux.ps, hv.const_w, aux.sp, aux.cond"
+P_aux,always-on PTO,aux.always_pto / pto.always_w
+P_aux,"factors ES 0.7, PS 1.0, HVAC 1.25 (1.0 thermal), SP 0.7, Cond 1.0",aux.factors (engineering view)
+P_aux,PTO efficiency,aux.pto_eff
+SP_power_helper,"steering baseline table, steered axles, technology per axle",aux.sp_axles
+ssm_total_w / climate_lookup / HVAC_thermal,ambient temperature and sun per hour,wx.* (fetched)
+HVAC_thermal,"cab surface, U, window area, cab volume, people","hv.a_surface, hv.u, hv.a_window, hv.volume, hv.persons"
+climate_lookup,"heater type, COP and share tables","hv.heater, hv.cop"
+HVAC_thermal,max heating and cooling power; ventilation rates,"hv.p_max, hv.vent"
+HVAC_thermal,set-points 18/23/17,hv.setpoints
+HVAC_thermal,"constants (heater eff 0.93, ventilation power 0.56, heat per person, clouding, boundary 17, g 0.95, solar 0.25, waste heat 0, fresh air Q, p, R, cp)",hv.constants (engineering view); hid.physics
+consumption_engine,"driver rows, force coefficients",upstream engine outputs
+consumption_engine,vehicle mass + payload per waypoint,"veh.curb_mass, veh.body_mass, veh.trailer, bat.mass, pl.*"
+consumption_engine,"weather per hour (temperature, W1/W2 crosswind tables)",wx.*; crosswind_engine
+consumption_engine,aux per row,P_aux output
+consumption_engine,PTO outputs; electric vs mechanical drive PTO,"pto.*, pto.own_motor"
+consumption_engine,drivetrain efficiencies or loss maps,"veh.eff_method, veh.loss_maps, veh.eff_motor, veh.eff_inv, veh.eff_gb"
+consumption_engine,"regen rules v_no_regen, P_regen_max, regen efficiency","veh.v_no_regen, veh.p_regen, veh.eff_regen"
+loss lookup (planned),loss maps or separate efficiencies,veh.loss_maps / veh.eff_*
+battery model (planned),"installed kWh, usable share, OEM usable, nominal voltage, OCV, Ri, max charge rate, mass, chemistry, DC power and connector, heating, start / target SOC, window",bat.*
+battery ageing (planned),"guaranteed usable capacity at year 8, warranty, SoH curve, chemistry, cycle and calendar life, replacement, residual link, passport fields",age.*
+battery sizing mode B (planned),"glider mass, pack density, step, sizing rule, SOC buffer",siz.*
+charging engine (planned),"sizing / simulation, time step, strategy, charger power, points, type, connector, losses, load factor, assignment, ready-by, charger_available, public share, outage, late return, discipline",chg.*
+calendar / year run (planned),"weekdays, factor, holidays, shutdowns, exceptions, shifts, session list",cal.*
+weather fetch (planned),"location, year(s), detail, shift, worst day, P50/P90, own file, Kt, wet factor","wx.*, veh.kt, veh.wet"
+depot and grid (planned),"brownfield/greenfield, address, grid company, size, category, building load, spare, spaces, access, BNA cut, capacity charge, lead time, growth, buffer battery","dep.*, pr.capacity_charge"
+flexibility (planned),"offer, products, aggregator, DSO pilot, V2G, hours",flex.*
+cost / TCO (planned),"period, financing, interest, down payment, discount, residual, prices, service, insurance, tyres, wage, lost time, downtime, payload cost, chargers, fee, amortisation, electricity split, price paths, fuels, public price, ETS2, km-toll, subsidies, sensitivity, Monte Carlo","fin.*, pr.*, tax.*"
+CO2 (planned),"grid factor, CO2 at charging hours, diesel factor, well-to-wheel, production, alternative fuels",co2.*
+tender and offer sheet (planned),"weights, curves, minimums, bids, guarantees, brand-neutral",ten.*
+PTO extras (planned),"fridge/TRU, shaft drag, profile library","pto.fridge, pto.drag, pto.save"
+route sources (planned),"VDRI, typed, GPS, AI, altitude, time windows",rt.*
+libraries (planned),"vehicle library, charger library, saved routes, payload, PTO, schedules","veh.library, chg.library, lib.*"
+scenarios and runs (planned),"levers, base + changes, compare, fingerprint","scn.*, proj.fingerprint"
+two-sided inputs (planned),client / OEM / engineering view; slot metadata,"proj.view, hid.slot_meta"
+AI assistant (planned),fills inputs from messy data,scn.assistant
+parser / defaults.py,every lookup,hid.*
