@@ -11,12 +11,14 @@ async def main():
         await pg.goto('file:///home/claude/work/out/ev-scope-site.html'); await pg.wait_for_timeout(1500)
         async def to(sel, off=0):
             await pg.evaluate("([s,o])=>{const e=document.querySelector(s);scrollTo({top:e.getBoundingClientRect().top+scrollY+o,behavior:'instant'})}", [sel, off]); await pg.wait_for_timeout(900)
-        await pg.screenshot(path='w_hero.png')
-        await pg.click('.hero .pick a[href="#municipalities"]'); await pg.wait_for_timeout(1300)
+
+        await to('#for'); await pg.click('[data-switch="who"] button:nth-child(3)'); await pg.wait_for_timeout(600)
         print('picked:', await pg.inner_text('.apanel.on h3'), '| hash', await pg.evaluate('location.hash')); await pg.screenshot(path='w_who_muni.png')
-        await pg.click('[data-switch="who"] button:nth-child(1)'); await pg.wait_for_timeout(500); await pg.screenshot(path='w_who_fleet.png')
-        await pg.click('[data-switch="who"] button:nth-child(4)'); await pg.wait_for_timeout(500); await pg.screenshot(path='w_who_sup.png')
-        await pg.click('.apanel.on .dbtn:nth-of-type(2)'); await pg.wait_for_timeout(1400); print('doc picked:', await pg.inner_text('#docinfo .on b')); await pg.screenshot(path='w_docs.png')
+        await pg.evaluate("scrollTo({top:0,behavior:'instant'})"); await pg.wait_for_timeout(300); await pg.screenshot(path='w_hero.png', full_page=False)
+        await to('#documents'); await pg.screenshot(path='w_docs.png')
+        for k in [3,6,1]:
+            await pg.click(f'[data-switch="doc"] [role=tab]:nth-child({k})'); await pg.wait_for_timeout(1000); print('doc tab',k, await pg.inner_text('#docinfo .on b'), '| front sheet', await pg.evaluate("document.querySelector('.sheet.on h4').textContent"), '| scrollY', await pg.evaluate('Math.round(scrollY)'))
+        await pg.dispatch_event('.sheet:nth-child(4)','click'); await pg.wait_for_timeout(1000); print('sheet click:', await pg.inner_text('#docinfo .on b')); await pg.screenshot(path='w_docs2.png')
         await to('#depot', 500); await pg.screenshot(path='w_story1.png')
         await to('#depot', 2600); await pg.screenshot(path='w_story2.png')
         await to('#demo'); await pg.wait_for_timeout(5200); await pg.screenshot(path='w_peek.png')
@@ -24,7 +26,7 @@ async def main():
         # deep link
         await pg.goto('file:///home/claude/work/out/ev-scope-site.html#housing'); await pg.wait_for_timeout(1500); print('deep link:', await pg.inner_text('.apanel.on h3'), await pg.evaluate('Math.round(scrollY)'))
         # danish + night
-        await pg.click('#langBtn'); await pg.click('[data-lang="da"]'); await pg.wait_for_timeout(500); print('da:', await pg.inner_text('.apanel.on h3'), '|', await pg.inner_text('.apanel.on .hook'))
+        await pg.click('#langBtn'); await pg.click('[data-lang="da"]'); await pg.wait_for_timeout(500); print('da:', await pg.inner_text('.apanel.on h3'), '|', await pg.inner_text('.apanel.on .does'))
         await pg.click('[data-switch="theme"] button:nth-child(2)'); await pg.wait_for_timeout(700); await pg.screenshot(path='w_night.png')
         await pg.click('#langBtn'); await pg.click('[data-lang="en"]')
         # tool
@@ -33,7 +35,7 @@ async def main():
         # mobile
         await pg.set_viewport_size({'width':390,'height':800}); await pg.goto('file:///home/claude/work/out/ev-scope-site.html'); await pg.wait_for_timeout(1500)
         print('m overflow:', await pg.evaluate("document.documentElement.scrollWidth>innerWidth")); await pg.screenshot(path='w_m_hero.png')
-        await pg.click('.hero .pick a[href="#fleet-owners"]'); await pg.wait_for_timeout(1300); await pg.screenshot(path='w_m_who.png')
+        await to('#for'); await pg.screenshot(path='w_m_who.png')
         await to('#documents'); await pg.screenshot(path='w_m_docs.png'); print('m overflow2:', await pg.evaluate("document.documentElement.scrollWidth>innerWidth"))
         print('REQS', reqs); print('ERRS', errs); await b.close()
 asyncio.run(main())

@@ -234,4 +234,4 @@ function csv(R){const rows=[['Year','Financing','Chargers and connection','Elect
   rows.push([]);rows.push(['Sample case with illustrative figures from the EV Scope demo engine. DKK, whole fleet.']);
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([rows.map(r=>r.join(';')).join('\n')],{type:'text/csv'}));a.download='ev-scope-financial-model-run'+S.runNo+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);}
 
-const PAGES={fleet:[pageFleet],depot:[pageDepot],charging:[pageCharging],weather:[pageWeather],prices:[pagePrices],costs:[pageCosts],co2in:[pageCo2in],check:[pageCheck],ov:[pageOv],en:[pageEn,drawEn],bat:[pageBat],ch:[pageCh],gr:[pageGr,drawGr],cost:[pageCost,drawCost],co2:[pageCo2],src:[pageSrc],cmp:[pageCmp],docs:[pageDocs]};
+const PAGES={project:[pageProject],fleet:[pageFleet],templates:[pageTemplates],depot:[pageDepot],charging:[pageCharging],weather:[pageWeather],prices:[pagePrices],costs:[pageCosts],tax:[pageTax],check:[pageCheck],ov:[pageOv],en:[pageEn,drawEn],bat:[pageBat],ch:[pageCh],gr:[pageGr,drawGr],cost:[pageCost,drawCost],co2:[pageCo2],src:[pageSrc],cmp:[pageCmp],docs:[pageDocs]};

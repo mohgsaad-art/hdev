@@ -413,6 +413,47 @@ fieldset.choice{border:0;padding:0;margin:14px 0 6px;min-width:0}
 .sect.hl .choice>legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .sect.hl .choice{margin-top:8px}
 
+/* ---- fleet table with template pickers, bulk apply, templates page, named popups, stop table ---- */
+.fleet td{vertical-align:top}
+.fleet select.in{width:100%;min-width:120px}
+.fleet .csum{display:block;margin-top:5px;font-size:12.5px;color:var(--ink3);line-height:1.35}
+.fleet .csum .lnk{font-size:12.5px;margin-left:4px}
+.fleet input[type=checkbox],.stops input[type=checkbox],#selAll{width:16px;height:16px;accent-color:var(--blue);margin-top:9px}
+.bulk{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px;padding:10px 14px;background:var(--blue-l);border-radius:8px;font-size:13.5px}
+.bulk .in{width:auto;min-width:150px}
+.pops{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.popb{display:inline-flex;align-items:baseline;gap:8px}
+.popb::after{content:"›";color:var(--ink3);font-size:15px;margin-left:2px}
+.popb small{font-size:12px;font-weight:400}
+.popb.miss{box-shadow:var(--raise),inset 0 0 0 1.5px var(--bad)}
+.you-t{color:var(--blue)}
+.ltabs{display:flex;flex-wrap:wrap;gap:4px;margin-top:24px;border-bottom:1px solid var(--line)}
+.ltabs button{border:0;background:none;font:inherit;font-size:14px;color:var(--ink2);padding:9px 14px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.ltabs button[aria-selected=true]{color:var(--ink);font-weight:600;border-bottom-color:var(--blue)}
+.ltabs small{margin-left:7px;color:var(--ink3);font-weight:400}
+.tgrid{display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px;margin-top:22px;align-items:start}
+.tlist{display:flex;flex-direction:column;gap:4px}
+.tlist>button:not(.lnk){text-align:left;border:0;background:none;font:inherit;padding:10px 12px;border-radius:8px;cursor:pointer;color:var(--ink)}
+.tlist>button:not(.lnk):hover{background:var(--line2)}
+.tlist>button[aria-current=true]{background:var(--well,#fff);box-shadow:var(--raise)}
+.tlist b{display:block;font-weight:500}.tlist span{display:block;font-size:12.5px;color:var(--ink3);margin-top:2px}
+.tlist .lnk{align-self:flex-start;margin:10px 12px}
+.ted .lead2{color:var(--ink2);margin-bottom:12px}
+.tact{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline;margin-top:26px;font-size:13px}
+.tog{display:inline-flex;align-items:center;gap:10px;cursor:pointer}
+.tog input{position:absolute;opacity:0;width:1px;height:1px}
+.tog i{width:36px;height:20px;border-radius:10px;background:#C9CED6;position:relative;transition:background .15s;flex:none}
+.tog i::after{content:"";position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .15s}
+.tog input:checked+i{background:var(--blue)}.tog input:checked+i::after{transform:translateX(16px)}
+.tog input:focus-visible+i{outline:2px solid var(--blue);outline-offset:2px}
+.multi{display:flex;flex-wrap:wrap;gap:6px 16px}.multi label{display:inline-flex;gap:6px;align-items:center}
+.filebtn{cursor:pointer}
+.dlg.wide{max-width:820px}
+.stops td{padding-top:5px;padding-bottom:5px}.stops .in{width:110px}
+.stops tr.ed .in{color:var(--blue);font-weight:500}
+@media (max-width:900px){.tgrid{grid-template-columns:1fr;gap:20px}}
+[data-s=need] .rst{display:inline}
+
 </style>
 </head>
 <body>
@@ -458,9 +499,9 @@ const MONTH_F=[1.18,1.16,1.08,1.0,0.95,0.92,0.92,0.93,0.96,1.02,1.1,1.16];
 const SIZES=[22,40,50,60,90,120,150];
 const PRICE_F={low:0.8,exp:1,high:1.25}, PLAN_F={cost:0.85,grid:0.92,early:1.0};
 const PLAN_N={cost:'Lowest cost',grid:'Grid-friendly',early:'Ready earliest'};
-const BANDS=[[22,12500,10000],[43.5,120000,16000],[50,150000,50000],[80,200000,150000],[150,400000,250000],[400,700000,500000]];
+const BANDS=[[22,12500,10000,35],[43.5,120000,16000,80],[50,150000,50000,80],[80,200000,150000,125],[150,400000,250000,250],[400,700000,500000,650]];
 const EF_PATH={2026:19.35,2027:16.64,2028:14.75,2029:11.92,2030:10.27,2031:9.09,2032:8.85,2033:8.61,2034:8.26};
-const FEE={radius:{base:17950,perA:1280,ref:'Radius connection charge, as listed in the COWI truck cost sheet. May be out of date'},cerius:{base:23500,perA:1812.5,ref:'Cerius price list 2026, category C, incl. VAT'},other:{base:0,perA:0,ref:'No price list in the demo. Fee left out'}};
+const FEE={radius:{base:17950,perA:1280,ref:'Radius connection charge, as listed in the COWI truck cost sheet. May be out of date'},cerius:{base:23500,perA:1812.5,ref:'Cerius price list 2026, category C, incl. VAT'},n1:{base:0,perA:0,ref:'No price list in the sources read. Fee left out'},trefor:{base:0,perA:0,ref:'No price list in the sources read. Fee left out'},other:{base:0,perA:0,ref:'No price list in the demo. Fee left out'}};
 const CLS=[['1','Rigid 4×2, 7.5 to 10 t',7.1],['2','Rigid 4×2, 10 to 12 t',7.2],['3','Rigid 4×2, 12 to 16 t',7.4],['4','Rigid 4×2, over 16 t',8.4],['9','Rigid 6×2',8.5],['11','Rigid 6×4',8.5],['16','Rigid 8×4',9.0],['5','Tractor 4×2',8.7],['10','Tractor 6×2',8.8],['12','Tractor 6×4',8.8]];
 const ROAD_V={deep:30,urban:50,non:80};
 const HOL26=[[0,1],[3,2],[3,3],[3,5],[3,6],[4,14],[4,24],[4,25],[11,25],[11,26]];
@@ -475,30 +516,98 @@ const amps=kw=>kw*1000/(Math.sqrt(3)*400);
 const band=kw=>BANDS.find(b=>b[0]>=kw)||BANDS[BANDS.length-1];
 
 /* ---------- field definitions: one list drives the forms, the checks and the Sources page ---------- */
-const SRCN={std:'Standard',sample:'Sample value',assume:'Assumption',calc:'Calculated',you:'Your value',need:'Needed'};
+const SRCN={std:'Standard',sample:'Sample value',assume:'Assumption',calc:'Calculated',you:'Your value',need:'Needed',blank:'',plain:'Starting choice'};
 const F=(k,l,u,t,s,r,x)=>Object.assign({k,l,u,t,s,r},x||{});
-const isStop=o=>o.type==='stop', notNone=o=>o.type!=='none';
+const isStop=o=>o.type==='stop', notNone=o=>o.type!=='none', typed=o=>o.method==='typed', thermal=o=>o.hvacMode==='thermal';
+const NB='Not used by the demo engine yet';
+const HEIGHT={'1':3.6,'2':3.75,'3':3.9,'4':4,'5':4,'9':4,'10':4,'11':4,'12':4,'16':3.6};
+const YN=[['no','No'],['yes','Yes']];
+/* pop: the field sits in a named popup. opt: may stay empty. Fields the demo engine reads are listed in USED */
 const DEFS={
+  proj:{title:'Project',fields:[
+    F('name','Project name','','txt','sample',''),
+    F('scen','Scenario name','','txt','sample',''),
+    F('mode','How should charging be worked out?','','radio','','',{o:[['sizing','Sizing','Charger power from the energy needed and the time parked.'],['sim','Simulation, step by step','Not part of this demo.',1]]}),
+    F('brand','Brand-neutral comparison for tenders','','tog','','Hides make and model in the offer sheet')]},
   veh:{one:'vehicle',many:'vehicles',title:'Vehicle',lead:'The truck: its weight, its battery and what it replaces.',fields:[
-    F('cls','Vehicle class','','sel','sample','',{o:CLS.map(c=>[c[0],c[1]])}),
+    F('src','Where does the vehicle data come from?','','radio','','',{o:[['manual','I enter it',''],['lib','Pick from the vehicle library','EEA 2024 to 2025 registrations. Not part of this demo.',1]]}),
+    F('cls','VECTO vehicle group','','sel','sample','',{o:CLS.map(c=>[c[0],'Group '+c[0]+': '+c[1]])}),
     F('curb','Chassis weight, empty','kg','num','sample','No datasheet'),
     F('bodyMass','Body weight','kg','num','std','EU standard value for a refuse body'),
     F('gvw','Gross vehicle weight','kg','num','sample',''),
+    F('pmax','Largest motor power','kW','num','','',{opt:1}),
     F('dUse','Diesel the truck uses today','l/100 km','num','sample','',{dec:1}),
     F('battMode','Battery','','radio','','',{o:[['size','Let the tool size it','The smallest battery that still covers the hardest day at year 8.'],['sheet','I have a battery size','From a datasheet or a supplier offer.']]}),
     F('battKwh','Installed battery','kWh','num','','',{when:o=>o.battMode==='sheet'}),
-    F('cdxa','Air drag area','m²','num','std','EU standard value for the vehicle class. Verify before use',{sec:'Air drag and tyres',dec:1}),
-    F('crr','Tyre rolling resistance','N/kN','num','sample','Placeholder, no source yet',{sec:'Air drag and tyres',dec:1}),
-    F('effMot','Motor efficiency','','num','assume','Placeholder until measured loss maps are used',{sec:'Drivetrain efficiency',dec:2,max:1}),
-    F('effInv','Inverter efficiency','','num','assume','Placeholder until measured loss maps are used',{sec:'Drivetrain efficiency',dec:2,max:1}),
-    F('effGb','Gearbox efficiency','','num','assume','Placeholder until measured loss maps are used',{sec:'Drivetrain efficiency',dec:2,max:1}),
-    F('esW','Electrical system','W','num','std','EU standard value',{sec:'On-board systems',min0:1}),
-    F('psW','Air system for brakes and suspension','W','num','std','EU standard value',{sec:'On-board systems',min0:1}),
-    F('hvacW','Cab heating and cooling','W','num','std','EU standard value',{sec:'On-board systems',min0:1}),
-    F('spW','Power steering','W','num','std','EU standard method',{sec:'On-board systems',min0:1}),
-    F('condW','Battery and motor cooling','W','num','std','EU standard value',{sec:'On-board systems',min0:1}),
-    F('usable','Usable share of the battery','%','num','sample','',{sec:'Battery ageing',max:100}),
-    F('guar','Capacity guaranteed at year 8','%','num','assume','Rambøll 2023: warranties often go down to 70 %. Use the value in the offer',{sec:'Battery ageing',max:100}),
+    F('trMass','Trailer weight','kg','num','','',{pop:'Trailer and wheels',opt:1}),
+    F('mRed','Weight of the rotating wheels','kg','num','','',{pop:'Trailer and wheels',opt:1}),
+    F('thetaRed','Inertia reduction factor','','num','','',{pop:'Trailer and wheels',opt:1,dec:3}),
+    F('cdxa','Air drag area','m²','num','std','VECTO standard value for the vehicle group. Verify before use',{pop:'Air drag and size',dec:1}),
+    F('height','Vehicle height','m','num','std','VECTO reference height for the vehicle group',{pop:'Air drag and size',dec:2}),
+    F('cdFile','Air drag by wind angle, from the maker','','file','','',{pop:'Air drag and size'}),
+    F('crr','Tyre rolling resistance','N/kN','num','sample','Placeholder, no source yet',{pop:'Tyres',dec:1}),
+    F('rdyn','Tyre radius when rolling','m','num','','',{pop:'Tyres',opt:1,dec:3}),
+    F('loadIdx','Tyre load index','','num','','',{pop:'Tyres',opt:1}),
+    F('kt','Cold-tyre factor','','num','','Planned: 0.006 above load index 121, otherwise 0.010. Not decided',{pop:'Tyres',opt:1,dec:3}),
+    F('wet','Road surface','','sel','assume','Wet and icy roads are planned, not built',{pop:'Tyres',o:[['dry','Dry']]}),
+    F('effMethod','Efficiency method','','sel','assume','Loss maps are planned. The demo uses three efficiencies',{pop:'Drivetrain',o:[['eff','Separate efficiencies']]}),
+    F('effMot','Motor efficiency','','num','assume','Placeholder until measured loss maps are used',{pop:'Drivetrain',dec:2,max:1}),
+    F('effInv','Inverter efficiency','','num','assume','Placeholder until measured loss maps are used',{pop:'Drivetrain',dec:2,max:1}),
+    F('effGb','Gearbox efficiency','','num','assume','Placeholder until measured loss maps are used',{pop:'Drivetrain',dec:2,max:1}),
+    F('gear','Gearbox','','sel','','',{pop:'Drivetrain',o:[['one','Single speed'],['multi','Several gears']]}),
+    F('ratio','Total gear ratio','','num','','',{pop:'Drivetrain',opt:1,dec:2}),
+    F('jrot','Rotor inertia','kg·m²','num','','No fleet default exists',{pop:'Drivetrain',opt:1,dec:3}),
+    F('lossFile','Loss maps for motor, inverter and gearbox','','file','','',{pop:'Drivetrain'}),
+    F('vNoRegen','No braking energy back below','km/h','num','','',{pop:'Braking energy',opt:1}),
+    F('pRegen','Largest braking power back','kW','num','','',{pop:'Braking energy',opt:1}),
+    F('effRegen','Efficiency when braking','','num','','',{pop:'Braking energy',opt:1,dec:2,max:1}),
+    F('usable','Usable share of the battery','%','num','sample','',{pop:'Battery details',max:100}),
+    F('guar','Capacity guaranteed at year 8','%','num','assume','Rambøll 2023: warranties often go down to 70 %. Use the value in the offer',{pop:'Battery details',max:100}),
+    F('battMass','Battery weight','kg','num','','',{pop:'Battery details',opt:1}),
+    F('chem','Cell chemistry','','sel','','',{pop:'Battery details',o:[['','Not given'],['lfp','LFP'],['nmc','NMC'],['other','Other']]}),
+    F('dcMax','Fastest DC charging','kW','num','','',{pop:'Battery details',opt:1}),
+    F('conn','Charging connector','','sel','','',{pop:'Battery details',o:[['','Not given'],['ccs','CCS2'],['mcs','MCS']]}),
+    F('cRate','Largest charging rate up to 80 %','C','num','std','Reg. 2017/2400 Annex Xb, Appendix 10',{pop:'Battery details',dec:1}),
+    F('ocv0','Cell voltage at 0 %, share of nominal','','num','std','Reg. 2017/2400 Annex Xb, Appendix 10',{pop:'Battery voltage and resistance',dec:2}),
+    F('ocv10','At 10 %','','num','std','As above',{pop:'Battery voltage and resistance',dec:2}),
+    F('ocv50','At 50 %','','num','std','As above',{pop:'Battery voltage and resistance',dec:2}),
+    F('ocv90','At 90 %','','num','std','As above',{pop:'Battery voltage and resistance',dec:2}),
+    F('ocv100','At 100 %','','num','std','As above',{pop:'Battery voltage and resistance',dec:2}),
+    F('ri2','Internal resistance after 2 s','mΩ·Ah','num','std','Reg. 2017/2400 Annex Xb, Appendix 10, high-energy battery',{pop:'Battery voltage and resistance'}),
+    F('ri10','After 10 s','mΩ·Ah','num','std','As above',{pop:'Battery voltage and resistance'}),
+    F('ri20','After 20 s','mΩ·Ah','num','std','As above',{pop:'Battery voltage and resistance'}),
+    F('ri120','After 120 s','mΩ·Ah','num','std','As above',{pop:'Battery voltage and resistance'}),
+    F('esW','Electrical system','W','num','std','EU standard value',{pop:'On-board systems',min0:1}),
+    F('psW','Air system for brakes and suspension','W','num','std','EU standard value',{pop:'On-board systems',min0:1}),
+    F('spW','Power steering','W','num','std','EU standard method',{pop:'On-board systems',min0:1}),
+    F('condW','Battery and motor cooling','W','num','std','EU standard value',{pop:'On-board systems',min0:1}),
+    F('ptoOn','Equipment that is always on','W','num','','',{pop:'On-board systems',opt:1}),
+    F('fES','Factor on the electrical system','','num','std','VECTO',{pop:'On-board systems',dec:2}),
+    F('fPS','Factor on the air system','','num','std','VECTO',{pop:'On-board systems',dec:2}),
+    F('fSP','Factor on power steering','','num','std','VECTO',{pop:'On-board systems',dec:2}),
+    F('fHV','Factor on heating and cooling','','num','std','VECTO. 1.0 in the thermal model',{pop:'On-board systems',dec:2}),
+    F('fCo','Factor on cooling of battery and motor','','num','std','VECTO',{pop:'On-board systems',dec:2}),
+    F('hvacMode','Cab heating and cooling','','radio','','',{pop:'Cab heating and cooling',o:[['const','One fixed power','The EU standard value, or your own.'],['thermal','Worked out from the weather','Needs the cab data below. The demo engine still uses the fixed power.']]}),
+    F('hvacW','Heating and cooling power','W','num','std','EU standard value',{pop:'Cab heating and cooling',min0:1}),
+    F('persons','People in the cab','','num','','',{pop:'Cab heating and cooling',when:thermal}),
+    F('heater','Heater','','sel','','',{pop:'Cab heating and cooling',when:thermal,o:[['hp','Heat pump'],['el','Electric heater'],['fuel','Fuel heater']]}),
+    F('tHeat','Heat below','°C','num','std','VECTO',{pop:'Cab heating and cooling',when:thermal,min0:1}),
+    F('tCool','Cool above','°C','num','std','VECTO',{pop:'Cab heating and cooling',when:thermal,min0:1}),
+    F('tOff','Stop cooling below','°C','num','std','VECTO',{pop:'Cab heating and cooling',when:thermal,min0:1}),
+    F('aSurf','Cab surface','m²','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal,dec:1}),
+    F('uVal','Heat loss through the cab','W/m²K','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal,dec:2}),
+    F('aWin','Window area','m²','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal,dec:1}),
+    F('vol','Cab volume','m³','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal,dec:1}),
+    F('pHeat','Largest heating power','W','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal}),
+    F('pCool','Largest cooling power','W','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal}),
+    F('vent','Ventilation','m³/h','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal}),
+    F('ventH','Ventilation while heating','m³/h','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal}),
+    F('heatEff','Electric heater efficiency','','num','std','VECTO',{pop:'Climate constants',dec:2,max:1}),
+    F('ventP','Power for ventilation','Wh/m³','num','std','VECTO',{pop:'Climate constants',dec:2}),
+    F('tBound','Boundary temperature','°C','num','std','VECTO',{pop:'Climate constants'}),
+    F('solG','Sun through the glass','','num','std','VECTO',{pop:'Climate constants',dec:2}),
+    F('solF','Sun factor','','num','std','VECTO',{pop:'Climate constants',dec:2}),
+    F('freshQ','Fresh air for two people','m³/h','num','assume','Dvorak preprint',{pop:'Climate constants'}),
     F('priceEV','Electric truck price','DKK','num','sample','No source yet',{pg:'costs'}),
     F('priceD','Diesel truck price','DKK','num','sample','No source yet',{pg:'costs'}),
     F('svcEV','Service, electric','DKK/month','num','sample','No source yet',{pg:'costs',min0:1}),
@@ -506,125 +615,175 @@ const DEFS={
     F('insEV','Insurance, electric','DKK/month','num','sample','No source yet',{pg:'costs',min0:1}),
     F('insD','Insurance, diesel','DKK/month','num','sample','No source yet',{pg:'costs',min0:1})]},
   rt:{one:'route',many:'routes',title:'Route',lead:'What one vehicle drives on a working day.',fields:[
-    F('method','How do you want to describe the route?','','radio','','',{o:[['typed','Type in distance and stops','Enough for a first answer.'],['cycle','Use a standard EU test route','Not part of this demo.',1],['gps','Upload a GPS log','Not part of this demo.',1]]}),
-    F('km','Distance per day','km','num','sample',''),
-    F('stops','Stops per day','','num','sample','',{min0:1}),
-    F('stopTime','Time at each stop','s','num','sample','',{min0:1}),
-    F('road','Type of streets','','sel','sample','',{o:[['deep','Dense city streets'],['urban','City'],['non','Outside the city']]}),
-    F('speed','Driving speed between stops','km/h','num','assume','Tool default for the type of streets: 30, 50 or 80 km/h',{sec:'Speed and hills'}),
-    F('flat','Hills','','info','assume','The demo treats every route as flat',{sec:'Speed and hills',v:()=>'Flat'})]},
-  load:{one:'load profile',many:'load profiles',title:'Load',lead:'What the vehicle carries.',fields:[
-    F('shape','How does the load change during the day?','','radio','','',{o:[['const','Same all day','One weight for the whole route.'],['linear','Changes steadily along the route','A refuse truck filling up, or a delivery truck emptying.'],['stops','Set at each stop','Not part of this demo.',1]]}),
-    F('start',o=>o.shape==='linear'?'Load when leaving':'Load','t','num','std','EU standard low load for this type of work',{dec:1,min0:1}),
-    F('end','Load at the end of the route','t','num','std','EU standard reference load for this type of work',{dec:1,min0:1,when:o=>o.shape==='linear'})]},
-  eq:{one:'equipment set',many:'equipment sets',title:'Body equipment',lead:'Powered equipment on the body, if any.',fields:[
-    F('type','What does the equipment do?','','radio','','',{o:[['none','No powered equipment',''],['stop','Works at each stop','A bin lift, a tail lift or a crane.'],['always','Runs all the time','A fridge unit or a mixer drum.']]}),
+    F('method','Where does the route come from?','','radio','','',{o:[['typed','Typed in','Distance, stops and time at each stop.'],['cycle','A VECTO standard cycle','The demo engine cannot run these.'],['gps','A GPS log','The demo engine cannot run these.'],['ai','Describe it in words','Planned.',1]]}),
+    F('mission','Standard cycle','','sel','','',{when:o=>o.method==='cycle',o:[['lh','Long haul'],['rd','Regional delivery'],['ud','Urban delivery'],['mu','Municipal utility'],['co','Construction']]}),
+    F('gpsFile','GPS log','','file','','',{when:o=>o.method==='gps'}),
+    F('km','Distance per day','km','num','sample','',{when:typed}),
+    F('stops','Stops per day','','num','sample','',{when:typed,min0:1}),
+    F('stopTime','Time at each stop','s','num','sample','',{when:typed,min0:1}),
+    F('road','Type of streets','','sel','sample','',{when:typed,o:[['deep','Dense city streets'],['urban','City'],['non','Outside the city']]}),
+    F('speed','Driving speed between stops','km/h','num','assume','Tool default for the type of streets: 30, 50 or 80 km/h',{pop:'Speed and hills',when:typed}),
+    F('grade','Slope','%','num','assume','Flat unless you say otherwise. The demo engine treats every route as flat',{pop:'Speed and hills',when:typed,min0:1,dec:1})]},
+  load:{one:'payload profile',many:'payload profiles',title:'Payload',lead:'What the vehicle carries.',fields:[
+    F('basis','Which payload?','','sel','','',{o:[['custom','My own figures'],['ref','VECTO reference payload'],['max','The most the vehicle may carry']]}),
+    F('shape','How does it change during the day?','','radio','','',{o:[['const','Same all day','One weight for the whole route.'],['linear','Changes steadily along the route','A refuse truck filling up, or a delivery truck emptying.'],['stops','Set at each stop','Fill it in under Stops on the fleet row.']]}),
+    F('start',o=>o.shape==='const'?'Payload':'Payload when leaving','t','num','std','EU standard low load for this type of work',{dec:1,min0:1}),
+    F('end','Payload at the end of the route','t','num','std','EU standard reference load for this type of work',{dec:1,min0:1,when:o=>o.shape==='linear'})]},
+  eq:{one:'PTO profile',many:'PTO profiles',title:'PTO',lead:'Powered equipment on the body: a bin lift, a crane, a mixer drum, a fridge unit.',fields:[
+    F('type','When does the equipment work?','','radio','','',{o:[['none','No powered equipment',''],['stop','At each stop','A bin lift, a tail lift or a crane.'],['always','All the time','A fridge unit or a mixer drum.']]}),
     F('kwhStop','Energy per stop','kWh','num','assume','EU standard refuse profile. Not yet verified',{dec:3,when:isStop}),
     F('sStop','Working time per stop','s','num','assume','EU standard refuse profile. Not yet verified',{when:isStop,min0:1}),
+    F('profFile','Power profile over time, instead of one figure','','file','','',{when:isStop}),
     F('wOn','Power while on shift','W','num','','',{when:o=>o.type==='always'}),
-    F('eff','Efficiency of the electric drive','','num','assume','No source yet. 1.0 means no loss',{sec:'Efficiency',dec:2,max:1,when:notNone})]},
-  sch:{one:'shift',many:'shifts',title:'Shift',lead:'When the vehicles are away from the depot.',fields:[
+    F('driveW','Power while driving','W','num','','',{when:notNone,opt:1}),
+    F('eff','Efficiency at stops','','num','assume','No source yet. 1.0 means no loss',{pop:'Efficiency and drive',dec:2,max:1,when:notNone}),
+    F('effDrive','Efficiency while driving','','num','assume','No source yet. 1.0 means no loss',{pop:'Efficiency and drive',dec:2,max:1,when:notNone}),
+    F('ownMotor','The body has its own electric motor','','tog','','',{pop:'Efficiency and drive',when:notNone}),
+    F('effPtoMot','Efficiency of that motor','','num','','No source yet',{pop:'Efficiency and drive',opt:1,dec:2,max:1,when:o=>o.type!=='none'&&o.ownMotor==='yes'}),
+    F('stopAsPto','Count the whole stop as working time','','tog','','Not a VECTO method',{pop:'Efficiency and drive',when:isStop})]},
+  sch:{one:'schedule',many:'schedules',title:'Schedule',lead:'When the vehicles are away from the depot.',fields:[
     F('out','Leaves the depot','','time','sample',''),
     F('back','Back at the depot','','time','sample',''),
     F('days','Working days','','sel','sample','',{o:[['mf','Monday to Friday'],['ms','Monday to Saturday'],['all','Every day']]}),
     F('hol','Public holidays','','sel','std','Danish public holidays, 2026',{o:[['dk','Off on Danish public holidays'],['none','Works on public holidays']]}),
     F('opd','Operating days a year','','info','calc','Working days minus holidays, 2026 calendar',{v:o=>opDays(o)+' days'})]},
-  depot:{title:'Depot',fields:[
+  depot:{title:'Depot and grid',fields:[
     F('name','Depot name','','txt','sample',''),
     F('addr','Address or town','','txt','sample',''),
     F('mode','Is there a grid connection today?','','radio','','',{o:[['existing','Yes, and I know its size','The tool checks whether charging fits.'],['new','No, or I want it sized','The tool works out the connection you need.']]}),
     F('limit','Connection size','kW','num','sample','',{when:o=>o.mode==='existing'}),
-    F('dso','Grid company','','sel','sample','',{o:[['radius','Radius'],['cerius','Cerius'],['other','Other']]}),
-    F('base','Power the buildings already use','kW','num','sample','A steady value in the demo',{min0:1})]},
+    F('dso','Grid company','','sel','sample','',{o:[['radius','Radius'],['cerius','Cerius'],['n1','N1'],['trefor','TREFOR El-net'],['other','Other']]}),
+    F('access','Access to the grid','','sel','','',{o:[['full','Full access'],['lim','Limited access']]}),
+    F('baseMode','Power the buildings already use','','radio','','',{o:[['fixed','One figure',''],['elo','Hourly meter data from Eloverblik','Not part of this demo.',1],['log','Upload from a logger','Not part of this demo.',1]]}),
+    F('base','Building load','kW','num','sample','A steady value in the demo',{min0:1}),
+    F('spaces','Parking spaces with room for a charger','','num','','',{pop:'Parking',opt:1}),
+    F('pSpace','Power for each space','kW','num','','',{pop:'Parking',opt:1}),
+    F('cut','Cut in power','%','num','','A what-if. Not a forecast',{pop:'Limited access what-if',opt:1,max:100}),
+    F('cutFrom','From','','time','','',{pop:'Limited access what-if',opt:1}),
+    F('cutTo','To','','time','','',{pop:'Limited access what-if',opt:1})]},
   chg:{title:'Charging',fields:[
     F('chgMode','Chargers','','radio','','',{o:[['auto','Size the chargers for me','The smallest size that has every vehicle full before it leaves.'],['set','I choose the size','']]}),
     F('kw','Charger power','','sel','','',{when:o=>o.chgMode==='set',o:SIZES.map(z=>[String(z),z+' kW'])}),
+    F('points','Charge points','','info','calc','One for each vehicle in the demo',{v:()=>'One for each vehicle'}),
     F('plan','Charging plan','','radio','','',{o:[['cost','Lowest cost','Charge in the night hours, when power is cheapest.'],['grid','Grid-friendly','Spread charging over the whole stay to keep the peak low.'],['early','Ready earliest','Charge at full power as soon as vehicles are back.']]}),
-    F('loadF','Average charger load while charging','%','num','std','COWI truck cost sheet',{sec:'Fine tuning: charger losses and load',max:100}),
-    F('loss','Charger losses','%','num','assume','4-leaf 2023 gives 3 to 4 %',{sec:'Fine tuning: charger losses and load',min0:1,max:50})]},
+    F('readyBy','Ready by','','time','','Empty means when the vehicle leaves',{opt:1}),
+    F('loadF','Average charger load while charging','%','num','std','COWI truck cost sheet',{pop:'Charger load and losses',max:100}),
+    F('loss','Charger losses','%','num','assume','4-leaf 2023 gives 3 to 4 %',{pop:'Charger load and losses',min0:1,max:50}),
+    F('step','Time step','min','num','assume','Mock-up value. Must come from Energinet specifications',{pop:'Charger load and losses'}),
+    F('flex','Offer flexibility to the power markets','','tog','','',{pop:'Flexibility'}),
+    F('mkts','Markets','','multi','','',{pop:'Flexibility',o:[['fcrd','FCR-D'],['fcrn','FCR-N'],['mfrr','mFRR'],['afrr','aFRR']]})]},
   wx:{title:'Weather',fields:[
-    F('year','Which year should the fleet be sized for?','','radio','','',{o:[['normal','A normal year',''],['cold','A cold winter','More energy in November to February.']]})]},
-  pr:{title:'Energy prices',fields:[
+    F('year','Which year should the fleet be sized for?','','radio','','',{o:[['normal','A normal year',''],['cold','A cold winter','More energy in November to February.']]}),
+    F('station','Weather station','','info','calc','The full tool takes the nearest DMI station with a full year of data',{v:()=>'Nearest to the depot'}),
+    F('detail','Level of detail','','sel','','Not decided which is the default',{o:[['day','One value a day'],['drive','Driving hours'],['hour','Every hour']]}),
+    F('shift','Shift every temperature by','K','num','std','No shift',{min0:1,neg:1,dec:1}),
+    F('worst','Run the worst day as its own case','','tog','',''),
+    F('wind','Reference wind at 10 m','m/s','num','std','HDEV decision. Replaces the 3 m/s at 4 m in VECTO',{pop:'Wind',dec:3})]},
+  pr:{title:'Prices',fields:[
+    F('area','Price area','','sel','calc','Taken from the depot address',{o:[['dk2','DK2, east of the Great Belt'],['dk1','DK1, west of the Great Belt']]}),
     F('elPrice','Electricity price, all in','DKK/kWh','num','sample','Demo value. The full tool uses hourly prices, tariffs and taxes',{dec:2}),
     F('level','Electricity price level','','sel','assume','Tool default. Low is 20 % under, high is 25 % over',{o:[['low','Low'],['exp','Expected'],['high','High']]}),
-    F('dPrice','Diesel price','DKK/l','num','std','OK.dk, January to June 2024, plus 0.50 DKK duty. Refresh before use',{dec:2})]},
+    F('spotFile','Your own hourly prices','','file','',''),
+    F('tariff','Grid tariff and taxes','DKK/kWh','num','','',{opt:1,dec:2}),
+    F('dPrice','Diesel price','DKK/l','num','std','OK.dk, January to June 2024, plus 0.50 DKK duty. Refresh before use',{dec:2}),
+    F('adblue','AdBlue','DKK/l','num','sample','Source to confirm',{pop:'Other fuels and public charging',dec:2}),
+    F('hvo','HVO100','DKK/l','num','sample','Source to confirm',{pop:'Other fuels and public charging',dec:2}),
+    F('pub','Public fast charging','DKK/kWh','num','std','FDM 2024',{pop:'Other fuels and public charging',dec:2})]},
   fin:{title:'Costs',fields:[
     F('years','Ownership period','','sel','assume','Tool default',{o:[['8','8 years'],['10','10 years'],['12','12 years']]}),
+    F('how','Financing','','sel','','',{o:[['loan','Loan'],['lease','Lease'],['cash','Cash']]}),
     F('interest','Interest rate','%','num','sample','No source yet',{dec:2,min0:1}),
     F('wage','Driver wage','DKK/month','num','sample','No source yet. Same for electric and diesel',{min0:1}),
-    F('resid','Value at the end','','info','sample','Depreciation table from the COWI truck cost sheet. No source given there',{v:o=>residPct(+o.years)+' % of the price'})]},
-  tax:{title:'Costs',fields:[
+    F('resid','Value at the end','','info','sample','Depreciation table from the COWI truck cost sheet. No source given there',{v:o=>residPct(+o.years)+' % of the price'}),
+    F('depYears','Years to write off the depot','','num','','Not decided',{opt:1})]},
+  tax:{title:'Taxes and CO₂',fields:[
     F('e1','Road tax, electric, 2026 to 2027','DKK/km','num','std','Danish Ministry of Taxation rates, via the COWI truck cost sheet',{dec:4,min0:1}),
     F('d1','Road tax, diesel, 2026 to 2027','DKK/km','num','std','Danish Ministry of Taxation rates, via the COWI truck cost sheet',{dec:4,min0:1}),
     F('e2','Road tax, electric, 2028','DKK/km','num','std','As above',{dec:4,min0:1}),
     F('d2','Road tax, diesel, 2028','DKK/km','num','std','As above',{dec:4,min0:1}),
     F('e3','Road tax, electric, from 2029','DKK/km','num','std','As above',{dec:4,min0:1}),
     F('d3','Road tax, diesel, from 2029','DKK/km','num','std','As above',{dec:4,min0:1}),
+    F('co2cls','CO₂ class of the diesel truck','','sel','','',{o:[['1','1'],['2','2'],['3','3'],['4','4'],['5','5']]}),
+    F('subsidy','Subsidy scheme','','sel','','The Vejdirektoratet pool closed on 30 September 2026',{o:[['none','None'],['vd','Vejdirektoratet pool'],['bmv','German BMV scheme'],['own','Own amount']]}),
     F('grant','Grant or subsidy, paid once','DKK','num','assume','None applied',{min0:1})]},
-  co2:{title:'CO₂',fields:[
+  co2:{title:'Taxes and CO₂',fields:[
     F('gridMode','CO₂ from grid electricity','','radio','','',{o:[['path','Danish Energy Agency projection','19.35 g/kWh in 2026, falling to 8.26 g/kWh in 2034. Includes upstream.'],['fixed','My own value','One value for every year.']]}),
     F('gridEF','Grid electricity, every year','g/kWh','num','','',{dec:2,min0:1,when:o=>o.gridMode==='fixed'}),
-    F('co2D','Diesel','kg/l','num','sample','Source pending',{dec:2})]}
+    F('co2D','Diesel','kg/l','num','sample','Source pending',{dec:2}),
+    F('hours','Count CO₂ at the hours the trucks really charge','','tog','','Planned')]}
 };
+/* what the demo engine reads. Everything else is kept with the project and listed, but does not change the result yet */
+const USED={veh:'src cls curb bodyMass gvw dUse battMode battKwh cdxa crr effMot effInv effGb usable guar esW psW spW condW hvacW priceEV priceD svcEV svcD insEV insD',rt:'method road km stops stopTime speed',load:'shape start end',eq:'type kwhStop sStop wOn eff',sch:'out back days hol',depot:'mode limit dso base',chg:'chgMode kw plan loadF loss',wx:'year',pr:'elPrice level dPrice',fin:'years interest wage',tax:'e1 d1 e2 d2 e3 d3 grant',co2:'gridMode gridEF co2D',proj:'name scen mode brand'};
+const used=(type,k)=>(' '+USED[type]+' ').includes(' '+k+' ');
 const LIBS=['veh','rt','load','eq','sch'];
 const SETS=['chg','wx','pr','fin','tax','co2'];
-const SETPAGE={chg:'charging',wx:'weather',pr:'prices',fin:'costs',tax:'costs',co2:'co2in'};
+const SETPAGE={chg:'charging',wx:'weather',pr:'prices',fin:'costs',tax:'tax',co2:'tax'};
 
 /* ---------- project data ---------- */
 const mk=o=>{o._d=clone(o);if(o.id){delete o._d.id;delete o._d.name;}return o;};
-const VEH_STD={cls:'4',cdxa:8.4,crr:6,effMot:0.95,effInv:0.95,effGb:0.98,esW:1000,psW:687,hvacW:375,spW:306,condW:550,usable:90,guar:70,priceEV:2050000,priceD:1150000,svcEV:7685,svcD:5000,insEV:1476,insD:768,battMode:'size',battKwh:''};
+const VEH_STD={src:'manual',pmax:'',trMass:'',mRed:'',thetaRed:'',height:4,cdFile:'',rdyn:'',loadIdx:'',kt:'',wet:'dry',effMethod:'eff',gear:'one',ratio:'',jrot:'',lossFile:'',vNoRegen:'',pRegen:'',effRegen:'',battMass:'',chem:'',dcMax:'',conn:'',cRate:0.9,ocv0:0.88,ocv10:0.94,ocv50:1,ocv90:1.06,ocv100:1.12,ri2:210,ri10:240,ri20:270,ri120:390,ptoOn:'',fES:0.7,fPS:1,fSP:0.7,fHV:1.25,fCo:1,hvacMode:'const',persons:'',heater:'hp',tHeat:18,tCool:23,tOff:17,aSurf:'',uVal:'',aWin:'',vol:'',pHeat:'',pCool:'',vent:'',ventH:'',heatEff:0.93,ventP:0.56,tBound:17,solG:0.95,solF:0.25,freshQ:100,cls:'4',cdxa:8.4,crr:6,effMot:0.95,effInv:0.95,effGb:0.98,esW:1000,psW:687,hvacW:375,spW:306,condW:550,usable:90,guar:70,priceEV:2050000,priceD:1150000,svcEV:7685,svcD:5000,insEV:1476,insD:768,battMode:'size',battKwh:''};
+const EQ_STD={kwhStop:0.15,sStop:23,wOn:'',eff:1,profFile:'',driveW:'',effDrive:1,ownMotor:'no',effPtoMot:'',stopAsPto:'no'};
 const BLANK={
   veh:()=>Object.assign({},VEH_STD,{curb:'',bodyMass:'',gvw:'',dUse:''}),
-  rt:()=>({method:'typed',km:'',stops:'',stopTime:'',road:'urban',speed:50}),
-  load:()=>({shape:'const',start:'',end:''}),
-  eq:()=>({type:'none',kwhStop:0.15,sStop:23,wOn:'',eff:1}),
+  rt:()=>({method:'typed',mission:'ud',gpsFile:'',km:'',stops:'',stopTime:'',road:'urban',speed:50,grade:0}),
+  load:()=>({basis:'custom',shape:'const',start:'',end:''}),
+  eq:()=>Object.assign({type:'none'},EQ_STD),
   sch:()=>({out:'',back:'',days:'mf',hol:'dk'})
 };
 function sampleProject(){return{
-  name:'Sample project',
+  proj:mk({name:'Sample project',scen:'Base case',mode:'sizing',brand:'no'}),
   lib:{
     veh:[mk(Object.assign({id:'v1',name:'Refuse truck'},VEH_STD,{curb:11500,bodyMass:6000,gvw:26000,dUse:55}))],
-    rt:[mk({id:'r1',name:'City collection round',method:'typed',km:120,stops:400,stopTime:20,road:'deep',speed:30})],
-    load:[mk({id:'l1',name:'Fills up along the route',shape:'linear',start:0.6,end:3})],
-    eq:[mk({id:'e1',name:'Bin lift',type:'stop',kwhStop:0.15,sStop:23,wOn:'',eff:1}),mk({id:'e0',name:'None',type:'none',kwhStop:0.15,sStop:23,wOn:'',eff:1})],
+    rt:[mk({id:'r1',name:'City collection round',method:'typed',mission:'mu',gpsFile:'',km:120,stops:400,stopTime:20,road:'deep',speed:30,grade:0})],
+    load:[mk({id:'l1',name:'Fills up along the route',basis:'custom',shape:'linear',start:0.6,end:3})],
+    eq:[mk(Object.assign({id:'e1',name:'Bin lift',type:'stop'},EQ_STD)),mk(Object.assign({id:'e0',name:'None',type:'none'},EQ_STD))],
     sch:[mk({id:'s1',name:'Day shift',out:'06:00',back:'16:00',days:'mf',hol:'dk'}),mk({id:'s2',name:'Night shift',out:'19:00',back:'05:00',days:'mf',hol:'dk'})]},
   groups:[{id:1,name:'Refuse, day shift',n:4,n0:4,veh:'v1',rt:'r1',load:'l1',eq:'e1',sch:'s1'},{id:2,name:'Refuse, night shift',n:2,n0:2,veh:'v1',rt:'r1',load:'l1',eq:'e1',sch:'s2'}],
-  depot:mk({name:'Main depot',addr:'Copenhagen',mode:'existing',limit:400,dso:'radius',base:30}),
-  chg:mk({chgMode:'auto',kw:'50',plan:'cost',loadF:85,loss:4}),
-  wx:mk({year:'normal'}),
-  pr:mk({elPrice:1.6,level:'exp',dPrice:11.65}),
-  fin:mk({years:'10',interest:3.45,wage:30000}),
-  tax:mk({e1:0.1008,d1:0.8525,e2:0.1864,d2:1.4324,e3:0.2613,d3:1.6181,grant:0}),
-  co2:mk({gridMode:'path',gridEF:19.35,co2D:2.65}),
+  depot:mk({name:'Main depot',addr:'Copenhagen',mode:'existing',limit:400,dso:'radius',access:'full',baseMode:'fixed',base:30,spaces:'',pSpace:'',cut:'',cutFrom:'',cutTo:''}),
+  chg:mk({chgMode:'auto',kw:'50',plan:'cost',readyBy:'',loadF:85,loss:4,step:5,flex:'no',mkts:''}),
+  wx:mk({year:'normal',detail:'hour',shift:0,worst:'no',wind:5.028}),
+  pr:mk({area:'dk2',elPrice:1.6,level:'exp',spotFile:'',tariff:'',dPrice:11.65,adblue:6.96,hvo:19.97,pub:3.25}),
+  fin:mk({years:'10',how:'loan',interest:3.45,wage:30000,depYears:''}),
+  tax:mk({e1:0.1008,d1:0.8525,e2:0.1864,d2:1.4324,e3:0.2613,d3:1.6181,co2cls:'5',subsidy:'none',grant:0}),
+  co2:mk({gridMode:'path',gridEF:19.35,co2D:2.65,hours:'no'}),
   nid:10};}
 let P=sampleProject();
 const tpl=(lib,id)=>P.lib[lib].find(x=>x.id===id);
 const visible=(type,o)=>DEFS[type].fields.filter(f=>!f.when||f.when(o));
-function isMissing(f,o){if(f.t==='info'||f.t==='radio')return false;const v=o[f.k];if(v===''||v==null)return true;
-  if(f.t==='num')return !(typeof v==='number'&&isFinite(v)&&(f.min0?v>=0:v>0)&&(f.max==null||v<=f.max));
+function isMissing(f,o){if(f.t==='info'||f.t==='radio'||f.t==='tog'||f.t==='multi'||f.t==='file'||f.t==='sel')return false;const v=o[f.k];if(v===''||v==null)return !f.opt;
+  if(f.t==='num')return !(typeof v==='number'&&isFinite(v)&&(f.neg||(f.min0?v>=0:v>0))&&(f.max==null||v<=f.max));
   if(f.t==='time')return isNaN(hrs(v));return false;}
-function srcOf(f,o){if(f.t==='info')return f.s;if(isMissing(f,o))return'need';const d=o._d?o._d[f.k]:undefined;return(d!==undefined&&d!==''&&o[f.k]===d&&f.s)?f.s:'you';}
+function srcOf(f,o){if(f.t==='info')return f.s;if(isMissing(f,o))return'need';const d=o._d?o._d[f.k]:undefined;if(d!==undefined&&o[f.k]===d)return o[f.k]===''?'blank':(f.s||'plain');return o[f.k]===''||o[f.k]==null?'blank':'you';}
 const labelOf=(f,o)=>typeof f.l==='function'?f.l(o):f.l;
-function shown(f,o){const v=f.t==='info'?f.v(o):o[f.k];if(f.o){const x=f.o.find(q=>String(q[0])===String(v));return x?x[1]:String(v);}
+function shown(f,o){const v=f.t==='info'?f.v(o):o[f.k];if(f.t==='file')return v||'No file';if(f.t==='multi')return f.o.filter(q=>(' '+v+' ').includes(' '+q[0]+' ')).map(q=>q[1]).join(', ')||'None';if(f.t==='tog')return v==='yes'?'Yes':'No';if(f.o){const x=f.o.find(q=>String(q[0])===String(v));return x?x[1]:String(v);}
   if(f.t==='num'&&typeof v==='number')return fmt(v,f.dec||0)+(f.u?' '+f.u:'');return v===''||v==null?'':String(v);}
 
 /* every object that feeds the run, with a readable place name */
 function parts(){const out=[],seen={};
-  P.groups.forEach(g=>LIBS.forEach(l=>{const t=tpl(l,g[l]);if(t&&!seen[l+t.id]){seen[l+t.id]=1;out.push({type:l,o:t,where:DEFS[l].title+': '+t.name,open:{lib:l,gid:g.id}});}}));
-  out.push({type:'depot',o:P.depot,where:'Depot',open:{page:'depot'}});
+  P.groups.forEach(g=>LIBS.forEach(l=>{const t=tpl(l,g[l]);if(t&&!seen[l+t.id]){seen[l+t.id]=1;out.push({type:l,o:t,where:DEFS[l].title+': '+t.name,open:{lib:l,tid:t.id}});}}));
+  out.unshift({type:'proj',o:P.proj,where:'Project',open:{page:'project'}});
+  out.push({type:'depot',o:P.depot,where:'Depot and grid',open:{page:'depot'}});
   SETS.forEach(s=>out.push({type:s,o:P[s],where:DEFS[s].title,open:{page:SETPAGE[s]}}));return out;}
 function missing(){const m=[];
   P.groups.forEach(g=>{if(!(g.n>=1))m.push({where:'Fleet: '+g.name,label:'Number of vehicles',open:{page:'fleet'}});
-    LIBS.forEach(l=>{if(!tpl(l,g[l]))m.push({where:'Fleet: '+g.name,label:DEFS[l].title+' not chosen',open:{lib:l,gid:g.id}});});});
+    LIBS.forEach(l=>{if(!tpl(l,g[l]))m.push({where:'Fleet: '+g.name,label:DEFS[l].title+' not chosen',open:{page:'fleet'}});});});
   if(!P.groups.length)m.push({where:'Fleet',label:'Add at least one group of vehicles',open:{page:'fleet'}});
-  parts().forEach(p=>visible(p.type,p.o).forEach(f=>{if(isMissing(f,p.o))m.push({where:p.where,label:labelOf(f,p.o),open:f.pg?{page:f.pg}:p.open});}));
-  P.groups.forEach(g=>{const s=tpl('sch',g.sch);if(s&&!isNaN(hrs(s.out))&&hrs(s.out)===hrs(s.back))m.push({where:'Shift: '+s.name,label:'Leaving and return time are the same',open:{lib:'sch',gid:g.id}});});
+  parts().forEach(p=>visible(p.type,p.o).forEach(f=>{if(isMissing(f,p.o))m.push({where:p.where,label:labelOf(f,p.o),open:f.pg?{page:f.pg}:Object.assign({pop:f.pop},p.open)});
+    if(p.type==='rt'&&f.k==='method'&&p.o.method!=='typed')m.push({where:p.where,label:'The demo engine can only run a typed route',open:p.open});}));
+  P.groups.forEach(g=>{const s=tpl('sch',g.sch);if(s&&!isNaN(hrs(s.out))&&hrs(s.out)===hrs(s.back))m.push({where:'Schedule: '+s.name,label:'Leaving and return time are the same',open:{lib:'sch',tid:s.id}});});
   return m;}
 function inputRows(){const rows=[];
   P.groups.forEach(g=>rows.push({where:'Fleet: '+g.name,label:'Vehicles',value:String(g.n),src:g.n===g.n0?'sample':'you',ref:''}));
-  parts().forEach(p=>visible(p.type,p.o).forEach(f=>{const s=f.t==='radio'?'you':srcOf(f,p.o);rows.push({where:p.where,label:labelOf(f,p.o),value:shown(f,p.o),src:s,ref:s==='you'?'':(f.r||''),radio:f.t==='radio'});}));
+  parts().forEach(p=>visible(p.type,p.o).forEach(f=>{const s=f.t==='radio'?'you':srcOf(f,p.o);if(s==='blank')return;rows.push({where:p.where,label:labelOf(f,p.o),value:shown(f,p.o),src:s,ref:s==='you'?'':(f.r||''),radio:f.t==='radio',used:used(p.type,f.k)});}));
   return rows;}
 const snapshot=()=>JSON.stringify(P,(k,v)=>k==='_d'||k==='n0'||k==='nid'?undefined:v);
+
+/* ---------- stop table: the day of one fleet row, stop by stop. Built from the route, the payload and the PTO; edits stay on that row ---------- */
+function stopRows(gr){const rt=tpl('rt',gr.rt),l=tpl('load',gr.load),e=tpl('eq',gr.eq),n=rt&&rt.method==='typed'?Math.round(+rt.stops||0):0,ov=gr.ov||{},rows=[];
+  for(let i=1;i<=n;i++){const o=ov[i]||{},p0=l?(l.shape==='linear'?l.start+(l.end-l.start)*i/n:l.start):0;
+    rows.push({i,d:o.d!=null?o.d:rt.km*i/(n+1),t:o.t!=null?o.t:rt.stopTime,p:o.p!=null?o.p:p0,on:o.on!=null?o.on:!!(e&&e.type==='stop'),ed:!!ov[i]});}
+  return rows;}
+const hasOv=gr=>gr.ov&&Object.keys(gr.ov).length>0;
 
 /* ---------- the stand-in model ---------- */
 function chargeGroup(g,plan,D){const N=96,lf=D.loadF/100,loss=D.loss/100,st=Math.round(g.back*4)%N,nS=Math.max(0,Math.round(g.dwellH*4)),S=[];
@@ -647,19 +806,20 @@ function compute(planOv){
   const elP=P.pr.elPrice*PRICE_F[P.pr.level]*PLAN_F[plan];
   const rate=(yr,el)=>yr<=2027?(el?P.tax.e1:P.tax.d1):yr===2028?(el?P.tax.e2:P.tax.d2):(el?P.tax.e3:P.tax.d3);
   const G=P.groups.map(gr=>{const v=tpl('veh',gr.veh),rt=tpl('rt',gr.rt),l=tpl('load',gr.load),e=tpl('eq',gr.eq),s=tpl('sch',gr.sch),n=gr.n;
-    const vms=rt.speed/3.6,pay0=l.start,pay1=l.shape==='linear'?l.end:l.start,mass=v.curb+v.bodyMass+(pay0+pay1)/2*1000;
+    const SR=hasOv(gr)?stopRows(gr):null,nOn=SR?SR.filter(x=>x.on).length:rt.stops;
+    const vms=rt.speed/3.6,pay0=l.start,pay1=l.shape==='linear'?l.end:l.start,payAvg=SR?sum(SR.map(x=>x.p))/SR.length:(pay0+pay1)/2,mass=v.curb+v.bodyMass+payAvg*1000;
     const eta=v.effMot*v.effInv*v.effGb,d=rt.km*1000,J=3.6e6;
     const roll=mass*DEMO.g*v.crr/1000*d/J,air=0.5*DEMO.rho*v.cdxa*vms*vms*d/J,kin=rt.stops*0.5*mass*vms*vms/J;
     const wheel=roll+air+kin,regen=kin*DEMO.regen*eta,drive=wheel/eta-regen;
     const tA=vms/DEMO.acc,dA=vms*vms/(2*DEMO.acc),seg=rt.stops?d/rt.stops:d,cruise=Math.max(0,seg-2*dA);
-    const tDrive=(rt.stops?rt.stops*(2*tA+cruise/vms):d/vms)/3600,tStop=rt.stops*rt.stopTime/3600,tEq=e.type==='stop'?rt.stops*e.sStop/3600:0;
+    const tDrive=(rt.stops?rt.stops*(2*tA+cruise/vms):d/vms)/3600,tStop=(SR?sum(SR.map(x=>x.t)):rt.stops*rt.stopTime)/3600,tEq=e.type==='stop'?nOn*e.sStop/3600:0;
     const out=hrs(s.out),back=hrs(s.back),shiftH=((back-out+24)%24)||24,dwellH=24-shiftH;
     const auxE=((v.esW+v.psW+v.hvacW+v.spW+v.condW)+(v.esW+v.psW+v.hvacW))/2000*shiftH;
-    const eqE=e.type==='stop'?rt.stops*e.kwhStop/e.eff:e.type==='always'?e.wOn/1000*shiftH/e.eff:0;
+    const eqE=e.type==='stop'?nOn*e.kwhStop/e.eff:e.type==='always'?e.wOn/1000*shiftH/e.eff:0;
     const avg=drive+auxE+eqE,months=mf.map(f=>avg*f),mean=sum(months)/12,worst=Math.max(...months)*DEMO.worstF;
     const us=v.usable/100,gu=v.guar/100,batt=v.battMode==='size'?Math.ceil(worst/(us*gu)/10)*10:v.battKwh;
     const g={gr,v,rt,l,e,s,n,name:gr.name,mass,eta,roll,air,kin,wheel,regen,drive,auxE,eqE,avg,months,mean,worst,batt,usable:batt*us,usableEol:batt*us*gu,
-      tNeed:tDrive+tStop+tEq,tDrive,tStop,tEq,out,back,shiftH,dwellH,payMax:Math.max(pay0,pay1),payLimit:(v.gvw-v.curb-v.bodyMass)/1000,days:opDays(s)};
+      tNeed:tDrive+tStop+tEq,tDrive,tStop,tEq,out,back,shiftH,dwellH,payMax:SR?Math.max(pay0,...SR.map(x=>x.p)):Math.max(pay0,pay1),payLimit:(v.gvw-v.curb-v.bodyMass)/1000,days:opDays(s)};
     g.kmYr=rt.km*g.days;g.kWhGrid=mean*g.days/(1-loss);g.c=chargeGroup(g,plan,D);
     const res=residPct(Y)/100,b=band(g.c.kw);
     g.cost={finE:pmt(r/12,Y*12,v.priceEV,v.priceEV*res)*12,finD:pmt(r/12,Y*12,v.priceD,v.priceD*res)*12,chg:b[1]+b[2],energyE:g.kWhGrid*elP,fuelD:g.kmYr*v.dUse/100*P.pr.dPrice,
@@ -714,10 +874,10 @@ const mark=ok=>`<span class="mark ${ok?'ok':'no'}">${ico(ok?'ok':'no',13,3)}</sp
 const stat=(ok,yes,no)=>`<span class="st ${ok?'ok-t':'no-t'}">${ico(ok?'ok':'no',13,2.6)}${ok?yes:no}</span>`;
 
 /* ---------- state and navigation ---------- */
-const S={tab:'fleet',run:null,runNo:0,snap:null,runs:[],ai:false,enG:0,cmpA:1,cmpB:1,last:{setup:'fleet',results:'ov'}};
-const SETUP=['fleet','depot','charging','weather','prices','costs','co2in','check'];
+const S={tl:'veh',tid:{},sel:{},bulkL:'rt',tab:'fleet',run:null,runNo:0,snap:null,runs:[],ai:false,enG:0,cmpA:1,cmpB:1,last:{setup:'fleet',results:'ov'}};
+const SETUP=['project','fleet','templates','depot','charging','weather','prices','costs','tax','check'];
 const MAIN=[['setup','Setup',SETUP],['results','Results',['ov','en','bat','ch','gr','cost','co2','src']],['cmp','Compare',['cmp']],['docs','Documents',['docs']]];
-const TITLE={fleet:'Fleet',depot:'Depot',charging:'Charging',weather:'Weather',prices:'Energy prices',costs:'Costs',co2in:'CO₂',check:'Check and run',
+const TITLE={project:'Project',fleet:'Fleet',templates:'Templates',depot:'Depot and grid',charging:'Charging',weather:'Weather',prices:'Prices',costs:'Costs',tax:'Taxes and CO₂',check:'Check and run',
   ov:'Overview',en:'Energy',bat:'Battery',ch:'Charging',gr:'Grid',cost:'Cost',co2:'CO₂',src:'Inputs and sources'};
 const mainOf=t=>MAIN.find(m=>m[2].includes(t))[0];
 const dirty=()=>S.snap!==null&&S.snap!==snapshot();
@@ -726,7 +886,7 @@ function drawNav(){
   $('nmain').innerHTML=MAIN.map(m=>`<button class="mtab" data-main="${m[0]}"${cur===m[0]?' aria-current="page"':''}${m[0]!=='setup'&&!S.run?' disabled title="Run the sample first"':''}>${ico(m[0],16)}<span>${m[1]}</span></button>`).join('');
   const subs=MAIN.find(m=>m[0]===cur)[2];
   $('nsub').innerHTML=subs.length>1?subs.map(t=>{
-    const flag=cur==='setup'?miss.some(x=>x.open.page===t||(t==='fleet'&&x.open.lib)):(S.run&&S.run.checks.some(c=>!c.ok&&c.go===t));
+    const flag=cur==='setup'?miss.some(x=>x.open.page===t||(t==='templates'&&x.open.lib)):(S.run&&S.run.checks.some(c=>!c.ok&&c.go===t));
     return `<button class="stab" data-tab="${t}"${S.tab===t?' aria-current="page"':''}>${TITLE[t]}${flag?'<i class="flag" title="Needs attention"></i>':''}</button>`;}).join(''):'';
   $('nsub').hidden=subs.length<2;
   const st=$('runState'),n=miss.length;
@@ -764,19 +924,26 @@ function ctl(f,o,oid,noUnit,aria){
   const id='f'+oid+'_'+f.k,v=o[f.k],at=`id="${id}" data-o="${oid}" data-k="${f.k}"${aria?` aria-label="${esc(aria)}"`:''}`,miss=isMissing(f,o);
   if(f.t==='info')return`<span class="fi">${esc(f.v(o))}</span>`;
   if(f.t==='sel')return`<select class="in" ${at}>${f.o.map(q=>`<option value="${q[0]}"${String(v)===String(q[0])?' selected':''}>${q[1]}</option>`).join('')}</select>`;
+  if(f.t==='tog')return`<label class="tog"><input type="checkbox" ${at}${v==='yes'?' checked':''}><i></i><span>${v==='yes'?'Yes':'No'}</span></label>`;
+  if(f.t==='multi')return`<span class="multi">${f.o.map(q=>`<label><input type="checkbox" data-o="${oid}" data-k="${f.k}" data-mv="${q[0]}"${(' '+v+' ').includes(' '+q[0]+' ')?' checked':''}>${q[1]}</label>`).join('')}</span>`;
+  if(f.t==='file')return`<label class="btn filebtn">Choose a file<input type="file" class="sr" ${at}></label><span class="u">${v?esc(v):'The demo keeps the file name only'}</span>`;
   return`<input class="in${f.t==='num'?' n':''}${miss?' miss':''}" ${at} ${f.t==='num'?'inputmode="decimal"':f.t==='time'?'type="time"':''} value="${esc(v==null?'':f.t==='num'&&typeof v==='number'?v.toLocaleString('en-GB',{maximumFractionDigits:6}):v)}"${miss?' aria-invalid="true"':''}>${f.u&&!noUnit?`<span class="u">${f.u}</span>`:''}`;}
 function fieldHtml(f,o,oid){
   const id='f'+oid+'_'+f.k,v=o[f.k],lab=labelOf(f,o);
   if(f.t==='radio')return`<fieldset class="choice"><legend>${lab}</legend>${f.o.map(q=>q[3]
     ?`<div class="opt off"><input type="radio" disabled aria-label="${esc(q[1])}"><span><b>${q[1]}</b><small>${q[2]}</small></span></div>`
     :`<label class="opt"><input type="radio" name="${id}" value="${q[0]}" data-o="${oid}" data-k="${f.k}"${v===q[0]?' checked':''}><span><b>${q[1]}</b>${q[2]?`<small>${q[2]}</small>`:''}</span></label>`).join('')}</fieldset>`;
-  return`<div class="fr" data-s="${srcOf(f,o)}">${f.t==='info'?`<span class="fl0">${lab}${ast(f)}</span>`:`<label for="${id}">${lab}${ast(f)}</label>`}<div class="fc">${ctl(f,o,oid)}${rst(f,o)}</div></div>`;}
-function formHtml(type,o,keys){
-  const oid=reg(type,o);let fs=visible(type,o);fs=keys?fs.filter(f=>keys.includes(f.k)):fs.filter(f=>!f.pg);
-  const secs=[...new Set(fs.filter(f=>f.sec).map(f=>f.sec))];
-  return fs.filter(f=>!f.sec).map(f=>fieldHtml(f,o,oid)).join('')+secs.map(sn=>{
-    const ff=fs.filter(f=>f.sec===sn),ed=ff.filter(f=>srcOf(f,o)==='you').length,ms=ff.filter(f=>isMissing(f,o)).length;
-    return`<details class="fold" data-sec="${esc(sn)}"${OPEN.has(sn)||ms?' open':''}><summary>${sn}<small>${plural(ff.length,'value')}${ed?', '+ed+' changed':''}${ms?', '+ms+' needed':''}</small></summary><div>${ff.map(f=>fieldHtml(f,o,oid)).join('')}</div></details>`;}).join('');}
+  const plain=f.t==='info'||f.t==='multi'||f.t==='file'||f.t==='tog';
+  return`<div class="fr" data-s="${srcOf(f,o)}">${plain?`<span class="fl0">${lab}${ast(f)}</span>`:`<label for="${id}">${lab}${ast(f)}</label>`}<div class="fc">${ctl(f,o,oid)}${rst(f,o)}</div></div>`;}
+/* main fields on the page; everything detailed sits behind a button named after what it holds */
+const popsOf=(type,o)=>[...new Set(visible(type,o).filter(f=>f.pop).map(f=>f.pop))];
+function popBtns(type,o,names){
+  const oid=reg(type,o),all=popsOf(type,o),list=(names||all).filter(n=>all.includes(n));if(!list.length)return'';
+  return`<div class="pops">${list.map(n=>{const ff=visible(type,o).filter(f=>f.pop===n),ed=ff.filter(f=>srcOf(f,o)==='you').length,ms=ff.filter(f=>isMissing(f,o)).length;
+    return`<button class="btn popb${ms?' miss':''}" data-pop="${oid}|${esc(n)}" data-fk="pop-${oid}-${esc(n)}">${esc(n)}${ms?`<small class="no-t">${ms} needed</small>`:ed?`<small class="you-t">${ed} changed</small>`:''}</button>`;}).join('')}</div>`;}
+function formHtml(type,o,keys,pops){
+  const oid=reg(type,o);let fs=visible(type,o).filter(f=>!f.pop);fs=keys?fs.filter(f=>keys.includes(f.k)):fs.filter(f=>!f.pg);
+  return fs.map(f=>fieldHtml(f,o,oid)).join('')+(keys&&!pops?'':popBtns(type,o,pops));}
 /* a small grid of inputs: one row for each item, one column for each side */
 function matrix(type,o,cols,rows){
   const oid=reg(type,o),fd=k=>DEFS[type].fields.find(f=>f.k===k);
@@ -787,7 +954,7 @@ function setVal(oid,k,raw){
   const {type,o}=REG[oid],f=DEFS[type].fields.find(x=>x.k===k);let v=raw;
   if(f.t==='num'){let t=String(raw).replace(/\s/g,'');t=/^\d{1,3}(,\d{3})+(\.\d+)?$/.test(t)?t.replace(/,/g,''):t.replace(',','.');const x=parseFloat(t);v=String(raw).trim()===''||isNaN(x)?'':x;}
   o[k]=v;
-  if(type==='veh'&&k==='cls'){const c=CLS.find(q=>q[0]===o.cls)[2];if(o.cdxa===o._d.cdxa||o.cdxa==='')o.cdxa=c;o._d.cdxa=c;}
+  if(type==='veh'&&k==='cls'){const c=CLS.find(q=>q[0]===o.cls)[2],h=HEIGHT[o.cls];if(o.cdxa===o._d.cdxa||o.cdxa==='')o.cdxa=c;o._d.cdxa=c;if(o.height===o._d.height||o.height==='')o.height=h;o._d.height=h;}
   if(type==='rt'&&k==='road'){const sp=ROAD_V[o.road];if(o.speed===o._d.speed||o.speed==='')o.speed=sp;o._d.speed=sp;}
   return f;}
 
@@ -796,7 +963,7 @@ let DLG=null;
 function openDlg(cfg){
   if(DLG)DLG.el.remove();OPEN.clear();
   const m=document.createElement('div');m.className='modal';
-  m.innerHTML=`<div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgT"><header><div><h2 id="dlgT" tabindex="-1"></h2><p id="dlgS"></p></div><button class="x" data-close aria-label="Close">${ico('x',18)}</button></header><div class="dbody" id="dlgB"></div><footer id="dlgF"></footer></div>`;
+  m.innerHTML=`<div class="dlg${cfg.wide?' wide':''}" role="dialog" aria-modal="true" aria-labelledby="dlgT"><header><div><h2 id="dlgT" tabindex="-1"></h2><p id="dlgS"></p></div><button class="x" data-close aria-label="Close">${ico('x',18)}</button></header><div class="dbody" id="dlgB"></div><footer id="dlgF"></footer></div>`;
   document.body.appendChild(m);DLG={el:m,cfg};drawDlg();$('dlgT').focus();}
 function drawDlg(){
   syncOpen(DLG.el);const c=DLG.cfg,a=document.activeElement,fid=a&&DLG.el.contains(a)?a.id:null,sc=$('dlgB').scrollTop;
@@ -804,84 +971,120 @@ function drawDlg(){
   $('dlgF').innerHTML='<p class="legend"><span><sup class="ast on">*</sup> Sample or assumed value</span><span><i class="sw"></i>Changed by you</span></p><span class="sp"></span><button class="btn pri" data-close>Done</button>';
   $('dlgB').scrollTop=sc;if(fid&&$(fid))$(fid).focus();}
 function closeDlg(){if(!DLG)return;const fk=DLG.cfg.fk;DLG.el.remove();DLG=null;render();const b=fk&&document.querySelector('[data-fk="'+fk+'"]');if(b)b.focus();}
-function openTpl(lib,gid){
-  const d=DEFS[lib],g=()=>P.groups.find(x=>x.id===gid);
-  openDlg({fk:lib+'-'+gid,title:()=>d.title,sub:()=>d.lead+' For the group “'+g().name+'”.',
-    body:()=>{const t=tpl(lib,g()[lib]);
-      let h=`<div class="pick"><label class="sr" for="tplSel">Saved ${d.many}</label><select class="in" id="tplSel" data-tplsel>${t?'':'<option value="" selected>Choose a saved '+d.one+'</option>'}${P.lib[lib].map(x=>`<option value="${x.id}"${t&&x.id===t.id?' selected':''}>${esc(x.name)}</option>`).join('')}</select><button class="lnk" data-tplnew>New ${d.one}</button>${t?'<button class="lnk" data-tpldup>Copy this one</button>':''}</div>`;
-      if(!t)return h+`<p class="note">Choose a saved ${d.one} or make a new one.</p>`;
-      const oth=P.groups.filter(x=>x.id!==gid&&x[lib]===t.id),oid=reg(lib,t);
-      if(oth.length)h+=`<p class="used">Also used by ${oth.map(x=>'“'+esc(x.name)+'”').join(' and ')}. Changes here apply there too. Copy it first to change only this group.</p>`;
-      h+=`<div class="fr"><label for="tplName">Name</label><div class="fc"><input class="in" id="tplName" data-name="${oid}" value="${esc(t.name)}"></div></div>`;
-      return h+formHtml(lib,t)+(lib==='veh'?'<p class="note" style="margin-top:14px">Price, service and insurance are on the <button class="lnk" data-goto="costs">Costs page</button>.</p>':'');},
-    lib,gid});}
-function openAt(o){if(o.lib)openTpl(o.lib,o.gid);else go(o.page);}
+function openPop(oid,name){
+  const {type,o}=REG[oid];
+  openDlg({fk:'pop-'+oid+'-'+name,title:()=>name,sub:()=>DEFS[type].title+(o.name&&o.id?': '+o.name:'')+' · detailed settings',
+    body:()=>{const id=reg(type,o);return visible(type,o).filter(f=>f.pop===name).map(f=>fieldHtml(f,o,id)).join('');}});}
+function openStops(gid){
+  const g=()=>P.groups.find(x=>x.id===gid);
+  openDlg({fk:'stops-'+gid,wide:1,title:()=>'Stops',sub:()=>{const r=tpl('rt',g().rt);return'“'+g().name+'”'+(r?' on '+r.name:'')+' · one working day';},
+    body:()=>{const gr=g(),rt=tpl('rt',gr.rt),rows=stopRows(gr);
+      if(!rt||rt.method!=='typed')return'<p class="note">The stop table is built from a typed route. This row uses another kind of route.</p>';
+      if(!rows.length)return'<p class="note">This route has no stops.</p>';
+      return`<p class="note">Built from the route, the payload and the PTO of this row. Stops are spaced evenly until you change them.* Change any cell. Your changes stay on this fleet row.${hasOv(gr)?` <button class="lnk" data-streset="${gid}">Reset the table</button>`:''}</p>
+      <div class="tw"><table class="t stops"><thead><tr><th scope="col">Stop</th><th scope="col" class="r">From the depot, km</th><th scope="col" class="r">Time at the stop, s</th><th scope="col" class="r">Payload after, t</th><th scope="col">PTO works</th></tr></thead><tbody>${rows.map(r=>`<tr${r.ed?' class="ed"':''}><td>${r.i}</td>
+        <td class="r"><input class="in n" data-st="${gid}|${r.i}|d" value="${fmt(r.d,1)}" inputmode="decimal" aria-label="Stop ${r.i}, km from the depot"></td>
+        <td class="r"><input class="in n" data-st="${gid}|${r.i}|t" value="${fmt(r.t)}" inputmode="decimal" aria-label="Stop ${r.i}, time at the stop"></td>
+        <td class="r"><input class="in n" data-st="${gid}|${r.i}|p" value="${fmt(r.p,2)}" inputmode="decimal" aria-label="Stop ${r.i}, payload after the stop"></td>
+        <td><input type="checkbox" data-st="${gid}|${r.i}|on"${r.on?' checked':''} aria-label="Stop ${r.i}, PTO works"></td></tr>`).join('')}</tbody></table></div>`;}});}
+function openAt(o){if(o.lib){S.tl=o.lib;S.tid[o.lib]=o.tid;go('templates');}else go(o.page);if(o.pop){const t=o.lib?tpl(o.lib,o.tid):P[Object.keys(SETPAGE).find(k=>SETPAGE[k]===o.page&&popsOf(k,P[k]).includes(o.pop))||o.page];if(t)openPop(reg(o.lib||REG.find(r=>r.o===t).type,t),o.pop);}}
 
 /* ---------- setup pages ---------- */
 const DAYS={mf:'Monday to Friday',ms:'Monday to Saturday',all:'every day'};
 const SUMM={
-  veh:t=>CLS.find(c=>c[0]===t.cls)[1]+', '+(t.battMode==='size'?'battery sized by the tool':(t.battKwh?fmt(t.battKwh)+' kWh battery':'battery size needed')),
-  rt:t=>t.km===''?'Distance needed':fmt(t.km)+' km a day, '+fmt(t.stops||0)+' stops',
-  load:t=>t.start===''?'Weight needed':t.shape==='linear'?fmt(t.start,1)+' t rising to '+fmt(t.end||0,1)+' t':fmt(t.start,1)+' t all day',
+  veh:t=>'Group '+t.cls+', '+(t.battMode==='size'?'battery sized by the tool':(t.battKwh?fmt(t.battKwh)+' kWh battery':'battery size needed')),
+  rt:t=>t.method==='cycle'?'VECTO standard cycle':t.method==='gps'?'GPS log':t.km===''?'Distance needed':fmt(t.km)+' km a day, '+fmt(t.stops||0)+' stops',
+  load:t=>t.start===''?'Weight needed':t.shape==='stops'?'Set at each stop':t.shape==='linear'?fmt(t.start,1)+' t rising to '+fmt(t.end||0,1)+' t':fmt(t.start,1)+' t all day',
   eq:t=>t.type==='none'?'No powered equipment':t.type==='stop'?fmt(t.kwhStop||0,2)+' kWh at each stop':fmt(t.wOn||0)+' W all shift',
   sch:t=>(t.out&&t.back)?t.out+' to '+t.back+', '+DAYS[t.days]:'Times needed'};
+function pageProject(){
+  return`<h1>Project</h1><p class="lede">What the project is called and how it is run.</p>
+  ${sect('Names','',formHtml('proj',P.proj,['name','scen']))}
+  ${sect('Run','',formHtml('proj',P.proj,['mode','brand']))}
+  ${nav('project')}`;}
 function pageFleet(){
-  const tot=sum(P.groups.map(g=>+g.n||0));
+  const tot=sum(P.groups.map(g=>+g.n||0)),nsel=P.groups.filter(g=>S.sel[g.id]).length;
   const cell=(g,l)=>{const t=tpl(l,g[l]),bad=!t||visible(l,t).some(f=>isMissing(f,t));
-    return`<td data-l="${DEFS[l].title}"><button class="cellbtn${bad?' miss':''}" data-tpl="${l}|${g.id}" data-fk="${l}-${g.id}"><b>${t?esc(t.name):'Choose'}</b><span>${t?SUMM[l](t):'Not chosen yet'}</span></button></td>`;};
-  return`<h1>Fleet</h1><p class="lede">One row for each group of identical vehicles doing the same day. Select a blue name to see or change the vehicle, the route, the load, the equipment or the shift.</p>
-  <div class="tw" style="margin-top:22px"><table class="t fleet"><thead><tr><th scope="col">Group</th><th scope="col">Vehicles</th><th scope="col">Vehicle</th><th scope="col">Route</th><th scope="col">Load</th><th scope="col">Body equipment</th><th scope="col">Shift</th><th scope="col"><span class="sr">Actions</span></th></tr></thead><tbody>
-  ${P.groups.map(g=>`<tr><td data-l="Group"><input class="in gname" data-g="name|${g.id}" value="${esc(g.name)}" aria-label="Group name"></td>
-    <td data-l="Vehicles"><input class="in n cnt${g.n>=1?'':' miss'}" data-g="n|${g.id}" inputmode="numeric" value="${g.n}" aria-label="Number of vehicles in ${esc(g.name)}"></td>
+    return`<td data-l="${DEFS[l].title}"><select class="in${bad?' miss':''}" data-gl="${l}|${g.id}" aria-label="${DEFS[l].title} for ${esc(g.name)}">${t?'':'<option value="" selected>Choose</option>'}${P.lib[l].map(x=>`<option value="${x.id}"${t&&x.id===t.id?' selected':''}>${esc(x.name)}</option>`).join('')}<option value="__new">New ${DEFS[l].one}…</option></select>
+      <span class="csum">${t?SUMM[l](t)+` <button class="lnk" data-tedit="${l}|${t.id}">Edit</button>`:'Not chosen yet'}</span></td>`;};
+  const runs={};P.groups.forEach(g=>{const k=g.veh+'|'+g.rt+'|'+g.eq;(runs[k]=runs[k]||[]).push(g);});const RK=Object.keys(runs);
+  return`<h1>Fleet</h1><p class="lede">One row for each group of identical vehicles doing the same day. Each row picks a vehicle, a route, a payload, a PTO profile and a schedule from your templates.</p>
+  <div class="tw" style="margin-top:22px"><table class="t fleet"><thead><tr><th scope="col"><input type="checkbox" id="selAll" aria-label="Select all rows"${nsel&&nsel===P.groups.length?' checked':''}></th><th scope="col">Group</th><th scope="col">Count</th>${LIBS.map(l=>`<th scope="col">${DEFS[l].title}</th>`).join('')}<th scope="col"><span class="sr">Actions</span></th></tr></thead><tbody>
+  ${P.groups.map(g=>`<tr><td data-l=""><input type="checkbox" data-sel="${g.id}" aria-label="Select ${esc(g.name)}"${S.sel[g.id]?' checked':''}></td><td data-l="Group"><input class="in gname" data-g="name|${g.id}" value="${esc(g.name)}" aria-label="Group name"></td>
+    <td data-l="Count"><input class="in n cnt${g.n>=1?'':' miss'}" data-g="n|${g.id}" inputmode="numeric" value="${g.n}" aria-label="Number of vehicles in ${esc(g.name)}"></td>
     ${LIBS.map(l=>cell(g,l)).join('')}
-    <td class="rowact" data-l=""><span><button class="lnk" data-gdup="${g.id}">Copy</button><button class="lnk" data-gdel="${g.id}"${P.groups.length<2?' hidden':''}>Remove</button></span></td></tr>`).join('')}
+    <td class="rowact" data-l=""><span><button class="lnk" data-stops="${g.id}" data-fk="stops-${g.id}">Stops${hasOv(g)?'<i class="flag" title="Edited"></i>':''}</button><button class="lnk" data-gdup="${g.id}">Copy</button><button class="lnk" data-gdel="${g.id}"${P.groups.length<2?' hidden':''}>Remove</button></span></td></tr>`).join('')}
   </tbody></table></div>
-  <p style="margin-top:14px"><button class="lnk" data-gadd>Add a group</button><span class="mut" id="fleetTot" style="margin-left:18px">${plural(tot,'vehicle')} in ${plural(P.groups.length,'group')}</span></p>
+  <div class="bulk"${nsel?'':' hidden'}><b>${plural(nsel,'row')} selected</b><label for="bulkL">Set</label><select class="in" id="bulkL">${LIBS.map(l=>`<option value="${l}"${S.bulkL===l?' selected':''}>${DEFS[l].title}</option>`).join('')}</select><label for="bulkT">to</label><select class="in" id="bulkT">${P.lib[S.bulkL].map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join('')}</select><button class="btn" data-bulk>Apply</button></div>
+  <p style="margin-top:14px"><button class="lnk" data-gadd>Add a row</button><span class="mut" id="fleetTot" style="margin-left:18px">${plural(tot,'vehicle')} in ${plural(P.groups.length,'row')}</span></p>
+  <h2>What will be driven</h2><p class="note">Rows that share vehicle, route and PTO are driven once. Payload, weather and schedule are applied afterwards.</p>
+  ${tbl(['<Driver run','<Vehicle','<Route','<PTO','<Rows','Vehicles'],RK.map((k,i)=>{const gs=runs[k],g=gs[0],n=x=>{const t=tpl(x,g[x]);return t?esc(t.name):'Not chosen';};return[i+1,n('veh'),n('rt'),n('eq'),gs.map(x=>esc(x.name)).join(', '),sum(gs.map(x=>+x.n||0))];}))}
   ${nav('fleet')}`;}
+function pageTemplates(){
+  const l=S.tl,d=DEFS[l],list=P.lib[l],t=tpl(l,S.tid[l])||list[0],uses=x=>P.groups.filter(g=>g[l]===x.id);
+  let ed='<p class="note">No '+d.one+' yet.</p>';
+  if(t){const oid=reg(l,t),us=uses(t);
+    ed=`<div class="fr"><label for="tplName">Name</label><div class="fc"><input class="in" id="tplName" data-name="${oid}" value="${esc(t.name)}"></div></div>
+    ${formHtml(l,t)}
+    ${l==='veh'?'<p class="note" style="margin-top:16px">Price, service and insurance are on the <button class="lnk" data-tab="costs">Costs page</button>.</p>':''}
+    ${l==='rt'||l==='load'?'<p class="note" style="margin-top:16px">Stop by stop figures are under Stops on each fleet row.</p>':''}
+    <p class="tact"><span class="mut">${us.length?'Used by '+us.map(x=>'“'+esc(x.name)+'”').join(' and ')+'. Changes apply there too.':'Not used by any fleet row.'}</span><button class="lnk" data-tdup="${t.id}">Make a copy</button>${us.length||list.length<2?'':`<button class="lnk" data-tdel="${t.id}">Delete</button>`}</p>${LEGEND}`;}
+  return`<h1>Templates</h1><p class="lede">Your saved vehicles, routes, payloads, PTO profiles and schedules. Fleet rows pick from these.</p>
+  <div class="ltabs" role="tablist">${LIBS.map(x=>`<button role="tab" data-tl="${x}"${x===l?' aria-selected="true"':''}>${DEFS[x].title}<small>${P.lib[x].length}</small></button>`).join('')}</div>
+  <div class="tgrid"><div class="tlist">${list.map(x=>`<button data-tsel="${x.id}"${t&&x.id===t.id?' aria-current="true"':''}><b>${esc(x.name)}</b><span>${SUMM[l](x)}</span></button>`).join('')}<button class="lnk" data-tnew>New ${d.one}</button></div>
+  <div class="ted"><p class="lead2">${d.lead}</p>${ed}</div></div>
+  ${nav('templates')}`;}
 const nav=t=>{const i=SETUP.indexOf(t),p=SETUP[i-1],n=SETUP[i+1];return`<div class="nextrow">${p?`<button class="btn" data-tab="${p}">Back: ${TITLE[p]}</button>`:'<span></span>'}${n?`<button class="btn" data-tab="${n}">Next: ${TITLE[n]}</button>`:'<span></span>'}</div>`;};
 const sect=(t,note,body,hl)=>`<section class="sect${hl?' hl':''}"><h2>${t}</h2>${note?`<p class="note">${note}</p>`:''}${body}</section>`;
 function pageDepot(){
-  return`<h1>Depot</h1><p class="lede">Where the vehicles park and charge, and what the grid connection allows.</p>
-  ${sect('Site','',formHtml('depot',P.depot,['name','addr']))}
-  ${sect('Grid connection','',formHtml('depot',P.depot,['mode','limit','dso','base']))}
+  return`<h1>Depot and grid</h1><p class="lede">Where the vehicles park and charge, and what the grid connection allows.</p>
+  ${sect('Site','',formHtml('depot',P.depot,['name','addr'],['Parking']))}
+  ${sect('Grid connection','',formHtml('depot',P.depot,['mode','limit','dso','access'],P.depot.access==='lim'?['Limited access what-if']:[]))}
+  ${sect('Buildings','',formHtml('depot',P.depot,['baseMode','base']),1)}
   ${LEGEND}${nav('depot')}`;}
 function pageCharging(){
-  return`<h1>Charging</h1><p class="lede">How big the chargers are and when the vehicles charge. This demo gives every vehicle its own charger.</p>
-  ${sect('Chargers','',formHtml('chg',P.chg,['chgMode','kw']),1)}
-  ${sect('When to charge','',formHtml('chg',P.chg,['plan']),1)}
-  <div class="sect">${formHtml('chg',P.chg,['loadF','loss'])}</div>
+  return`<h1>Charging</h1><p class="lede">How big the chargers are and when the vehicles charge.</p>
+  ${sect('Chargers','',formHtml('chg',P.chg,['chgMode','kw','points'],['Charger load and losses']),1)}
+  ${sect('When to charge','',formHtml('chg',P.chg,['plan','readyBy'],['Flexibility']),1)}
   ${LEGEND}${nav('charging')}`;}
 function pageWeather(){
   const mf=MONTH_F.map((f,i)=>P.wx.year==='cold'&&(i<2||i>9)?f*DEMO.cold:f);
   return`<h1>Weather</h1><p class="lede">Cold days take more energy. The fleet is sized for the hardest day of the year you choose here.</p>
-  ${sect('Location','',`<div class="fr"><span class="fl0">Depot</span><div class="fc"><span class="fi">${esc(P.depot.addr||'Not set')}</span><button class="lnk" data-tab="depot">Change on the Depot page</button></div></div>`)}
-  ${sect('Year to size for','',formHtml('wx',P.wx),1)}
-  ${sect('What that means month by month','Energy on a working day in each month, compared with April. Stand-in factors in this demo, the same for every location. They are not measured weather.',
+  ${sect('Location','',`<div class="fr"><span class="fl0">Depot</span><div class="fc"><span class="fi">${esc(P.depot.addr||'Not set')}</span><button class="lnk" data-tab="depot">Change under Depot and grid</button></div></div>`+formHtml('wx',P.wx,['station']))}
+  ${sect('Year to size for','',formHtml('wx',P.wx,['year']),1)}
+  ${sect('How the weather is used','',formHtml('wx',P.wx,['detail','shift','worst'],['Wind']))}
+  ${sect('What the year means month by month','Energy on a working day in each month, compared with April. Stand-in factors in this demo, the same for every location. They are not measured weather.',
     `<div class="tw"><table class="t months"><thead><tr>${MONTHS.map(m=>`<th scope="col" class="r">${m}</th>`).join('')}</tr></thead><tbody><tr>${mf.map(f=>`<td class="r">${signed((f-1)*100,0)} %</td>`).join('')}</tr></tbody></table></div>`)}
-  ${nav('weather')}`;}
+  ${LEGEND}${nav('weather')}`;}
 function pagePrices(){
-  return`<h1>Energy prices</h1><p class="lede">What a kilowatt-hour and a litre cost. They decide the running cost on both sides of the comparison.</p>
-  ${sect('Electricity','',formHtml('pr',P.pr,['elPrice','level']))}
-  ${sect('Diesel','',formHtml('pr',P.pr,['dPrice']))}
+  return`<h1>Prices</h1><p class="lede">What a kilowatt-hour and a litre cost.</p>
+  ${sect('Electricity','',formHtml('pr',P.pr,['area','elPrice','level','tariff','spotFile']))}
+  ${sect('Diesel','',formHtml('pr',P.pr,['dPrice'],['Other fuels and public charging']))}
   ${LEGEND}${nav('prices')}`;}
 function pageCosts(){
   const seen={},vs=[];P.groups.forEach(g=>{const v=tpl('veh',g.veh);if(v&&!seen[v.id]){seen[v.id]=1;vs.push(v);}});
-  return`<h1>Costs</h1><p class="lede">What the vehicles cost to buy and to keep, on the electric side and on the diesel side.</p>
+  return`<h1>Costs</h1><p class="lede">What the vehicles and the depot cost to buy and to keep.</p>
   ${sect('Vehicles',vs.length>1?'One table for each vehicle used in the fleet.':'',vs.map(v=>(vs.length>1?`<h3>${esc(v.name)}</h3>`:'')+matrix('veh',v,['Electric','Diesel'],[['Purchase price','DKK','priceEV','priceD'],['Service','DKK a month','svcEV','svcD'],['Insurance','DKK a month','insEV','insD']])).join(''))}
-  ${sect('Financing','',formHtml('fin',P.fin,['years','interest','resid']))}
+  ${sect('Financing','',formHtml('fin',P.fin,['years','how','interest','resid']))}
   ${sect('Drivers','The same on both sides, so it does not change the difference.',formHtml('fin',P.fin,['wage']))}
-  ${sect('Road tax','Danish road tax per km, by period.',matrix('tax',P.tax,['Electric','Diesel'],[['2026 to 2027','DKK per km','e1','d1'],['2028','DKK per km','e2','d2'],['From 2029','DKK per km','e3','d3']]))}
-  ${sect('Grants','',formHtml('tax',P.tax,['grant']))}
+  ${sect('Depot','Chargers and trenching are priced by size from the COWI truck cost sheet.* The connection fee follows the grid company.',`<div class="pops"><button class="btn popb" data-info="bands" data-fk="bands">Charger price list</button><button class="btn popb" data-info="fees" data-fk="fees">Connection fees</button></div>`+formHtml('fin',P.fin,['depYears']))}
   ${LEGEND}${nav('costs')}`;}
-function pageCo2in(){
-  return`<h1>CO₂</h1><p class="lede">How much CO₂ a kilowatt-hour and a litre of diesel stand for.</p>
-  ${sect('Grid electricity','',formHtml('co2',P.co2,['gridMode','gridEF']),1)}
-  ${sect('Diesel','',formHtml('co2',P.co2,['co2D']))}
-  ${LEGEND}${nav('co2in')}`;}
+function pageTax(){
+  return`<h1>Taxes and CO₂</h1><p class="lede">Road tax, subsidies and the CO₂ behind a kilowatt-hour and a litre.</p>
+  ${sect('Road tax','Danish road tax per km, by period.',matrix('tax',P.tax,['Electric','Diesel'],[['2026 to 2027','DKK per km','e1','d1'],['2028','DKK per km','e2','d2'],['From 2029','DKK per km','e3','d3']])+formHtml('tax',P.tax,['co2cls']))}
+  ${sect('Subsidy','',formHtml('tax',P.tax,['subsidy','grant']))}
+  ${sect('CO₂ from grid electricity','',formHtml('co2',P.co2,['gridMode','gridEF','hours']),1)}
+  ${sect('CO₂ from diesel','',formHtml('co2',P.co2,['co2D']))}
+  ${LEGEND}${nav('tax')}`;}
+function openInfo(k){
+  if(k==='bands')openDlg({fk:'bands',title:()=>'Charger price list',sub:()=>'Costs · COWI truck cost sheet, 2024 operator prices. Operator not named, verify before use',
+    body:()=>tbl(['<Charger','Amperes','Hardware, DKK','Trenching, DKK'],BANDS.map(b=>[b[0]+' kW',b[3]!=null?b[3]:'',fmt(b[1]),fmt(b[2])]))});
+  else openDlg({fk:'fees',title:()=>'Connection fees',sub:()=>'Costs · by grid company',
+    body:()=>tbl(['<Grid company','First 25 A, DKK','Each ampere more, DKK','<Source'],Object.keys(FEE).map(k=>{const f=FEE[k];return[({radius:'Radius',cerius:'Cerius',n1:'N1',trefor:'TREFOR El-net',other:'Other'})[k]||k,f.base?fmt(f.base):'Enter it yourself',f.perA?fmt(f.perA,2):'',esc(f.ref||'')];}))});}
 function srcTable(rows){
   let last='';return`<div class="tw"><table class="t"><thead><tr><th scope="col">Value</th><th scope="col">Used</th><th scope="col">Where it comes from</th></tr></thead><tbody>${rows.map(r=>{
     const hd=r.where!==last?`<tr><td colspan="3" style="font-weight:600;padding-top:18px">${esc(r.where)}</td></tr>`:'';last=r.where;
-    return hd+`<tr><td>${esc(r.label)}</td><td>${esc(r.value)}</td><td class="mut">${r.radio?'Your choice':`<span class="${r.src==='you'?'':''}">${SRCN[r.src]}</span>${r.ref?' · '+esc(r.ref):''}`}</td></tr>`;}).join('')}</tbody></table></div>`;}
+    return hd+`<tr><td>${esc(r.label)}</td><td>${esc(r.value)}</td><td class="mut">${r.radio?'Your choice':`<span>${SRCN[r.src]}</span>${r.ref?' · '+esc(r.ref):''}`}${r.used===false?' · '+NB:''}</td></tr>`;}).join('')}</tbody></table></div>`;}
 function srcCounts(rows){const c={};rows.forEach(r=>{if(!r.radio)c[r.src]=(c[r.src]||0)+1;});return c;}
 function pageCheck(){
   const m=missing(),rows=inputRows(),c=srcCounts(rows),n=rows.filter(r=>!r.radio).length;
@@ -895,6 +1098,7 @@ function pageCheck(){
     <tr><th scope="row">Standard values</th><td class="r">${c.std||0}</td><td class="mut">From EU and Danish standard data.</td></tr>
     <tr><th scope="row">Sample values</th><td class="r">${c.sample||0}</td><td class="mut">Stand-ins. Replace them with your own data.</td></tr>
     <tr><th scope="row">Assumptions</th><td class="r">${c.assume||0}</td><td class="mut">Choices made where no data exists. Check them.</td></tr>
+    <tr><th scope="row">Not used yet</th><td class="r">${rows.filter(r=>r.used===false).length}</td><td class="mut">Kept with the project. The demo engine does not read them yet.</td></tr>
   </tbody></table></div>
   <details class="more"><summary>Show every value and its source</summary>${srcTable(rows)}</details>
   ${nav('check')}`;}
@@ -1135,7 +1339,7 @@ function csv(R){const rows=[['Year','Financing','Chargers and connection','Elect
   rows.push([]);rows.push(['Sample case with illustrative figures from the EV Scope demo engine. DKK, whole fleet.']);
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([rows.map(r=>r.join(';')).join('\n')],{type:'text/csv'}));a.download='ev-scope-financial-model-run'+S.runNo+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);}
 
-const PAGES={fleet:[pageFleet],depot:[pageDepot],charging:[pageCharging],weather:[pageWeather],prices:[pagePrices],costs:[pageCosts],co2in:[pageCo2in],check:[pageCheck],ov:[pageOv],en:[pageEn,drawEn],bat:[pageBat],ch:[pageCh],gr:[pageGr,drawGr],cost:[pageCost,drawCost],co2:[pageCo2],src:[pageSrc],cmp:[pageCmp],docs:[pageDocs]};
+const PAGES={project:[pageProject],fleet:[pageFleet],templates:[pageTemplates],depot:[pageDepot],charging:[pageCharging],weather:[pageWeather],prices:[pagePrices],costs:[pageCosts],tax:[pageTax],check:[pageCheck],ov:[pageOv],en:[pageEn,drawEn],bat:[pageBat],ch:[pageCh],gr:[pageGr,drawGr],cost:[pageCost,drawCost],co2:[pageCo2],src:[pageSrc],cmp:[pageCmp],docs:[pageDocs]};
 
 /* ---------- assistant: fixed questions, answered from the current run ---------- */
 const QA=[
@@ -1164,15 +1368,20 @@ document.addEventListener('click',e=>{
   const t=e.target,c=s=>t.closest(s);let el;
   if((el=c('[data-close]'))||(DLG&&t===DLG.el)){closeDlg();return;}
   if((el=c('[data-reset]'))){const inp=el.closest('[data-s]').querySelector('[data-o]'),r=REG[+inp.dataset.o];r.o[el.dataset.reset]=r.o._d[el.dataset.reset];DLG?drawDlg():render();return;}
-  if(DLG&&DLG.cfg.lib){const lib=DLG.cfg.lib,g=P.groups.find(x=>x.id===DLG.cfg.gid),d=DEFS[lib];
-    if(c('[data-tplnew]')||c('[data-tpldup]')){const src=c('[data-tpldup]')?tpl(lib,g[lib]):null,o=src?clone(src):BLANK[lib]();
-      o.id=lib+(P.nid++);o.name=src?src.name+' (copy)':'New '+d.one;if(!src)o._d=clone(o),delete o._d.id,delete o._d.name;P.lib[lib].push(o);g[lib]=o.id;drawDlg();$('tplName').focus();$('tplName').select();return;}}
-  if(DLG&&(el=c('[data-goto]'))){const p=el.dataset.goto;DLG.el.remove();DLG=null;go(p);return;}
+  if(DLG&&(el=c('[data-streset]'))){delete P.groups.find(x=>x.id===+el.dataset.streset).ov;drawDlg();return;}
   if(DLG)return;
   if((el=c('[data-main]'))){if(!el.disabled){const m=el.dataset.main;go(S.last[m]||m);}return;}
   if((el=c('[data-tab]'))){go(el.dataset.tab);return;}
   if(c('[data-run]')||c('#bRun')){run();return;}
-  if((el=c('[data-tpl]'))){const a=el.dataset.tpl.split('|');openTpl(a[0],+a[1]);return;}
+  if((el=c('[data-pop]'))){const a=el.dataset.pop.split('|');openPop(+a[0],a[1]);return;}
+  if((el=c('[data-info]'))){openInfo(el.dataset.info);return;}
+  if((el=c('[data-stops]'))){openStops(+el.dataset.stops);return;}
+  if((el=c('[data-tedit]'))){const a=el.dataset.tedit.split('|');S.tl=a[0];S.tid[a[0]]=a[1];go('templates');return;}
+  if((el=c('[data-tl]'))){S.tl=el.dataset.tl;render();return;}
+  if((el=c('[data-tsel]'))){S.tid[S.tl]=el.dataset.tsel;render();return;}
+  if(c('[data-tnew]')||(el=c('[data-tdup]'))){const l=S.tl,src=el?tpl(l,el.dataset.tdup):null,o=newTpl(l,src);S.tid[l]=o.id;render();$('tplName').focus();$('tplName').select();return;}
+  if((el=c('[data-tdel]'))){const l=S.tl;P.lib[l]=P.lib[l].filter(x=>x.id!==el.dataset.tdel);delete S.tid[l];render();return;}
+  if(c('[data-bulk]')){const l=$('bulkL').value,v=$('bulkT').value;P.groups.forEach(g=>{if(S.sel[g.id])g[l]=v;});S.sel={};render();toast('Applied');return;}
   if((el=c('[data-miss]'))){openAt(missing()[+el.dataset.miss].open);return;}
   if(c('[data-gadd]')){const g0=P.groups[P.groups.length-1];P.groups.push({id:P.nid++,name:'New group',n:1,veh:g0?g0.veh:'',rt:g0?g0.rt:'',load:g0?g0.load:'',eq:g0?g0.eq:'',sch:g0?g0.sch:''});render();const i=document.querySelectorAll('.gname');i[i.length-1].focus();i[i.length-1].select();return;}
   if((el=c('[data-gdup]'))){const g=P.groups.find(x=>x.id===+el.dataset.gdup);P.groups.splice(P.groups.indexOf(g)+1,0,Object.assign({},g,{id:P.nid++,name:g.name+' (copy)'}));render();return;}
@@ -1187,15 +1396,23 @@ document.addEventListener('click',e=>{
   if(c('#bExit')||(EMB&&c('#brand'))){e.preventDefault();window.parent.postMessage({evs:'exit'},'*');return;}
   if(c('.skip')){e.preventDefault();$('page').focus();}
 });
+function newTpl(l,src){const o=src?clone(src):BLANK[l]();o.id=l+(P.nid++);o.name=src?src.name+' (copy)':'New '+DEFS[l].one;if(!src){o._d=clone(o);delete o._d.id;delete o._d.name;}P.lib[l].push(o);return o;}
 function liveField(inp){const r=REG[+inp.dataset.o],f=setVal(+inp.dataset.o,inp.dataset.k,inp.value),w=inp.closest('[data-s]'),m=isMissing(f,r.o);
   if(w)w.dataset.s=srcOf(f,r.o);inp.classList.toggle('miss',m);if(m)inp.setAttribute('aria-invalid','true');else inp.removeAttribute('aria-invalid');drawNav();}
 document.addEventListener('input',e=>{const t=e.target;
-  if(t.dataset.name!==undefined){REG[+t.dataset.name].o.name=t.value||'Untitled';const o=document.querySelector('#tplSel option:checked');if(o)o.textContent=t.value||'Untitled';return;}
+  if(t.dataset.name!==undefined){REG[+t.dataset.name].o.name=t.value||'Untitled';const o=document.querySelector('.tlist [aria-current] b');if(o)o.textContent=t.value||'Untitled';return;}
+  if(t.dataset.st&&t.type!=='checkbox'){const a=t.dataset.st.split('|'),g=P.groups.find(x=>x.id===+a[0]),x=parseFloat(t.value.replace(',','.'));if(!isNaN(x)&&x>=0){g.ov=g.ov||{};(g.ov[a[1]]=g.ov[a[1]]||{})[a[2]]=x;t.closest('tr').classList.add('ed');}return;}
   if(t.dataset.g){const a=t.dataset.g.split('|'),g=P.groups.find(x=>x.id===+a[1]);if(a[0]==='name')g.name=t.value||'Group';else{const n=parseInt(t.value,10);g.n=n>=1&&n<=500?n:0;t.classList.toggle('miss',!g.n);
-      $('fleetTot').textContent=plural(sum(P.groups.map(x=>x.n)),'vehicle')+' in '+plural(P.groups.length,'group');}drawNav();return;}
-  if(t.dataset.o!==undefined&&t.tagName==='INPUT'&&t.type!=='radio')liveField(t);});
+      $('fleetTot').textContent=plural(sum(P.groups.map(x=>x.n)),'vehicle')+' in '+plural(P.groups.length,'row');}drawNav();return;}
+  if(t.dataset.o!==undefined&&t.tagName==='INPUT'&&t.type!=='radio'&&t.type!=='checkbox'&&t.type!=='file')liveField(t);});
 document.addEventListener('change',e=>{const t=e.target;
-  if(t.dataset.tplsel!==undefined&&DLG){P.groups.find(x=>x.id===DLG.cfg.gid)[DLG.cfg.lib]=t.value;drawDlg();return;}
+  if(t.dataset.gl){const a=t.dataset.gl.split('|'),g=P.groups.find(x=>x.id===+a[1]);if(t.value==='__new'){const o=newTpl(a[0]);g[a[0]]=o.id;S.tl=a[0];S.tid[a[0]]=o.id;go('templates');$('tplName').focus();$('tplName').select();}else{g[a[0]]=t.value;render();}return;}
+  if(t.dataset.sel){S.sel[t.dataset.sel]=t.checked;render();return;}
+  if(t.id==='selAll'){P.groups.forEach(g=>{S.sel[g.id]=t.checked;});render();return;}
+  if(t.id==='bulkL'){S.bulkL=t.value;render();$('bulkL').focus();return;}
+  if(t.dataset.st){const a=t.dataset.st.split('|'),g=P.groups.find(x=>x.id===+a[0]);g.ov=g.ov||{};(g.ov[a[1]]=g.ov[a[1]]||{}).on=t.checked;t.closest('tr').classList.add('ed');return;}
+  if(t.dataset.o!==undefined&&t.type==='file'){setVal(+t.dataset.o,t.dataset.k,t.files[0]?t.files[0].name:'');DLG?drawDlg():render();return;}
+  if(t.dataset.o!==undefined&&t.type==='checkbox'){const r=REG[+t.dataset.o];if(t.dataset.mv){const w=t.closest('.multi');setVal(+t.dataset.o,t.dataset.k,[...w.querySelectorAll('input:checked')].map(x=>x.dataset.mv).join(' '));}else setVal(+t.dataset.o,t.dataset.k,t.checked?'yes':'no');const id=t.id;DLG?drawDlg():render();if(id&&$(id))$(id).focus();drawNav();return;}
   if(t.id==='enG'){S.enG=+t.value;render();$('enG').focus();return;}
   if(t.id==='cmpA'||t.id==='cmpB'){S[t.id]=+t.value;render();$(t.id).focus();return;}
   if(t.dataset.o!==undefined&&(t.tagName==='SELECT'||t.type==='radio')){setVal(+t.dataset.o,t.dataset.k,t.value);const nm=t.name,v=t.value,id=t.id;

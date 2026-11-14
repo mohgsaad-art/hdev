@@ -6,11 +6,11 @@ async def main():
     async with async_playwright() as p:
         b = await p.chromium.launch(executable_path='/usr/bin/google-chrome', args=['--no-sandbox'])
         pg = await b.new_page(viewport={'width':W,'height':H}, device_scale_factor=1.5)
-        await pg.goto('file:///home/claude/work/out/ev-scope-tool.html'); await pg.wait_for_timeout(400)
+        await pg.goto('file:///home/claude/work/out/ev-scope-tool.html'); await pg.wait_for_timeout(400); await pg.click('.stab[data-tab="fleet"]'); await pg.wait_for_timeout(200)
         async def c(sel):
             bb = await pg.locator(sel).first.bounding_box(); return [round((bb['x']+bb['width']/2)/W*100,2), round((bb['y']+bb['height']/2)/H*100,2)]
         pts=[]
-        await pg.screenshot(path='peek0.png'); pts.append([await c('[data-tpl="rt|1"]'), await c('#bRun')])
+        await pg.screenshot(path='peek0.png'); pts.append([await c('[data-gl="rt|1"]'), await c('#bRun')])
         await pg.click('#bRun'); await pg.wait_for_timeout(900)
         fv=[re.sub(r'\s+',' ',t).strip() for t in await pg.locator('.fig .fv').all_inner_texts()]
         fn=[t.strip() for t in await pg.locator('.fig .fn').all_inner_texts()]

@@ -82,15 +82,15 @@ sub('  <div class="glyphs" id="glyphs" aria-hidden="true"></div>\n', '')
 sub('Know what your trucks, depot and grid need. Before you spend a krone.', V.HERO_SUB)
 a = s.index('    <div class="ask in" data-ask'); b_ = s.index('    <div class="cta-row in"')
 s = s[:a] + s[b_:]
-sub('<a class="lnk" href="#depot">See how it works <span aria-hidden="true">↓</span></a>\n    </div>', '<a class="lnk" href="#app">Try the demo <span aria-hidden="true">→</span></a>\n    </div>\n    ' + V.HERO_PICK)
+sub('<a class="lnk" href="#depot">See how it works <span aria-hidden="true">↓</span></a>\n    </div>', '<a class="lnk" href="#app">Try the demo <span aria-hidden="true">→</span></a>\n    </div>')
 rsub(r'  <div class="hero-foot in" id="heroFoot"[^\n]*\n', '', 1)
 a = s.index('<section class="aud" id="for">'); b_ = s.index('<section class="docs" id="documents">')
 s = s[:a] + V.peek_section2() + '\n' + s[b_:]
 sub('<section class="story" id="depot">', V.who_section() + '\n<section class="story" id="depot">')
 for oh, op, nh, np_ in V.STORY:
     sub('<h3>' + oh + '</h3><p>' + op + '</p>', '<h3>' + nh + '</h3><p>' + np_ + '</p>')
-sub('Get the document you&nbsp;need', 'Pick the document you&nbsp;need')
-sub('One run. Pick the one your reader signs.', 'One run gives all six. Choose the one your reader signs.')
+sub('Get the document you&nbsp;need', 'Six documents from one&nbsp;run')
+sub('One run. Pick the one your reader signs.', 'Pick one to see what is in it.')
 
 # ---------- script ----------
 a = s.index('  /* ---------- hero glyphs'); e = "  inView(hero,function(v){ heroOn=v; if(v) paintGlyphs() });\n"; b_ = s.index(e) + len(e)
@@ -100,7 +100,8 @@ s = s[:a] + s[b_:]
 sub("    var ap=pinP(audSec), an=Math.min(3,Math.floor(ap*4)); aud.set(an); aud.progress(ap*4-an);\n", '')
 sub("    if(hoverI<0){ var k=Math.min(docs.length-1,Math.floor(pinP(dsec)*docs.length)); if(k!==scrollI){ scrollI=k; doc.set(k,'scroll') } }\n", '')
 sub("function goDoc(k){ k=(k+docs.length)%docs.length; doc.set(k,'user'); scrollToChapter(dsec,k,docs.length) }", "function goDoc(k){ k=(k+docs.length)%docs.length; scrollI=k; doc.set(k,'user') }")
-sub("hoverI=k; doc.set(k,'hover')", "hoverI=k; scrollI=k; doc.set(k,'hover')")
+sub("    if(fine) s.addEventListener('pointerenter',function(){ hoverI=k; doc.set(k,'hover') });\n", '')
+sub("  fan.addEventListener('pointerleave',function(){ if(hoverI>=0){ hoverI=-1; doc.set(scrollI,'scroll') } });\n", '')
 sub("var sc=Math.max(.5,Math.min(1,hs,ws));", "var sc=Math.max(.5,Math.min(1,ws));")
 sub("  /* ---------- smooth scroll engine ---------- */", V.WHO_JS + "\n  /* ---------- smooth scroll engine ---------- */")
 sub("  addEventListener('hashchange',route);\n", "  addEventListener('hashchange',route);\n  function whoHash(){ var h=location.hash.slice(1); if(AIDS.indexOf(h)>=0) setTimeout(function(){ goWho(h,true) },90) }\n  addEventListener('hashchange',whoHash); whoHash();\n")
