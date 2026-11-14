@@ -10,7 +10,7 @@ const stat=(ok,yes,no)=>`<span class="st ${ok?'ok-t':'no-t'}">${ico(ok?'ok':'no'
 
 /* ---------- state and navigation ---------- */
 const S={tl:'veh',tid:{},sel:{},bulkL:'rt',tab:'fleet',run:null,runNo:0,snap:null,runs:[],ai:false,enG:0,cmpA:1,cmpB:1,last:{setup:'fleet',results:'ov'}};
-const SETUP=['project','fleet','templates','depot','charging','weather','prices','costs','tax','check'];
+const SETUP=['project','fleet','depot','charging','weather','prices','costs','tax','check'];
 const MAIN=[['setup','Setup',SETUP],['results','Results',['ov','en','bat','ch','gr','cost','co2','src']],['cmp','Compare',['cmp']],['docs','Documents',['docs']]];
 const TITLE={project:'Project',fleet:'Fleet',templates:'Templates',depot:'Depot and grid',charging:'Charging',weather:'Weather',prices:'Prices',costs:'Costs',tax:'Taxes and CO₂',check:'Check and run',
   ov:'Overview',en:'Energy',bat:'Battery',ch:'Charging',gr:'Grid',cost:'Cost',co2:'CO₂',src:'Inputs and sources'};
@@ -21,7 +21,7 @@ function drawNav(){
   $('nmain').innerHTML=MAIN.map(m=>`<button class="mtab" data-main="${m[0]}"${cur===m[0]?' aria-current="page"':''}${m[0]!=='setup'&&!S.run?' disabled title="Run the sample first"':''}>${ico(m[0],16)}<span>${m[1]}</span></button>`).join('');
   const subs=MAIN.find(m=>m[0]===cur)[2];
   $('nsub').innerHTML=subs.length>1?subs.map(t=>{
-    const flag=cur==='setup'?miss.some(x=>x.open.page===t||(t==='templates'&&x.open.lib)):(S.run&&S.run.checks.some(c=>!c.ok&&c.go===t));
+    const flag=cur==='setup'?miss.some(x=>x.open.page===t||(t==='fleet'&&x.open.lib)):(S.run&&S.run.checks.some(c=>!c.ok&&c.go===t));
     return `<button class="stab" data-tab="${t}"${S.tab===t?' aria-current="page"':''}>${TITLE[t]}${flag?'<i class="flag" title="Needs attention"></i>':''}</button>`;}).join(''):'';
   $('nsub').hidden=subs.length<2;
   const st=$('runState'),n=miss.length;
@@ -106,6 +106,16 @@ function drawDlg(){
   $('dlgF').innerHTML='<p class="legend"><span><sup class="ast on">*</sup> Sample or assumed value</span><span><i class="sw"></i>Changed by you</span></p><span class="sp"></span><button class="btn pri" data-close>Done</button>';
   $('dlgB').scrollTop=sc;if(fid&&$(fid))$(fid).focus();}
 function closeDlg(){if(!DLG)return;const fk=DLG.cfg.fk;DLG.el.remove();DLG=null;render();const b=fk&&document.querySelector('[data-fk="'+fk+'"]');if(b)b.focus();}
+/* a template opens in one popup. Its detailed groups open inside the same popup, with a way back */
+function openTpl(lib,tid,drill){
+  const d=DEFS[lib],t=()=>tpl(lib,tid);
+  openDlg({tpl:lib,tid,drill:drill||null,fk:'tpl-'+lib+'-'+tid,title:()=>DLG.cfg.drill||d.title,sub:()=>DLG.cfg.drill?d.title+': '+t().name+' · detailed settings':d.lead,
+    body:()=>{const o=t(),oid=reg(lib,o),us=P.groups.filter(g=>g[lib]===o.id),dr=DLG.cfg.drill;
+      if(dr)return`<p class="backrow"><button class="lnk" data-back>‹ Back to ${d.title.toLowerCase()}</button></p>`+visible(lib,o).filter(f=>f.pop===dr).map(f=>fieldHtml(f,o,oid)).join('');
+      return`<div class="fr"><label for="tplName">Name</label><div class="fc"><input class="in" id="tplName" data-name="${oid}" value="${esc(o.name)}"></div></div>
+      ${formHtml(lib,o)}
+      ${lib==='veh'?'<p class="note" style="margin-top:16px">Price, service and insurance are on the Costs page. Cab heating is on the Weather page.</p>':''}
+      <p class="tact"><span class="mut">${us.length>1?'Used by '+us.map(x=>'“'+esc(x.name)+'”').join(' and ')+'. Changes apply to all of them.':us.length?'Used by “'+esc(us[0].name)+'”.':'Not used by any fleet row.'}</span><button class="lnk" data-tdup>Make a copy</button>${us.length||P.lib[lib].length<2?'':'<button class="lnk" data-tdel>Delete</button>'}</p>`;}});}
 function openPop(oid,name){
   const {type,o}=REG[oid];
   openDlg({fk:'pop-'+oid+'-'+name,title:()=>name,sub:()=>DEFS[type].title+(o.name&&o.id?': '+o.name:'')+' · detailed settings',
@@ -122,7 +132,7 @@ function openStops(gid){
         <td class="r"><input class="in n" data-st="${gid}|${r.i}|t" value="${fmt(r.t)}" inputmode="decimal" aria-label="Stop ${r.i}, time at the stop"></td>
         <td class="r"><input class="in n" data-st="${gid}|${r.i}|p" value="${fmt(r.p,2)}" inputmode="decimal" aria-label="Stop ${r.i}, payload after the stop"></td>
         <td><input type="checkbox" data-st="${gid}|${r.i}|on"${r.on?' checked':''} aria-label="Stop ${r.i}, PTO works"></td></tr>`).join('')}</tbody></table></div>`;}});}
-function openAt(o){if(o.lib){S.tl=o.lib;S.tid[o.lib]=o.tid;go('templates');}else go(o.page);if(o.pop){const t=o.lib?tpl(o.lib,o.tid):P[Object.keys(SETPAGE).find(k=>SETPAGE[k]===o.page&&popsOf(k,P[k]).includes(o.pop))||o.page];if(t)openPop(reg(o.lib||REG.find(r=>r.o===t).type,t),o.pop);}}
+function openAt(o){if(o.lib){go('fleet');openTpl(o.lib,o.tid,o.pop);return;}go(o.page);if(o.pop){const t=o.lib?tpl(o.lib,o.tid):P[Object.keys(SETPAGE).find(k=>SETPAGE[k]===o.page&&popsOf(k,P[k]).includes(o.pop))||o.page];if(t)openPop(reg(o.lib||REG.find(r=>r.o===t).type,t),o.pop);}}
 
 /* ---------- setup pages ---------- */
 const DAYS={mf:'Monday to Friday',ms:'Monday to Saturday',all:'every day'};
@@ -143,7 +153,7 @@ function pageFleet(){
     return`<td data-l="${DEFS[l].title}"><select class="in${bad?' miss':''}" data-gl="${l}|${g.id}" aria-label="${DEFS[l].title} for ${esc(g.name)}">${t?'':'<option value="" selected>Choose</option>'}${P.lib[l].map(x=>`<option value="${x.id}"${t&&x.id===t.id?' selected':''}>${esc(x.name)}</option>`).join('')}<option value="__new">New ${DEFS[l].one}…</option></select>
       <span class="csum">${t?SUMM[l](t)+` <button class="lnk" data-tedit="${l}|${t.id}">Edit</button>`:'Not chosen yet'}</span></td>`;};
   const runs={};P.groups.forEach(g=>{const k=g.veh+'|'+g.rt+'|'+g.eq;(runs[k]=runs[k]||[]).push(g);});const RK=Object.keys(runs);
-  return`<h1>Fleet</h1><p class="lede">One row for each group of identical vehicles doing the same day. Each row picks a vehicle, a route, a payload, a PTO profile and a schedule from your templates.</p>
+  return`<h1>Fleet</h1><p class="lede">One row for each group of identical vehicles doing the same day. Pick a vehicle, a route, a payload, a PTO profile and a schedule for each row. Edit opens what is behind a name.</p>
   <div class="tw" style="margin-top:22px"><table class="t fleet"><thead><tr><th scope="col"><input type="checkbox" id="selAll" aria-label="Select all rows"${nsel&&nsel===P.groups.length?' checked':''}></th><th scope="col">Group</th><th scope="col">Count</th>${LIBS.map(l=>`<th scope="col">${DEFS[l].title}</th>`).join('')}<th scope="col"><span class="sr">Actions</span></th></tr></thead><tbody>
   ${P.groups.map(g=>`<tr><td data-l=""><input type="checkbox" data-sel="${g.id}" aria-label="Select ${esc(g.name)}"${S.sel[g.id]?' checked':''}></td><td data-l="Group"><input class="in gname" data-g="name|${g.id}" value="${esc(g.name)}" aria-label="Group name"></td>
     <td data-l="Count"><input class="in n cnt${g.n>=1?'':' miss'}" data-g="n|${g.id}" inputmode="numeric" value="${g.n}" aria-label="Number of vehicles in ${esc(g.name)}"></td>
@@ -155,20 +165,6 @@ function pageFleet(){
   <h2>What will be driven</h2><p class="note">Rows that share vehicle, route and PTO are driven once. Payload, weather and schedule are applied afterwards.</p>
   ${tbl(['<Driver run','<Vehicle','<Route','<PTO','<Rows','Vehicles'],RK.map((k,i)=>{const gs=runs[k],g=gs[0],n=x=>{const t=tpl(x,g[x]);return t?esc(t.name):'Not chosen';};return[i+1,n('veh'),n('rt'),n('eq'),gs.map(x=>esc(x.name)).join(', '),sum(gs.map(x=>+x.n||0))];}))}
   ${nav('fleet')}`;}
-function pageTemplates(){
-  const l=S.tl,d=DEFS[l],list=P.lib[l],t=tpl(l,S.tid[l])||list[0],uses=x=>P.groups.filter(g=>g[l]===x.id);
-  let ed='<p class="note">No '+d.one+' yet.</p>';
-  if(t){const oid=reg(l,t),us=uses(t);
-    ed=`<div class="fr"><label for="tplName">Name</label><div class="fc"><input class="in" id="tplName" data-name="${oid}" value="${esc(t.name)}"></div></div>
-    ${formHtml(l,t)}
-    ${l==='veh'?'<p class="note" style="margin-top:16px">Price, service and insurance are on the <button class="lnk" data-tab="costs">Costs page</button>.</p>':''}
-    ${l==='rt'||l==='load'?'<p class="note" style="margin-top:16px">Stop by stop figures are under Stops on each fleet row.</p>':''}
-    <p class="tact"><span class="mut">${us.length?'Used by '+us.map(x=>'“'+esc(x.name)+'”').join(' and ')+'. Changes apply there too.':'Not used by any fleet row.'}</span><button class="lnk" data-tdup="${t.id}">Make a copy</button>${us.length||list.length<2?'':`<button class="lnk" data-tdel="${t.id}">Delete</button>`}</p>${LEGEND}`;}
-  return`<h1>Templates</h1><p class="lede">Your saved vehicles, routes, payloads, PTO profiles and schedules. Fleet rows pick from these.</p>
-  <div class="ltabs" role="tablist">${LIBS.map(x=>`<button role="tab" data-tl="${x}"${x===l?' aria-selected="true"':''}>${DEFS[x].title}<small>${P.lib[x].length}</small></button>`).join('')}</div>
-  <div class="tgrid"><div class="tlist">${list.map(x=>`<button data-tsel="${x.id}"${t&&x.id===t.id?' aria-current="true"':''}><b>${esc(x.name)}</b><span>${SUMM[l](x)}</span></button>`).join('')}<button class="lnk" data-tnew>New ${d.one}</button></div>
-  <div class="ted"><p class="lead2">${d.lead}</p>${ed}</div></div>
-  ${nav('templates')}`;}
 const nav=t=>{const i=SETUP.indexOf(t),p=SETUP[i-1],n=SETUP[i+1];return`<div class="nextrow">${p?`<button class="btn" data-tab="${p}">Back: ${TITLE[p]}</button>`:'<span></span>'}${n?`<button class="btn" data-tab="${n}">Next: ${TITLE[n]}</button>`:'<span></span>'}</div>`;};
 const sect=(t,note,body,hl)=>`<section class="sect${hl?' hl':''}"><h2>${t}</h2>${note?`<p class="note">${note}</p>`:''}${body}</section>`;
 function pageDepot(){
@@ -188,6 +184,7 @@ function pageWeather(){
   ${sect('Location','',`<div class="fr"><span class="fl0">Depot</span><div class="fc"><span class="fi">${esc(P.depot.addr||'Not set')}</span><button class="lnk" data-tab="depot">Change under Depot and grid</button></div></div>`+formHtml('wx',P.wx,['station']))}
   ${sect('Year to size for','',formHtml('wx',P.wx,['year']),1)}
   ${sect('How the weather is used','',formHtml('wx',P.wx,['detail','shift','worst'],['Wind']))}
+  ${sect('Cab heating and cooling','',formHtml('wx',P.wx,['hvacMode','hvacW','persons','heater'],P.wx.hvacMode==='thermal'?['Set-points','Cab data','Climate constants']:[]),1)}
   ${sect('What the year means month by month','Energy on a working day in each month, compared with April. Stand-in factors in this demo, the same for every location. They are not measured weather.',
     `<div class="tw"><table class="t months"><thead><tr>${MONTHS.map(m=>`<th scope="col" class="r">${m}</th>`).join('')}</tr></thead><tbody><tr>${mf.map(f=>`<td class="r">${signed((f-1)*100,0)} %</td>`).join('')}</tr></tbody></table></div>`)}
   ${LEGEND}${nav('weather')}`;}

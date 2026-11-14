@@ -102,27 +102,6 @@ const DEFS={
     F('fSP','Factor on power steering','','num','std','VECTO',{pop:'On-board systems',dec:2}),
     F('fHV','Factor on heating and cooling','','num','std','VECTO. 1.0 in the thermal model',{pop:'On-board systems',dec:2}),
     F('fCo','Factor on cooling of battery and motor','','num','std','VECTO',{pop:'On-board systems',dec:2}),
-    F('hvacMode','Cab heating and cooling','','radio','','',{pop:'Cab heating and cooling',o:[['const','One fixed power','The EU standard value, or your own.'],['thermal','Worked out from the weather','Needs the cab data below. The demo engine still uses the fixed power.']]}),
-    F('hvacW','Heating and cooling power','W','num','std','EU standard value',{pop:'Cab heating and cooling',min0:1}),
-    F('persons','People in the cab','','num','','',{pop:'Cab heating and cooling',when:thermal}),
-    F('heater','Heater','','sel','','',{pop:'Cab heating and cooling',when:thermal,o:[['hp','Heat pump'],['el','Electric heater'],['fuel','Fuel heater']]}),
-    F('tHeat','Heat below','°C','num','std','VECTO',{pop:'Cab heating and cooling',when:thermal,min0:1}),
-    F('tCool','Cool above','°C','num','std','VECTO',{pop:'Cab heating and cooling',when:thermal,min0:1}),
-    F('tOff','Stop cooling below','°C','num','std','VECTO',{pop:'Cab heating and cooling',when:thermal,min0:1}),
-    F('aSurf','Cab surface','m²','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal,dec:1}),
-    F('uVal','Heat loss through the cab','W/m²K','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal,dec:2}),
-    F('aWin','Window area','m²','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal,dec:1}),
-    F('vol','Cab volume','m³','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal,dec:1}),
-    F('pHeat','Largest heating power','W','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal}),
-    F('pCool','Largest cooling power','W','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal}),
-    F('vent','Ventilation','m³/h','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal}),
-    F('ventH','Ventilation while heating','m³/h','num','','No sourced default exists',{pop:'Cab heating and cooling',when:thermal}),
-    F('heatEff','Electric heater efficiency','','num','std','VECTO',{pop:'Climate constants',dec:2,max:1}),
-    F('ventP','Power for ventilation','Wh/m³','num','std','VECTO',{pop:'Climate constants',dec:2}),
-    F('tBound','Boundary temperature','°C','num','std','VECTO',{pop:'Climate constants'}),
-    F('solG','Sun through the glass','','num','std','VECTO',{pop:'Climate constants',dec:2}),
-    F('solF','Sun factor','','num','std','VECTO',{pop:'Climate constants',dec:2}),
-    F('freshQ','Fresh air for two people','m³/h','num','assume','Dvorak preprint',{pop:'Climate constants'}),
     F('priceEV','Electric truck price','DKK','num','sample','No source yet',{pg:'costs'}),
     F('priceD','Diesel truck price','DKK','num','sample','No source yet',{pg:'costs'}),
     F('svcEV','Service, electric','DKK/month','num','sample','No source yet',{pg:'costs',min0:1}),
@@ -193,7 +172,28 @@ const DEFS={
     F('detail','Level of detail','','sel','','Not decided which is the default',{o:[['day','One value a day'],['drive','Driving hours'],['hour','Every hour']]}),
     F('shift','Shift every temperature by','K','num','std','No shift',{min0:1,neg:1,dec:1}),
     F('worst','Run the worst day as its own case','','tog','',''),
-    F('wind','Reference wind at 10 m','m/s','num','std','HDEV decision. Replaces the 3 m/s at 4 m in VECTO',{pop:'Wind',dec:3})]},
+    F('wind','Reference wind at 10 m','m/s','num','std','HDEV decision. Replaces the 3 m/s at 4 m in VECTO',{pop:'Wind',dec:3}),
+    F('hvacMode','Cab heating and cooling','','radio','','',{o:[['const','One fixed power','The EU standard value, or your own.'],['thermal','Worked out from the weather','Needs the cab data below. The demo engine still uses the fixed power.']]}),
+    F('hvacW','Heating and cooling power','W','num','std','EU standard value',{min0:1}),
+    F('persons','People in the cab','','num','','',{when:thermal}),
+    F('heater','Heater','','sel','','',{when:thermal,o:[['hp','Heat pump'],['el','Electric heater'],['fuel','Fuel heater']]}),
+    F('tHeat','Heat below','°C','num','std','VECTO',{pop:'Set-points',when:thermal,min0:1}),
+    F('tCool','Cool above','°C','num','std','VECTO',{pop:'Set-points',when:thermal,min0:1}),
+    F('tOff','Stop cooling below','°C','num','std','VECTO',{pop:'Set-points',when:thermal,min0:1}),
+    F('aSurf','Cab surface','m²','num','','No sourced default exists',{pop:'Cab data',when:thermal,dec:1}),
+    F('uVal','Heat loss through the cab','W/m²K','num','','No sourced default exists',{pop:'Cab data',when:thermal,dec:2}),
+    F('aWin','Window area','m²','num','','No sourced default exists',{pop:'Cab data',when:thermal,dec:1}),
+    F('vol','Cab volume','m³','num','','No sourced default exists',{pop:'Cab data',when:thermal,dec:1}),
+    F('pHeat','Largest heating power','W','num','','No sourced default exists',{pop:'Cab data',when:thermal}),
+    F('pCool','Largest cooling power','W','num','','No sourced default exists',{pop:'Cab data',when:thermal}),
+    F('vent','Ventilation','m³/h','num','','No sourced default exists',{pop:'Cab data',when:thermal}),
+    F('ventH','Ventilation while heating','m³/h','num','','No sourced default exists',{pop:'Cab data',when:thermal}),
+    F('heatEff','Electric heater efficiency','','num','std','VECTO',{pop:'Climate constants',dec:2,max:1}),
+    F('ventP','Power for ventilation','Wh/m³','num','std','VECTO',{pop:'Climate constants',dec:2}),
+    F('tBound','Boundary temperature','°C','num','std','VECTO',{pop:'Climate constants'}),
+    F('solG','Sun through the glass','','num','std','VECTO',{pop:'Climate constants',dec:2}),
+    F('solF','Sun factor','','num','std','VECTO',{pop:'Climate constants',dec:2}),
+    F('freshQ','Fresh air for two people','m³/h','num','assume','Dvorak preprint',{pop:'Climate constants'})]},
   pr:{title:'Prices',fields:[
     F('area','Price area','','sel','calc','Taken from the depot address',{o:[['dk2','DK2, east of the Great Belt'],['dk1','DK1, west of the Great Belt']]}),
     F('elPrice','Electricity price, all in','DKK/kWh','num','sample','Demo value. The full tool uses hourly prices, tariffs and taxes',{dec:2}),
@@ -228,7 +228,7 @@ const DEFS={
     F('hours','Count CO₂ at the hours the trucks really charge','','tog','','Planned')]}
 };
 /* what the demo engine reads. Everything else is kept with the project and listed, but does not change the result yet */
-const USED={veh:'src cls curb bodyMass gvw dUse battMode battKwh cdxa crr effMot effInv effGb usable guar esW psW spW condW hvacW priceEV priceD svcEV svcD insEV insD',rt:'method road km stops stopTime speed',load:'shape start end',eq:'type kwhStop sStop wOn eff',sch:'out back days hol',depot:'mode limit dso base',chg:'chgMode kw plan loadF loss',wx:'year',pr:'elPrice level dPrice',fin:'years interest wage',tax:'e1 d1 e2 d2 e3 d3 grant',co2:'gridMode gridEF co2D',proj:'name scen mode brand'};
+const USED={veh:'src cls curb bodyMass gvw dUse battMode battKwh cdxa crr effMot effInv effGb usable guar esW psW spW condW priceEV priceD svcEV svcD insEV insD',rt:'method road km stops stopTime speed',load:'shape start end',eq:'type kwhStop sStop wOn eff',sch:'out back days hol',depot:'mode limit dso base',chg:'chgMode kw plan loadF loss',wx:'year hvacW',pr:'elPrice level dPrice',fin:'years interest wage',tax:'e1 d1 e2 d2 e3 d3 grant',co2:'gridMode gridEF co2D',proj:'name scen mode brand'};
 const used=(type,k)=>(' '+USED[type]+' ').includes(' '+k+' ');
 const LIBS=['veh','rt','load','eq','sch'];
 const SETS=['chg','wx','pr','fin','tax','co2'];
@@ -256,7 +256,7 @@ function sampleProject(){return{
   groups:[{id:1,name:'Refuse, day shift',n:4,n0:4,veh:'v1',rt:'r1',load:'l1',eq:'e1',sch:'s1'},{id:2,name:'Refuse, night shift',n:2,n0:2,veh:'v1',rt:'r1',load:'l1',eq:'e1',sch:'s2'}],
   depot:mk({name:'Main depot',addr:'Copenhagen',mode:'existing',limit:400,dso:'radius',access:'full',baseMode:'fixed',base:30,spaces:'',pSpace:'',cut:'',cutFrom:'',cutTo:''}),
   chg:mk({chgMode:'auto',kw:'50',plan:'cost',readyBy:'',loadF:85,loss:4,step:5,flex:'no',mkts:''}),
-  wx:mk({year:'normal',detail:'hour',shift:0,worst:'no',wind:5.028}),
+  wx:mk({year:'normal',detail:'hour',shift:0,worst:'no',wind:5.028,hvacMode:'const',hvacW:375,persons:'',heater:'hp',tHeat:18,tCool:23,tOff:17,aSurf:'',uVal:'',aWin:'',vol:'',pHeat:'',pCool:'',vent:'',ventH:'',heatEff:0.93,ventP:0.56,tBound:17,solG:0.95,solF:0.25,freshQ:100}),
   pr:mk({area:'dk2',elPrice:1.6,level:'exp',spotFile:'',tariff:'',dPrice:11.65,adblue:6.96,hvo:19.97,pub:3.25}),
   fin:mk({years:'10',how:'loan',interest:3.45,wage:30000,depYears:''}),
   tax:mk({e1:0.1008,d1:0.8525,e2:0.1864,d2:1.4324,e3:0.2613,d3:1.6181,co2cls:'5',subsidy:'none',grant:0}),
@@ -329,7 +329,7 @@ function compute(planOv){
     const tA=vms/DEMO.acc,dA=vms*vms/(2*DEMO.acc),seg=rt.stops?d/rt.stops:d,cruise=Math.max(0,seg-2*dA);
     const tDrive=(rt.stops?rt.stops*(2*tA+cruise/vms):d/vms)/3600,tStop=(SR?sum(SR.map(x=>x.t)):rt.stops*rt.stopTime)/3600,tEq=e.type==='stop'?nOn*e.sStop/3600:0;
     const out=hrs(s.out),back=hrs(s.back),shiftH=((back-out+24)%24)||24,dwellH=24-shiftH;
-    const auxE=((v.esW+v.psW+v.hvacW+v.spW+v.condW)+(v.esW+v.psW+v.hvacW))/2000*shiftH;
+    const hv=P.wx.hvacW,auxE=((v.esW+v.psW+hv+v.spW+v.condW)+(v.esW+v.psW+hv))/2000*shiftH;
     const eqE=e.type==='stop'?nOn*e.kwhStop/e.eff:e.type==='always'?e.wOn/1000*shiftH/e.eff:0;
     const avg=drive+auxE+eqE,months=mf.map(f=>avg*f),mean=sum(months)/12,worst=Math.max(...months)*DEMO.worstF;
     const us=v.usable/100,gu=v.guar/100,batt=v.battMode==='size'?Math.ceil(worst/(us*gu)/10)*10:v.battKwh;

@@ -343,3 +343,5 @@ fieldset.choice{border:0;padding:0;margin:14px 0 6px;min-width:0}
 .stops tr.ed .in{color:var(--blue);font-weight:500}
 @media (max-width:900px){.tgrid{grid-template-columns:1fr;gap:20px}}
 [data-s=need] .rst{display:inline}
+
+.backrow{margin:0 0 12px}
