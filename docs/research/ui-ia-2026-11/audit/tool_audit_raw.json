@@ -1,0 +1,1093 @@
+{
+ "1440x900": {
+  "pages": {
+   "setup-project": {
+    "fields": 4,
+    "popBtns": 0,
+    "h": 786
+   },
+   "setup-fleet": {
+    "fields": 16,
+    "popBtns": 0,
+    "h": 786
+   },
+   "setup-depot": {
+    "fields": 11,
+    "popBtns": 1,
+    "h": 1161
+   },
+   "setup-charging": {
+    "fields": 6,
+    "popBtns": 2,
+    "h": 905
+   },
+   "setup-weather": {
+    "fields": 7,
+    "popBtns": 1,
+    "h": 1314
+   },
+   "setup-prices": {
+    "fields": 6,
+    "popBtns": 1,
+    "h": 786
+   },
+   "setup-costs": {
+    "fields": 11,
+    "popBtns": 2,
+    "h": 1128
+   },
+   "setup-tax": {
+    "fields": 12,
+    "popBtns": 0,
+    "h": 1135
+   },
+   "setup-check": {
+    "fields": 0,
+    "popBtns": 0,
+    "h": 786
+   },
+   "res-ov": {
+    "h": 895,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "Checks",
+     "The fleet"
+    ]
+   },
+   "res-en": {
+    "h": 953,
+    "svg": 1,
+    "tables": 1,
+    "headings": [
+     "Where the energy goes",
+     "Through the year",
+     "Time on the route"
+    ]
+   },
+   "res-bat": {
+    "h": 938,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "The hardest day against the battery",
+     "Weight"
+    ]
+   },
+   "res-ch": {
+    "h": 1031,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "A day at the depot",
+     "Each group",
+     "The three charging plans"
+    ]
+   },
+   "res-gr": {
+    "h": 1007,
+    "svg": 1,
+    "tables": 1,
+    "headings": [
+     "Depot power over the hardest day",
+     "Behind the figures"
+    ]
+   },
+   "res-cost": {
+    "h": 1710,
+    "svg": 1,
+    "tables": 2,
+    "headings": [
+     "How far electric is ahead, year by year",
+     "Where the difference comes from",
+     "Year by year"
+    ]
+   },
+   "res-co2": {
+    "h": 1071,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "Year by year",
+     "What is counted"
+    ]
+   },
+   "res-src": {
+    "h": 7379,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "Demo values behind the results"
+    ]
+   }
+  },
+  "overflow": {
+   "setup-project": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 786,
+    "pageCH": 786
+   },
+   "setup-fleet": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 786,
+    "pageCH": 786
+   },
+   "setup-depot": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 1161,
+    "pageCH": 786
+   },
+   "setup-charging": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 905,
+    "pageCH": 786
+   },
+   "setup-weather": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 1314,
+    "pageCH": 786
+   },
+   "setup-prices": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 786,
+    "pageCH": 786
+   },
+   "setup-costs": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 1128,
+    "pageCH": 786
+   },
+   "setup-tax": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 1135,
+    "pageCH": 786
+   },
+   "setup-check": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 786,
+    "pageCH": 786
+   },
+   "res-ov": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 895,
+    "pageCH": 786
+   },
+   "res-en": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 953,
+    "pageCH": 786
+   },
+   "res-bat": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 938,
+    "pageCH": 786
+   },
+   "res-ch": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 1031,
+    "pageCH": 786
+   },
+   "res-gr": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 1007,
+    "pageCH": 786
+   },
+   "res-cost": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 1710,
+    "pageCH": 786
+   },
+   "res-co2": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 1071,
+    "pageCH": 786
+   },
+   "res-src": {
+    "sw": 1440,
+    "iw": 1440,
+    "pageSW": 1416,
+    "pageCW": 1416,
+    "pageSH": 7379,
+    "pageCH": 786
+   }
+  },
+  "small": {
+   "setup-project": "3 under 24px; e.g. INPUT. 15x15 | INPUT. 15x15 | INPUT. 1x1",
+   "setup-fleet": "20 under 24px; e.g. INPUT. 16x16 | INPUT. 16x16 | BUTTON.lnk 24x17",
+   "setup-depot": "5 under 24px; e.g. INPUT. 15x15 | INPUT. 15x15 | INPUT. 15x15",
+   "setup-charging": "5 under 24px; e.g. INPUT. 15x15 | INPUT. 15x15 | INPUT. 15x15",
+   "setup-weather": "6 under 24px; e.g. BUTTON.lnk 181x21 | INPUT. 15x15 | INPUT. 15x15",
+   "setup-prices": "1 under 24px; e.g. INPUT.sr 1x1",
+   "setup-costs": "0 under 24px; e.g. ",
+   "setup-tax": "3 under 24px; e.g. INPUT. 15x15 | INPUT. 15x15 | INPUT. 1x1",
+   "setup-check": "0 under 24px; e.g. ",
+   "res-ov": "6 under 24px; e.g. BUTTON.lnk 46x20 | BUTTON.lnk 46x20 | BUTTON.lnk 55x20",
+   "res-en": "0 under 24px; e.g. ",
+   "res-bat": "0 under 24px; e.g. ",
+   "res-ch": "2 under 24px; e.g. BUTTON.lnk 81x20 | BUTTON.lnk 81x20",
+   "res-gr": "0 under 24px; e.g. ",
+   "res-cost": "0 under 24px; e.g. ",
+   "res-co2": "0 under 24px; e.g. ",
+   "res-src": "0 under 24px; e.g. "
+  },
+  "fleetButtons": [
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Stops|data-stops,data-fk",
+   "Copy|data-gdup",
+   "Remove|data-gdel",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Stops|data-stops,data-fk"
+  ],
+  "dialog1": {
+   "label": "dlgT",
+   "modal": "true",
+   "buttons": [
+    "",
+    "Reset",
+    "Reset",
+    "Reset",
+    "Reset",
+    "Reset",
+    "Reset",
+    "Trailer and wheels",
+    "Air drag and size",
+    "Tyres",
+    "Drivetrain",
+    "Braking energy",
+    "Battery details",
+    "Battery voltage and re",
+    "On-board systems",
+    "Make a copy",
+    "Done"
+   ],
+   "pops": [
+    "Trailer and wheels",
+    "Air drag and size",
+    "Tyres",
+    "Drivetrain",
+    "Braking energy",
+    "Battery details",
+    "Battery voltage and resistance",
+    "On-board systems"
+   ],
+   "fields": 12
+  },
+  "focusTrap": "focus starts inside; after 45 Tab presses, focus left the dialog 0 times",
+  "drill": "Trailer and wheels",
+  "escCloses": true,
+  "stops": {
+   "rows": 400,
+   "headers": [
+    "Stop",
+    "From the depot, km",
+    "Time at the stop, s",
+    "Payload after, t",
+    "PTO works"
+   ]
+  },
+  "errs": [],
+  "keyboard": {
+   "stops": 69,
+   "tableStops": 49,
+   "withoutVisibleRing": 0,
+   "sample": [
+    "INPUT:checkbox Select all rows",
+    "INPUT:checkbox Select Refuse, day shi",
+    "INPUT:text Group name",
+    "INPUT:text Number of vehicles in ",
+    "SELECT:select-one Vehicle for Refuse, da",
+    "BUTTON:submit Edit"
+   ]
+  },
+  "reducedMotion": {
+   "animatedElements": 0,
+   "transitioningElements": 0,
+   "hasMediaRule": true
+  },
+  "axe": {
+   "setup:fleet": [],
+   "setup:weather": [],
+   "setup:check": [],
+   "results:ov": [],
+   "results:bat": [
+    {
+     "id": "scrollable-region-focusable",
+     "impact": "serious",
+     "n": 1,
+     "help": "Scrollable region must have keyboard access",
+     "ex": "#page"
+    }
+   ],
+   "results:gr": [
+    {
+     "id": "scrollable-region-focusable",
+     "impact": "serious",
+     "n": 1,
+     "help": "Scrollable region must have keyboard access",
+     "ex": "#page"
+    }
+   ],
+   "docs:docs": [],
+   "dialog:template": [
+    {
+     "id": "landmark-no-duplicate-banner",
+     "impact": "moderate",
+     "n": 1,
+     "help": "Document should not have more than one banner landmark",
+     "ex": ".top"
+    },
+    {
+     "id": "landmark-unique",
+     "impact": "moderate",
+     "n": 1,
+     "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+     "ex": ".top"
+    }
+   ]
+  }
+ },
+ "1280x800": {
+  "pages": {
+   "setup-project": {
+    "fields": 4,
+    "popBtns": 0,
+    "h": 686
+   },
+   "setup-fleet": {
+    "fields": 16,
+    "popBtns": 0,
+    "h": 771
+   },
+   "setup-depot": {
+    "fields": 11,
+    "popBtns": 1,
+    "h": 1161
+   },
+   "setup-charging": {
+    "fields": 6,
+    "popBtns": 2,
+    "h": 905
+   },
+   "setup-weather": {
+    "fields": 7,
+    "popBtns": 1,
+    "h": 1314
+   },
+   "setup-prices": {
+    "fields": 6,
+    "popBtns": 1,
+    "h": 769
+   },
+   "setup-costs": {
+    "fields": 11,
+    "popBtns": 2,
+    "h": 1128
+   },
+   "setup-tax": {
+    "fields": 12,
+    "popBtns": 0,
+    "h": 1135
+   },
+   "setup-check": {
+    "fields": 0,
+    "popBtns": 0,
+    "h": 686
+   },
+   "res-ov": {
+    "h": 895,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "Checks",
+     "The fleet"
+    ]
+   },
+   "res-en": {
+    "h": 953,
+    "svg": 1,
+    "tables": 1,
+    "headings": [
+     "Where the energy goes",
+     "Through the year",
+     "Time on the route"
+    ]
+   },
+   "res-bat": {
+    "h": 938,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "The hardest day against the battery",
+     "Weight"
+    ]
+   },
+   "res-ch": {
+    "h": 1031,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "A day at the depot",
+     "Each group",
+     "The three charging plans"
+    ]
+   },
+   "res-gr": {
+    "h": 1007,
+    "svg": 1,
+    "tables": 1,
+    "headings": [
+     "Depot power over the hardest day",
+     "Behind the figures"
+    ]
+   },
+   "res-cost": {
+    "h": 1710,
+    "svg": 1,
+    "tables": 2,
+    "headings": [
+     "How far electric is ahead, year by year",
+     "Where the difference comes from",
+     "Year by year"
+    ]
+   },
+   "res-co2": {
+    "h": 1071,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "Year by year",
+     "What is counted"
+    ]
+   },
+   "res-src": {
+    "h": 7379,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "Demo values behind the results"
+    ]
+   }
+  },
+  "overflow": {
+   "setup-project": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 686,
+    "pageCH": 686
+   },
+   "setup-fleet": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 771,
+    "pageCH": 686
+   },
+   "setup-depot": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 1161,
+    "pageCH": 686
+   },
+   "setup-charging": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 905,
+    "pageCH": 686
+   },
+   "setup-weather": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 1314,
+    "pageCH": 686
+   },
+   "setup-prices": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 769,
+    "pageCH": 686
+   },
+   "setup-costs": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 1128,
+    "pageCH": 686
+   },
+   "setup-tax": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 1135,
+    "pageCH": 686
+   },
+   "setup-check": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 686,
+    "pageCH": 686
+   },
+   "res-ov": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 895,
+    "pageCH": 686
+   },
+   "res-en": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 953,
+    "pageCH": 686
+   },
+   "res-bat": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 938,
+    "pageCH": 686
+   },
+   "res-ch": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 1031,
+    "pageCH": 686
+   },
+   "res-gr": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 1007,
+    "pageCH": 686
+   },
+   "res-cost": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 1710,
+    "pageCH": 686
+   },
+   "res-co2": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 1071,
+    "pageCH": 686
+   },
+   "res-src": {
+    "sw": 1280,
+    "iw": 1280,
+    "pageSW": 1256,
+    "pageCW": 1256,
+    "pageSH": 7379,
+    "pageCH": 686
+   }
+  },
+  "small": {
+   "setup-project": "3 under 24px; e.g. INPUT. 15x15 | INPUT. 15x15 | INPUT. 1x1",
+   "setup-fleet": "20 under 24px; e.g. INPUT. 16x16 | INPUT. 16x16 | BUTTON.lnk 24x17",
+   "setup-depot": "5 under 24px; e.g. INPUT. 15x15 | INPUT. 15x15 | INPUT. 15x15",
+   "setup-charging": "5 under 24px; e.g. INPUT. 15x15 | INPUT. 15x15 | INPUT. 15x15",
+   "setup-weather": "6 under 24px; e.g. BUTTON.lnk 181x21 | INPUT. 15x15 | INPUT. 15x15",
+   "setup-prices": "1 under 24px; e.g. INPUT.sr 1x1",
+   "setup-costs": "0 under 24px; e.g. ",
+   "setup-tax": "3 under 24px; e.g. INPUT. 15x15 | INPUT. 15x15 | INPUT. 1x1",
+   "setup-check": "0 under 24px; e.g. ",
+   "res-ov": "6 under 24px; e.g. BUTTON.lnk 46x20 | BUTTON.lnk 46x20 | BUTTON.lnk 55x20",
+   "res-en": "0 under 24px; e.g. ",
+   "res-bat": "0 under 24px; e.g. ",
+   "res-ch": "2 under 24px; e.g. BUTTON.lnk 81x20 | BUTTON.lnk 81x20",
+   "res-gr": "0 under 24px; e.g. ",
+   "res-cost": "0 under 24px; e.g. ",
+   "res-co2": "0 under 24px; e.g. ",
+   "res-src": "0 under 24px; e.g. "
+  },
+  "fleetButtons": [
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Stops|data-stops,data-fk",
+   "Copy|data-gdup",
+   "Remove|data-gdel",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Stops|data-stops,data-fk"
+  ],
+  "dialog1": {
+   "label": "dlgT",
+   "modal": "true",
+   "buttons": [
+    "",
+    "Reset",
+    "Reset",
+    "Reset",
+    "Reset",
+    "Reset",
+    "Reset",
+    "Trailer and wheels",
+    "Air drag and size",
+    "Tyres",
+    "Drivetrain",
+    "Braking energy",
+    "Battery details",
+    "Battery voltage and re",
+    "On-board systems",
+    "Make a copy",
+    "Done"
+   ],
+   "pops": [
+    "Trailer and wheels",
+    "Air drag and size",
+    "Tyres",
+    "Drivetrain",
+    "Braking energy",
+    "Battery details",
+    "Battery voltage and resistance",
+    "On-board systems"
+   ],
+   "fields": 12
+  },
+  "focusTrap": "focus starts inside; after 45 Tab presses, focus left the dialog 0 times",
+  "drill": "Trailer and wheels",
+  "escCloses": true,
+  "stops": {
+   "rows": 400,
+   "headers": [
+    "Stop",
+    "From the depot, km",
+    "Time at the stop, s",
+    "Payload after, t",
+    "PTO works"
+   ]
+  },
+  "errs": []
+ },
+ "390x844": {
+  "pages": {
+   "setup-project": {
+    "fields": 4,
+    "popBtns": 0,
+    "h": 733
+   },
+   "setup-fleet": {
+    "fields": 16,
+    "popBtns": 0,
+    "h": 1947
+   },
+   "setup-depot": {
+    "fields": 11,
+    "popBtns": 1,
+    "h": 1367
+   },
+   "setup-charging": {
+    "fields": 6,
+    "popBtns": 2,
+    "h": 1035
+   },
+   "setup-weather": {
+    "fields": 7,
+    "popBtns": 1,
+    "h": 1538
+   },
+   "setup-prices": {
+    "fields": 6,
+    "popBtns": 1,
+    "h": 954
+   },
+   "setup-costs": {
+    "fields": 11,
+    "popBtns": 2,
+    "h": 1438
+   },
+   "setup-tax": {
+    "fields": 12,
+    "popBtns": 0,
+    "h": 1376
+   },
+   "setup-check": {
+    "fields": 0,
+    "popBtns": 0,
+    "h": 726
+   },
+   "res-ov": {
+    "h": 1476,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "Checks",
+     "The fleet"
+    ]
+   },
+   "res-en": {
+    "h": 1367,
+    "svg": 1,
+    "tables": 1,
+    "headings": [
+     "Where the energy goes",
+     "Through the year",
+     "Time on the route"
+    ]
+   },
+   "res-bat": {
+    "h": 1371,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "The hardest day against the battery",
+     "Weight"
+    ]
+   },
+   "res-ch": {
+    "h": 1314,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "A day at the depot",
+     "Each group",
+     "The three charging plans"
+    ]
+   },
+   "res-gr": {
+    "h": 1252,
+    "svg": 1,
+    "tables": 1,
+    "headings": [
+     "Depot power over the hardest day",
+     "Behind the figures"
+    ]
+   },
+   "res-cost": {
+    "h": 1962,
+    "svg": 1,
+    "tables": 2,
+    "headings": [
+     "How far electric is ahead, year by year",
+     "Where the difference comes from",
+     "Year by year"
+    ]
+   },
+   "res-co2": {
+    "h": 1375,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "Year by year",
+     "What is counted"
+    ]
+   },
+   "res-src": {
+    "h": 14099,
+    "svg": 0,
+    "tables": 2,
+    "headings": [
+     "Demo values behind the results"
+    ]
+   }
+  },
+  "overflow": {
+   "setup-project": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 733,
+    "pageCH": 704
+   },
+   "setup-fleet": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 1947,
+    "pageCH": 704
+   },
+   "setup-depot": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 1367,
+    "pageCH": 704
+   },
+   "setup-charging": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 1035,
+    "pageCH": 704
+   },
+   "setup-weather": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 1538,
+    "pageCH": 704
+   },
+   "setup-prices": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 954,
+    "pageCH": 704
+   },
+   "setup-costs": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 1438,
+    "pageCH": 704
+   },
+   "setup-tax": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 1376,
+    "pageCH": 704
+   },
+   "setup-check": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 726,
+    "pageCH": 704
+   },
+   "res-ov": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 1476,
+    "pageCH": 704
+   },
+   "res-en": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 1367,
+    "pageCH": 704
+   },
+   "res-bat": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 1371,
+    "pageCH": 704
+   },
+   "res-ch": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 1314,
+    "pageCH": 704
+   },
+   "res-gr": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 1252,
+    "pageCH": 704
+   },
+   "res-cost": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 1962,
+    "pageCH": 704
+   },
+   "res-co2": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 1375,
+    "pageCH": 704
+   },
+   "res-src": {
+    "sw": 390,
+    "iw": 390,
+    "pageSW": 366,
+    "pageCW": 366,
+    "pageSH": 14099,
+    "pageCH": 704
+   }
+  },
+  "small": {
+   "setup-project": "3 under 24px; e.g. INPUT. 15x15 | INPUT. 15x15 | INPUT. 1x1",
+   "setup-fleet": "19 under 24px; e.g. INPUT. 16x16 | BUTTON.lnk 24x17 | BUTTON.lnk 24x17",
+   "setup-depot": "5 under 24px; e.g. INPUT. 15x15 | INPUT. 15x15 | INPUT. 15x15",
+   "setup-charging": "5 under 24px; e.g. INPUT. 15x15 | INPUT. 15x15 | INPUT. 15x15",
+   "setup-weather": "6 under 24px; e.g. BUTTON.lnk 181x21 | INPUT. 15x15 | INPUT. 15x15",
+   "setup-prices": "1 under 24px; e.g. INPUT.sr 1x1",
+   "setup-costs": "0 under 24px; e.g. ",
+   "setup-tax": "3 under 24px; e.g. INPUT. 15x15 | INPUT. 15x15 | INPUT. 1x1",
+   "setup-check": "0 under 24px; e.g. ",
+   "res-ov": "6 under 24px; e.g. BUTTON.lnk 46x20 | BUTTON.lnk 46x20 | BUTTON.lnk 55x20",
+   "res-en": "0 under 24px; e.g. ",
+   "res-bat": "0 under 24px; e.g. ",
+   "res-ch": "0 under 24px; e.g. ",
+   "res-gr": "0 under 24px; e.g. ",
+   "res-cost": "0 under 24px; e.g. ",
+   "res-co2": "0 under 24px; e.g. ",
+   "res-src": "0 under 24px; e.g. "
+  },
+  "fleetButtons": [
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Stops|data-stops,data-fk",
+   "Copy|data-gdup",
+   "Remove|data-gdel",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Edit|data-tedit",
+   "Stops|data-stops,data-fk"
+  ],
+  "dialog1": {
+   "label": "dlgT",
+   "modal": "true",
+   "buttons": [
+    "",
+    "Reset",
+    "Reset",
+    "Reset",
+    "Reset",
+    "Reset",
+    "Reset",
+    "Trailer and wheels",
+    "Air drag and size",
+    "Tyres",
+    "Drivetrain",
+    "Braking energy",
+    "Battery details",
+    "Battery voltage and re",
+    "On-board systems",
+    "Make a copy",
+    "Done"
+   ],
+   "pops": [
+    "Trailer and wheels",
+    "Air drag and size",
+    "Tyres",
+    "Drivetrain",
+    "Braking energy",
+    "Battery details",
+    "Battery voltage and resistance",
+    "On-board systems"
+   ],
+   "fields": 12
+  },
+  "focusTrap": "focus starts inside; after 45 Tab presses, focus left the dialog 0 times",
+  "drill": "Trailer and wheels",
+  "escCloses": true,
+  "stops": {
+   "rows": 400,
+   "headers": [
+    "Stop",
+    "From the depot, km",
+    "Time at the stop, s",
+    "Payload after, t",
+    "PTO works"
+   ]
+  },
+  "errs": []
+ }
+}

@@ -1,0 +1,317 @@
+{
+ "1440x900_day_en": {
+  "errs": [],
+  "reqs": [],
+  "loadMs": 1090,
+  "overflow": {
+   "sw": 1440,
+   "iw": 1440,
+   "docH": 10939
+  },
+  "storyH": {
+   "top": 1808.171875,
+   "h": 6480
+  },
+  "heroText": {
+   "h1": "Scope before you sign",
+   "secWords": 26,
+   "secText": "Scope before you sign\n\nBattery, charger and grid sizing for electric fleets, worked out from your own routes.\n\nGet early access\n→\nTry the demo\n→"
+  },
+  "nav": [
+   "EVEV Scope",
+   "Who it's for",
+   "How it works",
+   "The tool",
+   "Documents",
+   "About",
+   "Contact",
+   "Ask",
+   "Day",
+   "Night",
+   "Try the demo",
+   "Who it's for",
+   "How it works",
+   "The tool",
+   "Documents",
+   "About",
+   "Contact",
+   "Ask EV Scope",
+   "Try the demo"
+  ],
+  "forSection": {
+   "words": 111,
+   "tabs": [
+    "Fleet owners",
+    "Housing associations",
+    "Municipalities",
+    "Truck makers and charge operators"
+   ],
+   "text": "Who it is for\nFleet owners\nHousing associations\nMunicipalities\nTruck makers and charge operators\nFor fleet owners\n\nEV Scope works out the battery size, the charger size and the grid connection for your vehicles, from the routes they drive.\n\nQuestions it answers\nHow much battery do our vehicles actually need?\nWill they still finish a winter shift at year 8?\nDo we have to upgrade the grid connection?\nExample\n\nSix refuse trucks on a 120 km city round with 400 stops. Each needs a 370 kWh battery. The depot peaks at 166 kW, inside the 400 kW it already has.\n\nSample case with illustrative figures. Open this case in the demo"
+  },
+  "wordsTotal": 676,
+  "sections": [
+   {
+    "id": "top",
+    "words": 26,
+    "h": 970
+   },
+   {
+    "id": "for",
+    "words": 111,
+    "h": 838
+   },
+   {
+    "id": "depot",
+    "words": 203,
+    "h": 6480
+   },
+   {
+    "id": "demo",
+    "words": 28,
+    "h": 1116
+   },
+   {
+    "id": "documents",
+    "words": 234,
+    "h": 852
+   },
+   {
+    "id": "",
+    "words": 21,
+    "h": 560
+   },
+   {
+    "id": "v-about",
+    "words": 124,
+    "h": 0
+   },
+   {
+    "id": "v-contact",
+    "words": 59,
+    "h": 0
+   },
+   {
+    "id": "v-tool",
+    "words": 83,
+    "h": 0
+   },
+   {
+    "id": "v-privacy",
+    "words": 235,
+    "h": 0
+   },
+   {
+    "id": "v-terms",
+    "words": 157,
+    "h": 0
+   },
+   {
+    "id": "v-app",
+    "words": 1,
+    "h": 0
+   }
+  ],
+  "perf": {
+   "dcl": 186,
+   "load": 186,
+   "paint": [
+    [
+     "first-paint",
+     164
+    ],
+    [
+     "first-contentful-paint",
+     164
+    ]
+   ]
+  },
+  "axe": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "n": 1,
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "ex": [
+     ".dim.sheet:nth-child(2) > .foot"
+    ]
+   }
+  ],
+  "imgs": {
+   "n": 60,
+   "noAlt": 0,
+   "emptyAlt": 55
+  },
+  "headings": [
+   "H1: Scope before you sign",
+   "H2: Who it is for",
+   "H3: For fleet owners",
+   "H3: For housing associations",
+   "H3: For municipalities",
+   "H3: For truck makers and charge operators",
+   "H2: How it works",
+   "H3: Your routes go in first",
+   "H3: Charging overnight",
+   "H3: Battery size",
+   "H3: Winter at year 8",
+   "H3: Charger size",
+   "H3: Payload",
+   "H3: Grid connection",
+   "H2: See it on a sample depot",
+   "H2: Six documents from one run",
+   "H2: Start with one depot",
+   "H1: Advice before the money is spent",
+   "H3: Built on EU methods",
+   "H3: Conservative by design",
+   "H3: Brand-neutral",
+   "H3: Every source shown",
+   "H1: Start with one depot",
+   "H1: Try EV Scope on a sample fleet",
+   "H3: Dashboard",
+   "H3: Full tool",
+   "H3: Project",
+   "H1: Privacy",
+   "H2: Who is responsible",
+   "H2: What this website collects",
+   "H2: What stays in your browser",
+   "H2: The demo",
+   "H2: When you contact us",
+   "H2: Your rights",
+   "H1: Terms of use",
+   "H2: The demo is an illustration",
+   "H2: The website",
+   "H2: Work for customers",
+   "H2: Rights",
+   "H2: Law",
+   "H2: Who we are"
+  ],
+  "forTabsClicked": 4,
+  "docs": {
+   "text": "Six documents from one run\n\nPick one to see what is in it.\n\nEV\nEV Scope · sample case\nFeasibility report\nSummary\nInputs and sources\nResults per route\nAudit trail\nIllustrative\nEV\nEV Scope · sample case\nGrid connection application\nAddress\nDesired power\nFNA / BNA\nCommissioning date\nSystem services\nIllustrative\nEV\nEV Scope · sample case\nTender annex\nUsable battery at year 8\nRoute energy, winter\nCharging power window\nIllustrative\nEV\nEV Scope · sample case\nFinancial model\nYear 1\nYear 2\nYear 3\nYear 4\nYear 10\nIllustrative\nEV\nEV Scope · sample case\nGrant application data\nTrucks charging daily\nChargers and their power\nBudget excl. VAT\nLease and term\nIllustrative\nEV\nEV Scope · sample case\nClient presen",
+   "tabs": [
+    "←",
+    "Feasibility report",
+    "Grid connection application",
+    "Tender annex",
+    "Financial model",
+    "Grant application data",
+    "Client presentation",
+    "→"
+   ]
+  },
+  "privacyWords": "Privacy\n  What happens to your data when you use this website and the demo.\n  Who is responsible\n  [COMPANY LEGAL NAME]CVR [CVR NUMBER][STREET, POSTCODE AND CITY][YOUR EMAIL]\n  What this website collects\n  Nothing on its own. The site sets no cookies, has no analytics and loads nothing from other companies. Fonts and images are part of the page.\n  The company that hosts the site keeps ordinary server logs, such as your IP address and the time of your visit, to run it securely.\n  What stays in yo"
+ },
+ "1440x900_day_da": {
+  "errs": [],
+  "reqs": [],
+  "loadMs": 1051,
+  "overflow": {
+   "sw": 1440,
+   "iw": 1440,
+   "docH": 11019
+  }
+ },
+ "1440x900_night_en": {
+  "errs": [],
+  "reqs": [],
+  "loadMs": 1045,
+  "overflow": {
+   "sw": 1440,
+   "iw": 1440,
+   "docH": 10908
+  }
+ },
+ "1440x900_night_da": {
+  "errs": [],
+  "reqs": [],
+  "loadMs": 1059,
+  "overflow": {
+   "sw": 1440,
+   "iw": 1440,
+   "docH": 10988
+  }
+ },
+ "1280x800_day_en": {
+  "errs": [],
+  "reqs": [],
+  "loadMs": 1050,
+  "overflow": {
+   "sw": 1280,
+   "iw": 1280,
+   "docH": 10206
+  }
+ },
+ "1280x800_day_da": {
+  "errs": [],
+  "reqs": [],
+  "loadMs": 1059,
+  "overflow": {
+   "sw": 1280,
+   "iw": 1280,
+   "docH": 10277
+  }
+ },
+ "1280x800_night_en": {
+  "errs": [],
+  "reqs": [],
+  "loadMs": 1041,
+  "overflow": {
+   "sw": 1280,
+   "iw": 1280,
+   "docH": 10175
+  }
+ },
+ "1280x800_night_da": {
+  "errs": [],
+  "reqs": [],
+  "loadMs": 1057,
+  "overflow": {
+   "sw": 1280,
+   "iw": 1280,
+   "docH": 10246
+  }
+ },
+ "390x844_day_en": {
+  "errs": [],
+  "reqs": [],
+  "loadMs": 1039,
+  "overflow": {
+   "sw": 390,
+   "iw": 390,
+   "docH": 10015
+  }
+ },
+ "390x844_day_da": {
+  "errs": [],
+  "reqs": [],
+  "loadMs": 1047,
+  "overflow": {
+   "sw": 390,
+   "iw": 390,
+   "docH": 10009
+  }
+ },
+ "390x844_night_en": {
+  "errs": [],
+  "reqs": [],
+  "loadMs": 1040,
+  "overflow": {
+   "sw": 390,
+   "iw": 390,
+   "docH": 9983
+  }
+ },
+ "390x844_night_da": {
+  "errs": [],
+  "reqs": [],
+  "loadMs": 1042,
+  "overflow": {
+   "sw": 390,
+   "iw": 390,
+   "docH": 9978
+  }
+ },
+ "reducedMotion": {
+  "animated": 0,
+  "transitioning": 0
+ }
+}
