@@ -1,0 +1,70 @@
+def consumption_engine(T, S, V, M, dt,                                     # driver_model rows
+                       k_lin, k_roll, k_rot, L, v_avg,                  # force_engine
+                       m_vehicle, wp_s, payload_wp, beta,               # mass; payload_wp from payload_engine
+                       t_start, T_amb_h, W1, W2, cdxa_v, CdxA0, p_air, R_air,         # weather per hour + crosswind tables
+                       ES, PS, HVAC, SP, cond, PTO_always_on,           # P_aux outputs (HVAC scalar or per hour)
+                       pto_1s, pto_on_col, pto_start_col,               # pto_engine outputs
+                       motor_eff, inverter_eff, gearbox_eff, regen_effeiciency, v_no_regen, P_regen_max=None):
+
+  T, S, V, M = (np.asarray(x) for x in (T, S, V, M))                              # driver rows
+  wp_s, payload_wp = np.asarray(wp_s, dtype=float), np.asarray(payload_wp, dtype=float)
+  T_amb_h, cdxa_v = np.asarray(T_amb_h, dtype=float), np.asarray(cdxa_v, dtype=float)
+  pto_1s, pto_on_col, pto_start_col = (np.asarray(x, dtype=float) for x in (pto_1s, pto_on_col, pto_start_col))
+
+    # --- 1. mass per row: payload forward-filled by distance (payload_engine writes it on start + stop waypoints only)
+  has_pl = ~np.isnan(payload_wp)                                   # waypoints where payload is set
+  k_pl = np.searchsorted(wp_s[has_pl], S, side="right") - 1        # last payload waypoint at or before each row
+  m_row = m_vehicle + payload_wp[has_pl][k_pl]                     # vehicle + payload [kg]
+
+    # --- 2. weather hour of each row; hourly arrays start at hour 0 = t_start reference
+  hour = ((t_start + T) // 3600).astype(int)                      # index into T_amb_h, W1, W2, HVAC (if per hour)
+
+    # --- 3. air density and CdxA_eff per row
+  rho_row = p_air / (R_air * (T_amb_h[hour] + 273.15))             # ideal gas, fixed pressure (HDEV; VECTO fixed 1.188)
+
+  cdxa_tab = CdxA0 * np.asarray(W1) + np.asarray(W2)               # CdxA_eff table: one row per weather hour x speed grid (VECTO AirdragDataAdapter.cs 59-87)
+  v_kmh = np.clip(v_avg * 3.6, cdxa_v[0], cdxa_v[-1])              # hold end values: below 60 km/h uses the 60 value like VECTO
+  j = np.clip(np.searchsorted(cdxa_v, v_kmh, side="right") - 1, 0, len(cdxa_v) - 2)  # grid cell of each row
+  w = (v_kmh - cdxa_v[j]) / (cdxa_v[j+1] - cdxa_v[j])              # position inside the cell
+  cdxa_row = cdxa_tab[hour, j] * (1 - w) + cdxa_tab[hour, j+1] * w  # linear interpolation by speed, at the hour's own wind
+
+    # --- 4. wheel power per row [W]: positive = driving, negative = braking/coasting
+  P_wheel = m_row * k_lin + m_row**beta * k_roll + k_rot + rho_row * cdxa_row * L
+
+    # --- 5. wheel power -> electric traction power [W]; positive = drawn, negative = recovered
+  drivetrain_effeiciency = motor_eff * inverter_eff * gearbox_eff
+  P_trac = np.where(P_wheel > 0, P_wheel / drivetrain_effeiciency, P_wheel * regen_effeiciency)  # Bob's old rule
+  P_trac = np.where(M == 3, 0.0, P_trac)                           # coasting/rolling: no motor torque (VECTO BatteryElectricMotorController.cs 44-46)
+  P_trac = np.where((M == 4) & (V <= v_no_regen), 0.0, P_trac)     # braking below v_no_regen: brakes only (same file 62-69; 5 km/h Constants.cs 323)
+  if P_regen_max is not None:
+      P_trac = np.maximum(P_trac, -P_regen_max)                    # regen cap; the rest goes to mechanical brakes
+
+
+        # --- 6. aux power per row [W]; all inputs already electric W from P_aux / pto_engine
+  n = len(T)
+  pto_row = np.zeros(n)                                            # stop PTO W per row
+  pto_active = np.zeros(n, dtype=bool)                             # True while a stop PTO profile runs
+  for i in np.where(pto_on_col == 1)[0]:                           # loop over stops with PTO on (not over rows)
+      at_stop = np.where((V == 0) & np.isclose(S, wp_s[i], rtol=0, atol=1e-3))[0]  # standing rows of this stop
+      if len(at_stop) == 0:
+          raise ValueError(f"no standing rows found for stop at {wp_s[i]} m")       # guard only
+      k0 = at_stop[0] + int(pto_start_col[i])                      # PTO start inside the stop (middle, from pto_engine)
+      k1 = k0 + len(pto_1s)
+      if k1 > at_stop[-1] + 1:
+          raise ValueError(f"PTO does not fit in stop at {wp_s[i]} m")             # guard only; parser extends stops
+      pto_row[k0:k1] = pto_1s
+      pto_active[k0:k1] = True
+
+  moving = V > 0                                                   # SP on only when moving (VECTO ElectricAuxiliaries.cs, ID "STP")
+  HVAC_row = np.asarray(HVAC, dtype=float)[hour] if np.ndim(HVAC) else float(HVAC)  # one number, or one per weather hour
+  P_aux_row = (ES + PS + HVAC_row                                  # always on
+               + SP * moving
+               + cond * (moving | pto_active)                      # HDEV rule, see flags
+               + PTO_always_on
+               + pto_row)
+
+    # --- 7. power at the battery terminals and trip energy
+  P_battery = P_trac + P_aux_row                                   # [W]; aux via DC/DC eff 1.0 like VECTO (DeclarationData.cs line 124); battery Ri loss is in the battery engine
+  E_battery = np.sum(P_battery * dt) / 3.6e6                       # net trip energy [kWh]
+
+  return P_wheel, P_trac, P_aux_row, P_battery, E_battery

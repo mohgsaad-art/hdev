@@ -1,0 +1,17 @@
+cycle,attempt,outcome,detail
+RegionalDelivery,"N1 positional: consumption_engine(T,S,V,M,dt, *force_engine_out, m_vehicle, ...)",FAILED,"IndexError: too many indices for array: array is 0-dimensional, but 1 were indexed"
+RegionalDelivery,"N2 keyword: k_rot_wheel=..., k_rot_rotor=...",FAILED,TypeError: consumption_engine() got an unexpected keyword argument 'k_rot_wheel'
+RegionalDelivery,"N3 pto_engine outputs in return order -> (pto_1s, pto_on_col, pto_start_col)",RAN,E_battery=72.2033 kWh
+RegionalDelivery,"ADAPTER (rename only), k_rot_rotor=0, PTO off, vs old function",IDENTICAL,E_battery=72.2033 kWh (0.7220 kWh/km); all 5 outputs bit-identical: True
+RegionalDelivery,ADAPTER with real k_rot_rotor (rotor would be lost),REFUSED,refused: old consumption_engine has no k_rot_rotor input: it would be dropped silently
+UrbanDelivery,"N1 positional: consumption_engine(T,S,V,M,dt, *force_engine_out, m_vehicle, ...)",FAILED,"IndexError: too many indices for array: array is 0-dimensional, but 1 were indexed"
+UrbanDelivery,"N2 keyword: k_rot_wheel=..., k_rot_rotor=...",FAILED,TypeError: consumption_engine() got an unexpected keyword argument 'k_rot_wheel'
+UrbanDelivery,"N3 pto_engine outputs in return order -> (pto_1s, pto_on_col, pto_start_col)",RAN,E_battery=60.0964 kWh
+UrbanDelivery,"ADAPTER (rename only), k_rot_rotor=0, PTO off, vs old function",IDENTICAL,E_battery=60.0964 kWh (0.6010 kWh/km); all 5 outputs bit-identical: True
+UrbanDelivery,ADAPTER with real k_rot_rotor (rotor would be lost),REFUSED,refused: old consumption_engine has no k_rot_rotor input: it would be dropped silently
+MunicipalUtility,"N1 positional: consumption_engine(T,S,V,M,dt, *force_engine_out, m_vehicle, ...)",FAILED,"IndexError: too many indices for array: array is 0-dimensional, but 1 were indexed"
+MunicipalUtility,"N2 keyword: k_rot_wheel=..., k_rot_rotor=...",FAILED,TypeError: consumption_engine() got an unexpected keyword argument 'k_rot_wheel'
+MunicipalUtility,"N3 pto_engine outputs in return order -> (pto_1s, pto_on_col, pto_start_col)",FAILED,IndexError: index 123 is out of bounds for axis 0 with size 23
+MunicipalUtility,"ADAPTER (rename only), k_rot_rotor=0, PTO off, vs old function",IDENTICAL,E_battery=8.1457 kWh (0.7247 kWh/km); all 5 outputs bit-identical: True
+MunicipalUtility,ADAPTER with real k_rot_rotor (rotor would be lost),REFUSED,refused: old consumption_engine has no k_rot_rotor input: it would be dropped silently
+MunicipalUtility,ADAPTER with stop PTO on (96 stops expected),RAN,PTO + Cond-extension energy = 14.761 kWh; stops with PTO = 96; 96 x 0.14993 = 14.393 kWh (Cond 600 W x PTO rows is included in the first number)

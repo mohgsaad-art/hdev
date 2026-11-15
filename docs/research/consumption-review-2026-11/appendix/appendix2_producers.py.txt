@@ -1,0 +1,15 @@
+def force_engine(g, Crr, speed, accel, dt_s, grade, r_dyn, theta_red, J_rotor, i_total):
+  speed = np.asarray(speed, dtype=float)
+  accel = np.asarray(accel, dtype=float)
+  dt_s = np.asarray(dt_s, dtype=float)
+  grade = np.asarray(grade, dtype=float)
+  grade = np.arctan(grade / 100)
+  v1 = speed
+  v2 = np.maximum(speed + accel * dt_s, 0.0)
+  v_avg = (v1 + v2)/2
+  k_lin = (g * np.sin(grade) + accel) * v_avg
+  k_roll = Crr * g * np.cos(grade) * v_avg
+  k_rot_wheel = (theta_red  / r_dyn**2) * accel * v_avg
+  k_rot_rotor = (J_rotor * i_total**2 / r_dyn**2) * accel * v_avg
+  L = (v1 + v2) * (v1**2 + v2**2) / 8
+  return k_lin, k_roll, k_rot_wheel, k_rot_rotor, L, v_avg

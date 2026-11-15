@@ -1,0 +1,13 @@
+consumption_engine (cell 16) byte-identical to Appendix 1: True
+force_engine (cell 8) same code as Appendix 2.1 after removing comments: True
+P_aux(ES_power, PS_power, HVAC_power, SP_power, cond_power, PTO_always_on, ES_alteff=0.7, PS_alteff=1.0, HVAC_eff=1.25, SP_alteff=0.7, cond_eff=1.0, PTO_eff=1.0)
+pto_engine(stop, is_on, stop_pto_t, stop_pto_w, drive_pto_t, drive_pto_w, stop_pto_eff, drive_pto_eff)
+ssm_total_w(T_amb, solar, T_calc, A_surface, U, N_persons, A_window, heat_per_person, clouding, T_boundary, g, solar_factor, p, R, cp, Q)
+climate_lookup(T_amb, T_points, cop_heat_points, cop_cool_points, hp_share_points, eh_share_points, fuel_share_points)
+HVAC_thermal(T_amb, solar, A_surface, U, N_persons, A_window, T_points, cop_heat_points, cop_cool_points, hp_share_points, eh_share_points, fuel_share_points, max_heating_power, max_cooling_power, cab_volume, vent_rate, vent_rate_heating, eh_eff, spec_vent_power, heat_per_person, clouding, T_boundary, g, solar_factor, waste_heat, T_heat, T_cool, T_cool_off, Q, p, R, cp)
+SP_power_helper(SP_baseline, SP_axle_shares, SP_tech_factors)
+--- src/engine/consumption.py vs notebook
+62 lines; defs: ['consumption']
+signature in src: NOT FOUND
+params only in notebook: ['T', 'S', 'V', 'M', 'dt', 'k_lin', 'k_roll', 'k_rot', 'L', 'v_avg', 'm_vehicle', 'wp_s', 'payload_wp', 'beta', 't_start', 'T_amb_h', 'W1', 'W2', 'cdxa_v', 'CdxA0', 'p_air', 'R_air', 'ES', 'PS', 'HVAC', 'SP', 'cond', 'PTO_always_on', 'pto_1s', 'pto_on_col', 'pto_start_col', 'motor_eff', 'inverter_eff', 'gearbox_eff', 'regen_effeiciency', 'v_no_regen', 'P_regen_max']
+params only in src: []
