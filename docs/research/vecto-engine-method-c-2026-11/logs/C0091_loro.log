@@ -1,0 +1,14 @@
+[     1 s] fold 0 theta [  0.9282   0.9238 447.1831   5.6476] held-out err -0.39 % grad nan refined False
+[     1 s] fold 1 theta [  0.9305   0.9225 460.9252   5.6433] held-out err -0.13 % grad nan refined False
+[     1 s] fold 2 theta [  0.919    0.9313 410.8828   5.588 ] held-out err -1.40 % grad nan refined False
+[     1 s] fold 3 theta [  0.9305   0.9224 461.1236   5.6433] held-out err -0.17 % grad nan refined False
+[     1 s] fold 4 theta [  0.9305   0.9224 461.4777   5.6433] held-out err -0.11 % grad nan refined False
+[     1 s] fold 5 theta [  0.9305   0.9224 461.4777   5.6433] held-out err -0.06 % grad nan refined False
+[     1 s] fold 6 theta [  0.9258   0.9265 439.6191   5.6386] held-out err -0.17 % grad nan refined False
+[     1 s] fold 7 theta [  0.9292   0.9238 457.5349   5.6433] held-out err +0.46 % grad nan refined False
+[     1 s] fold 8 theta [  0.9252   0.9278 440.158    5.6439] held-out err +0.73 % grad nan refined False
+[   118 s] fold 11 theta [  0.9358   0.9386 526.7281   5.5661] held-out err -2.75 % grad nan refined False
+[   118 s] fold 10 theta [  0.9411   0.9065 507.5784   5.65  ] held-out err +1.87 % grad nan refined False
+[   118 s] fold 9 theta [  0.9221   0.9296 423.9233   5.6429] held-out err +0.69 % grad nan refined False
+[   118 s] LORO mean abs 0.74 % worst 2.75 %
+DONE

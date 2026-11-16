@@ -1,0 +1,6 @@
+[     1 s] fold 0 theta [0.6642 1.     0.3709] held-out err -10.42 % grad nan refined False
+[     1 s] fold 3 theta [6.336e-01 1.000e+00 8.000e-04] held-out err +11.21 % grad nan refined False
+[     1 s] fold 1 theta [0.6625 1.     0.4353] held-out err -8.75 % grad nan refined False
+[     1 s] fold 2 theta [  0.6937   1.     211.898 ] held-out err +6.78 % grad nan refined False
+[     1 s] LORO mean abs 9.29 % worst 11.21 %
+DONE
