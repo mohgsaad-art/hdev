@@ -1,0 +1,62 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+config_id,make,model,architecture,gears,iepc_rated_kW,battery_installed_kwh,airdrag_method,cdxa_range,method,n_results,n_fitted,dof,at_bound,in_sample_mean_abs_err_pct,in_sample_worst_abs_err_pct,in_sample_mean_err_pct,eta_d,eta_r,F0_N,a_W,b_perW,c_W_per_mps,cdxa_declared_m2
+C0162,Mercedes-Benz,Actros,E-IEPC-wheel,2,398.0,336.0,Measured,A15,C,10,4,6,regen;cdxa_declared,1.641,4.538,-0.109,0.74758112,1.0,217.109766,,,,5.929999
+C0162,Mercedes-Benz,Actros,E-IEPC-wheel,2,398.0,336.0,Measured,A15,L4b,10,4,6,a_W;cdxa_declared,1.246,3.588,-0.17,,,,0.0,6.2e-07,1246.7939575,5.929999
+C0163,Mercedes-Benz,Actros,E-IEPC-wheel,2,407.0,336.0,Measured,A15,C,12,4,8,F0,1.223,2.267,-0.015,0.89022953,0.82706215,0.0,,,,5.71483772
+C0163,Mercedes-Benz,Actros,E-IEPC-wheel,2,407.0,336.0,Measured,A15,L4b,12,4,8,c_W_per_mps,0.986,1.966,0.073,,,,6251.20173474,4.3e-07,0.0,5.67937387
+C0164,Mercedes-Benz,Actros,E-IEPC-wheel,2,407.0,336.0,Measured,A15,C,12,4,8,F0,1.307,2.435,-0.017,0.88947832,0.82791601,0.0,,,,5.73477483
+C0164,Mercedes-Benz,Actros,E-IEPC-wheel,2,407.0,336.0,Measured,A15,L4b,12,4,8,c_W_per_mps,1.049,2.194,0.07,,,,6163.06380434,4.3e-07,0.0,5.70779872
+C0165,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A15,C,12,4,8,,1.825,3.696,-0.042,0.96592825,0.79419275,146.70393466,,,,5.87844651
+C0165,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A15,L4b,12,4,8,c_W_per_mps;cdxa_declared,2.016,5.529,0.444,,,,6533.46593146,2.5e-07,0.0,5.65
+C0166,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A15,C,12,4,8,,1.815,3.607,-0.041,0.96423153,0.79531811,136.53970355,,,,5.89582332
+C0166,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A15,L4b,12,4,8,c_W_per_mps;cdxa_declared,2.009,5.353,0.427,,,,6508.42570578,2.5e-07,0.0,5.65
+C0167,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A15,C,12,4,8,cdxa_declared,1.778,3.735,-0.041,0.96482056,0.79763281,161.83204996,,,,5.929999
+C0167,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A15,L4b,12,4,8,c_W_per_mps;cdxa_declared,1.955,5.033,0.295,,,,6809.0832878,2.5e-07,0.0,5.65
+C0168,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A15,C,12,4,8,,1.853,3.765,-0.044,0.96675214,0.79235852,150.43666901,,,,5.86658173
+C0168,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A15,L4b,12,4,8,c_W_per_mps;cdxa_declared,2.056,5.654,0.468,,,,6516.58738436,2.5e-07,0.0,5.65
+C0169,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A16,C,12,4,8,,1.81,3.589,-0.041,0.96314016,0.79632833,132.59450629,,,,6.03725755
+C0169,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A16,L4b,12,4,8,c_W_per_mps;cdxa_declared,2.104,5.84,0.597,,,,6210.01590151,2.5e-07,0.0,5.93
+C0170,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A16,C,12,4,8,,1.804,3.46,-0.04,0.948155,0.8050425,50.54761083,,,,6.2159516
+C0170,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A16,L4b,12,4,8,c_W_per_mps;cdxa_declared,1.835,5.064,0.387,,,,6080.74816022,2.7e-07,0.0,5.93
+C0171,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A16,C,12,4,8,,1.773,3.458,-0.039,0.95234413,0.80076764,62.69643211,,,,6.20574195
+C0171,Mercedes-Benz,Actros,E-IEPC-wheel,4,601.0,642.0,Measured,A16,L4b,12,4,8,c_W_per_mps;cdxa_declared,1.839,5.278,0.436,,,,6083.90200158,2.7e-07,0.0,5.93
+C0172,Mercedes-Benz,Actros,E-IEPC-wheel,2,398.0,336.0,Standard values,A23,C,10,3,7,regen,1.509,4.75,-0.148,0.74500799,1.0,251.64420492,,,,
+C0172,Mercedes-Benz,Actros,E-IEPC-wheel,2,398.0,336.0,Standard values,A23,L4b,10,3,7,a_W,1.414,5.075,-0.285,,,,0.0,5.7e-07,1512.21375853,
+C0173,Mercedes-Benz,Actros,E-IEPC-wheel,4,592.0,642.0,Standard values,A23,C,12,3,9,F0,1.347,3.109,-0.024,0.79028592,0.90463954,0.0,,,,
+C0173,Mercedes-Benz,Actros,E-IEPC-wheel,4,592.0,642.0,Standard values,A23,L4b,12,3,9,,1.113,2.48,0.001,,,,3549.54728383,5.1e-07,713.69958898,
+C0174,Mercedes-Benz,Actros,E-IEPC-wheel,4,592.0,642.0,Standard values,A23,C,12,3,9,F0,1.25,2.919,-0.02,0.78967419,0.90769943,0.0,,,,
+C0174,Mercedes-Benz,Actros,E-IEPC-wheel,4,592.0,642.0,Standard values,A23,L4b,12,3,9,,1.056,2.248,-0.001,,,,3507.79548635,5e-07,732.7404411,
+C0175,Mercedes-Benz,Actros,E-IEPC-wheel,4,592.0,642.0,Standard values,A23,C,12,3,9,F0,1.332,3.009,-0.024,0.790638,0.90101768,0.0,,,,
+C0175,Mercedes-Benz,Actros,E-IEPC-wheel,4,592.0,642.0,Standard values,A23,L4b,12,3,9,,1.114,2.487,0.001,,,,3813.25315982,5e-07,703.07454845,
+C0241,Renault,ZM42T_HIGH,E-IEPC,12,467.0,486.0,Measured,A19,C,12,4,8,F0;cdxa_declared,1.325,2.595,-0.017,0.88119111,0.77270618,0.0,,,,7.209999
+C0241,Renault,ZM42T_HIGH,E-IEPC,12,467.0,486.0,Measured,A19,L4b,12,4,8,c_W_per_mps,1.304,2.938,0.168,,,,8280.21776716,4.5e-07,0.0,7.0672737
+C0242,Renault,ZM42T_HIGH,E-IEPC,12,467.0,540.0,Measured,A19,C,12,4,8,cdxa_declared,1.392,2.689,-0.024,0.94724874,0.71273622,153.07462996,,,,7.209999
+C0242,Renault,ZM42T_HIGH,E-IEPC,12,467.0,540.0,Measured,A19,L4b,12,4,8,c_W_per_mps;cdxa_declared,2.006,5.768,0.561,,,,8937.57271776,3.5e-07,0.0,6.87
+C0243,Renault,ZM42T_HIGH,E-IEPC,12,467.0,540.0,Measured,A19,C,12,4,8,cdxa_declared,1.2,2.431,-0.02,0.93047583,0.74153597,107.16802073,,,,7.209999
+C0243,Renault,ZM42T_HIGH,E-IEPC,12,467.0,540.0,Measured,A19,L4b,12,4,8,c_W_per_mps;cdxa_declared,1.766,4.506,0.33,,,,8681.49763457,3.5e-07,0.0,6.87
+C0244,Renault,ZM42T_MED,E-IEPC,12,467.0,405.0,Measured,A12,C,12,4,8,F0;cdxa_declared,1.635,3.174,-0.03,0.88009263,0.75830901,0.0,,,,5.119999
+C0244,Renault,ZM42T_MED,E-IEPC,12,467.0,405.0,Measured,A12,L4b,12,4,8,c_W_per_mps,1.577,3.444,0.181,,,,8344.59034502,4.9e-07,0.0,4.90420595
+C0245,Renault,ZM42T_MED,E-IEPC,12,467.0,486.0,Measured,A12,C,12,4,8,F0;cdxa_declared,1.572,2.98,-0.028,0.88574312,0.765553,0.0,,,,5.119999
+C0245,Renault,ZM42T_MED,E-IEPC,12,467.0,486.0,Measured,A12,L4b,12,4,8,c_W_per_mps,1.502,3.354,0.178,,,,8190.95770807,4.6e-07,0.0,4.90362972
+C0246,Renault,ZM42T_MED,E-IEPC,12,467.0,486.0,Measured,A12,C,12,4,8,F0;cdxa_declared,1.493,2.789,-0.029,0.89063991,0.75120311,0.0,,,,5.119999
+C0246,Renault,ZM42T_MED,E-IEPC,12,467.0,486.0,Measured,A12,L4b,12,4,8,c_W_per_mps;cdxa_declared,1.576,4.032,0.306,,,,8924.68522853,4.3e-07,0.0,4.88
+C0247,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A12,C,12,4,8,cdxa_declared,1.486,3.052,-0.029,0.94895515,0.71793169,141.86175592,,,,5.119999
+C0247,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A12,L4b,12,4,8,c_W_per_mps;cdxa_declared,2.207,5.962,0.607,,,,8117.41604891,3.5e-07,0.0,4.88
+C0248,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A12,C,12,4,8,,1.614,2.915,-0.033,0.97502416,0.68766871,235.70333674,,,,5.06690074
+C0248,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A12,L4b,12,4,8,c_W_per_mps;cdxa_declared,2.513,7.184,0.853,,,,8682.25304559,3.3e-07,0.0,4.88
+C0249,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A12,C,12,4,8,cdxa_declared,1.569,3.08,-0.032,0.95982855,0.70390973,177.90963593,,,,5.119999
+C0249,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A12,L4b,12,4,8,c_W_per_mps;cdxa_declared,2.317,6.462,0.711,,,,8543.39407968,3.4e-07,0.0,4.88
+C0250,Renault,ZM42T_MED,E-IEPC,12,467.0,486.0,Measured,A13,C,12,4,8,,1.598,2.725,-0.031,0.89760798,0.73894458,8.07353723,,,,5.34191794
+C0250,Renault,ZM42T_MED,E-IEPC,12,467.0,486.0,Measured,A13,L4b,12,4,8,c_W_per_mps;cdxa_declared,1.726,4.627,0.443,,,,8804.58154024,4.3e-07,0.0,5.12
+C0251,Renault,ZM42T_MED,E-IEPC,12,467.0,450.0,Measured,A13,C,12,4,8,cdxa_declared,1.365,2.777,-0.024,0.94116763,0.72020641,135.59094602,,,,5.379999
+C0251,Renault,ZM42T_MED,E-IEPC,12,467.0,450.0,Measured,A13,L4b,12,4,8,c_W_per_mps;cdxa_declared,2.018,5.467,0.525,,,,8424.71977403,3.6e-07,0.0,5.12
+C0252,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A13,C,12,4,8,cdxa_declared,1.428,3.052,-0.027,0.94676898,0.72167247,140.59109454,,,,5.379999
+C0252,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A13,L4b,12,4,8,c_W_per_mps;cdxa_declared,2.133,5.626,0.557,,,,8243.12203001,3.5e-07,0.0,5.12
+C0253,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A13,C,12,4,8,cdxa_declared,1.5,3.382,-0.031,0.93455726,0.73603124,105.1517083,,,,5.379999
+C0253,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A13,L4b,12,4,8,c_W_per_mps;cdxa_declared,2.062,5.235,0.46,,,,8158.2464533,3.6e-07,0.0,5.12
+C0254,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A13,C,12,4,8,cdxa_declared,1.518,2.796,-0.029,0.96225408,0.69999486,199.04632723,,,,5.379999
+C0254,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A13,L4b,12,4,8,c_W_per_mps;cdxa_declared,2.253,6.434,0.691,,,,8882.2616446,3.3e-07,0.0,5.12
+C0255,Renault,ZM42T_MED,E-IEPC,12,467.0,1080.0,Measured,A13,C,10,4,6,cdxa_declared,1.848,3.175,-0.041,0.9556434,0.70874735,167.01620679,,,,5.379999
+C0255,Renault,ZM42T_MED,E-IEPC,12,467.0,1080.0,Measured,A13,L4b,10,4,6,c_W_per_mps;cdxa_declared,2.605,6.355,0.803,,,,8967.29119035,3.4e-07,0.0,5.12
+C0256,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A14,C,10,4,6,cdxa_declared,1.685,2.739,-0.033,0.96116537,0.70371023,199.37508032,,,,5.649999
+C0256,Renault,ZM42T_MED,E-IEPC,12,467.0,540.0,Measured,A14,L4b,10,4,6,c_W_per_mps;cdxa_declared,2.358,6.006,0.766,,,,9268.77867735,3.3e-07,0.0,5.38

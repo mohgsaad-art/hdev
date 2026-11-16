@@ -1,0 +1,26 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+truck,view,metric,HDEV_engine_pct,VECTO_engine_pct,share_that_disappears_pct,remains_pct_points
+C0091,fit on all results,mean absolute error,1.08,0.41,61.9,0.41
+C0091,fit on all results,worst absolute error,1.98,0.97,51.2,0.97
+C0091,fit on all results,Urban mean absolute error,1.05,0.9,14.5,0.9
+C0091,fit on all results,Urban worst absolute error,1.42,0.97,31.7,0.97
+C0091,hide one result,mean absolute error,1.55,0.74,52.1,0.74
+C0091,hide one result,worst absolute error,3.71,2.75,25.7,2.75
+C0091,hide one result,Urban mean absolute error,2.53,2.31,8.6,2.31
+C0091,hide one result,Urban worst absolute error,3.71,2.75,25.7,2.75
+C0059,fit on all results,mean absolute error,7.83,6.76,13.7,6.76
+C0059,fit on all results,worst absolute error,10.07,8.82,12.4,8.82
+C0059,fit on all results,Urban mean absolute error,6.3,5.43,13.8,5.43
+C0059,fit on all results,Urban worst absolute error,7.7,7.07,8.2,7.07
+C0059,hide one result,mean absolute error,11.25,9.29,17.4,9.29
+C0059,hide one result,worst absolute error,12.7,11.21,11.8,11.21
+C0059,hide one result,Urban mean absolute error,11.24,8.99,20.0,8.99
+C0059,hide one result,Urban worst absolute error,12.7,11.21,11.8,11.21
+both trucks (16 results),fit on all results,mean absolute error,2.77,2.0,27.8,2.0
+both trucks (16 results),fit on all results,worst absolute error,10.07,8.82,12.4,8.82
+both trucks (16 results),fit on all results,Urban mean absolute error,3.67,3.16,13.9,3.16
+both trucks (16 results),fit on all results,Urban worst absolute error,7.7,7.07,8.2,7.07
+both trucks (16 results),hide one result,mean absolute error,3.98,2.88,27.6,2.88
+both trucks (16 results),hide one result,worst absolute error,12.7,11.21,11.8,11.21
+both trucks (16 results),hide one result,Urban mean absolute error,6.88,5.65,17.9,5.65
+both trucks (16 results),hide one result,Urban worst absolute error,12.7,11.21,11.8,11.21

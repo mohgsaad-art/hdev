@@ -1,0 +1,10 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+truck,view,engine,n,mean_err_pct,mean_abs_err_pct,worst_abs_err_pct,urban_mean_abs_err_pct,urban_worst_abs_err_pct,share_within_5pct,share_too_low
+C0091,fit on all results,HDEV engine (PR #37),12,-0.01,1.08,1.98,1.05,1.42,1.0,0.5
+C0091,fit on all results,VECTO engine,12,-0.0,0.41,0.97,0.9,0.97,1.0,0.67
+C0091,hide one result,HDEV engine (PR #37),12,-0.19,1.55,3.71,2.53,3.71,1.0,0.5
+C0091,hide one result,VECTO engine,12,-0.12,0.74,2.75,2.31,2.75,1.0,0.67
+C0059,fit on all results,HDEV engine (PR #37),4,-1.54,7.83,10.07,6.3,7.7,0.25,0.5
+C0059,fit on all results,VECTO engine,4,-1.33,6.76,8.82,5.43,7.07,0.25,0.5
+C0059,hide one result,HDEV engine (PR #37),4,-0.02,11.25,12.7,11.24,12.7,0.0,0.5
+C0059,hide one result,VECTO engine,4,-0.3,9.29,11.21,8.99,11.21,0.0,0.5

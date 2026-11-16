@@ -1,0 +1,18 @@
+C0059 rc 0 22 s
+C0091 rc 0 56 s
+C0059 Regional Del 333 term 0.7301  res -0.00000  wheel_in 0.6986 IEPC_el 0.6986 brake 0.0000 | harness wheel 0.6999 drive 0.7354 regen -0.0355 | VECTO drive 0.7326 regen -0.0340
+C0059 Regional Del 1664 term 0.7548  res -0.00000  wheel_in 0.7235 IEPC_el 0.7235 brake 0.0000 | harness wheel 0.7250 drive 0.7723 regen -0.0473 | VECTO drive 0.7669 regen -0.0434
+C0059 Urban Delive 333 term 0.4326  res 0.00000  wheel_in 0.3659 IEPC_el 0.3661 brake 0.0000 | harness wheel 0.3782 drive 0.6363 regen -0.2580 | VECTO drive 0.6186 regen -0.2526
+C0059 Urban Delive 1664 term 0.4576  res 0.00000  wheel_in 0.3907 IEPC_el 0.3911 brake 0.0003 | harness wheel 0.4057 drive 0.7267 regen -0.3210 | VECTO drive 0.7053 regen -0.3146
+C0091 Construction 2600 term 0.8701  res 0.00001  wheel_in 0.8139 IEPC_el 0.8139 brake 0.0000 | harness wheel 0.8377 drive 1.2663 regen -0.4285 | VECTO drive 1.2314 regen -0.4175
+C0091 Construction 12900 term 1.0221  res 0.00001  wheel_in 0.9653 IEPC_el 0.9654 brake 0.0000 | harness wheel 1.0197 drive 1.6782 regen -0.6585 | VECTO drive 1.6334 regen -0.6681
+C0091 Long Haul 2600 term 0.9447  res -0.00000  wheel_in 0.9078 IEPC_el 0.9078 brake 0.0000 | harness wheel 0.9104 drive 0.9934 regen -0.0830 | VECTO drive 0.9882 regen -0.0804
+C0091 Long Haul 19300 term 1.1844  res 0.00000  wheel_in 1.1472 IEPC_el 1.1473 brake 0.0000 | harness wheel 1.1607 drive 1.3672 regen -0.2065 | VECTO drive 1.3489 regen -0.2017
+C0091 Long Haul EM 3500 term 1.2130  res 0.00000  wheel_in 1.1758 IEPC_el 1.1758 brake 0.0000 | harness wheel 1.1789 drive 1.2852 regen -0.1062 | VECTO drive 1.2788 regen -0.1029
+C0091 Long Haul EM 26500 term 1.5435  res -0.00000  wheel_in 1.5057 IEPC_el 1.5057 brake 0.0000 | harness wheel 1.5248 drive 1.7997 regen -0.2749 | VECTO drive 1.7760 regen -0.2703
+C0091 Regional Del 2600 term 0.8779  res -0.00000  wheel_in 0.8365 IEPC_el 0.8366 brake 0.0000 | harness wheel 0.8642 drive 1.0788 regen -0.2146 | VECTO drive 1.0513 regen -0.2148
+C0091 Regional Del 12900 term 1.0281  res -0.00000  wheel_in 0.9863 IEPC_el 0.9864 brake 0.0000 | harness wheel 1.0366 drive 1.3887 regen -0.3520 | VECTO drive 1.3456 regen -0.3593
+C0091 Regional Del 3500 term 1.1325  res 0.00000  wheel_in 1.0907 IEPC_el 1.0907 brake 0.0000 | harness wheel 1.1232 drive 1.3979 regen -0.2747 | VECTO drive 1.3654 regen -0.2747
+C0091 Regional Del 17500 term 1.3401  res -0.00000  wheel_in 1.2977 IEPC_el 1.2977 brake 0.0000 | harness wheel 1.3568 drive 1.8172 regen -0.4604 | VECTO drive 1.7677 regen -0.4701
+C0091 Urban Delive 2600 term 0.6523  res -0.00000  wheel_in 0.5595 IEPC_el 0.5596 brake 0.0000 | harness wheel 0.5908 drive 1.6439 regen -1.0531 | VECTO drive 1.6125 regen -1.0530
+C0091 Urban Delive 12900 term 0.8028  res -0.00000  wheel_in 0.7088 IEPC_el 0.7089 brake 0.0001 | harness wheel 0.7590 drive 2.3297 regen -1.5708 | VECTO drive 2.2631 regen -1.5543

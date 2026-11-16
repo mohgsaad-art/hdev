@@ -1,0 +1,6 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+truck,name,engine,n_results,n_fitted,rms_pct,at_bound,eta_d,eta_r,F0_N,cdxa_declared_m2
+C0091,IVECO S-eWay,HDEV engine (PR #37),12,4,1.168,cdxa_declared,0.96641,0.91328,602.8034,5.65
+C0091,IVECO S-eWay,VECTO engine,12,4,0.525,,0.93048,0.92237,461.47771,5.64332
+C0059,Fuso eCanter,HDEV engine (PR #37),4,3,8.06,regen,0.68868,1.0,105.91395,
+C0059,Fuso eCanter,VECTO engine,4,3,7.003,regen;F0,0.65261,1.0,0.46346,

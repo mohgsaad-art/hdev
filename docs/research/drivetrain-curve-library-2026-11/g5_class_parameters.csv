@@ -1,0 +1,14 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+method,weighting,percentile,n_configs,n_models,eta_d,eta_r,F0_N,a_W,b_perW,c_W_per_mps
+C,config_unweighted,P10,254,38,0.836539213,0.702444167,0.0,,,
+C,config_unweighted,P50,254,38,0.926491675,0.79731482,114.255215905,,,
+C,config_unweighted,P90,254,38,0.967870095,0.880458276,249.304524272,,,
+C,model_weighted,P10,254,38,0.837496965,0.7459122,0.0,,,
+C,model_weighted,P50,254,38,0.88793953,0.845965635,13.560401744,,,
+C,model_weighted,P90,254,38,0.937813779,0.890118293,600.818466049,,,
+L4b,config_unweighted,P10,254,38,,,,3545.135328275,2.83e-07,0.0
+L4b,config_unweighted,P50,254,38,,,,7343.716324065,3.5e-07,0.0
+L4b,config_unweighted,P90,254,38,,,,9092.554447501,5e-07,486.494627684
+L4b,model_weighted,P10,254,38,,,,3190.422388042,2.98e-07,0.0
+L4b,model_weighted,P50,254,38,,,,5258.038550836,4.03e-07,149.49912984
+L4b,model_weighted,P90,254,38,,,,8622.634363382,5.33e-07,707.563137616
