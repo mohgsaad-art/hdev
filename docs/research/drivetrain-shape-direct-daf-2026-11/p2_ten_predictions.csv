@@ -1,0 +1,1058 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+config_id,truck,method,mission,payload_kg,certified_kwh_km,predicted_kwh_km,err_pct
+C0059,Fuso eCanter,C,Regional Delivery,333,1.235,1.0871,-11.97
+C0059,Fuso eCanter,C,Regional Delivery,1664,1.262,1.1286,-10.57
+C0059,Fuso eCanter,C,Urban Delivery,333,0.738,0.8101,9.78
+C0059,Fuso eCanter,C,Urban Delivery,1664,0.7822,0.8815,12.7
+C0059,Fuso eCanter,L4b,Regional Delivery,333,1.235,1.0598,-14.19
+C0059,Fuso eCanter,L4b,Regional Delivery,1664,1.262,1.0985,-12.96
+C0059,Fuso eCanter,L4b,Urban Delivery,333,0.738,0.7949,7.72
+C0059,Fuso eCanter,L4b,Urban Delivery,1664,0.7822,0.8797,12.47
+C0059,Fuso eCanter,L1[arch],Regional Delivery,333,1.235,0.9935,-19.55
+C0059,Fuso eCanter,L1[arch],Regional Delivery,1664,1.262,1.0301,-18.38
+C0059,Fuso eCanter,L1[arch],Urban Delivery,333,0.738,0.8281,12.21
+C0059,Fuso eCanter,L1[arch],Urban Delivery,1664,0.7822,0.9048,15.67
+C0059,Fuso eCanter,L1b[arch],Regional Delivery,333,1.235,1.0375,-15.99
+C0059,Fuso eCanter,L1b[arch],Regional Delivery,1664,1.262,1.074,-14.9
+C0059,Fuso eCanter,L1b[arch],Urban Delivery,333,0.738,0.8222,11.41
+C0059,Fuso eCanter,L1b[arch],Urban Delivery,1664,0.7822,0.8861,13.28
+C0059,Fuso eCanter,L1[S3a_IEPC_1speed],Regional Delivery,333,1.235,0.9935,-19.55
+C0059,Fuso eCanter,L1[S3a_IEPC_1speed],Regional Delivery,1664,1.262,1.0301,-18.38
+C0059,Fuso eCanter,L1[S3a_IEPC_1speed],Urban Delivery,333,0.738,0.8281,12.21
+C0059,Fuso eCanter,L1[S3a_IEPC_1speed],Urban Delivery,1664,0.7822,0.9048,15.67
+C0059,Fuso eCanter,L1b[S3a_IEPC_1speed],Regional Delivery,333,1.235,1.0375,-15.99
+C0059,Fuso eCanter,L1b[S3a_IEPC_1speed],Regional Delivery,1664,1.262,1.074,-14.9
+C0059,Fuso eCanter,L1b[S3a_IEPC_1speed],Urban Delivery,333,0.738,0.8222,11.41
+C0059,Fuso eCanter,L1b[S3a_IEPC_1speed],Urban Delivery,1664,0.7822,0.8861,13.28
+C0059,Fuso eCanter,L1[S3b_IEPC_3speed],Regional Delivery,333,1.235,0.991,-19.75
+C0059,Fuso eCanter,L1[S3b_IEPC_3speed],Regional Delivery,1664,1.262,1.0299,-18.39
+C0059,Fuso eCanter,L1[S3b_IEPC_3speed],Urban Delivery,333,0.738,0.8212,11.27
+C0059,Fuso eCanter,L1[S3b_IEPC_3speed],Urban Delivery,1664,0.7822,0.9131,16.74
+C0059,Fuso eCanter,L1b[S3b_IEPC_3speed],Regional Delivery,333,1.235,1.0507,-14.92
+C0059,Fuso eCanter,L1b[S3b_IEPC_3speed],Regional Delivery,1664,1.262,1.0901,-13.62
+C0059,Fuso eCanter,L1b[S3b_IEPC_3speed],Urban Delivery,333,0.738,0.8124,10.08
+C0059,Fuso eCanter,L1b[S3b_IEPC_3speed],Urban Delivery,1664,0.7822,0.8863,13.3
+C0059,Fuso eCanter,L1[S2_busIEPC_PSM],Regional Delivery,333,1.235,0.9944,-19.48
+C0059,Fuso eCanter,L1[S2_busIEPC_PSM],Regional Delivery,1664,1.262,1.0281,-18.53
+C0059,Fuso eCanter,L1[S2_busIEPC_PSM],Urban Delivery,333,0.738,0.8322,12.76
+C0059,Fuso eCanter,L1[S2_busIEPC_PSM],Urban Delivery,1664,0.7822,0.9006,15.13
+C0059,Fuso eCanter,L1b[S2_busIEPC_PSM],Regional Delivery,333,1.235,1.0335,-16.32
+C0059,Fuso eCanter,L1b[S2_busIEPC_PSM],Regional Delivery,1664,1.262,1.0665,-15.49
+C0059,Fuso eCanter,L1b[S2_busIEPC_PSM],Urban Delivery,333,0.738,0.8288,12.3
+C0059,Fuso eCanter,L1b[S2_busIEPC_PSM],Urban Delivery,1664,0.7822,0.8829,12.88
+C0059,Fuso eCanter,L1[S2_busIEPC_ASM],Regional Delivery,333,1.235,1.0113,-18.12
+C0059,Fuso eCanter,L1[S2_busIEPC_ASM],Regional Delivery,1664,1.262,1.0471,-17.03
+C0059,Fuso eCanter,L1[S2_busIEPC_ASM],Urban Delivery,333,0.738,0.8184,10.89
+C0059,Fuso eCanter,L1[S2_busIEPC_ASM],Urban Delivery,1664,0.7822,0.9068,15.94
+C0059,Fuso eCanter,L1b[S2_busIEPC_ASM],Regional Delivery,333,1.235,1.0707,-13.3
+C0059,Fuso eCanter,L1b[S2_busIEPC_ASM],Regional Delivery,1664,1.262,1.1059,-12.37
+C0059,Fuso eCanter,L1b[S2_busIEPC_ASM],Urban Delivery,333,0.738,0.8078,9.45
+C0059,Fuso eCanter,L1b[S2_busIEPC_ASM],Urban Delivery,1664,0.7822,0.8772,12.15
+C0091,IVECO S-eWay,C,Construction,2600,1.139,1.1363,-0.24
+C0091,IVECO S-eWay,C,Construction,12900,1.337,1.352,1.12
+C0091,IVECO S-eWay,C,Long Haul,2600,1.189,1.1631,-2.18
+C0091,IVECO S-eWay,C,Long Haul,19300,1.457,1.4424,-1.0
+C0091,IVECO S-eWay,C,Long Haul EMS,3500,1.473,1.4504,-1.53
+C0091,IVECO S-eWay,C,Long Haul EMS,26500,1.854,1.821,-1.78
+C0091,IVECO S-eWay,C,Regional Delivery,2600,1.125,1.1364,1.01
+C0091,IVECO S-eWay,C,Regional Delivery,12900,1.302,1.3306,2.2
+C0091,IVECO S-eWay,C,Regional Delivery EMS,3500,1.4,1.4116,0.83
+C0091,IVECO S-eWay,C,Regional Delivery EMS,17500,1.654,1.682,1.69
+C0091,IVECO S-eWay,C,Urban Delivery,2600,0.9854,0.9987,1.35
+C0091,IVECO S-eWay,C,Urban Delivery,12900,1.247,1.2008,-3.71
+C0091,IVECO S-eWay,L4b,Construction,2600,1.139,1.1419,0.25
+C0091,IVECO S-eWay,L4b,Construction,12900,1.337,1.35,0.97
+C0091,IVECO S-eWay,L4b,Long Haul,2600,1.189,1.1615,-2.32
+C0091,IVECO S-eWay,L4b,Long Haul,19300,1.457,1.4446,-0.85
+C0091,IVECO S-eWay,L4b,Long Haul EMS,3500,1.473,1.4485,-1.67
+C0091,IVECO S-eWay,L4b,Long Haul EMS,26500,1.854,1.8444,-0.52
+C0091,IVECO S-eWay,L4b,Regional Delivery,2600,1.125,1.1315,0.58
+C0091,IVECO S-eWay,L4b,Regional Delivery,12900,1.302,1.3284,2.03
+C0091,IVECO S-eWay,L4b,Regional Delivery EMS,3500,1.4,1.4082,0.59
+C0091,IVECO S-eWay,L4b,Regional Delivery EMS,17500,1.654,1.6906,2.21
+C0091,IVECO S-eWay,L4b,Urban Delivery,2600,0.9854,1.0036,1.84
+C0091,IVECO S-eWay,L4b,Urban Delivery,12900,1.247,1.1894,-4.62
+C0091,IVECO S-eWay,L1[arch],Construction,2600,1.139,1.1399,0.08
+C0091,IVECO S-eWay,L1[arch],Construction,12900,1.337,1.3575,1.53
+C0091,IVECO S-eWay,L1[arch],Long Haul,2600,1.189,1.1381,-4.28
+C0091,IVECO S-eWay,L1[arch],Long Haul,19300,1.457,1.4196,-2.57
+C0091,IVECO S-eWay,L1[arch],Long Haul EMS,3500,1.473,1.438,-2.38
+C0091,IVECO S-eWay,L1[arch],Long Haul EMS,26500,1.854,1.8187,-1.9
+C0091,IVECO S-eWay,L1[arch],Regional Delivery,2600,1.125,1.1128,-1.09
+C0091,IVECO S-eWay,L1[arch],Regional Delivery,12900,1.302,1.3143,0.95
+C0091,IVECO S-eWay,L1[arch],Regional Delivery EMS,3500,1.4,1.4063,0.45
+C0091,IVECO S-eWay,L1[arch],Regional Delivery EMS,17500,1.654,1.6733,1.17
+C0091,IVECO S-eWay,L1[arch],Urban Delivery,2600,0.9854,1.0247,3.99
+C0091,IVECO S-eWay,L1[arch],Urban Delivery,12900,1.247,1.2455,-0.12
+C0091,IVECO S-eWay,L1b[arch],Construction,2600,1.139,1.1437,0.42
+C0091,IVECO S-eWay,L1b[arch],Construction,12900,1.337,1.3601,1.73
+C0091,IVECO S-eWay,L1b[arch],Long Haul,2600,1.189,1.1513,-3.17
+C0091,IVECO S-eWay,L1b[arch],Long Haul,19300,1.457,1.4335,-1.61
+C0091,IVECO S-eWay,L1b[arch],Long Haul EMS,3500,1.473,1.4576,-1.04
+C0091,IVECO S-eWay,L1b[arch],Long Haul EMS,26500,1.854,1.8355,-1.0
+C0091,IVECO S-eWay,L1b[arch],Regional Delivery,2600,1.125,1.1247,-0.03
+C0091,IVECO S-eWay,L1b[arch],Regional Delivery,12900,1.302,1.3266,1.89
+C0091,IVECO S-eWay,L1b[arch],Regional Delivery EMS,3500,1.4,1.4229,1.63
+C0091,IVECO S-eWay,L1b[arch],Regional Delivery EMS,17500,1.654,1.6875,2.03
+C0091,IVECO S-eWay,L1b[arch],Urban Delivery,2600,0.9854,1.0036,1.85
+C0091,IVECO S-eWay,L1b[arch],Urban Delivery,12900,1.247,1.2013,-3.66
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],Construction,2600,1.139,1.1399,0.08
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],Construction,12900,1.337,1.3575,1.53
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],Long Haul,2600,1.189,1.1381,-4.28
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],Long Haul,19300,1.457,1.4196,-2.57
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],Long Haul EMS,3500,1.473,1.438,-2.38
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],Long Haul EMS,26500,1.854,1.8187,-1.9
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],Regional Delivery,2600,1.125,1.1128,-1.09
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],Regional Delivery,12900,1.302,1.3143,0.95
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],Regional Delivery EMS,3500,1.4,1.4063,0.45
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],Regional Delivery EMS,17500,1.654,1.6733,1.17
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],Urban Delivery,2600,0.9854,1.0247,3.99
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],Urban Delivery,12900,1.247,1.2455,-0.12
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],Construction,2600,1.139,1.1437,0.42
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],Construction,12900,1.337,1.3601,1.73
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],Long Haul,2600,1.189,1.1513,-3.17
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],Long Haul,19300,1.457,1.4335,-1.61
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],Long Haul EMS,3500,1.473,1.4576,-1.04
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],Long Haul EMS,26500,1.854,1.8355,-1.0
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],Regional Delivery,2600,1.125,1.1247,-0.03
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],Regional Delivery,12900,1.302,1.3266,1.89
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],Regional Delivery EMS,3500,1.4,1.4229,1.63
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],Regional Delivery EMS,17500,1.654,1.6875,2.03
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],Urban Delivery,2600,0.9854,1.0036,1.85
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],Urban Delivery,12900,1.247,1.2013,-3.66
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],Construction,2600,1.139,1.1305,-0.75
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],Construction,12900,1.337,1.3568,1.48
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],Long Haul,2600,1.189,1.1253,-5.35
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],Long Haul,19300,1.457,1.4122,-3.08
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],Long Haul EMS,3500,1.473,1.4241,-3.32
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],Long Haul EMS,26500,1.854,1.8159,-2.05
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],Regional Delivery,2600,1.125,1.1025,-2.0
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],Regional Delivery,12900,1.302,1.3084,0.49
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],Regional Delivery EMS,3500,1.4,1.3958,-0.3
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],Regional Delivery EMS,17500,1.654,1.6713,1.05
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],Urban Delivery,2600,0.9854,1.0318,4.71
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],Urban Delivery,12900,1.247,1.2743,2.19
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],Construction,2600,1.139,1.1382,-0.07
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],Construction,12900,1.337,1.3615,1.83
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],Long Haul,2600,1.189,1.1487,-3.39
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],Long Haul,19300,1.457,1.4362,-1.43
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],Long Haul EMS,3500,1.473,1.4561,-1.15
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],Long Haul EMS,26500,1.854,1.8456,-0.45
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],Regional Delivery,2600,1.125,1.1219,-0.28
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],Regional Delivery,12900,1.302,1.3277,1.97
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],Regional Delivery EMS,3500,1.4,1.4214,1.53
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],Regional Delivery EMS,17500,1.654,1.694,2.42
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],Urban Delivery,2600,0.9854,0.994,0.87
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],Urban Delivery,12900,1.247,1.2141,-2.64
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],Construction,2600,1.139,1.1398,0.07
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],Construction,12900,1.337,1.358,1.57
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],Long Haul,2600,1.189,1.1398,-4.14
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],Long Haul,19300,1.457,1.4208,-2.49
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],Long Haul EMS,3500,1.473,1.4399,-2.25
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],Long Haul EMS,26500,1.854,1.8194,-1.87
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],Regional Delivery,2600,1.125,1.1134,-1.03
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],Regional Delivery,12900,1.302,1.3144,0.95
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],Regional Delivery EMS,3500,1.4,1.4066,0.47
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],Regional Delivery EMS,17500,1.654,1.6724,1.12
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],Urban Delivery,2600,0.9854,1.0231,3.83
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],Urban Delivery,12900,1.247,1.2449,-0.17
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],Construction,2600,1.139,1.1435,0.39
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],Construction,12900,1.337,1.3599,1.71
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],Long Haul,2600,1.189,1.1523,-3.08
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],Long Haul,19300,1.457,1.4342,-1.57
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],Long Haul EMS,3500,1.473,1.4587,-0.97
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],Long Haul EMS,26500,1.854,1.8352,-1.01
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],Regional Delivery,2600,1.125,1.1249,-0.01
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],Regional Delivery,12900,1.302,1.3259,1.83
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],Regional Delivery EMS,3500,1.4,1.4222,1.59
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],Regional Delivery EMS,17500,1.654,1.6851,1.88
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],Urban Delivery,2600,0.9854,1.0041,1.9
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],Urban Delivery,12900,1.247,1.2071,-3.2
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],Construction,2600,1.139,1.1202,-1.65
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],Construction,12900,1.337,1.3568,1.48
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],Long Haul,2600,1.189,1.1154,-6.19
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],Long Haul,19300,1.457,1.4088,-3.31
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],Long Haul EMS,3500,1.473,1.4133,-4.06
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],Long Haul EMS,26500,1.854,1.8193,-1.87
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],Regional Delivery,2600,1.125,1.0935,-2.8
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],Regional Delivery,12900,1.302,1.3033,0.1
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],Regional Delivery EMS,3500,1.4,1.386,-1.0
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],Regional Delivery EMS,17500,1.654,1.6702,0.98
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],Urban Delivery,2600,0.9854,1.0325,4.78
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],Urban Delivery,12900,1.247,1.3005,4.29
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],Construction,2600,1.139,1.1266,-1.09
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],Construction,12900,1.337,1.3639,2.01
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],Long Haul,2600,1.189,1.1443,-3.76
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],Long Haul,19300,1.457,1.4375,-1.34
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],Long Haul EMS,3500,1.473,1.4492,-1.61
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],Long Haul EMS,26500,1.854,1.8553,0.07
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],Regional Delivery,2600,1.125,1.1137,-1.01
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],Regional Delivery,12900,1.302,1.3242,1.71
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],Regional Delivery EMS,3500,1.4,1.4121,0.86
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],Regional Delivery EMS,17500,1.654,1.6959,2.53
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],Urban Delivery,2600,0.9854,0.9892,0.39
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],Urban Delivery,12900,1.247,1.2485,0.12
+C0371,Scania R 400E,C,Construction,2600,1.171,1.1857,1.26
+C0371,Scania R 400E,C,Construction,12900,1.456,1.4626,0.45
+C0371,Scania R 400E,C,Long Haul,2600,1.467,1.4257,-2.81
+C0371,Scania R 400E,C,Long Haul,19300,1.755,1.7521,-0.17
+C0371,Scania R 400E,C,Long Haul EMS,3500,1.784,1.7522,-1.78
+C0371,Scania R 400E,C,Long Haul EMS,26500,2.189,2.1813,-0.35
+C0371,Scania R 400E,C,Regional Delivery,2600,1.38,1.3788,-0.08
+C0371,Scania R 400E,C,Regional Delivery,12900,1.594,1.6167,1.42
+C0371,Scania R 400E,C,Regional Delivery EMS,3500,1.693,1.708,0.89
+C0371,Scania R 400E,C,Regional Delivery EMS,17500,1.994,2.0352,2.07
+C0371,Scania R 400E,C,Urban Delivery,2600,1.228,1.2607,2.66
+C0371,Scania R 400E,C,Urban Delivery,12900,1.66,1.5642,-5.77
+C0371,Scania R 400E,L4b,Construction,2600,1.171,1.1891,1.55
+C0371,Scania R 400E,L4b,Construction,12900,1.456,1.4642,0.57
+C0371,Scania R 400E,L4b,Long Haul,2600,1.467,1.4248,-2.88
+C0371,Scania R 400E,L4b,Long Haul,19300,1.755,1.7627,0.44
+C0371,Scania R 400E,L4b,Long Haul EMS,3500,1.784,1.7464,-2.11
+C0371,Scania R 400E,L4b,Long Haul EMS,26500,2.189,2.2046,0.71
+C0371,Scania R 400E,L4b,Regional Delivery,2600,1.38,1.375,-0.36
+C0371,Scania R 400E,L4b,Regional Delivery,12900,1.594,1.6133,1.21
+C0371,Scania R 400E,L4b,Regional Delivery EMS,3500,1.693,1.6964,0.2
+C0371,Scania R 400E,L4b,Regional Delivery EMS,17500,1.994,2.0495,2.78
+C0371,Scania R 400E,L4b,Urban Delivery,2600,1.228,1.2535,2.08
+C0371,Scania R 400E,L4b,Urban Delivery,12900,1.66,1.5634,-5.82
+C0371,Scania R 400E,L1[arch],Construction,2600,1.171,1.2115,3.46
+C0371,Scania R 400E,L1[arch],Construction,12900,1.456,1.455,-0.07
+C0371,Scania R 400E,L1[arch],Long Haul,2600,1.467,1.465,-0.14
+C0371,Scania R 400E,L1[arch],Long Haul,19300,1.755,1.7597,0.27
+C0371,Scania R 400E,L1[arch],Long Haul EMS,3500,1.784,1.7725,-0.65
+C0371,Scania R 400E,L1[arch],Long Haul EMS,26500,2.189,2.1716,-0.8
+C0371,Scania R 400E,L1[arch],Regional Delivery,2600,1.38,1.4061,1.89
+C0371,Scania R 400E,L1[arch],Regional Delivery,12900,1.594,1.6177,1.49
+C0371,Scania R 400E,L1[arch],Regional Delivery EMS,3500,1.693,1.714,1.24
+C0371,Scania R 400E,L1[arch],Regional Delivery EMS,17500,1.994,2.0067,0.64
+C0371,Scania R 400E,L1[arch],Urban Delivery,2600,1.228,1.2519,1.95
+C0371,Scania R 400E,L1[arch],Urban Delivery,12900,1.66,1.5391,-7.28
+C0371,Scania R 400E,L1b[arch],Construction,2600,1.171,1.2095,3.28
+C0371,Scania R 400E,L1b[arch],Construction,12900,1.456,1.4579,0.13
+C0371,Scania R 400E,L1b[arch],Long Haul,2600,1.467,1.4449,-1.5
+C0371,Scania R 400E,L1b[arch],Long Haul,19300,1.755,1.7427,-0.7
+C0371,Scania R 400E,L1b[arch],Long Haul EMS,3500,1.784,1.7498,-1.92
+C0371,Scania R 400E,L1b[arch],Long Haul EMS,26500,2.189,2.1508,-1.75
+C0371,Scania R 400E,L1b[arch],Regional Delivery,2600,1.38,1.395,1.09
+C0371,Scania R 400E,L1b[arch],Regional Delivery,12900,1.594,1.6083,0.9
+C0371,Scania R 400E,L1b[arch],Regional Delivery EMS,3500,1.693,1.7014,0.49
+C0371,Scania R 400E,L1b[arch],Regional Delivery EMS,17500,1.994,1.9962,0.11
+C0371,Scania R 400E,L1b[arch],Urban Delivery,2600,1.228,1.2886,4.93
+C0371,Scania R 400E,L1b[arch],Urban Delivery,12900,1.66,1.5299,-7.83
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],Construction,2600,1.171,1.2264,4.73
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],Construction,12900,1.456,1.45,-0.42
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],Long Haul,2600,1.467,1.4884,1.46
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],Long Haul,19300,1.755,1.7661,0.63
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],Long Haul EMS,3500,1.784,1.7859,0.1
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],Long Haul EMS,26500,2.189,2.1665,-1.03
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],Regional Delivery,2600,1.38,1.425,3.26
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],Regional Delivery,12900,1.594,1.6213,1.71
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],Regional Delivery EMS,3500,1.693,1.7208,1.64
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],Regional Delivery EMS,17500,1.994,1.9954,0.07
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],Urban Delivery,2600,1.228,1.2394,0.93
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],Urban Delivery,12900,1.66,1.4962,-9.87
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],Construction,2600,1.171,1.2222,4.37
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],Construction,12900,1.456,1.456,0.0
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],Long Haul,2600,1.467,1.4527,-0.98
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],Long Haul,19300,1.755,1.7358,-1.09
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],Long Haul EMS,3500,1.784,1.7466,-2.1
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],Long Haul EMS,26500,2.189,2.1319,-2.61
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],Regional Delivery,2600,1.38,1.4031,1.67
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],Regional Delivery,12900,1.594,1.604,0.63
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],Regional Delivery EMS,3500,1.693,1.6973,0.25
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],Regional Delivery EMS,17500,1.994,1.9779,-0.81
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],Urban Delivery,2600,1.228,1.3006,5.91
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],Urban Delivery,12900,1.66,1.5102,-9.02
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],Construction,2600,1.171,1.2115,3.46
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],Construction,12900,1.456,1.455,-0.07
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],Long Haul,2600,1.467,1.465,-0.14
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],Long Haul,19300,1.755,1.7597,0.27
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],Long Haul EMS,3500,1.784,1.7725,-0.65
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],Long Haul EMS,26500,2.189,2.1716,-0.8
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],Regional Delivery,2600,1.38,1.4061,1.89
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],Regional Delivery,12900,1.594,1.6177,1.49
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],Regional Delivery EMS,3500,1.693,1.714,1.24
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],Regional Delivery EMS,17500,1.994,2.0067,0.64
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],Urban Delivery,2600,1.228,1.2519,1.95
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],Urban Delivery,12900,1.66,1.5391,-7.28
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],Construction,2600,1.171,1.2095,3.28
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],Construction,12900,1.456,1.4579,0.13
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],Long Haul,2600,1.467,1.4449,-1.5
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],Long Haul,19300,1.755,1.7427,-0.7
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],Long Haul EMS,3500,1.784,1.7498,-1.92
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],Long Haul EMS,26500,2.189,2.1508,-1.75
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],Regional Delivery,2600,1.38,1.395,1.09
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],Regional Delivery,12900,1.594,1.6083,0.9
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],Regional Delivery EMS,3500,1.693,1.7014,0.49
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],Regional Delivery EMS,17500,1.994,1.9962,0.11
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],Urban Delivery,2600,1.228,1.2886,4.93
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],Urban Delivery,12900,1.66,1.5299,-7.83
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],Construction,2600,1.171,1.2308,5.11
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],Construction,12900,1.456,1.4467,-0.64
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],Long Haul,2600,1.467,1.4979,2.11
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],Long Haul,19300,1.755,1.7689,0.79
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],Long Haul EMS,3500,1.784,1.7936,0.54
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],Long Haul EMS,26500,2.189,2.1618,-1.24
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],Regional Delivery,2600,1.38,1.432,3.77
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],Regional Delivery,12900,1.594,1.6245,1.91
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],Regional Delivery EMS,3500,1.693,1.7263,1.97
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],Regional Delivery EMS,17500,1.994,1.9954,0.07
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],Urban Delivery,2600,1.228,1.2308,0.23
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],Urban Delivery,12900,1.66,1.4788,-10.91
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],Construction,2600,1.171,1.2243,4.56
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],Construction,12900,1.456,1.4562,0.01
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],Long Haul,2600,1.467,1.4527,-0.97
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],Long Haul,19300,1.755,1.7315,-1.34
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],Long Haul EMS,3500,1.784,1.7449,-2.19
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],Long Haul EMS,26500,2.189,2.1216,-3.08
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],Regional Delivery,2600,1.38,1.4031,1.67
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],Regional Delivery,12900,1.594,1.6031,0.57
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],Regional Delivery EMS,3500,1.693,1.6965,0.21
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],Regional Delivery EMS,17500,1.994,1.9758,-0.91
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],Urban Delivery,2600,1.228,1.2989,5.77
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],Urban Delivery,12900,1.66,1.5093,-9.08
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],Construction,2600,1.171,1.2026,2.7
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],Construction,12900,1.456,1.4518,-0.29
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],Long Haul,2600,1.467,1.4622,-0.32
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],Long Haul,19300,1.755,1.7666,0.66
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],Long Haul EMS,3500,1.784,1.783,-0.06
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],Long Haul EMS,26500,2.189,2.1824,-0.3
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],Regional Delivery,2600,1.38,1.4022,1.61
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],Regional Delivery,12900,1.594,1.6235,1.85
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],Regional Delivery EMS,3500,1.693,1.7243,1.85
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],Regional Delivery EMS,17500,1.994,2.023,1.45
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],Urban Delivery,2600,1.228,1.2454,1.41
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],Urban Delivery,12900,1.66,1.5335,-7.62
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],Construction,2600,1.171,1.2003,2.5
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],Construction,12900,1.456,1.4565,0.04
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],Long Haul,2600,1.467,1.4366,-2.07
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],Long Haul,19300,1.755,1.7448,-0.58
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],Long Haul EMS,3500,1.784,1.7541,-1.68
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],Long Haul EMS,26500,2.189,2.1562,-1.5
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],Regional Delivery,2600,1.38,1.3872,0.52
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],Regional Delivery,12900,1.594,1.6112,1.08
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],Regional Delivery EMS,3500,1.693,1.7073,0.84
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],Regional Delivery EMS,17500,1.994,2.0092,0.76
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],Urban Delivery,2600,1.228,1.2855,4.68
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],Urban Delivery,12900,1.66,1.5358,-7.48
+C0116,MAN eTGX,C,Construction,2600,1.094,1.1072,1.21
+C0116,MAN eTGX,C,Construction,12900,1.367,1.3699,0.21
+C0116,MAN eTGX,C,Long Haul,2600,1.046,1.0232,-2.18
+C0116,MAN eTGX,C,Long Haul,19300,1.348,1.3351,-0.96
+C0116,MAN eTGX,C,Long Haul EMS,3500,1.349,1.3349,-1.05
+C0116,MAN eTGX,C,Long Haul EMS,26500,1.776,1.7384,-2.12
+C0116,MAN eTGX,C,Regional Delivery,2600,1.016,1.0238,0.77
+C0116,MAN eTGX,C,Regional Delivery,12900,1.225,1.2569,2.61
+C0116,MAN eTGX,C,Regional Delivery EMS,3500,1.313,1.3297,1.27
+C0116,MAN eTGX,C,Regional Delivery EMS,17500,1.62,1.6302,0.63
+C0116,MAN eTGX,C,Urban Delivery,2600,0.9857,1.0371,5.22
+C0116,MAN eTGX,C,Urban Delivery,12900,1.404,1.2984,-7.52
+C0116,MAN eTGX,L4b,Construction,2600,1.094,1.1117,1.62
+C0116,MAN eTGX,L4b,Construction,12900,1.367,1.3752,0.6
+C0116,MAN eTGX,L4b,Long Haul,2600,1.046,1.0137,-3.09
+C0116,MAN eTGX,L4b,Long Haul,19300,1.348,1.3416,-0.47
+C0116,MAN eTGX,L4b,Long Haul EMS,3500,1.349,1.3297,-1.43
+C0116,MAN eTGX,L4b,Long Haul EMS,26500,1.776,1.7669,-0.52
+C0116,MAN eTGX,L4b,Regional Delivery,2600,1.016,1.0124,-0.35
+C0116,MAN eTGX,L4b,Regional Delivery,12900,1.225,1.2569,2.6
+C0116,MAN eTGX,L4b,Regional Delivery EMS,3500,1.313,1.3205,0.57
+C0116,MAN eTGX,L4b,Regional Delivery EMS,17500,1.62,1.659,2.41
+C0116,MAN eTGX,L4b,Urban Delivery,2600,0.9857,1.0031,1.76
+C0116,MAN eTGX,L4b,Urban Delivery,12900,1.404,1.3272,-5.47
+C0116,MAN eTGX,L1[arch],Construction,2600,1.094,1.1367,3.91
+C0116,MAN eTGX,L1[arch],Construction,12900,1.367,1.376,0.66
+C0116,MAN eTGX,L1[arch],Long Haul,2600,1.046,1.0388,-0.69
+C0116,MAN eTGX,L1[arch],Long Haul,19300,1.348,1.3333,-1.09
+C0116,MAN eTGX,L1[arch],Long Haul EMS,3500,1.349,1.3415,-0.56
+C0116,MAN eTGX,L1[arch],Long Haul EMS,26500,1.776,1.7292,-2.64
+C0116,MAN eTGX,L1[arch],Regional Delivery,2600,1.016,1.0381,2.17
+C0116,MAN eTGX,L1[arch],Regional Delivery,12900,1.225,1.2523,2.23
+C0116,MAN eTGX,L1[arch],Regional Delivery EMS,3500,1.313,1.3301,1.3
+C0116,MAN eTGX,L1[arch],Regional Delivery EMS,17500,1.62,1.6126,-0.46
+C0116,MAN eTGX,L1[arch],Urban Delivery,2600,0.9857,1.0259,4.08
+C0116,MAN eTGX,L1[arch],Urban Delivery,12900,1.404,1.2757,-9.14
+C0116,MAN eTGX,L1b[arch],Construction,2600,1.094,1.1291,3.2
+C0116,MAN eTGX,L1b[arch],Construction,12900,1.367,1.3612,-0.43
+C0116,MAN eTGX,L1b[arch],Long Haul,2600,1.046,1.0371,-0.85
+C0116,MAN eTGX,L1b[arch],Long Haul,19300,1.348,1.3287,-1.43
+C0116,MAN eTGX,L1b[arch],Long Haul EMS,3500,1.349,1.3341,-1.1
+C0116,MAN eTGX,L1b[arch],Long Haul EMS,26500,1.776,1.7159,-3.38
+C0116,MAN eTGX,L1b[arch],Regional Delivery,2600,1.016,1.0357,1.94
+C0116,MAN eTGX,L1b[arch],Regional Delivery,12900,1.225,1.2502,2.06
+C0116,MAN eTGX,L1b[arch],Regional Delivery EMS,3500,1.313,1.325,0.91
+C0116,MAN eTGX,L1b[arch],Regional Delivery EMS,17500,1.62,1.6063,-0.84
+C0116,MAN eTGX,L1b[arch],Urban Delivery,2600,0.9857,1.0615,7.69
+C0116,MAN eTGX,L1b[arch],Urban Delivery,12900,1.404,1.2671,-9.75
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],Construction,2600,1.094,1.1461,4.76
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],Construction,12900,1.367,1.3705,0.25
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],Long Haul,2600,1.046,1.056,0.96
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],Long Haul,19300,1.348,1.3384,-0.71
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],Long Haul EMS,3500,1.349,1.3529,0.29
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],Long Haul EMS,26500,1.776,1.7273,-2.74
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],Regional Delivery,2600,1.016,1.0486,3.21
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],Regional Delivery,12900,1.225,1.2526,2.25
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],Regional Delivery EMS,3500,1.313,1.3344,1.63
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],Regional Delivery EMS,17500,1.62,1.6057,-0.88
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],Urban Delivery,2600,0.9857,1.0158,3.06
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],Urban Delivery,12900,1.404,1.2526,-10.79
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],Construction,2600,1.094,1.1354,3.78
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],Construction,12900,1.367,1.3568,-0.75
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],Long Haul,2600,1.046,1.0427,-0.32
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],Long Haul,19300,1.348,1.3243,-1.75
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],Long Haul EMS,3500,1.349,1.3325,-1.22
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],Long Haul EMS,26500,1.776,1.7041,-4.05
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],Regional Delivery,2600,1.016,1.0411,2.47
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],Regional Delivery,12900,1.225,1.2465,1.76
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],Regional Delivery EMS,3500,1.313,1.3225,0.72
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],Regional Delivery EMS,17500,1.62,1.5948,-1.55
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],Urban Delivery,2600,0.9857,1.0716,8.71
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],Urban Delivery,12900,1.404,1.2565,-10.51
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],Construction,2600,1.094,1.1367,3.91
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],Construction,12900,1.367,1.376,0.66
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],Long Haul,2600,1.046,1.0388,-0.69
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],Long Haul,19300,1.348,1.3333,-1.09
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],Long Haul EMS,3500,1.349,1.3415,-0.56
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],Long Haul EMS,26500,1.776,1.7292,-2.64
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],Regional Delivery,2600,1.016,1.0381,2.17
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],Regional Delivery,12900,1.225,1.2523,2.23
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],Regional Delivery EMS,3500,1.313,1.3301,1.3
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],Regional Delivery EMS,17500,1.62,1.6126,-0.46
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],Urban Delivery,2600,0.9857,1.0259,4.08
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],Urban Delivery,12900,1.404,1.2757,-9.14
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],Construction,2600,1.094,1.1291,3.2
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],Construction,12900,1.367,1.3612,-0.43
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],Long Haul,2600,1.046,1.0371,-0.85
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],Long Haul,19300,1.348,1.3287,-1.43
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],Long Haul EMS,3500,1.349,1.3341,-1.1
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],Long Haul EMS,26500,1.776,1.7159,-3.38
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],Regional Delivery,2600,1.016,1.0357,1.94
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],Regional Delivery,12900,1.225,1.2502,2.06
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],Regional Delivery EMS,3500,1.313,1.325,0.91
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],Regional Delivery EMS,17500,1.62,1.6063,-0.84
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],Urban Delivery,2600,0.9857,1.0615,7.69
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],Urban Delivery,12900,1.404,1.2671,-9.75
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],Construction,2600,1.094,1.1495,5.07
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],Construction,12900,1.367,1.3715,0.33
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],Long Haul,2600,1.046,1.061,1.43
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],Long Haul,19300,1.348,1.3388,-0.68
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],Long Haul EMS,3500,1.349,1.3577,0.64
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],Long Haul EMS,26500,1.776,1.7219,-3.05
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],Regional Delivery,2600,1.016,1.052,3.54
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],Regional Delivery,12900,1.225,1.2557,2.5
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],Regional Delivery EMS,3500,1.313,1.3387,1.96
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],Regional Delivery EMS,17500,1.62,1.603,-1.05
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],Urban Delivery,2600,0.9857,1.0065,2.11
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],Urban Delivery,12900,1.404,1.2507,-10.92
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],Construction,2600,1.094,1.1292,3.22
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],Construction,12900,1.367,1.3587,-0.61
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],Long Haul,2600,1.046,1.0425,-0.34
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],Long Haul,19300,1.348,1.3215,-1.96
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],Long Haul EMS,3500,1.349,1.3319,-1.27
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],Long Haul EMS,26500,1.776,1.6973,-4.43
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],Regional Delivery,2600,1.016,1.0408,2.44
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],Regional Delivery,12900,1.225,1.2475,1.84
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],Regional Delivery EMS,3500,1.313,1.3232,0.78
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],Regional Delivery EMS,17500,1.62,1.5923,-1.71
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],Urban Delivery,2600,0.9857,1.0649,8.04
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],Urban Delivery,12900,1.404,1.2674,-9.73
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],Construction,2600,1.094,1.1369,3.92
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],Construction,12900,1.367,1.3808,1.01
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],Long Haul,2600,1.046,1.0346,-1.09
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],Long Haul,19300,1.348,1.335,-0.96
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],Long Haul EMS,3500,1.349,1.3456,-0.25
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],Long Haul EMS,26500,1.776,1.7321,-2.47
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],Regional Delivery,2600,1.016,1.0323,1.6
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],Regional Delivery,12900,1.225,1.2563,2.55
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],Regional Delivery EMS,3500,1.313,1.336,1.75
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],Regional Delivery EMS,17500,1.62,1.6185,-0.09
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],Urban Delivery,2600,0.9857,1.0173,3.2
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],Urban Delivery,12900,1.404,1.2783,-8.95
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],Construction,2600,1.094,1.1205,2.42
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],Construction,12900,1.367,1.3655,-0.11
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],Long Haul,2600,1.046,1.0316,-1.38
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],Long Haul,19300,1.348,1.3287,-1.43
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],Long Haul EMS,3500,1.349,1.336,-0.97
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],Long Haul EMS,26500,1.776,1.7166,-3.35
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],Regional Delivery,2600,1.016,1.03,1.38
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],Regional Delivery,12900,1.225,1.2531,2.29
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],Regional Delivery EMS,3500,1.313,1.3291,1.23
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],Regional Delivery EMS,17500,1.62,1.6111,-0.55
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],Urban Delivery,2600,0.9857,1.052,6.73
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],Urban Delivery,12900,1.404,1.2772,-9.03
+C0153,Mercedes eActros 600,C,Construction,2600,1.007,1.005,-0.2
+C0153,Mercedes eActros 600,C,Construction,12900,1.228,1.2081,-1.62
+C0153,Mercedes eActros 600,C,Long Haul,2600,0.9732,0.9197,-5.5
+C0153,Mercedes eActros 600,C,Long Haul,19300,1.209,1.2072,-0.15
+C0153,Mercedes eActros 600,C,Long Haul EMS,3500,1.252,1.2234,-2.28
+C0153,Mercedes eActros 600,C,Long Haul EMS,26500,1.605,1.5899,-0.94
+C0153,Mercedes eActros 600,C,Regional Delivery,2600,0.9258,0.9314,0.61
+C0153,Mercedes eActros 600,C,Regional Delivery,12900,1.087,1.1173,2.78
+C0153,Mercedes eActros 600,C,Regional Delivery EMS,3500,1.189,1.2164,2.31
+C0153,Mercedes eActros 600,C,Regional Delivery EMS,17500,1.444,1.4906,3.23
+C0153,Mercedes eActros 600,C,Urban Delivery,2600,0.8762,0.938,7.06
+C0153,Mercedes eActros 600,C,Urban Delivery,12900,1.233,1.1117,-9.84
+C0153,Mercedes eActros 600,L4b,Construction,2600,1.007,1.019,1.19
+C0153,Mercedes eActros 600,L4b,Construction,12900,1.228,1.2259,-0.17
+C0153,Mercedes eActros 600,L4b,Long Haul,2600,0.9732,0.9376,-3.66
+C0153,Mercedes eActros 600,L4b,Long Haul,19300,1.209,1.2236,1.21
+C0153,Mercedes eActros 600,L4b,Long Haul EMS,3500,1.252,1.2383,-1.09
+C0153,Mercedes eActros 600,L4b,Long Haul EMS,26500,1.605,1.648,2.68
+C0153,Mercedes eActros 600,L4b,Regional Delivery,2600,0.9258,0.9262,0.04
+C0153,Mercedes eActros 600,L4b,Regional Delivery,12900,1.087,1.1181,2.86
+C0153,Mercedes eActros 600,L4b,Regional Delivery EMS,3500,1.189,1.2205,2.65
+C0153,Mercedes eActros 600,L4b,Regional Delivery EMS,17500,1.444,1.5222,5.41
+C0153,Mercedes eActros 600,L4b,Urban Delivery,2600,0.8762,0.8911,1.71
+C0153,Mercedes eActros 600,L4b,Urban Delivery,12900,1.233,1.0859,-11.93
+C0153,Mercedes eActros 600,L1[arch],Construction,2600,1.007,1.0455,3.83
+C0153,Mercedes eActros 600,L1[arch],Construction,12900,1.228,1.2199,-0.66
+C0153,Mercedes eActros 600,L1[arch],Long Haul,2600,0.9732,0.9775,0.44
+C0153,Mercedes eActros 600,L1[arch],Long Haul,19300,1.209,1.239,2.48
+C0153,Mercedes eActros 600,L1[arch],Long Haul EMS,3500,1.252,1.2798,2.22
+C0153,Mercedes eActros 600,L1[arch],Long Haul EMS,26500,1.605,1.6332,1.76
+C0153,Mercedes eActros 600,L1[arch],Regional Delivery,2600,0.9258,0.9578,3.46
+C0153,Mercedes eActros 600,L1[arch],Regional Delivery,12900,1.087,1.1311,4.06
+C0153,Mercedes eActros 600,L1[arch],Regional Delivery EMS,3500,1.189,1.2525,5.34
+C0153,Mercedes eActros 600,L1[arch],Regional Delivery EMS,17500,1.444,1.4983,3.76
+C0153,Mercedes eActros 600,L1[arch],Urban Delivery,2600,0.8762,0.8539,-2.55
+C0153,Mercedes eActros 600,L1[arch],Urban Delivery,12900,1.233,1.0446,-15.28
+C0153,Mercedes eActros 600,L1b[arch],Construction,2600,1.007,1.0169,0.98
+C0153,Mercedes eActros 600,L1b[arch],Construction,12900,1.228,1.2071,-1.71
+C0153,Mercedes eActros 600,L1b[arch],Long Haul,2600,0.9732,0.9368,-3.74
+C0153,Mercedes eActros 600,L1b[arch],Long Haul,19300,1.209,1.2038,-0.43
+C0153,Mercedes eActros 600,L1b[arch],Long Haul EMS,3500,1.252,1.2248,-2.17
+C0153,Mercedes eActros 600,L1b[arch],Long Haul EMS,26500,1.605,1.5876,-1.08
+C0153,Mercedes eActros 600,L1b[arch],Regional Delivery,2600,0.9258,0.9317,0.64
+C0153,Mercedes eActros 600,L1b[arch],Regional Delivery,12900,1.087,1.1098,2.1
+C0153,Mercedes eActros 600,L1b[arch],Regional Delivery EMS,3500,1.189,1.2165,2.31
+C0153,Mercedes eActros 600,L1b[arch],Regional Delivery EMS,17500,1.444,1.4708,1.86
+C0153,Mercedes eActros 600,L1b[arch],Urban Delivery,2600,0.8762,0.9465,8.03
+C0153,Mercedes eActros 600,L1b[arch],Urban Delivery,12900,1.233,1.1095,-10.01
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],Construction,2600,1.007,1.0488,4.15
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],Construction,12900,1.228,1.2182,-0.8
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],Long Haul,2600,0.9732,0.9769,0.38
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],Long Haul,19300,1.209,1.2337,2.04
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],Long Haul EMS,3500,1.252,1.275,1.84
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],Long Haul EMS,26500,1.605,1.6232,1.13
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],Regional Delivery,2600,0.9258,0.9586,3.54
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],Regional Delivery,12900,1.087,1.1283,3.8
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],Regional Delivery EMS,3500,1.189,1.249,5.04
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],Regional Delivery EMS,17500,1.444,1.49,3.19
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],Urban Delivery,2600,0.8762,0.8661,-1.15
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],Urban Delivery,12900,1.233,1.0473,-15.06
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],Construction,2600,1.007,1.029,2.18
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],Construction,12900,1.228,1.2024,-2.08
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],Long Haul,2600,0.9732,0.9388,-3.54
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],Long Haul,19300,1.209,1.2028,-0.51
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],Long Haul EMS,3500,1.252,1.2263,-2.06
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],Long Haul EMS,26500,1.605,1.5833,-1.35
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],Regional Delivery,2600,0.9258,0.9362,1.12
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],Regional Delivery,12900,1.087,1.1097,2.09
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],Regional Delivery EMS,3500,1.189,1.2177,2.41
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],Regional Delivery EMS,17500,1.444,1.4639,1.38
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],Urban Delivery,2600,0.8762,0.9647,10.1
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],Urban Delivery,12900,1.233,1.0925,-11.39
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],Construction,2600,1.007,1.0409,3.36
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],Construction,12900,1.228,1.221,-0.57
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],Long Haul,2600,0.9732,0.9657,-0.77
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],Long Haul,19300,1.209,1.2298,1.72
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],Long Haul EMS,3500,1.252,1.2644,0.99
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],Long Haul EMS,26500,1.605,1.6252,1.26
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],Regional Delivery,2600,0.9258,0.9499,2.6
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],Regional Delivery,12900,1.087,1.1257,3.56
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],Regional Delivery EMS,3500,1.189,1.2417,4.43
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],Regional Delivery EMS,17500,1.444,1.4936,3.43
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],Urban Delivery,2600,0.8762,0.8785,0.26
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],Urban Delivery,12900,1.233,1.074,-12.89
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],Construction,2600,1.007,1.0204,1.33
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],Construction,12900,1.228,1.2049,-1.88
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],Long Haul,2600,0.9732,0.9347,-3.96
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],Long Haul,19300,1.209,1.2048,-0.34
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],Long Haul EMS,3500,1.252,1.2262,-2.06
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],Long Haul EMS,26500,1.605,1.5899,-0.94
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],Regional Delivery,2600,0.9258,0.9333,0.81
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],Regional Delivery,12900,1.087,1.1117,2.28
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],Regional Delivery EMS,3500,1.189,1.2177,2.42
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],Regional Delivery EMS,17500,1.444,1.4714,1.9
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],Urban Delivery,2600,0.8762,0.9551,9.01
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],Urban Delivery,12900,1.233,1.1034,-10.51
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],Construction,2600,1.007,1.0503,4.3
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],Construction,12900,1.228,1.2169,-0.9
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],Long Haul,2600,0.9732,0.9785,0.54
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],Long Haul,19300,1.209,1.2346,2.12
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],Long Haul EMS,3500,1.252,1.2772,2.01
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],Long Haul EMS,26500,1.605,1.6232,1.13
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],Regional Delivery,2600,0.9258,0.9591,3.6
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],Regional Delivery,12900,1.087,1.1274,3.72
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],Regional Delivery EMS,3500,1.189,1.2496,5.09
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],Regional Delivery EMS,17500,1.444,1.4886,3.09
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],Urban Delivery,2600,0.8762,0.8666,-1.1
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],Urban Delivery,12900,1.233,1.0409,-15.58
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],Construction,2600,1.007,1.0208,1.37
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],Construction,12900,1.228,1.2033,-2.01
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],Long Haul,2600,0.9732,0.9384,-3.57
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],Long Haul,19300,1.209,1.2019,-0.59
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],Long Haul EMS,3500,1.252,1.2247,-2.18
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],Long Haul EMS,26500,1.605,1.5827,-1.39
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],Regional Delivery,2600,0.9258,0.9341,0.9
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],Regional Delivery,12900,1.087,1.1086,1.99
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],Regional Delivery EMS,3500,1.189,1.2163,2.3
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],Regional Delivery EMS,17500,1.444,1.4645,1.42
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],Urban Delivery,2600,0.8762,0.9587,9.41
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],Urban Delivery,12900,1.233,1.0921,-11.43
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],Construction,2600,1.007,1.0338,2.66
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],Construction,12900,1.228,1.2209,-0.57
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],Long Haul,2600,0.9732,0.9575,-1.61
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],Long Haul,19300,1.209,1.23,1.73
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],Long Haul EMS,3500,1.252,1.2588,0.54
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],Long Haul EMS,26500,1.605,1.6316,1.66
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],Regional Delivery,2600,0.9258,0.942,1.75
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],Regional Delivery,12900,1.087,1.1226,3.28
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],Regional Delivery EMS,3500,1.189,1.2363,3.98
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],Regional Delivery EMS,17500,1.444,1.4957,3.58
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],Urban Delivery,2600,0.8762,0.8871,1.25
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],Urban Delivery,12900,1.233,1.0894,-11.64
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],Construction,2600,1.007,1.0138,0.68
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],Construction,12900,1.228,1.2052,-1.86
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],Long Haul,2600,0.9732,0.9314,-4.3
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],Long Haul,19300,1.209,1.2078,-0.1
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],Long Haul EMS,3500,1.252,1.2259,-2.08
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],Long Haul EMS,26500,1.605,1.5977,-0.46
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],Regional Delivery,2600,0.9258,0.93,0.45
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],Regional Delivery,12900,1.087,1.1113,2.24
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],Regional Delivery EMS,3500,1.189,1.2166,2.32
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],Regional Delivery EMS,17500,1.444,1.4759,2.21
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],Urban Delivery,2600,0.8762,0.9505,8.48
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],Urban Delivery,12900,1.233,1.1091,-10.05
+C0218,Renault D,C,Construction,900,1.065,1.0614,-0.34
+C0218,Renault D,C,Construction,4400,1.171,1.1597,-0.96
+C0218,Renault D,C,Long Haul,1900,1.482,1.4765,-0.37
+C0218,Renault D,C,Long Haul,14000,1.684,1.7316,2.82
+C0218,Renault D,C,Regional Delivery,900,1.051,1.0177,-3.17
+C0218,Renault D,C,Regional Delivery,4400,1.127,1.1225,-0.4
+C0218,Renault D,C,Urban Delivery,900,0.8482,0.9064,6.86
+C0218,Renault D,C,Urban Delivery,4400,1.035,0.9827,-5.05
+C0218,Renault D,L4b,Construction,900,1.065,1.0546,-0.98
+C0218,Renault D,L4b,Construction,4400,1.171,1.1678,-0.27
+C0218,Renault D,L4b,Long Haul,1900,1.482,1.444,-2.56
+C0218,Renault D,L4b,Long Haul,14000,1.684,1.6926,0.51
+C0218,Renault D,L4b,Regional Delivery,900,1.051,1.0318,-1.83
+C0218,Renault D,L4b,Regional Delivery,4400,1.127,1.1201,-0.61
+C0218,Renault D,L4b,Urban Delivery,900,0.8482,0.8999,6.1
+C0218,Renault D,L4b,Urban Delivery,4400,1.035,1.0014,-3.25
+C0218,Renault D,L1[arch],Construction,900,1.065,1.0328,-3.02
+C0218,Renault D,L1[arch],Construction,4400,1.171,1.1299,-3.51
+C0218,Renault D,L1[arch],Long Haul,1900,1.482,1.3508,-8.85
+C0218,Renault D,L1[arch],Long Haul,14000,1.684,1.5806,-6.14
+C0218,Renault D,L1[arch],Regional Delivery,900,1.051,0.971,-7.61
+C0218,Renault D,L1[arch],Regional Delivery,4400,1.127,1.0508,-6.76
+C0218,Renault D,L1[arch],Urban Delivery,900,0.8482,0.9877,16.45
+C0218,Renault D,L1[arch],Urban Delivery,4400,1.035,1.1025,6.52
+C0218,Renault D,L1b[arch],Construction,900,1.065,1.0596,-0.51
+C0218,Renault D,L1b[arch],Construction,4400,1.171,1.1468,-2.07
+C0218,Renault D,L1b[arch],Long Haul,1900,1.482,1.4174,-4.36
+C0218,Renault D,L1b[arch],Long Haul,14000,1.684,1.6449,-2.32
+C0218,Renault D,L1b[arch],Regional Delivery,900,1.051,1.0179,-3.15
+C0218,Renault D,L1b[arch],Regional Delivery,4400,1.127,1.0931,-3.01
+C0218,Renault D,L1b[arch],Urban Delivery,900,0.8482,0.9401,10.84
+C0218,Renault D,L1b[arch],Urban Delivery,4400,1.035,1.0365,0.14
+C0218,Renault D,L1[S3a_IEPC_1speed],Construction,900,1.065,1.0333,-2.98
+C0218,Renault D,L1[S3a_IEPC_1speed],Construction,4400,1.171,1.1353,-3.04
+C0218,Renault D,L1[S3a_IEPC_1speed],Long Haul,1900,1.482,1.3676,-7.72
+C0218,Renault D,L1[S3a_IEPC_1speed],Long Haul,14000,1.684,1.6068,-4.59
+C0218,Renault D,L1[S3a_IEPC_1speed],Regional Delivery,900,1.051,0.9707,-7.64
+C0218,Renault D,L1[S3a_IEPC_1speed],Regional Delivery,4400,1.127,1.0559,-6.31
+C0218,Renault D,L1[S3a_IEPC_1speed],Urban Delivery,900,0.8482,0.9745,14.89
+C0218,Renault D,L1[S3a_IEPC_1speed],Urban Delivery,4400,1.035,1.1005,6.33
+C0218,Renault D,L1b[S3a_IEPC_1speed],Construction,900,1.065,1.0565,-0.79
+C0218,Renault D,L1b[S3a_IEPC_1speed],Construction,4400,1.171,1.15,-1.8
+C0218,Renault D,L1b[S3a_IEPC_1speed],Long Haul,1900,1.482,1.4278,-3.66
+C0218,Renault D,L1b[S3a_IEPC_1speed],Long Haul,14000,1.684,1.667,-1.01
+C0218,Renault D,L1b[S3a_IEPC_1speed],Regional Delivery,900,1.051,1.0107,-3.83
+C0218,Renault D,L1b[S3a_IEPC_1speed],Regional Delivery,4400,1.127,1.0923,-3.08
+C0218,Renault D,L1b[S3a_IEPC_1speed],Urban Delivery,900,0.8482,0.9321,9.89
+C0218,Renault D,L1b[S3a_IEPC_1speed],Urban Delivery,4400,1.035,1.0397,0.45
+C0218,Renault D,L1[S3b_IEPC_3speed],Construction,900,1.065,1.0208,-4.15
+C0218,Renault D,L1[S3b_IEPC_3speed],Construction,4400,1.171,1.1336,-3.2
+C0218,Renault D,L1[S3b_IEPC_3speed],Long Haul,1900,1.482,1.3615,-8.13
+C0218,Renault D,L1[S3b_IEPC_3speed],Long Haul,14000,1.684,1.6131,-4.21
+C0218,Renault D,L1[S3b_IEPC_3speed],Regional Delivery,900,1.051,0.9527,-9.35
+C0218,Renault D,L1[S3b_IEPC_3speed],Regional Delivery,4400,1.127,1.0461,-7.18
+C0218,Renault D,L1[S3b_IEPC_3speed],Urban Delivery,900,0.8482,0.9744,14.88
+C0218,Renault D,L1[S3b_IEPC_3speed],Urban Delivery,4400,1.035,1.1234,8.54
+C0218,Renault D,L1b[S3b_IEPC_3speed],Construction,900,1.065,1.0506,-1.35
+C0218,Renault D,L1b[S3b_IEPC_3speed],Construction,4400,1.171,1.154,-1.45
+C0218,Renault D,L1b[S3b_IEPC_3speed],Long Haul,1900,1.482,1.4432,-2.62
+C0218,Renault D,L1b[S3b_IEPC_3speed],Long Haul,14000,1.684,1.6987,0.87
+C0218,Renault D,L1b[S3b_IEPC_3speed],Regional Delivery,900,1.051,1.0029,-4.58
+C0218,Renault D,L1b[S3b_IEPC_3speed],Regional Delivery,4400,1.127,1.0938,-2.95
+C0218,Renault D,L1b[S3b_IEPC_3speed],Urban Delivery,900,0.8482,0.9187,8.31
+C0218,Renault D,L1b[S3b_IEPC_3speed],Urban Delivery,4400,1.035,1.0428,0.75
+C0218,Renault D,L1[S2_busIEPC_PSM],Construction,900,1.065,1.0419,-2.17
+C0218,Renault D,L1[S2_busIEPC_PSM],Construction,4400,1.171,1.1378,-2.83
+C0218,Renault D,L1[S2_busIEPC_PSM],Long Haul,1900,1.482,1.3723,-7.4
+C0218,Renault D,L1[S2_busIEPC_PSM],Long Haul,14000,1.684,1.599,-5.05
+C0218,Renault D,L1[S2_busIEPC_PSM],Regional Delivery,900,1.051,0.9827,-6.5
+C0218,Renault D,L1[S2_busIEPC_PSM],Regional Delivery,4400,1.127,1.0642,-5.57
+C0218,Renault D,L1[S2_busIEPC_PSM],Urban Delivery,900,0.8482,0.9705,14.42
+C0218,Renault D,L1[S2_busIEPC_PSM],Urban Delivery,4400,1.035,1.0879,5.11
+C0218,Renault D,L1b[S2_busIEPC_PSM],Construction,900,1.065,1.0642,-0.08
+C0218,Renault D,L1b[S2_busIEPC_PSM],Construction,4400,1.171,1.1497,-1.82
+C0218,Renault D,L1b[S2_busIEPC_PSM],Long Haul,1900,1.482,1.4262,-3.77
+C0218,Renault D,L1b[S2_busIEPC_PSM],Long Haul,14000,1.684,1.6495,-2.05
+C0218,Renault D,L1b[S2_busIEPC_PSM],Regional Delivery,900,1.051,1.0208,-2.88
+C0218,Renault D,L1b[S2_busIEPC_PSM],Regional Delivery,4400,1.127,1.0978,-2.59
+C0218,Renault D,L1b[S2_busIEPC_PSM],Urban Delivery,900,0.8482,0.9333,10.03
+C0218,Renault D,L1b[S2_busIEPC_PSM],Urban Delivery,4400,1.035,1.0291,-0.57
+C0218,Renault D,L1[S2_busIEPC_ASM],Construction,900,1.065,1.0299,-3.3
+C0218,Renault D,L1[S2_busIEPC_ASM],Construction,4400,1.171,1.1413,-2.53
+C0218,Renault D,L1[S2_busIEPC_ASM],Long Haul,1900,1.482,1.3823,-6.73
+C0218,Renault D,L1[S2_busIEPC_ASM],Long Haul,14000,1.684,1.6238,-3.58
+C0218,Renault D,L1[S2_busIEPC_ASM],Regional Delivery,900,1.051,0.9602,-8.64
+C0218,Renault D,L1[S2_busIEPC_ASM],Regional Delivery,4400,1.127,1.0569,-6.22
+C0218,Renault D,L1[S2_busIEPC_ASM],Urban Delivery,900,0.8482,0.9621,13.43
+C0218,Renault D,L1[S2_busIEPC_ASM],Urban Delivery,4400,1.035,1.1091,7.16
+C0218,Renault D,L1b[S2_busIEPC_ASM],Construction,900,1.065,1.0586,-0.6
+C0218,Renault D,L1b[S2_busIEPC_ASM],Construction,4400,1.171,1.1587,-1.05
+C0218,Renault D,L1b[S2_busIEPC_ASM],Long Haul,1900,1.482,1.4617,-1.37
+C0218,Renault D,L1b[S2_busIEPC_ASM],Long Haul,14000,1.684,1.7021,1.07
+C0218,Renault D,L1b[S2_busIEPC_ASM],Regional Delivery,900,1.051,1.0078,-4.11
+C0218,Renault D,L1b[S2_busIEPC_ASM],Regional Delivery,4400,1.127,1.1021,-2.21
+C0218,Renault D,L1b[S2_busIEPC_ASM],Urban Delivery,900,0.8482,0.909,7.16
+C0218,Renault D,L1b[S2_busIEPC_ASM],Urban Delivery,4400,1.035,1.0265,-0.82
+C0712,Volvo FM,C,Long Haul,2600,1.559,1.5463,-0.82
+C0712,Volvo FM,C,Long Haul,19300,1.815,1.8419,1.48
+C0712,Volvo FM,C,Long Haul EMS,3500,1.719,1.7038,-0.88
+C0712,Volvo FM,C,Long Haul EMS,26500,2.093,2.0898,-0.15
+C0712,Volvo FM,C,Regional Delivery,1400,1.133,1.1283,-0.41
+C0712,Volvo FM,C,Regional Delivery,7100,1.236,1.2513,1.24
+C0712,Volvo FM,C,Regional Delivery EMS,3500,1.624,1.6274,0.21
+C0712,Volvo FM,C,Regional Delivery EMS,17500,1.901,1.8777,-1.23
+C0712,Volvo FM,L4b,Long Haul,2600,1.559,1.5437,-0.98
+C0712,Volvo FM,L4b,Long Haul,19300,1.815,1.8396,1.35
+C0712,Volvo FM,L4b,Long Haul EMS,3500,1.719,1.6984,-1.2
+C0712,Volvo FM,L4b,Long Haul EMS,26500,2.093,2.0989,0.28
+C0712,Volvo FM,L4b,Regional Delivery,1400,1.133,1.134,0.09
+C0712,Volvo FM,L4b,Regional Delivery,7100,1.236,1.2515,1.25
+C0712,Volvo FM,L4b,Regional Delivery EMS,3500,1.624,1.6192,-0.3
+C0712,Volvo FM,L4b,Regional Delivery EMS,17500,1.901,1.8887,-0.65
+C0712,Volvo FM,L1[arch],Long Haul,2600,1.559,1.5407,-1.17
+C0712,Volvo FM,L1[arch],Long Haul,19300,1.815,1.8264,0.63
+C0712,Volvo FM,L1[arch],Long Haul EMS,3500,1.719,1.6932,-1.5
+C0712,Volvo FM,L1[arch],Long Haul EMS,26500,2.093,2.0721,-1.0
+C0712,Volvo FM,L1[arch],Regional Delivery,1400,1.133,1.1459,1.14
+C0712,Volvo FM,L1[arch],Regional Delivery,7100,1.236,1.2606,1.99
+C0712,Volvo FM,L1[arch],Regional Delivery EMS,3500,1.624,1.6278,0.23
+C0712,Volvo FM,L1[arch],Regional Delivery EMS,17500,1.901,1.8862,-0.78
+C0712,Volvo FM,L1b[arch],Long Haul,2600,1.559,1.5467,-0.79
+C0712,Volvo FM,L1b[arch],Long Haul,19300,1.815,1.8321,0.94
+C0712,Volvo FM,L1b[arch],Long Haul EMS,3500,1.719,1.6977,-1.24
+C0712,Volvo FM,L1b[arch],Long Haul EMS,26500,2.093,2.0738,-0.92
+C0712,Volvo FM,L1b[arch],Regional Delivery,1400,1.133,1.1464,1.18
+C0712,Volvo FM,L1b[arch],Regional Delivery,7100,1.236,1.2583,1.8
+C0712,Volvo FM,L1b[arch],Regional Delivery EMS,3500,1.624,1.623,-0.06
+C0712,Volvo FM,L1b[arch],Regional Delivery EMS,17500,1.901,1.8725,-1.5
+C0712,Volvo FM,L1[S3a_IEPC_1speed],Long Haul,2600,1.559,1.5446,-0.92
+C0712,Volvo FM,L1[S3a_IEPC_1speed],Long Haul,19300,1.815,1.8222,0.4
+C0712,Volvo FM,L1[S3a_IEPC_1speed],Long Haul EMS,3500,1.719,1.6936,-1.48
+C0712,Volvo FM,L1[S3a_IEPC_1speed],Long Haul EMS,26500,2.093,2.0626,-1.45
+C0712,Volvo FM,L1[S3a_IEPC_1speed],Regional Delivery,1400,1.133,1.1554,1.98
+C0712,Volvo FM,L1[S3a_IEPC_1speed],Regional Delivery,7100,1.236,1.2647,2.32
+C0712,Volvo FM,L1[S3a_IEPC_1speed],Regional Delivery EMS,3500,1.624,1.6231,-0.06
+C0712,Volvo FM,L1[S3a_IEPC_1speed],Regional Delivery EMS,17500,1.901,1.8748,-1.38
+C0712,Volvo FM,L1b[S3a_IEPC_1speed],Long Haul,2600,1.559,1.5448,-0.91
+C0712,Volvo FM,L1b[S3a_IEPC_1speed],Long Haul,19300,1.815,1.8247,0.53
+C0712,Volvo FM,L1b[S3a_IEPC_1speed],Long Haul EMS,3500,1.719,1.6922,-1.56
+C0712,Volvo FM,L1b[S3a_IEPC_1speed],Long Haul EMS,26500,2.093,2.0631,-1.43
+C0712,Volvo FM,L1b[S3a_IEPC_1speed],Regional Delivery,1400,1.133,1.1565,2.07
+C0712,Volvo FM,L1b[S3a_IEPC_1speed],Regional Delivery,7100,1.236,1.265,2.35
+C0712,Volvo FM,L1b[S3a_IEPC_1speed],Regional Delivery EMS,3500,1.624,1.6206,-0.21
+C0712,Volvo FM,L1b[S3a_IEPC_1speed],Regional Delivery EMS,17500,1.901,1.8627,-2.01
+C0712,Volvo FM,L1[S3b_IEPC_3speed],Long Haul,2600,1.559,1.5407,-1.17
+C0712,Volvo FM,L1[S3b_IEPC_3speed],Long Haul,19300,1.815,1.8264,0.63
+C0712,Volvo FM,L1[S3b_IEPC_3speed],Long Haul EMS,3500,1.719,1.6932,-1.5
+C0712,Volvo FM,L1[S3b_IEPC_3speed],Long Haul EMS,26500,2.093,2.0721,-1.0
+C0712,Volvo FM,L1[S3b_IEPC_3speed],Regional Delivery,1400,1.133,1.1459,1.14
+C0712,Volvo FM,L1[S3b_IEPC_3speed],Regional Delivery,7100,1.236,1.2606,1.99
+C0712,Volvo FM,L1[S3b_IEPC_3speed],Regional Delivery EMS,3500,1.624,1.6278,0.23
+C0712,Volvo FM,L1[S3b_IEPC_3speed],Regional Delivery EMS,17500,1.901,1.8862,-0.78
+C0712,Volvo FM,L1b[S3b_IEPC_3speed],Long Haul,2600,1.559,1.5467,-0.79
+C0712,Volvo FM,L1b[S3b_IEPC_3speed],Long Haul,19300,1.815,1.8321,0.94
+C0712,Volvo FM,L1b[S3b_IEPC_3speed],Long Haul EMS,3500,1.719,1.6977,-1.24
+C0712,Volvo FM,L1b[S3b_IEPC_3speed],Long Haul EMS,26500,2.093,2.0738,-0.92
+C0712,Volvo FM,L1b[S3b_IEPC_3speed],Regional Delivery,1400,1.133,1.1464,1.18
+C0712,Volvo FM,L1b[S3b_IEPC_3speed],Regional Delivery,7100,1.236,1.2583,1.8
+C0712,Volvo FM,L1b[S3b_IEPC_3speed],Regional Delivery EMS,3500,1.624,1.623,-0.06
+C0712,Volvo FM,L1b[S3b_IEPC_3speed],Regional Delivery EMS,17500,1.901,1.8725,-1.5
+C0712,Volvo FM,L1[S2_busIEPC_PSM],Long Haul,2600,1.559,1.548,-0.71
+C0712,Volvo FM,L1[S2_busIEPC_PSM],Long Haul,19300,1.815,1.8177,0.15
+C0712,Volvo FM,L1[S2_busIEPC_PSM],Long Haul EMS,3500,1.719,1.6937,-1.47
+C0712,Volvo FM,L1[S2_busIEPC_PSM],Long Haul EMS,26500,2.093,2.0533,-1.9
+C0712,Volvo FM,L1[S2_busIEPC_PSM],Regional Delivery,1400,1.133,1.1614,2.51
+C0712,Volvo FM,L1[S2_busIEPC_PSM],Regional Delivery,7100,1.236,1.2675,2.55
+C0712,Volvo FM,L1[S2_busIEPC_PSM],Regional Delivery EMS,3500,1.624,1.6229,-0.07
+C0712,Volvo FM,L1[S2_busIEPC_PSM],Regional Delivery EMS,17500,1.901,1.8652,-1.88
+C0712,Volvo FM,L1b[S2_busIEPC_PSM],Long Haul,2600,1.559,1.5407,-1.18
+C0712,Volvo FM,L1b[S2_busIEPC_PSM],Long Haul,19300,1.815,1.8168,0.1
+C0712,Volvo FM,L1b[S2_busIEPC_PSM],Long Haul EMS,3500,1.719,1.6861,-1.91
+C0712,Volvo FM,L1b[S2_busIEPC_PSM],Long Haul EMS,26500,2.093,2.0533,-1.9
+C0712,Volvo FM,L1b[S2_busIEPC_PSM],Regional Delivery,1400,1.133,1.1618,2.54
+C0712,Volvo FM,L1b[S2_busIEPC_PSM],Regional Delivery,7100,1.236,1.2698,2.73
+C0712,Volvo FM,L1b[S2_busIEPC_PSM],Regional Delivery EMS,3500,1.624,1.6242,0.01
+C0712,Volvo FM,L1b[S2_busIEPC_PSM],Regional Delivery EMS,17500,1.901,1.8528,-2.54
+C0712,Volvo FM,L1[S2_busIEPC_ASM],Long Haul,2600,1.559,1.5457,-0.85
+C0712,Volvo FM,L1[S2_busIEPC_ASM],Long Haul,19300,1.815,1.8261,0.61
+C0712,Volvo FM,L1[S2_busIEPC_ASM],Long Haul EMS,3500,1.719,1.6972,-1.27
+C0712,Volvo FM,L1[S2_busIEPC_ASM],Long Haul EMS,26500,2.093,2.068,-1.2
+C0712,Volvo FM,L1[S2_busIEPC_ASM],Regional Delivery,1400,1.133,1.1427,0.86
+C0712,Volvo FM,L1[S2_busIEPC_ASM],Regional Delivery,7100,1.236,1.2596,1.91
+C0712,Volvo FM,L1[S2_busIEPC_ASM],Regional Delivery EMS,3500,1.624,1.6321,0.5
+C0712,Volvo FM,L1[S2_busIEPC_ASM],Regional Delivery EMS,17500,1.901,1.8842,-0.88
+C0712,Volvo FM,L1b[S2_busIEPC_ASM],Long Haul,2600,1.559,1.5488,-0.65
+C0712,Volvo FM,L1b[S2_busIEPC_ASM],Long Haul,19300,1.815,1.8296,0.8
+C0712,Volvo FM,L1b[S2_busIEPC_ASM],Long Haul EMS,3500,1.719,1.6987,-1.18
+C0712,Volvo FM,L1b[S2_busIEPC_ASM],Long Haul EMS,26500,2.093,2.0685,-1.17
+C0712,Volvo FM,L1b[S2_busIEPC_ASM],Regional Delivery,1400,1.133,1.1437,0.95
+C0712,Volvo FM,L1b[S2_busIEPC_ASM],Regional Delivery,7100,1.236,1.2587,1.84
+C0712,Volvo FM,L1b[S2_busIEPC_ASM],Regional Delivery EMS,3500,1.624,1.6296,0.35
+C0712,Volvo FM,L1b[S2_busIEPC_ASM],Regional Delivery EMS,17500,1.901,1.868,-1.74
+C0206,Mercedes Econic,C,Construction,1400,0.8858,0.8806,-0.58
+C0206,Mercedes Econic,C,Construction,7100,1.014,1.0164,0.23
+C0206,Mercedes Econic,C,Long Haul,2600,1.517,1.5195,0.17
+C0206,Mercedes Econic,C,Long Haul,19300,1.816,1.8168,0.05
+C0206,Mercedes Econic,C,Long Haul EMS,3500,1.7,1.6892,-0.64
+C0206,Mercedes Econic,C,Long Haul EMS,26500,2.134,2.0842,-2.33
+C0206,Mercedes Econic,C,Regional Delivery,1400,1.077,1.0881,1.03
+C0206,Mercedes Econic,C,Regional Delivery,7100,1.182,1.2013,1.63
+C0206,Mercedes Econic,C,Regional Delivery EMS,3500,1.598,1.6066,0.54
+C0206,Mercedes Econic,C,Regional Delivery EMS,17500,1.907,1.9029,-0.22
+C0206,Mercedes Econic,L4b,Construction,1400,0.8858,0.8856,-0.02
+C0206,Mercedes Econic,L4b,Construction,7100,1.014,1.0077,-0.62
+C0206,Mercedes Econic,L4b,Long Haul,2600,1.517,1.5036,-0.88
+C0206,Mercedes Econic,L4b,Long Haul,19300,1.816,1.8274,0.63
+C0206,Mercedes Econic,L4b,Long Haul EMS,3500,1.7,1.6779,-1.3
+C0206,Mercedes Econic,L4b,Long Haul EMS,26500,2.134,2.1082,-1.21
+C0206,Mercedes Econic,L4b,Regional Delivery,1400,1.077,1.0848,0.73
+C0206,Mercedes Econic,L4b,Regional Delivery,7100,1.182,1.1956,1.15
+C0206,Mercedes Econic,L4b,Regional Delivery EMS,3500,1.598,1.5949,-0.19
+C0206,Mercedes Econic,L4b,Regional Delivery EMS,17500,1.907,1.9432,1.9
+C0206,Mercedes Econic,L1[arch],Construction,1400,0.8858,0.9114,2.89
+C0206,Mercedes Econic,L1[arch],Construction,7100,1.014,1.0239,0.98
+C0206,Mercedes Econic,L1[arch],Long Haul,2600,1.517,1.5157,-0.09
+C0206,Mercedes Econic,L1[arch],Long Haul,19300,1.816,1.7812,-1.92
+C0206,Mercedes Econic,L1[arch],Long Haul EMS,3500,1.7,1.6723,-1.63
+C0206,Mercedes Econic,L1[arch],Long Haul EMS,26500,2.134,2.0296,-4.89
+C0206,Mercedes Econic,L1[arch],Regional Delivery,1400,1.077,1.1141,3.45
+C0206,Mercedes Econic,L1[arch],Regional Delivery,7100,1.182,1.2099,2.36
+C0206,Mercedes Econic,L1[arch],Regional Delivery EMS,3500,1.598,1.5835,-0.91
+C0206,Mercedes Econic,L1[arch],Regional Delivery EMS,17500,1.907,1.8442,-3.29
+C0206,Mercedes Econic,L1b[arch],Construction,1400,0.8858,0.9101,2.74
+C0206,Mercedes Econic,L1b[arch],Construction,7100,1.014,1.0133,-0.07
+C0206,Mercedes Econic,L1b[arch],Long Haul,2600,1.517,1.5262,0.61
+C0206,Mercedes Econic,L1b[arch],Long Haul,19300,1.816,1.7856,-1.68
+C0206,Mercedes Econic,L1b[arch],Long Haul EMS,3500,1.7,1.6783,-1.28
+C0206,Mercedes Econic,L1b[arch],Long Haul EMS,26500,2.134,2.032,-4.78
+C0206,Mercedes Econic,L1b[arch],Regional Delivery,1400,1.077,1.1203,4.02
+C0206,Mercedes Econic,L1b[arch],Regional Delivery,7100,1.182,1.213,2.62
+C0206,Mercedes Econic,L1b[arch],Regional Delivery EMS,3500,1.598,1.5856,-0.78
+C0206,Mercedes Econic,L1b[arch],Regional Delivery EMS,17500,1.907,1.84,-3.51
+C0206,Mercedes Econic,L1[S3a_IEPC_1speed],Construction,1400,0.8858,0.9206,3.93
+C0206,Mercedes Econic,L1[S3a_IEPC_1speed],Construction,7100,1.014,1.0294,1.52
+C0206,Mercedes Econic,L1[S3a_IEPC_1speed],Long Haul,2600,1.517,1.5081,-0.59
+C0206,Mercedes Econic,L1[S3a_IEPC_1speed],Long Haul,19300,1.816,1.7719,-2.43
+C0206,Mercedes Econic,L1[S3a_IEPC_1speed],Long Haul EMS,3500,1.7,1.6626,-2.2
+C0206,Mercedes Econic,L1[S3a_IEPC_1speed],Long Haul EMS,26500,2.134,2.0189,-5.39
+C0206,Mercedes Econic,L1[S3a_IEPC_1speed],Regional Delivery,1400,1.077,1.1159,3.61
+C0206,Mercedes Econic,L1[S3a_IEPC_1speed],Regional Delivery,7100,1.182,1.2088,2.27
+C0206,Mercedes Econic,L1[S3a_IEPC_1speed],Regional Delivery EMS,3500,1.598,1.5761,-1.37
+C0206,Mercedes Econic,L1[S3a_IEPC_1speed],Regional Delivery EMS,17500,1.907,1.8359,-3.73
+C0206,Mercedes Econic,L1b[S3a_IEPC_1speed],Construction,1400,0.8858,0.9138,3.17
+C0206,Mercedes Econic,L1b[S3a_IEPC_1speed],Construction,7100,1.014,1.0138,-0.02
+C0206,Mercedes Econic,L1b[S3a_IEPC_1speed],Long Haul,2600,1.517,1.5228,0.38
+C0206,Mercedes Econic,L1b[S3a_IEPC_1speed],Long Haul,19300,1.816,1.7816,-1.89
+C0206,Mercedes Econic,L1b[S3a_IEPC_1speed],Long Haul EMS,3500,1.7,1.676,-1.41
+C0206,Mercedes Econic,L1b[S3a_IEPC_1speed],Long Haul EMS,26500,2.134,2.0258,-5.07
+C0206,Mercedes Econic,L1b[S3a_IEPC_1speed],Regional Delivery,1400,1.077,1.1248,4.44
+C0206,Mercedes Econic,L1b[S3a_IEPC_1speed],Regional Delivery,7100,1.182,1.2132,2.64
+C0206,Mercedes Econic,L1b[S3a_IEPC_1speed],Regional Delivery EMS,3500,1.598,1.5799,-1.13
+C0206,Mercedes Econic,L1b[S3a_IEPC_1speed],Regional Delivery EMS,17500,1.907,1.8323,-3.92
+C0206,Mercedes Econic,L1[S3b_IEPC_3speed],Construction,1400,0.8858,0.9152,3.32
+C0206,Mercedes Econic,L1[S3b_IEPC_3speed],Construction,7100,1.014,1.0339,1.96
+C0206,Mercedes Econic,L1[S3b_IEPC_3speed],Long Haul,2600,1.517,1.5051,-0.79
+C0206,Mercedes Econic,L1[S3b_IEPC_3speed],Long Haul,19300,1.816,1.781,-1.93
+C0206,Mercedes Econic,L1[S3b_IEPC_3speed],Long Haul EMS,3500,1.7,1.6651,-2.05
+C0206,Mercedes Econic,L1[S3b_IEPC_3speed],Long Haul EMS,26500,2.134,2.0356,-4.61
+C0206,Mercedes Econic,L1[S3b_IEPC_3speed],Regional Delivery,1400,1.077,1.1039,2.5
+C0206,Mercedes Econic,L1[S3b_IEPC_3speed],Regional Delivery,7100,1.182,1.2048,1.92
+C0206,Mercedes Econic,L1[S3b_IEPC_3speed],Regional Delivery EMS,3500,1.598,1.5833,-0.92
+C0206,Mercedes Econic,L1[S3b_IEPC_3speed],Regional Delivery EMS,17500,1.907,1.8571,-2.62
+C0206,Mercedes Econic,L1b[S3b_IEPC_3speed],Construction,1400,0.8858,0.9044,2.1
+C0206,Mercedes Econic,L1b[S3b_IEPC_3speed],Construction,7100,1.014,1.0117,-0.23
+C0206,Mercedes Econic,L1b[S3b_IEPC_3speed],Long Haul,2600,1.517,1.5249,0.52
+C0206,Mercedes Econic,L1b[S3b_IEPC_3speed],Long Haul,19300,1.816,1.7954,-1.14
+C0206,Mercedes Econic,L1b[S3b_IEPC_3speed],Long Haul EMS,3500,1.7,1.6834,-0.97
+C0206,Mercedes Econic,L1b[S3b_IEPC_3speed],Long Haul EMS,26500,2.134,2.0457,-4.14
+C0206,Mercedes Econic,L1b[S3b_IEPC_3speed],Regional Delivery,1400,1.077,1.1148,3.51
+C0206,Mercedes Econic,L1b[S3b_IEPC_3speed],Regional Delivery,7100,1.182,1.2102,2.38
+C0206,Mercedes Econic,L1b[S3b_IEPC_3speed],Regional Delivery EMS,3500,1.598,1.5891,-0.56
+C0206,Mercedes Econic,L1b[S3b_IEPC_3speed],Regional Delivery EMS,17500,1.907,1.853,-2.83
+C0206,Mercedes Econic,L1[S2_busIEPC_PSM],Construction,1400,0.8858,0.9206,3.93
+C0206,Mercedes Econic,L1[S2_busIEPC_PSM],Construction,7100,1.014,1.0268,1.27
+C0206,Mercedes Econic,L1[S2_busIEPC_PSM],Long Haul,2600,1.517,1.512,-0.33
+C0206,Mercedes Econic,L1[S2_busIEPC_PSM],Long Haul,19300,1.816,1.7702,-2.52
+C0206,Mercedes Econic,L1[S2_busIEPC_PSM],Long Haul EMS,3500,1.7,1.6643,-2.1
+C0206,Mercedes Econic,L1[S2_busIEPC_PSM],Long Haul EMS,26500,2.134,2.0122,-5.71
+C0206,Mercedes Econic,L1[S2_busIEPC_PSM],Regional Delivery,1400,1.077,1.1185,3.85
+C0206,Mercedes Econic,L1[S2_busIEPC_PSM],Regional Delivery,7100,1.182,1.2098,2.35
+C0206,Mercedes Econic,L1[S2_busIEPC_PSM],Regional Delivery EMS,3500,1.598,1.5761,-1.37
+C0206,Mercedes Econic,L1[S2_busIEPC_PSM],Regional Delivery EMS,17500,1.907,1.8318,-3.94
+C0206,Mercedes Econic,L1b[S2_busIEPC_PSM],Construction,1400,0.8858,0.9178,3.61
+C0206,Mercedes Econic,L1b[S2_busIEPC_PSM],Construction,7100,1.014,1.013,-0.1
+C0206,Mercedes Econic,L1b[S2_busIEPC_PSM],Long Haul,2600,1.517,1.5249,0.52
+C0206,Mercedes Econic,L1b[S2_busIEPC_PSM],Long Haul,19300,1.816,1.777,-2.15
+C0206,Mercedes Econic,L1b[S2_busIEPC_PSM],Long Haul EMS,3500,1.7,1.6739,-1.53
+C0206,Mercedes Econic,L1b[S2_busIEPC_PSM],Long Haul EMS,26500,2.134,2.016,-5.53
+C0206,Mercedes Econic,L1b[S2_busIEPC_PSM],Regional Delivery,1400,1.077,1.1265,4.59
+C0206,Mercedes Econic,L1b[S2_busIEPC_PSM],Regional Delivery,7100,1.182,1.2138,2.69
+C0206,Mercedes Econic,L1b[S2_busIEPC_PSM],Regional Delivery EMS,3500,1.598,1.5792,-1.18
+C0206,Mercedes Econic,L1b[S2_busIEPC_PSM],Regional Delivery EMS,17500,1.907,1.8272,-4.18
+C0206,Mercedes Econic,L1[S2_busIEPC_ASM],Construction,1400,0.8858,0.9047,2.13
+C0206,Mercedes Econic,L1[S2_busIEPC_ASM],Construction,7100,1.014,1.0301,1.59
+C0206,Mercedes Econic,L1[S2_busIEPC_ASM],Long Haul,2600,1.517,1.513,-0.27
+C0206,Mercedes Econic,L1[S2_busIEPC_ASM],Long Haul,19300,1.816,1.7936,-1.23
+C0206,Mercedes Econic,L1[S2_busIEPC_ASM],Long Haul EMS,3500,1.7,1.6774,-1.33
+C0206,Mercedes Econic,L1[S2_busIEPC_ASM],Long Haul EMS,26500,2.134,2.0486,-4.0
+C0206,Mercedes Econic,L1[S2_busIEPC_ASM],Regional Delivery,1400,1.077,1.0933,1.51
+C0206,Mercedes Econic,L1[S2_busIEPC_ASM],Regional Delivery,7100,1.182,1.202,1.69
+C0206,Mercedes Econic,L1[S2_busIEPC_ASM],Regional Delivery EMS,3500,1.598,1.5955,-0.16
+C0206,Mercedes Econic,L1[S2_busIEPC_ASM],Regional Delivery EMS,17500,1.907,1.8746,-1.7
+C0206,Mercedes Econic,L1b[S2_busIEPC_ASM],Construction,1400,0.8858,0.8957,1.12
+C0206,Mercedes Econic,L1b[S2_busIEPC_ASM],Construction,7100,1.014,1.0115,-0.25
+C0206,Mercedes Econic,L1b[S2_busIEPC_ASM],Long Haul,2600,1.517,1.5311,0.93
+C0206,Mercedes Econic,L1b[S2_busIEPC_ASM],Long Haul,19300,1.816,1.8046,-0.63
+C0206,Mercedes Econic,L1b[S2_busIEPC_ASM],Long Haul EMS,3500,1.7,1.6919,-0.47
+C0206,Mercedes Econic,L1b[S2_busIEPC_ASM],Long Haul EMS,26500,2.134,2.0556,-3.67
+C0206,Mercedes Econic,L1b[S2_busIEPC_ASM],Regional Delivery,1400,1.077,1.1014,2.27
+C0206,Mercedes Econic,L1b[S2_busIEPC_ASM],Regional Delivery,7100,1.182,1.2061,2.03
+C0206,Mercedes Econic,L1b[S2_busIEPC_ASM],Regional Delivery EMS,3500,1.598,1.6007,0.17
+C0206,Mercedes Econic,L1b[S2_busIEPC_ASM],Regional Delivery EMS,17500,1.907,1.871,-1.89
+C0070,IVECO eDaily,C,Regional Delivery,232,0.728,0.7257,-0.32
+C0070,IVECO eDaily,C,Regional Delivery,1169,0.7538,0.7554,0.21
+C0070,IVECO eDaily,C,Urban Delivery,232,0.4893,0.4933,0.81
+C0070,IVECO eDaily,C,Urban Delivery,1169,0.5275,0.5265,-0.19
+C0070,IVECO eDaily,L4b,Regional Delivery,232,0.728,0.7177,-1.42
+C0070,IVECO eDaily,L4b,Regional Delivery,1169,0.7538,0.7492,-0.61
+C0070,IVECO eDaily,L4b,Urban Delivery,232,0.4893,0.5053,3.27
+C0070,IVECO eDaily,L4b,Urban Delivery,1169,0.5275,0.5373,1.86
+C0070,IVECO eDaily,L1[arch],Regional Delivery,232,0.728,0.6904,-5.17
+C0070,IVECO eDaily,L1[arch],Regional Delivery,1169,0.7538,0.7139,-5.29
+C0070,IVECO eDaily,L1[arch],Urban Delivery,232,0.4893,0.5162,5.49
+C0070,IVECO eDaily,L1[arch],Urban Delivery,1169,0.5275,0.5411,2.57
+C0070,IVECO eDaily,L1b[arch],Regional Delivery,232,0.728,0.7044,-3.24
+C0070,IVECO eDaily,L1b[arch],Regional Delivery,1169,0.7538,0.7278,-3.46
+C0070,IVECO eDaily,L1b[arch],Urban Delivery,232,0.4893,0.5109,4.41
+C0070,IVECO eDaily,L1b[arch],Urban Delivery,1169,0.5275,0.5338,1.19
+C0070,IVECO eDaily,L1[S3a_IEPC_1speed],Regional Delivery,232,0.728,0.6949,-4.55
+C0070,IVECO eDaily,L1[S3a_IEPC_1speed],Regional Delivery,1169,0.7538,0.7194,-4.56
+C0070,IVECO eDaily,L1[S3a_IEPC_1speed],Urban Delivery,232,0.4893,0.5128,4.8
+C0070,IVECO eDaily,L1[S3a_IEPC_1speed],Urban Delivery,1169,0.5275,0.5404,2.45
+C0070,IVECO eDaily,L1b[S3a_IEPC_1speed],Regional Delivery,232,0.728,0.7072,-2.85
+C0070,IVECO eDaily,L1b[S3a_IEPC_1speed],Regional Delivery,1169,0.7538,0.7317,-2.93
+C0070,IVECO eDaily,L1b[S3a_IEPC_1speed],Urban Delivery,232,0.4893,0.5078,3.78
+C0070,IVECO eDaily,L1b[S3a_IEPC_1speed],Urban Delivery,1169,0.5275,0.5335,1.15
+C0070,IVECO eDaily,L1[S3b_IEPC_3speed],Regional Delivery,232,0.728,0.6946,-4.59
+C0070,IVECO eDaily,L1[S3b_IEPC_3speed],Regional Delivery,1169,0.7538,0.7201,-4.47
+C0070,IVECO eDaily,L1[S3b_IEPC_3speed],Urban Delivery,232,0.4893,0.5106,4.36
+C0070,IVECO eDaily,L1[S3b_IEPC_3speed],Urban Delivery,1169,0.5275,0.5425,2.85
+C0070,IVECO eDaily,L1b[S3b_IEPC_3speed],Regional Delivery,232,0.728,0.7114,-2.28
+C0070,IVECO eDaily,L1b[S3b_IEPC_3speed],Regional Delivery,1169,0.7538,0.737,-2.23
+C0070,IVECO eDaily,L1b[S3b_IEPC_3speed],Urban Delivery,232,0.4893,0.5039,2.97
+C0070,IVECO eDaily,L1b[S3b_IEPC_3speed],Urban Delivery,1169,0.5275,0.5325,0.95
+C0070,IVECO eDaily,L1[S2_busIEPC_PSM],Regional Delivery,232,0.728,0.6981,-4.1
+C0070,IVECO eDaily,L1[S2_busIEPC_PSM],Regional Delivery,1169,0.7538,0.7216,-4.27
+C0070,IVECO eDaily,L1[S2_busIEPC_PSM],Urban Delivery,232,0.4893,0.512,4.64
+C0070,IVECO eDaily,L1[S2_busIEPC_PSM],Urban Delivery,1169,0.5275,0.5387,2.13
+C0070,IVECO eDaily,L1b[S2_busIEPC_PSM],Regional Delivery,232,0.728,0.7087,-2.65
+C0070,IVECO eDaily,L1b[S2_busIEPC_PSM],Regional Delivery,1169,0.7538,0.7319,-2.91
+C0070,IVECO eDaily,L1b[S2_busIEPC_PSM],Urban Delivery,232,0.4893,0.5079,3.8
+C0070,IVECO eDaily,L1b[S2_busIEPC_PSM],Urban Delivery,1169,0.5275,0.5325,0.96
+C0070,IVECO eDaily,L1[S2_busIEPC_ASM],Regional Delivery,232,0.728,0.704,-3.3
+C0070,IVECO eDaily,L1[S2_busIEPC_ASM],Regional Delivery,1169,0.7538,0.7296,-3.21
+C0070,IVECO eDaily,L1[S2_busIEPC_ASM],Urban Delivery,232,0.4893,0.5052,3.24
+C0070,IVECO eDaily,L1[S2_busIEPC_ASM],Urban Delivery,1169,0.5275,0.5392,2.22
+C0070,IVECO eDaily,L1b[S2_busIEPC_ASM],Regional Delivery,232,0.728,0.7208,-0.99
+C0070,IVECO eDaily,L1b[S2_busIEPC_ASM],Regional Delivery,1169,0.7538,0.7464,-0.98
+C0070,IVECO eDaily,L1b[S2_busIEPC_ASM],Urban Delivery,232,0.4893,0.4971,1.59
+C0070,IVECO eDaily,L1b[S2_busIEPC_ASM],Urban Delivery,1169,0.5275,0.5285,0.2
+C0001,DAF XB,C,Construction,1400,1.14,1.1539,1.22
+C0001,DAF XB,C,Construction,7100,1.291,1.2329,-4.5
+C0001,DAF XB,C,Long Haul,2600,1.436,1.3752,-4.24
+C0001,DAF XB,C,Long Haul,19300,1.644,1.7243,4.88
+C0001,DAF XB,C,Regional Delivery,1400,1.021,1.0218,0.07
+C0001,DAF XB,C,Regional Delivery,7100,1.115,1.1367,1.95
+C0001,DAF XB,L4b,Construction,1400,1.14,1.1641,2.11
+C0001,DAF XB,L4b,Construction,7100,1.291,1.2378,-4.12
+C0001,DAF XB,L4b,Long Haul,2600,1.436,1.3756,-4.2
+C0001,DAF XB,L4b,Long Haul,19300,1.644,1.7284,5.13
+C0001,DAF XB,L4b,Regional Delivery,1400,1.021,1.0319,1.07
+C0001,DAF XB,L4b,Regional Delivery,7100,1.115,1.1312,1.45
+C0001,DAF XB,L1[arch],Construction,1400,1.14,1.1595,1.71
+C0001,DAF XB,L1[arch],Construction,7100,1.291,1.3227,2.45
+C0001,DAF XB,L1[arch],Long Haul,2600,1.436,1.3718,-4.47
+C0001,DAF XB,L1[arch],Long Haul,19300,1.644,1.7018,3.51
+C0001,DAF XB,L1[arch],Regional Delivery,1400,1.021,0.9788,-4.13
+C0001,DAF XB,L1[arch],Regional Delivery,7100,1.115,1.1156,0.06
+C0001,DAF XB,L1b[arch],Construction,1400,1.14,1.1426,0.23
+C0001,DAF XB,L1b[arch],Construction,7100,1.291,1.2817,-0.72
+C0001,DAF XB,L1b[arch],Long Haul,2600,1.436,1.3876,-3.37
+C0001,DAF XB,L1b[arch],Long Haul,19300,1.644,1.7369,5.65
+C0001,DAF XB,L1b[arch],Regional Delivery,1400,1.021,0.9874,-3.29
+C0001,DAF XB,L1b[arch],Regional Delivery,7100,1.115,1.1187,0.33
+C0001,DAF XB,L1[S3a_IEPC_1speed],Construction,1400,1.14,1.1619,1.92
+C0001,DAF XB,L1[S3a_IEPC_1speed],Construction,7100,1.291,1.3013,0.8
+C0001,DAF XB,L1[S3a_IEPC_1speed],Long Haul,2600,1.436,1.3804,-3.87
+C0001,DAF XB,L1[S3a_IEPC_1speed],Long Haul,19300,1.644,1.6827,2.35
+C0001,DAF XB,L1[S3a_IEPC_1speed],Regional Delivery,1400,1.021,0.9995,-2.1
+C0001,DAF XB,L1[S3a_IEPC_1speed],Regional Delivery,7100,1.115,1.1195,0.4
+C0001,DAF XB,L1b[S3a_IEPC_1speed],Construction,1400,1.14,1.1556,1.37
+C0001,DAF XB,L1b[S3a_IEPC_1speed],Construction,7100,1.291,1.2648,-2.03
+C0001,DAF XB,L1b[S3a_IEPC_1speed],Long Haul,2600,1.436,1.3869,-3.42
+C0001,DAF XB,L1b[S3a_IEPC_1speed],Long Haul,19300,1.644,1.7048,3.7
+C0001,DAF XB,L1b[S3a_IEPC_1speed],Regional Delivery,1400,1.021,1.0053,-1.53
+C0001,DAF XB,L1b[S3a_IEPC_1speed],Regional Delivery,7100,1.115,1.1219,0.62
+C0001,DAF XB,L1[S3b_IEPC_3speed],Construction,1400,1.14,1.1595,1.71
+C0001,DAF XB,L1[S3b_IEPC_3speed],Construction,7100,1.291,1.3227,2.45
+C0001,DAF XB,L1[S3b_IEPC_3speed],Long Haul,2600,1.436,1.3718,-4.47
+C0001,DAF XB,L1[S3b_IEPC_3speed],Long Haul,19300,1.644,1.7018,3.51
+C0001,DAF XB,L1[S3b_IEPC_3speed],Regional Delivery,1400,1.021,0.9788,-4.13
+C0001,DAF XB,L1[S3b_IEPC_3speed],Regional Delivery,7100,1.115,1.1156,0.06
+C0001,DAF XB,L1b[S3b_IEPC_3speed],Construction,1400,1.14,1.1426,0.23
+C0001,DAF XB,L1b[S3b_IEPC_3speed],Construction,7100,1.291,1.2817,-0.72
+C0001,DAF XB,L1b[S3b_IEPC_3speed],Long Haul,2600,1.436,1.3876,-3.37
+C0001,DAF XB,L1b[S3b_IEPC_3speed],Long Haul,19300,1.644,1.7369,5.65
+C0001,DAF XB,L1b[S3b_IEPC_3speed],Regional Delivery,1400,1.021,0.9874,-3.29
+C0001,DAF XB,L1b[S3b_IEPC_3speed],Regional Delivery,7100,1.115,1.1187,0.33
+C0001,DAF XB,L1[S2_busIEPC_PSM],Construction,1400,1.14,1.1648,2.17
+C0001,DAF XB,L1[S2_busIEPC_PSM],Construction,7100,1.291,1.2954,0.34
+C0001,DAF XB,L1[S2_busIEPC_PSM],Long Haul,2600,1.436,1.3867,-3.44
+C0001,DAF XB,L1[S2_busIEPC_PSM],Long Haul,19300,1.644,1.6746,1.86
+C0001,DAF XB,L1[S2_busIEPC_PSM],Regional Delivery,1400,1.021,1.0029,-1.77
+C0001,DAF XB,L1[S2_busIEPC_PSM],Regional Delivery,7100,1.115,1.1196,0.41
+C0001,DAF XB,L1b[S2_busIEPC_PSM],Construction,1400,1.14,1.1654,2.23
+C0001,DAF XB,L1b[S2_busIEPC_PSM],Construction,7100,1.291,1.261,-2.32
+C0001,DAF XB,L1b[S2_busIEPC_PSM],Long Haul,2600,1.436,1.393,-2.99
+C0001,DAF XB,L1b[S2_busIEPC_PSM],Long Haul,19300,1.644,1.6916,2.89
+C0001,DAF XB,L1b[S2_busIEPC_PSM],Regional Delivery,1400,1.021,1.0098,-1.09
+C0001,DAF XB,L1b[S2_busIEPC_PSM],Regional Delivery,7100,1.115,1.1217,0.6
+C0001,DAF XB,L1[S2_busIEPC_ASM],Construction,1400,1.14,1.1601,1.77
+C0001,DAF XB,L1[S2_busIEPC_ASM],Construction,7100,1.291,1.3261,2.72
+C0001,DAF XB,L1[S2_busIEPC_ASM],Long Haul,2600,1.436,1.383,-3.69
+C0001,DAF XB,L1[S2_busIEPC_ASM],Long Haul,19300,1.644,1.7167,4.42
+C0001,DAF XB,L1[S2_busIEPC_ASM],Regional Delivery,1400,1.021,0.9631,-5.67
+C0001,DAF XB,L1[S2_busIEPC_ASM],Regional Delivery,7100,1.115,1.11,-0.45
+C0001,DAF XB,L1b[S2_busIEPC_ASM],Construction,1400,1.14,1.1463,0.55
+C0001,DAF XB,L1b[S2_busIEPC_ASM],Construction,7100,1.291,1.2935,0.2
+C0001,DAF XB,L1b[S2_busIEPC_ASM],Long Haul,2600,1.436,1.401,-2.44
+C0001,DAF XB,L1b[S2_busIEPC_ASM],Long Haul,19300,1.644,1.7516,6.54
+C0001,DAF XB,L1b[S2_busIEPC_ASM],Regional Delivery,1400,1.021,0.9689,-5.11
+C0001,DAF XB,L1b[S2_busIEPC_ASM],Regional Delivery,7100,1.115,1.1121,-0.26

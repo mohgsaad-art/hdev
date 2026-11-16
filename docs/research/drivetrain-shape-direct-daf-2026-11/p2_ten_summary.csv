@@ -1,0 +1,14 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+method,n_fitted,trucks_all_within_5pct,predictions,share_within_5pct,share_too_low,mean_err_pct,median_abs_err_pct,largest_under_pct,largest_over_pct,worst_truck_abs_err_pct,median_of_truck_worst_abs_err_pct
+C,3,5,88,0.864,0.511,-0.14,1.23,-11.97,12.7,12.7,5.32
+L4b,3,4,88,0.886,0.466,-0.11,1.33,-14.19,12.47,14.19,5.3
+L1[arch],1,4,88,0.807,0.477,-0.26,2.23,-19.55,16.45,19.55,6.38
+L1b[arch],2,4,88,0.875,0.545,-0.28,1.78,-15.99,13.28,15.99,6.74
+L1[S3a_IEPC_1speed],1,4,88,0.841,0.443,-0.23,2.23,-19.55,15.67,19.55,7.63
+L1b[S3a_IEPC_1speed],2,4,88,0.864,0.557,-0.29,1.89,-15.99,13.28,15.99,7.04
+L1[S3b_IEPC_3speed],1,4,88,0.852,0.489,-0.31,2.05,-19.75,16.74,19.75,6.31
+L1b[S3b_IEPC_3speed],2,4,88,0.875,0.545,-0.22,1.64,-14.92,13.3,14.92,6.74
+L1[S2_busIEPC_PSM],1,4,88,0.807,0.443,-0.2,2.12,-19.48,15.13,19.48,8.31
+L1b[S2_busIEPC_PSM],2,4,88,0.864,0.557,-0.34,1.98,-16.32,12.88,16.32,7.3
+L1[S2_busIEPC_ASM],1,3,88,0.841,0.5,-0.25,1.81,-18.12,15.94,18.12,6.91
+L1b[S2_busIEPC_ASM],2,4,88,0.864,0.511,-0.19,1.38,-13.3,12.15,13.3,6.85
