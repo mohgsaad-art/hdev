@@ -1,0 +1,42 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+config_id,truck,method,n_results,n_fitted,dof,fit_rms_pct,values,at_bound
+C0059,Fuso eCanter,A,4,0,4,0.0,,
+C0059,Fuso eCanter,C,4,3,1,8.06,eta=0.68868;regen=1;F0=105.91,regen
+C0059,Fuso eCanter,L4a,4,2,2,14.915,a_W=6872.6;b_perW=2.7383e-06,b_perW
+C0059,Fuso eCanter,L4b,4,3,1,9.715,a_W=6.1023e-18;b_perW=2.2287e-06;c_W_per_mps=826.32,a_W;c_W_per_mps
+C0091,IVECO S-eWay,A,12,0,12,0.0,,
+C0091,IVECO S-eWay,C+CdxA,12,4,8,1.168,eta=0.96641;regen=0.91328;F0=602.8;cdxa_declared=5.65,cdxa_declared
+C0091,IVECO S-eWay,L4a+CdxA,12,3,9,3.63,a_W=11014;b_perW=1.3049e-07;cdxa_declared=5.65,cdxa_declared
+C0091,IVECO S-eWay,L4b+CdxA,12,4,8,1.158,a_W=4102.8;b_perW=1.2755e-07;c_W_per_mps=509.04;cdxa_declared=5.65,cdxa_declared
+C0371,Scania R 400E,A,12,0,12,0.0,,
+C0371,Scania R 400E,C,12,3,9,1.341,eta=0.84932;regen=0.80835;F0=39.397,
+C0371,Scania R 400E,L4a,12,2,10,1.68,a_W=10762;b_perW=4.7819e-07,
+C0371,Scania R 400E,L4b,12,3,9,1.331,a_W=8389;b_perW=4.6719e-07;c_W_per_mps=188.19,
+C0116,MAN eTGX,A,12,0,12,0.0,,
+C0116,MAN eTGX,C+CdxA,12,4,8,1.857,eta=0.87604;regen=0.84333;F0=6.3291e-21;cdxa_declared=5.12,F0;cdxa_declared
+C0116,MAN eTGX,L4a+CdxA,12,3,9,1.494,a_W=5700.3;b_perW=4.9299e-07;cdxa_declared=5.12,cdxa_declared
+C0116,MAN eTGX,L4b+CdxA,12,4,8,1.377,a_W=4432.2;b_perW=4.9668e-07;c_W_per_mps=83.759;cdxa_declared=5.12,cdxa_declared
+C0153,Mercedes eActros 600,A,12,0,12,0.0,,
+C0153,Mercedes eActros 600,C+CdxA,12,4,8,2.286,eta=0.96899;regen=0.79301;F0=157.79;cdxa_declared=5.12,cdxa_declared
+C0153,Mercedes eActros 600,L4a+CdxA,12,3,9,2.665,a_W=6562.2;b_perW=2.5383e-07;cdxa_declared=4.88,cdxa_declared
+C0153,Mercedes eActros 600,L4b+CdxA,12,4,8,2.665,a_W=6562.2;b_perW=2.5383e-07;c_W_per_mps=7.1856e-22;cdxa_declared=4.88,c_W_per_mps;cdxa_declared
+C0218,Renault D,A,8,0,8,0.0,,
+C0218,Renault D,C+CdxA,8,4,4,1.82,eta=0.76286;regen=0.99982;F0=438.26;cdxa_declared=5.3556,regen
+C0218,Renault D,L4a+CdxA,8,3,5,8.621,a_W=9064.1;b_perW=1.8073e-06;cdxa_declared=5.38,b_perW;cdxa_declared
+C0218,Renault D,L4b+CdxA,8,4,4,1.937,a_W=3.2486e-30;b_perW=9.7063e-07;c_W_per_mps=1163.7;cdxa_declared=5.38,a_W;cdxa_declared
+C0712,Volvo FM,A,8,0,8,0.0,,
+C0712,Volvo FM,C+CdxA,8,4,4,0.664,eta=0.88097;regen=1;F0=1.6817e-11;cdxa_declared=8.3872,regen;F0
+C0712,Volvo FM,L4a+CdxA,8,3,5,0.877,a_W=5415.2;b_perW=3.1781e-07;cdxa_declared=8.77,cdxa_declared
+C0712,Volvo FM,L4b+CdxA,8,4,4,0.735,a_W=2.0447e-10;b_perW=3.065e-07;c_W_per_mps=279.56;cdxa_declared=8.77,a_W;cdxa_declared
+C0206,Mercedes Econic,A,10,0,10,0.0,,
+C0206,Mercedes Econic,C,10,3,7,0.887,eta=0.86906;regen=0.93903;F0=4.153e-16,F0
+C0206,Mercedes Econic,L4a,10,2,8,1.342,a_W=5606.4;b_perW=4.7922e-07,
+C0206,Mercedes Econic,L4b,10,3,7,0.732,a_W=7.4976;b_perW=4.1116e-07;c_W_per_mps=383.96,a_W
+C0070,IVECO eDaily,A,4,0,4,0.0,,
+C0070,IVECO eDaily,C,4,3,1,0.133,eta=0.82924;regen=0.9984;F0=4.9631e-20,F0
+C0070,IVECO eDaily,L4a,4,2,2,2.005,a_W=1204;b_perW=2.5818e-06,b_perW
+C0070,IVECO eDaily,L4b,4,3,1,0.78,a_W=1.5107e-11;b_perW=2.0911e-06;c_W_per_mps=168.46,a_W
+C0001,DAF XB,A,6,0,6,0.0,,
+C0001,DAF XB,C+CdxA,6,4,2,1.358,eta=0.88469;regen=0.84241;F0=961.4;cdxa_declared=4.65,cdxa_declared
+C0001,DAF XB,L4a+CdxA,6,3,3,3.316,a_W=22223;b_perW=5.8745e-07;cdxa_declared=4.88,cdxa_declared
+C0001,DAF XB,L4b+CdxA,6,4,2,1.56,a_W=5689.5;b_perW=4.486e-07;c_W_per_mps=1080.7;cdxa_declared=4.65,cdxa_declared

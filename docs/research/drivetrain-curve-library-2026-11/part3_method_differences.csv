@@ -1,0 +1,354 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+view,config_id,mission,payload_kg,pair,abs_diff_pct_of_cert
+LORO,C0059,Regional Delivery,333,C-L4a,10.02
+LORO,C0059,Regional Delivery,333,C-L4b,2.22
+LORO,C0059,Regional Delivery,1664,C-L4a,9.32
+LORO,C0059,Regional Delivery,1664,C-L4b,2.39
+LORO,C0059,Urban Delivery,333,C-L4a,1.31
+LORO,C0059,Urban Delivery,333,C-L4b,2.06
+LORO,C0059,Urban Delivery,1664,C-L4a,1.72
+LORO,C0059,Urban Delivery,1664,C-L4b,0.23
+LORO,C0091,Construction,2600,C-L4a,0.31
+LORO,C0091,Construction,2600,C-L4b,0.49
+LORO,C0091,Construction,12900,C-L4a,0.73
+LORO,C0091,Construction,12900,C-L4b,0.15
+LORO,C0091,Long Haul,2600,C-L4a,4.85
+LORO,C0091,Long Haul,2600,C-L4b,0.14
+LORO,C0091,Long Haul,19300,C-L4a,3.55
+LORO,C0091,Long Haul,19300,C-L4b,0.15
+LORO,C0091,Long Haul EMS,3500,C-L4a,3.75
+LORO,C0091,Long Haul EMS,3500,C-L4b,0.13
+LORO,C0091,Long Haul EMS,26500,C-L4a,2.05
+LORO,C0091,Long Haul EMS,26500,C-L4b,1.26
+LORO,C0091,Regional Delivery,2600,C-L4a,4.4
+LORO,C0091,Regional Delivery,2600,C-L4b,0.44
+LORO,C0091,Regional Delivery,12900,C-L4a,3.36
+LORO,C0091,Regional Delivery,12900,C-L4b,0.17
+LORO,C0091,Regional Delivery EMS,3500,C-L4a,3.12
+LORO,C0091,Regional Delivery EMS,3500,C-L4b,0.24
+LORO,C0091,Regional Delivery EMS,17500,C-L4a,2.34
+LORO,C0091,Regional Delivery EMS,17500,C-L4b,0.52
+LORO,C0091,Urban Delivery,2600,C-L4a,10.77
+LORO,C0091,Urban Delivery,2600,C-L4b,0.49
+LORO,C0091,Urban Delivery,12900,C-L4a,9.91
+LORO,C0091,Urban Delivery,12900,C-L4b,0.91
+LORO,C0371,Construction,2600,C-L4a,0.19
+LORO,C0371,Construction,2600,C-L4b,0.29
+LORO,C0371,Construction,12900,C-L4a,0.06
+LORO,C0371,Construction,12900,C-L4b,0.11
+LORO,C0371,Long Haul,2600,C-L4a,1.09
+LORO,C0371,Long Haul,2600,C-L4b,0.06
+LORO,C0371,Long Haul,19300,C-L4a,0.5
+LORO,C0371,Long Haul,19300,C-L4b,0.6
+LORO,C0371,Long Haul EMS,3500,C-L4a,1.24
+LORO,C0371,Long Haul EMS,3500,C-L4b,0.32
+LORO,C0371,Long Haul EMS,26500,C-L4a,0.22
+LORO,C0371,Long Haul EMS,26500,C-L4b,1.07
+LORO,C0371,Regional Delivery,2600,C-L4a,1.43
+LORO,C0371,Regional Delivery,2600,C-L4b,0.28
+LORO,C0371,Regional Delivery,12900,C-L4a,1.12
+LORO,C0371,Regional Delivery,12900,C-L4b,0.22
+LORO,C0371,Regional Delivery EMS,3500,C-L4a,1.52
+LORO,C0371,Regional Delivery EMS,3500,C-L4b,0.69
+LORO,C0371,Regional Delivery EMS,17500,C-L4a,0.03
+LORO,C0371,Regional Delivery EMS,17500,C-L4b,0.71
+LORO,C0371,Urban Delivery,2600,C-L4a,1.61
+LORO,C0371,Urban Delivery,2600,C-L4b,0.58
+LORO,C0371,Urban Delivery,12900,C-L4a,4.77
+LORO,C0371,Urban Delivery,12900,C-L4b,0.05
+LORO,C0116,Construction,2600,C-L4a,0.4
+LORO,C0116,Construction,2600,C-L4b,0.41
+LORO,C0116,Construction,12900,C-L4a,0.32
+LORO,C0116,Construction,12900,C-L4b,0.39
+LORO,C0116,Long Haul,2600,C-L4a,1.28
+LORO,C0116,Long Haul,2600,C-L4b,0.91
+LORO,C0116,Long Haul,19300,C-L4a,0.1
+LORO,C0116,Long Haul,19300,C-L4b,0.49
+LORO,C0116,Long Haul EMS,3500,C-L4a,0.88
+LORO,C0116,Long Haul EMS,3500,C-L4b,0.38
+LORO,C0116,Long Haul EMS,26500,C-L4a,1.09
+LORO,C0116,Long Haul EMS,26500,C-L4b,1.6
+LORO,C0116,Regional Delivery,2600,C-L4a,1.71
+LORO,C0116,Regional Delivery,2600,C-L4b,1.12
+LORO,C0116,Regional Delivery,12900,C-L4a,0.66
+LORO,C0116,Regional Delivery,12900,C-L4b,0.01
+LORO,C0116,Regional Delivery EMS,3500,C-L4a,1.18
+LORO,C0116,Regional Delivery EMS,3500,C-L4b,0.7
+LORO,C0116,Regional Delivery EMS,17500,C-L4a,1.19
+LORO,C0116,Regional Delivery EMS,17500,C-L4b,1.77
+LORO,C0116,Urban Delivery,2600,C-L4a,2.42
+LORO,C0116,Urban Delivery,2600,C-L4b,3.46
+LORO,C0116,Urban Delivery,12900,C-L4a,4.64
+LORO,C0116,Urban Delivery,12900,C-L4b,2.06
+LORO,C0153,Construction,2600,C-L4a,1.39
+LORO,C0153,Construction,2600,C-L4b,1.39
+LORO,C0153,Construction,12900,C-L4a,1.45
+LORO,C0153,Construction,12900,C-L4b,1.45
+LORO,C0153,Long Haul,2600,C-L4a,1.84
+LORO,C0153,Long Haul,2600,C-L4b,1.84
+LORO,C0153,Long Haul,19300,C-L4a,1.36
+LORO,C0153,Long Haul,19300,C-L4b,1.36
+LORO,C0153,Long Haul EMS,3500,C-L4a,1.19
+LORO,C0153,Long Haul EMS,3500,C-L4b,1.19
+LORO,C0153,Long Haul EMS,26500,C-L4a,3.62
+LORO,C0153,Long Haul EMS,26500,C-L4b,3.62
+LORO,C0153,Regional Delivery,2600,C-L4a,0.57
+LORO,C0153,Regional Delivery,2600,C-L4b,0.57
+LORO,C0153,Regional Delivery,12900,C-L4a,0.07
+LORO,C0153,Regional Delivery,12900,C-L4b,0.07
+LORO,C0153,Regional Delivery EMS,3500,C-L4a,0.34
+LORO,C0153,Regional Delivery EMS,3500,C-L4b,0.34
+LORO,C0153,Regional Delivery EMS,17500,C-L4a,2.19
+LORO,C0153,Regional Delivery EMS,17500,C-L4b,2.19
+LORO,C0153,Urban Delivery,2600,C-L4a,5.35
+LORO,C0153,Urban Delivery,2600,C-L4b,5.35
+LORO,C0153,Urban Delivery,12900,C-L4a,1.64
+LORO,C0153,Urban Delivery,12900,C-L4b,2.09
+LORO,C0218,Construction,900,C-L4a,7.94
+LORO,C0218,Construction,900,C-L4b,0.63
+LORO,C0218,Construction,4400,C-L4a,1.13
+LORO,C0218,Construction,4400,C-L4b,0.69
+LORO,C0218,Long Haul,1900,C-L4a,9.38
+LORO,C0218,Long Haul,1900,C-L4b,2.19
+LORO,C0218,Long Haul,14000,C-L4a,4.07
+LORO,C0218,Long Haul,14000,C-L4b,2.31
+LORO,C0218,Regional Delivery,900,C-L4a,11.29
+LORO,C0218,Regional Delivery,900,C-L4b,1.34
+LORO,C0218,Regional Delivery,4400,C-L4a,9.79
+LORO,C0218,Regional Delivery,4400,C-L4b,0.21
+LORO,C0218,Urban Delivery,900,C-L4a,12.85
+LORO,C0218,Urban Delivery,900,C-L4b,0.76
+LORO,C0218,Urban Delivery,4400,C-L4a,17.28
+LORO,C0218,Urban Delivery,4400,C-L4b,1.8
+LORO,C0712,Long Haul,2600,C-L4a,0.72
+LORO,C0712,Long Haul,2600,C-L4b,0.16
+LORO,C0712,Long Haul,19300,C-L4a,0.42
+LORO,C0712,Long Haul,19300,C-L4b,0.13
+LORO,C0712,Long Haul EMS,3500,C-L4a,0.75
+LORO,C0712,Long Haul EMS,3500,C-L4b,0.32
+LORO,C0712,Long Haul EMS,26500,C-L4a,0.34
+LORO,C0712,Long Haul EMS,26500,C-L4b,0.43
+LORO,C0712,Regional Delivery,1400,C-L4a,0.74
+LORO,C0712,Regional Delivery,1400,C-L4b,0.5
+LORO,C0712,Regional Delivery,7100,C-L4a,0.31
+LORO,C0712,Regional Delivery,7100,C-L4b,0.01
+LORO,C0712,Regional Delivery EMS,3500,C-L4a,0.23
+LORO,C0712,Regional Delivery EMS,3500,C-L4b,0.51
+LORO,C0712,Regional Delivery EMS,17500,C-L4a,1.33
+LORO,C0712,Regional Delivery EMS,17500,C-L4b,0.58
+LORO,C0206,Construction,1400,C-L4a,2.75
+LORO,C0206,Construction,1400,C-L4b,0.56
+LORO,C0206,Construction,7100,C-L4a,1.2
+LORO,C0206,Construction,7100,C-L4b,0.85
+LORO,C0206,Long Haul,2600,C-L4a,2.51
+LORO,C0206,Long Haul,2600,C-L4b,1.05
+LORO,C0206,Long Haul,19300,C-L4a,0.0
+LORO,C0206,Long Haul,19300,C-L4b,0.58
+LORO,C0206,Long Haul EMS,3500,C-L4a,1.69
+LORO,C0206,Long Haul EMS,3500,C-L4b,0.66
+LORO,C0206,Long Haul EMS,26500,C-L4a,1.32
+LORO,C0206,Long Haul EMS,26500,C-L4b,1.12
+LORO,C0206,Regional Delivery,1400,C-L4a,2.44
+LORO,C0206,Regional Delivery,1400,C-L4b,0.31
+LORO,C0206,Regional Delivery,7100,C-L4a,1.76
+LORO,C0206,Regional Delivery,7100,C-L4b,0.47
+LORO,C0206,Regional Delivery EMS,3500,C-L4a,0.97
+LORO,C0206,Regional Delivery EMS,3500,C-L4b,0.73
+LORO,C0206,Regional Delivery EMS,17500,C-L4a,3.28
+LORO,C0206,Regional Delivery EMS,17500,C-L4b,2.12
+LORO,C0070,Regional Delivery,232,C-L4a,2.93
+LORO,C0070,Regional Delivery,232,C-L4b,1.1
+LORO,C0070,Regional Delivery,1169,C-L4a,2.23
+LORO,C0070,Regional Delivery,1169,C-L4b,0.82
+LORO,C0070,Urban Delivery,232,C-L4a,0.68
+LORO,C0070,Urban Delivery,232,C-L4b,2.46
+LORO,C0070,Urban Delivery,1169,C-L4a,3.15
+LORO,C0070,Urban Delivery,1169,C-L4b,2.05
+LORO,C0001,Construction,1400,C-L4a,5.16
+LORO,C0001,Construction,1400,C-L4b,0.89
+LORO,C0001,Construction,7100,C-L4a,7.74
+LORO,C0001,Construction,7100,C-L4b,0.38
+LORO,C0001,Long Haul,2600,C-L4a,2.66
+LORO,C0001,Long Haul,2600,C-L4b,0.03
+LORO,C0001,Long Haul,19300,C-L4a,4.93
+LORO,C0001,Long Haul,19300,C-L4b,0.25
+LORO,C0001,Regional Delivery,1400,C-L4a,4.06
+LORO,C0001,Regional Delivery,1400,C-L4b,0.99
+LORO,C0001,Regional Delivery,7100,C-L4a,2.68
+LORO,C0001,Regional Delivery,7100,C-L4b,0.5
+LOMO,C0059,Regional Delivery,333,C-L4a,5.37
+LOMO,C0059,Regional Delivery,333,C-L4b,1.92
+LOMO,C0059,Regional Delivery,1664,C-L4a,4.9
+LOMO,C0059,Regional Delivery,1664,C-L4b,1.52
+LOMO,C0059,Urban Delivery,333,C-L4a,37.28
+LOMO,C0059,Urban Delivery,333,C-L4b,28.73
+LOMO,C0059,Urban Delivery,1664,C-L4a,39.52
+LOMO,C0059,Urban Delivery,1664,C-L4b,25.63
+LOMO,C0091,Construction,2600,C-L4a,0.34
+LOMO,C0091,Construction,2600,C-L4b,0.5
+LOMO,C0091,Construction,12900,C-L4a,0.75
+LOMO,C0091,Construction,12900,C-L4b,0.12
+LOMO,C0091,Long Haul,2600,C-L4a,4.71
+LOMO,C0091,Long Haul,2600,C-L4b,0.15
+LOMO,C0091,Long Haul,19300,C-L4a,3.35
+LOMO,C0091,Long Haul,19300,C-L4b,0.06
+LOMO,C0091,Long Haul EMS,3500,C-L4a,3.43
+LOMO,C0091,Long Haul EMS,3500,C-L4b,0.13
+LOMO,C0091,Long Haul EMS,26500,C-L4a,1.71
+LOMO,C0091,Long Haul EMS,26500,C-L4b,1.44
+LOMO,C0091,Regional Delivery,2600,C-L4a,4.73
+LOMO,C0091,Regional Delivery,2600,C-L4b,0.44
+LOMO,C0091,Regional Delivery,12900,C-L4a,3.6
+LOMO,C0091,Regional Delivery,12900,C-L4b,0.2
+LOMO,C0091,Regional Delivery EMS,3500,C-L4a,3.44
+LOMO,C0091,Regional Delivery EMS,3500,C-L4b,0.34
+LOMO,C0091,Regional Delivery EMS,17500,C-L4a,2.63
+LOMO,C0091,Regional Delivery EMS,17500,C-L4b,0.39
+LOMO,C0091,Urban Delivery,2600,C-L4a,17.48
+LOMO,C0091,Urban Delivery,2600,C-L4b,0.22
+LOMO,C0091,Urban Delivery,12900,C-L4a,15.94
+LOMO,C0091,Urban Delivery,12900,C-L4b,0.64
+LOMO,C0371,Construction,2600,C-L4a,0.23
+LOMO,C0371,Construction,2600,C-L4b,0.25
+LOMO,C0371,Construction,12900,C-L4a,0.03
+LOMO,C0371,Construction,12900,C-L4b,0.06
+LOMO,C0371,Long Haul,2600,C-L4a,1.02
+LOMO,C0371,Long Haul,2600,C-L4b,0.03
+LOMO,C0371,Long Haul,19300,C-L4a,0.15
+LOMO,C0371,Long Haul,19300,C-L4b,0.59
+LOMO,C0371,Long Haul EMS,3500,C-L4a,1.12
+LOMO,C0371,Long Haul EMS,3500,C-L4b,0.15
+LOMO,C0371,Long Haul EMS,26500,C-L4a,0.51
+LOMO,C0371,Long Haul EMS,26500,C-L4b,1.23
+LOMO,C0371,Regional Delivery,2600,C-L4a,1.57
+LOMO,C0371,Regional Delivery,2600,C-L4b,0.29
+LOMO,C0371,Regional Delivery,12900,C-L4a,1.17
+LOMO,C0371,Regional Delivery,12900,C-L4b,0.25
+LOMO,C0371,Regional Delivery EMS,3500,C-L4a,1.68
+LOMO,C0371,Regional Delivery EMS,3500,C-L4b,0.7
+LOMO,C0371,Regional Delivery EMS,17500,C-L4a,0.13
+LOMO,C0371,Regional Delivery EMS,17500,C-L4b,0.64
+LOMO,C0371,Urban Delivery,2600,C-L4a,6.33
+LOMO,C0371,Urban Delivery,2600,C-L4b,1.49
+LOMO,C0371,Urban Delivery,12900,C-L4a,6.77
+LOMO,C0371,Urban Delivery,12900,C-L4b,0.53
+LOMO,C0116,Construction,2600,C-L4a,0.4
+LOMO,C0116,Construction,2600,C-L4b,0.42
+LOMO,C0116,Construction,12900,C-L4a,0.28
+LOMO,C0116,Construction,12900,C-L4b,0.35
+LOMO,C0116,Long Haul,2600,C-L4a,1.09
+LOMO,C0116,Long Haul,2600,C-L4b,0.87
+LOMO,C0116,Long Haul,19300,C-L4a,0.19
+LOMO,C0116,Long Haul,19300,C-L4b,0.35
+LOMO,C0116,Long Haul EMS,3500,C-L4a,0.54
+LOMO,C0116,Long Haul EMS,3500,C-L4b,0.1
+LOMO,C0116,Long Haul EMS,26500,C-L4a,1.28
+LOMO,C0116,Long Haul EMS,26500,C-L4b,1.66
+LOMO,C0116,Regional Delivery,2600,C-L4a,1.93
+LOMO,C0116,Regional Delivery,2600,C-L4b,1.1
+LOMO,C0116,Regional Delivery,12900,C-L4a,0.8
+LOMO,C0116,Regional Delivery,12900,C-L4b,0.12
+LOMO,C0116,Regional Delivery EMS,3500,C-L4a,1.19
+LOMO,C0116,Regional Delivery EMS,3500,C-L4b,0.56
+LOMO,C0116,Regional Delivery EMS,17500,C-L4a,1.06
+LOMO,C0116,Regional Delivery EMS,17500,C-L4b,1.71
+LOMO,C0116,Urban Delivery,2600,C-L4a,8.97
+LOMO,C0116,Urban Delivery,2600,C-L4b,0.05
+LOMO,C0116,Urban Delivery,12900,C-L4a,10.75
+LOMO,C0116,Urban Delivery,12900,C-L4b,4.41
+LOMO,C0153,Construction,2600,C-L4a,1.48
+LOMO,C0153,Construction,2600,C-L4b,1.48
+LOMO,C0153,Construction,12900,C-L4a,1.51
+LOMO,C0153,Construction,12900,C-L4b,1.51
+LOMO,C0153,Long Haul,2600,C-L4a,2.08
+LOMO,C0153,Long Haul,2600,C-L4b,2.08
+LOMO,C0153,Long Haul,19300,C-L4a,2.14
+LOMO,C0153,Long Haul,19300,C-L4b,2.14
+LOMO,C0153,Long Haul EMS,3500,C-L4a,1.42
+LOMO,C0153,Long Haul EMS,3500,C-L4b,1.42
+LOMO,C0153,Long Haul EMS,26500,C-L4a,4.13
+LOMO,C0153,Long Haul EMS,26500,C-L4b,4.13
+LOMO,C0153,Regional Delivery,2600,C-L4a,0.83
+LOMO,C0153,Regional Delivery,2600,C-L4b,0.83
+LOMO,C0153,Regional Delivery,12900,C-L4a,0.02
+LOMO,C0153,Regional Delivery,12900,C-L4b,0.02
+LOMO,C0153,Regional Delivery EMS,3500,C-L4a,0.04
+LOMO,C0153,Regional Delivery EMS,3500,C-L4b,0.04
+LOMO,C0153,Regional Delivery EMS,17500,C-L4a,1.76
+LOMO,C0153,Regional Delivery EMS,17500,C-L4b,1.76
+LOMO,C0153,Urban Delivery,2600,C-L4a,2.09
+LOMO,C0153,Urban Delivery,2600,C-L4b,0.25
+LOMO,C0153,Urban Delivery,12900,C-L4a,0.17
+LOMO,C0153,Urban Delivery,12900,C-L4b,1.53
+LOMO,C0218,Construction,900,C-L4a,8.14
+LOMO,C0218,Construction,900,C-L4b,0.54
+LOMO,C0218,Construction,4400,C-L4a,2.01
+LOMO,C0218,Construction,4400,C-L4b,0.66
+LOMO,C0218,Long Haul,1900,C-L4a,10.43
+LOMO,C0218,Long Haul,1900,C-L4b,2.74
+LOMO,C0218,Long Haul,14000,C-L4a,5.35
+LOMO,C0218,Long Haul,14000,C-L4b,2.52
+LOMO,C0218,Regional Delivery,900,C-L4a,9.79
+LOMO,C0218,Regional Delivery,900,C-L4b,3.04
+LOMO,C0218,Regional Delivery,4400,C-L4a,8.13
+LOMO,C0218,Regional Delivery,4400,C-L4b,1.71
+LOMO,C0218,Urban Delivery,900,C-L4a,24.76
+LOMO,C0218,Urban Delivery,900,C-L4b,0.17
+LOMO,C0218,Urban Delivery,4400,C-L4a,25.49
+LOMO,C0218,Urban Delivery,4400,C-L4b,0.83
+LOMO,C0712,Long Haul,2600,C-L4a,0.96
+LOMO,C0712,Long Haul,2600,C-L4b,0.37
+LOMO,C0712,Long Haul,19300,C-L4a,0.47
+LOMO,C0712,Long Haul,19300,C-L4b,0.13
+LOMO,C0712,Long Haul EMS,3500,C-L4a,0.63
+LOMO,C0712,Long Haul EMS,3500,C-L4b,0.17
+LOMO,C0712,Long Haul EMS,26500,C-L4a,0.38
+LOMO,C0712,Long Haul EMS,26500,C-L4b,0.58
+LOMO,C0712,Regional Delivery,1400,C-L4a,1.78
+LOMO,C0712,Regional Delivery,1400,C-L4b,1.21
+LOMO,C0712,Regional Delivery,7100,C-L4a,1.09
+LOMO,C0712,Regional Delivery,7100,C-L4b,0.63
+LOMO,C0712,Regional Delivery EMS,3500,C-L4a,0.21
+LOMO,C0712,Regional Delivery EMS,3500,C-L4b,0.26
+LOMO,C0712,Regional Delivery EMS,17500,C-L4a,1.44
+LOMO,C0712,Regional Delivery EMS,17500,C-L4b,0.53
+LOMO,C0206,Construction,1400,C-L4a,4.74
+LOMO,C0206,Construction,1400,C-L4b,0.9
+LOMO,C0206,Construction,7100,C-L4a,3.66
+LOMO,C0206,Construction,7100,C-L4b,0.17
+LOMO,C0206,Long Haul,2600,C-L4a,2.54
+LOMO,C0206,Long Haul,2600,C-L4b,0.98
+LOMO,C0206,Long Haul,19300,C-L4a,0.18
+LOMO,C0206,Long Haul,19300,C-L4b,0.46
+LOMO,C0206,Long Haul EMS,3500,C-L4a,1.42
+LOMO,C0206,Long Haul EMS,3500,C-L4b,0.39
+LOMO,C0206,Long Haul EMS,26500,C-L4a,1.09
+LOMO,C0206,Long Haul EMS,26500,C-L4b,1.09
+LOMO,C0206,Regional Delivery,1400,C-L4a,2.72
+LOMO,C0206,Regional Delivery,1400,C-L4b,0.12
+LOMO,C0206,Regional Delivery,7100,C-L4a,2.12
+LOMO,C0206,Regional Delivery,7100,C-L4b,0.36
+LOMO,C0206,Regional Delivery EMS,3500,C-L4a,0.37
+LOMO,C0206,Regional Delivery EMS,3500,C-L4b,0.38
+LOMO,C0206,Regional Delivery EMS,17500,C-L4a,3.26
+LOMO,C0206,Regional Delivery EMS,17500,C-L4b,2.1
+LOMO,C0070,Regional Delivery,232,C-L4a,0.87
+LOMO,C0070,Regional Delivery,232,C-L4b,2.31
+LOMO,C0070,Regional Delivery,1169,C-L4a,1.29
+LOMO,C0070,Regional Delivery,1169,C-L4b,2.68
+LOMO,C0070,Urban Delivery,232,C-L4a,14.15
+LOMO,C0070,Urban Delivery,232,C-L4b,7.84
+LOMO,C0070,Urban Delivery,1169,C-L4a,11.94
+LOMO,C0070,Urban Delivery,1169,C-L4b,6.09
+LOMO,C0001,Construction,1400,C-L4a,10.61
+LOMO,C0001,Construction,1400,C-L4b,0.22
+LOMO,C0001,Construction,7100,C-L4a,11.69
+LOMO,C0001,Construction,7100,C-L4b,0.16
+LOMO,C0001,Long Haul,2600,C-L4a,1.3
+LOMO,C0001,Long Haul,2600,C-L4b,3.01
+LOMO,C0001,Long Haul,19300,C-L4a,0.05
+LOMO,C0001,Long Haul,19300,C-L4b,5.48
+LOMO,C0001,Regional Delivery,1400,C-L4a,7.42
+LOMO,C0001,Regional Delivery,1400,C-L4b,0.39
+LOMO,C0001,Regional Delivery,7100,C-L4a,4.78
+LOMO,C0001,Regional Delivery,7100,C-L4b,0.79

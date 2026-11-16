@@ -396,6 +396,9 @@ class MethodCv2(MethodC):
     def starts_for(self, rec):
         return [(0.9, 0.8, 300.0), (0.7, 0.6, 1000.0), (0.95, 0.95, 0.0)]
 
+    def bounds_for(self, rec):
+        return self.bounds
+
 
 class WithCdxARange(Method):
     """Adds the DECLARED CdxA (data entry 23) as a fitted value, bounded to the truck's published range

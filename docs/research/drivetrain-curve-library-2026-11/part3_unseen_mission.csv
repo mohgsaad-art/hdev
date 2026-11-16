@@ -1,0 +1,16 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+config_id,truck,mission,payload_kg,A_kwh_km,C_kwh_km,L4a_kwh_km,L4b_kwh_km,C_vs_L4a_pct,C_vs_L4b_pct,note
+C0059,Fuso eCanter,Municipal Utility (no PTO),,,,,,,,BLOCKED: no Municipal Utility mission/payload for group 1 in VECTO SegmentTable/EEA
+C0091,IVECO S-eWay,Municipal Utility (no PTO),,,,,,,,BLOCKED: no Municipal Utility mission/payload for group 5 in VECTO SegmentTable/EEA
+C0371,Scania R 400E,Municipal Utility (no PTO),,,,,,,,BLOCKED: no Municipal Utility mission/payload for group 5 in VECTO SegmentTable/EEA
+C0116,MAN eTGX,Municipal Utility (no PTO),,,,,,,,BLOCKED: no Municipal Utility mission/payload for group 5 in VECTO SegmentTable/EEA
+C0153,Mercedes eActros 600,Municipal Utility (no PTO),,,,,,,,BLOCKED: no Municipal Utility mission/payload for group 5 in VECTO SegmentTable/EEA
+C0218,Renault D,Municipal Utility (no PTO),3000,0.8377,1.1459,1.357,1.1236,18.42,-1.94,"certified Municipal (with PTO) = 2.695, not comparable"
+C0218,Renault D,Municipal Utility (no PTO),600,0.7743,1.0645,1.2459,1.0445,17.04,-1.88,"certified Municipal (with PTO) = 2.586, not comparable"
+C0712,Volvo FM,Municipal Utility (no PTO),6000,1.2126,1.1719,1.3116,1.1483,11.92,-2.01,"certified Municipal (with PTO) = 2.765, not comparable"
+C0712,Volvo FM,Municipal Utility (no PTO),1200,1.0817,1.0476,1.1859,1.024,13.2,-2.25,"certified Municipal (with PTO) = 2.622, not comparable"
+C0206,Mercedes Econic,Municipal Utility (no PTO),1200,0.9801,1.0115,1.1256,0.9707,11.28,-4.04,"certified Municipal (with PTO) = 2.487, not comparable"
+C0206,Mercedes Econic,Municipal Utility (no PTO),6000,1.1026,1.1407,1.2595,1.0971,10.42,-3.83,"certified Municipal (with PTO) = 2.600, not comparable"
+C0070,IVECO eDaily,Municipal Utility (no PTO),,,,,,,,BLOCKED: no Municipal Utility mission/payload for group 53 in VECTO SegmentTable/EEA
+C0001,DAF XB,Municipal Utility (no PTO),1200,0.8071,1.1259,1.686,1.2204,49.75,8.39,"certified Municipal (with PTO) = 2.482, not comparable"
+C0001,DAF XB,Municipal Utility (no PTO),6000,0.9197,1.2535,1.8162,1.336,44.89,6.59,"certified Municipal (with PTO) = 2.640, not comparable"
