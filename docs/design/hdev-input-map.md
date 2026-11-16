@@ -864,3 +864,392 @@ Placed with Weather because it is driven by temperature (decided 13–14 Nov).
 | `hv.q` | Fresh air (m³/h → m³/s) | typed | 100 m³/h for 2 persons (Dvorak et al. preprint, Eq. 2: 102.4 m³/h at 1,000 ppm CO₂). 0 = exactly VECTO | DEF in (C) | `Q` | Non-VECTO, flagged: +55 % HVAC energy at 100 m³/h. |
 | `hv.const_therm` | Thermal constants | hidden | heater efficiency 0.93; ventilation power 0.56 Wh/m³; heat per person (50, 80) W; clouding (0.65, 0.8); boundary 17 °C; window transmission 0.95; solar factor 0.25; waste heat 0 W (HDEV, conservative); pressure 101,325 Pa; gas constant 287.05 J/kgK; cp 1,005 J/kgK (**no source read yet**) | CONST | `eh_eff`, `spec_vent_power`, `heat_per_person`, `clouding`, `T_boundary`, `g`, `solar_factor`, `waste_heat`, `p`, `R`, `cp` | All temperatures are in kelvin inside the engine. The parser converts every one with the same +273.15. |
 | `hv.eff` | HVAC factor into `P_aux` | automatic | 1.25 in A (and B unless electric); **1.0 in C** | AUTO | `HVAC_eff` | If C runs with 1.25 the result is 25 % too high. The parser sets it; it is not a user field in C. |
+
+---
+
+# PART C. Every function, from the engine's side (written functions)
+
+Signatures are copied from Bob's notebook `HDEV_NEW (7).ipynb` (16 Nov). For each function: what it does, how often it runs, every argument with the input ID from Part B that fills it, and every output with where it goes and whether the user sees it.
+
+"Default" in these tables means the value `defaults.py` should hold. Some defaults are still written in the function signature in the notebook; the 13 Nov rule is that they move to `defaults.py`.
+
+## C0. Call order and how often each function runs
+
+| # | Function | Status | Runs | Reruns when this changes |
+|---|---|---|---|---|
+| E1 | `payload_engine` | FINAL | once per fleet row (route × payload template) | stop table, payload shape or values |
+| E2 | `pto_engine` | FINAL | once per fleet row (route × PTO template) | stop table, PTO flags, profiles, efficiencies |
+| E3 | `crosswind_engine` | FINAL | once per vehicle and weather set, plus once at VECTO wind for the driver's reference table | vehicle height, yaw coefficients, wind data |
+| E4 | `driver_model` (+ `interp1`, `decel_distance`, `coast_distance`) | FINAL | once per route × vehicle (reused for identical rows); a final pass at exact mass for a chosen truck | waypoints, stop times, reference vehicle, drag table |
+| E5 | `force_engine` | FINAL | once per driver run | driver rows, Crr, wheel data, rotor data |
+| E6 | `SP_power_helper` | FINAL | once per vehicle (VECTO steering mode only) | group, mission, steered axles, technology |
+| E7 | `HVAC_thermal` (+ `ssm_total_w`, `climate_lookup`) | FINAL | once per weather year (hourly array), thermal mode only | weather, cab data, heater, set-points |
+| E8 | `P_aux` | FINAL | once per vehicle (per hour for HVAC in thermal mode) | any aux value or factor |
+| E9 | `consumption_engine` | WIP | once per vehicle × operating date | anything above, payload, weather of the date, drivetrain numbers |
+| E9b | `drivetrain` (+ reader `vecto_loss_map`) | written, tested by Kiro (Gate 2); used only on the map path | inside E9 step 6 | maps, gear per row |
+
+Row check between E6 and E7 (`check_rows`) and the result object are on Bob's data-flow page and are not repeated here.
+
+---
+
+## C1. `crosswind_engine` (FINAL)
+
+**What it does.** Pure physics. For each wind speed and each vehicle speed it works out two numbers: `W1` (how much more air hits the truck than in still air) and `W2` (the extra drag area in m² from the air arriving at an angle). The effective drag area is then `CdxA_eff = CdxA0 · W1 + W2`. CdxA0 itself is not an input here.
+
+```python
+crosswind_engine(vehicle_height, v_ref, h_ref, a1, a2, a3, wind_exp, dh, dphi_deg, v_veh_kmh, beta_limit_deg)
+```
+
+| Argument | Unit | Filled from | Default | Notes |
+|---|---|---|---|---|
+| `vehicle_height` | m | `veh.height` | VECTO reference height by group | Sets how many height slices the wind profile is averaged over. |
+| `v_ref` | m/s, one number or a list | `wx.wind` | DMI hourly wind (list, one per weather hour) for the consumption run; 3 m/s for the driver's reference table | A list gives one table row per wind value. |
+| `h_ref` | m | `wx.const` | 10 m for DMI wind; 4 m for VECTO wind | Height at which `v_ref` was measured. |
+| `a1`, `a2`, `a3` | m²/deg, m²/deg², m²/deg³ | `aero.yaw_set` | VECTO set by group + mission | Extra drag area as a cubic in yaw angle. |
+| `wind_exp` | – | `wx.const` | 0.2 | How wind grows with height. |
+| `dh` | m | `wx.const` | 0.4 m in the VECTO check | Height of one slice. |
+| `dphi_deg` | degrees | `wx.const` | 1° in the VECTO check | Step in wind direction, 0–360°. |
+| `v_veh_kmh` | km/h, list | `wx.const` | grid 60–130 km/h, never 0 | The only engine argument left in km/h (the function is final). Below 60 km/h the 60 value is held, like VECTO. |
+| `beta_limit_deg` | degrees or `None` | `wx.const` | 10 | HDEV decision of 6 Oct: yaw is clamped at 10° and the extra drag held there, because VECTO's polynomial is only valid to that range. `None` = no clamp. |
+
+| Output | Shape | Meaning | Goes to | User sees |
+|---|---|---|---|---|
+| `W1` | wind values × speed grid | air-speed ratio, dimensionless | `consumption_engine` (`W1`); parser builds the driver's reference `cdxa` table from the VECTO-wind run | no |
+| `W2` | wind values × speed grid | extra drag area, m² | same | no |
+
+**User-facing result built from it:** effective drag area by speed and wind, and the share of energy that goes to air drag (energy balance). **Report flags:** 10° yaw clamp (every report); wind taken at 10 m from DMI instead of VECTO's 3 m/s at 4 m; rectangle-rule averaging over height slices.
+
+## C2. `payload_engine` (FINAL)
+
+**What it does.** Pure logic on waypoints. It writes the payload on the start row and on each stop row, and leaves every other row blank (NaN). `consumption_engine` later carries each value forward by distance. It does not care where the waypoints came from.
+
+```python
+payload_engine(stop, shape, payload_start, payload_end=None, payload_custom=None)
+```
+
+| Argument | Unit | Filled from | Default | Notes |
+|---|---|---|---|---|
+| `stop` | s, one per waypoint | `stop.time`, cleaned by `stop.payload_changes` | from the route | Row 0 is the depot: its stop is never a payload change. A stop the user switched off for payload is passed as 0 in this copy only. |
+| `shape` | text | `pl.shape` | `"constant"` | `"constant"`, `"linear"`, `"custom"`. Anything else raises. |
+| `payload_start` | kg | `pl.start` (from `pl.basis`) | VECTO reference payload (default basis **OPEN**) | |
+| `payload_end` | kg | `pl.end` | none | Used only by `"linear"`. |
+| `payload_custom` | kg, list | `pl.custom` / `stop.payload` | none | Used only by `"custom"`. Length = number of stops + 1. |
+
+| Output | Shape | Meaning | Goes to | User sees |
+|---|---|---|---|---|
+| `payload` (`payload_wp`) | one per waypoint, NaN except start and stops | payload after each stop, kg | `consumption_engine` (`payload_wp`) | yes, as the payload column of the stop table and as a payload-along-the-route picture on the Overview (Bob asked for this on 28 Oct) |
+
+**Raises inside the engine (guards only):** linear with no stops; wrong custom length; unknown shape; negative payload. All friendly checks are in the parser (B4).
+**Report flags:** equal payload step per stop in linear is an HDEV assumption; payload changes on arrival at the stop.
+
+## C3. `pto_engine` (FINAL)
+
+**What it does.** Turns the stop and drive profiles into one power value per second, and works out where inside each flagged stop the stop profile starts (centred, like VECTO).
+
+```python
+pto_engine(stop, is_on, stop_pto_t, stop_pto_w, drive_pto_t, drive_pto_w, stop_pto_eff, drive_pto_eff)
+```
+
+| Argument | Unit | Filled from | Default | Notes |
+|---|---|---|---|---|
+| `stop` | s per waypoint | `stop.time` after `pto.standing_rule` | from the route | Final standing time, PTO time already included by the parser. |
+| `is_on` | 0 / 1 per waypoint | `stop.pto_on` | 0 | Row 0 is forced to 0. |
+| `stop_pto_t`, `stop_pto_w` | s, W | `pto.stop_profile` | one point = no profile | Left-hold: each value lasts until the next time. |
+| `drive_pto_t`, `drive_pto_w` | s, W | `pto.drive_profile` | one point = no profile | |
+| `stop_pto_eff` | – | `pto.stop_eff` | 1.0 | Electric W = profile W ÷ efficiency. |
+| `drive_pto_eff` | – | `pto.drive_eff` | 1.0 | |
+
+| Output | Shape | Meaning | Goes to | User sees |
+|---|---|---|---|---|
+| `is_on` | per waypoint | cleaned flags | `consumption_engine` | no |
+| `pto_start` | per waypoint, NaN where no stop profile | second inside the stop at which the profile starts = floor((stop − profile length) / 2) | `consumption_engine` | no |
+| `stop_1s` | one per second of the stop profile | electric W | `consumption_engine` | as the profile preview in the PTO template *PROPOSED* |
+| `drive_1s` | one per second of the drive profile | electric W | `consumption_engine` | same |
+
+**User-facing results built from it:** kWh per stop and per shift for the body, peak kW, PTO share of the day's energy. Planned export: the profile in VECTO's PTO file format (crane/compactor energy sheet).
+**Report flags:** PTO centred in the stop, rounded down to a whole second; profiles in whole seconds; same power at every stop; one sweeping power per route; no mechanical PTO drag modelled.
+
+## C4. `driver_model` and its helpers (FINAL, 12 Nov)
+
+**What it does.** VECTO's driver behaviour on fixed 1 s rows. It turns waypoints into a speed trace: accelerate, cruise, coast, brake, stand. With `coast_mass = None` it is pure kinematics. With a reference vehicle it adds look-ahead coasting and overspeed downhill. Driver behaviour is copied from VECTO on purpose, for auditability.
+
+```python
+driver_model(wp_s, wp_v, wp_stop, wp_grade,
+             vacc_v, vacc_acc, vacc_dec, dt=1.0,
+             coast_mass=None, m_red_wheels=0.0, cdxa_v=None, cdxa=None, Crr=None, beta=1.0, rho=1.188, g=9.80665,
+             drag_v=(0.0,), drag_F=(0.0,), P_max=None,
+             lac_min_v=50.0, lac_dist_factor=10.0, df_offset=2.5, df_scaling=1.5,
+             df_vtarget=((0, 48, 52, 100), (0, 0, 1, 1)), df_vdrop=((-100, 9, 11, 100), (1, 1, 0, 0)),
+             os_min_v=50.0, os_allowed=2.5, brake_margin=0.1, v_min_coast=5.0)
+```
+
+| Argument | Unit | Filled from | Default | Notes |
+|---|---|---|---|---|
+| `wp_s` | m | route reader (B2) | – | Waypoint distance. |
+| `wp_v` | m/s | route reader | – | Target speed. km/h → m/s in the parser. |
+| `wp_stop` | s | `stop.time` (+ PTO time) | – | Final standing time. |
+| `wp_grade` | % | `rt.grade` | 0 | Turned into altitude inside; the row grade is a secant of altitude. |
+| `vacc_v`, `vacc_acc`, `vacc_dec` | m/s, m/s², m/s² | `drv.vacc` | VECTO `Truck.vacc` | |
+| `dt` | s | constant | 1.0 | HDEV deviation: VECTO uses variable steps of about 0.5 s. Costs about 1 % on Urban. |
+| `coast_mass` | kg or `None` | `veh.ref_mass` (screening) or exact mass (final pass) | reference mass | `None` switches coasting and overspeed off. |
+| `m_red_wheels` | kg | `tyre.theta_red` and `tyre.size` | 0 | Wheel inertia as an equivalent mass. |
+| `cdxa_v`, `cdxa` | m/s, m² | reference table: `aero.cdxa0 · W1 + W2` at VECTO wind | – | Required when coasting is on. |
+| `Crr` | – | `tyre.crr` | – | Required when coasting is on. Same value as in `force_engine`. |
+| `beta` | – | `tyre.beta` | 0.9 (signature shows the neutral 1.0) | |
+| `rho` | kg/m³ | constant | 1.188 (VECTO) | The driver always uses the reference air density in the screening run. |
+| `g` | m/s² | constant | 9.80665 (VECTO) | |
+| `drag_v`, `drag_F` | m/s, N | `drv.drag_table` | VECTO E2 table (signature shows zero drag) | Drivetrain drag while rolling with no motor torque. |
+| `P_max` | W or `None` | `drv.p_max` | `None` | Caps acceleration by motor power. |
+| `lac_min_v` | m/s | constant | 50 km/h | Look-ahead coasting only above this speed. |
+| `lac_dist_factor` | m per km/h | constant | 10 | Look-ahead distance = speed in km/h × 10 m (VECTO's rule; the only `3.6` left inside). |
+| `df_offset`, `df_scaling` | – | constant | 2.5, 1.5 | VECTO decision-factor constants. |
+| `df_vtarget`, `df_vdrop` | km/h tables | constant | as in the signature | VECTO tables, km/h by definition. |
+| `os_min_v`, `os_allowed` | m/s | constant | 50 km/h, 2.5 km/h | Overspeed downhill allowed above 50 km/h, by 2.5 km/h. |
+| `brake_margin` | m | constant | 0.1 | |
+| `v_min_coast` | m/s | constant | 5 km/h | No coasting below this. |
+
+Caution kept from the 12 Nov closeout: the signature still shows the km/h numbers for the four thresholds. The parser must pass m/s, or the defaults change to `50/3.6` and so on (agreed SI edit, not yet pasted back).
+
+| Output | Shape | Meaning | Goes to | User sees |
+|---|---|---|---|---|
+| `T` | per row | time since departure, s | `consumption_engine` | trip duration, return time |
+| `S` | per row | distance, m | `consumption_engine` | distance check |
+| `V` | per row | speed at the start of the step, m/s | `force_engine`, `consumption_engine` | speed-over-the-day chart; average, min and max speed (quality check) |
+| `A` | per row | acceleration, m/s² | `force_engine` | max acceleration and deceleration (quality check) |
+| `grade` | per row | road grade, % | `force_engine` | no |
+| `M` | per row | driving mode: 0 standing, 1 accelerating, 2 cruising, 3 coasting, 4 braking | `consumption_engine` | time spent standing, accelerating, cruising, coasting, braking |
+
+**Helpers (no user inputs of their own).**
+
+| Helper | Arguments | Returns | Used by |
+|---|---|---|---|
+| `interp1(x, xs, ys)` | one number, table x, table y | linear interpolation, end values held | driver loop |
+| `decel_distance(v_from, v_to, vacc_v, vacc_dec)` | two speeds, the `.vacc` table | braking distance, m (exact VECTO formula) | driver look-ahead |
+| `coast_distance(v, v_target, h_now, h_target, s_now, s_target, coast_mass, m_red_wheels, cdxa_v, cdxa, Crr, beta, rho, g, drag_v, drag_F, df_offset, df_scaling, df_vtarget, df_vdrop)` | current and target speed and height, the reference vehicle, the drag table, VECTO decision factors | look-ahead coasting distance, m | driver look-ahead |
+
+**Report flags (known deviations from VECTO):** fixed 1 s rows; back-to-back stops aim for the next positive target; air drag while coasting is instantaneous; braking that starts mid-step is scaled; `P_max` single power cap; fixed reference vehicle for coasting decisions in screening runs (measured error: Regional −0.39 % to 0.00 %, Urban −1.31 % to +0.68 %, Kiro PR #29). Known gap: rotor inertia is missing in the coasting rows (driver follow-up, not done).
+
+## C5. `force_engine` (FINAL, 12 Nov)
+
+**What it does.** Takes the driver's rows and returns coefficients that do not depend on mass, temperature or wind. Wheel power for any scenario is then one multiply-add per row: `P_wheel = m·k_lin + m^beta·k_roll + k_rot_wheel + rho·CdxA_eff·L`.
+
+```python
+force_engine(g, Crr, speed, accel, dt_s, grade, r_dyn, theta_red, J_rotor, i_total)
+```
+
+| Argument | Unit | Filled from | Default | Notes |
+|---|---|---|---|---|
+| `g` | m/s² | constant | 9.80665 | |
+| `Crr` | – | `tyre.crr` | see B7 | |
+| `speed`, `accel`, `grade` | m/s, m/s², % | `driver_model` outputs `V`, `A`, `grade` | – | CALC |
+| `dt_s` | s | driver `dt` | 1.0 | |
+| `r_dyn` | m | `tyre.size` | none | REQ. Must be > 0. |
+| `theta_red` | kg·m² | `tyre.theta_red` | 0 | 0 switches wheel inertia off. |
+| `J_rotor` | kg·m² | `drv.j_rotor` | 0 | No default in the signature: the parser always passes it. |
+| `i_total` | – | `drv.i_total` | 1 | One number or one per row. |
+
+| Output | Unit | Meaning | Goes to | User sees |
+|---|---|---|---|---|
+| `k_lin` | W/kg | slope + acceleration term per kg | `consumption_engine` | grade and inertia shares of the energy balance |
+| `k_roll` | W/kg^beta | rolling term | `consumption_engine` | rolling share |
+| `k_rot_wheel` | W | wheel inertia power | `consumption_engine` step 4 (wheel power) | inside inertia |
+| `k_rot_rotor` | W | rotor inertia power | `consumption_engine` step 6, motor side. **Not** part of wheel power | inside drivetrain |
+| `L` | m³/s³ | exact step average of ½·v³ | `consumption_engine` | air-drag share |
+| `v_avg` | m/s | mean speed of the step | `consumption_engine` (CdxA lookup, drag power) | no |
+
+## C6. `SP_power_helper` (FINAL)
+
+**What it does.** VECTO's steering-pump rule. Only called when steering power is taken from the VECTO tables. An own W value skips it.
+
+```python
+SP_power_helper(SP_baseline, SP_axle_shares, SP_tech_factors)
+```
+
+| Argument | Unit | Filled from | Default | Notes |
+|---|---|---|---|---|
+| `SP_baseline` | W, three parts | `veh.group` × `veh.mission` → `SP-Table.csv` | by group and mission | Empty cell → parser error. |
+| `SP_axle_shares` | %, one row of three per steered axle | `aux.sp_axles` → `SP-Axles.csv` | 1 steered axle | 1 to 4 rows. |
+| `SP_tech_factors` | –, one row of three per steered axle | `aux.sp_tech` → `SP-Tech.csv`, or own | BEV rows only | Same number of rows as the shares. A wrong count still gives a number, so the parser must check it. |
+
+| Output | Unit | Meaning | Goes to | User sees |
+|---|---|---|---|---|
+| return value | W, mechanical | steering power | `SP_power` in `P_aux` (× 0.7 → electric) | steering line in the on-board systems table |
+
+Size on the E2: 3–32 W electric (0.02–0.07 % of trip energy).
+
+## C7. `HVAC_thermal`, `ssm_total_w`, `climate_lookup` (FINAL, 13 Nov)
+
+**What they do.** VECTO's cab heat balance (written for buses) applied hour by hour to a truck cab. `ssm_total_w` is the heat balance at one cab temperature. `climate_lookup` gives the COP and the split between heat pump, electric heater and fuel heater at each outside temperature. `HVAC_thermal` runs the balance at the heating and cooling set-points, decides heating, cooling or ventilation, and returns electric W per hour.
+
+```python
+HVAC_thermal(T_amb, solar, A_surface, U, N_persons, A_window, T_points, cop_heat_points, cop_cool_points,
+             hp_share_points, eh_share_points, fuel_share_points, max_heating_power, max_cooling_power,
+             cab_volume, vent_rate, vent_rate_heating,
+             eh_eff, spec_vent_power, heat_per_person, clouding, T_boundary, g, solar_factor,
+             waste_heat, T_heat, T_cool, T_cool_off, Q, p, R, cp)
+ssm_total_w(T_amb, solar, T_calc, A_surface, U, N_persons, A_window, heat_per_person, clouding, T_boundary, g, solar_factor, p, R, cp, Q)
+climate_lookup(T_amb, T_points, cop_heat_points, cop_cool_points, hp_share_points, eh_share_points, fuel_share_points)
+```
+
+| Argument | Unit (engine) | Filled from | Default | Notes |
+|---|---|---|---|---|
+| `T_amb` | K, per weather hour | `wx.t_amb` | – | |
+| `solar` | W/m², per hour | `wx.solar` | – | |
+| `A_surface`, `U` | m², W/m²K | `hv.cab` | none | REQ in thermal mode. |
+| `A_window` | m² | `hv.cab` | none | REQ. |
+| `cab_volume` | m³ | `hv.cab` | none | REQ. |
+| `N_persons` | – | `hv.persons` | none | REQ. |
+| `T_points` | K | `hv.cop` | 8 VECTO temperatures | One axis for COPs and shares. |
+| `cop_heat_points`, `cop_cool_points` | – | `hv.cop` (by `hv.heater`) | VECTO | Gaps filled by the parser. |
+| `hp_share_points`, `eh_share_points`, `fuel_share_points` | – | `hv.cop` (by `hv.heater`) | VECTO | Nearest temperature point; ties go to the colder one. |
+| `max_heating_power`, `max_cooling_power` | W | `hv.pmax` | infinite, flagged | Cap on heat pump + electric heater; cap on cooling. |
+| `vent_rate`, `vent_rate_heating` | 1/s | `hv.vent` | none | REQ. |
+| `eh_eff` | – | `hv.const_therm` | 0.93 | |
+| `spec_vent_power` | J/m³ | `hv.const_therm` | 0.56 Wh/m³ = 2,016 J/m³ | |
+| `heat_per_person` | W, two values | `hv.const_therm` | (50, 80) | Below / above `T_boundary`. |
+| `clouding` | –, two values | `hv.const_therm` | (0.65, 0.8) | |
+| `T_boundary` | K | `hv.const_therm` | 17 °C | |
+| `g` | – | `hv.const_therm` | 0.95 | Window transmission (not gravity). |
+| `solar_factor` | – | `hv.const_therm` | 0.25 | Kept from VECTO; its meaning is undocumented. |
+| `waste_heat` | W | `hv.const_therm` | 0 | HDEV choice, conservative. VECTO credits motor waste heat. |
+| `T_heat`, `T_cool`, `T_cool_off` | K | `hv.setpoints` | 18, 23, 17 °C | |
+| `Q` | m³/s | `hv.q` | 100 m³/h | 0 = VECTO. The fan moves at least this flow. |
+| `p`, `R`, `cp` | Pa, J/kgK, J/kgK | `hv.const_therm` | 101,325; 287.05; 1,005 | cp: no source read yet. |
+
+| Output | Shape | Meaning | Goes to | User sees |
+|---|---|---|---|---|
+| `HVAC_el` | W per weather hour | heat pump + electric heater + cooling + fan, electric | `HVAC_power` in `P_aux` with `HVAC_eff = 1.0`, then `HVAC` in `consumption_engine` | cab climate kWh per day, month and year; winter against summer; cab options compared (standard value / electric heater / heat pump) |
+| `fuel_heat` | W heat per hour | heat delivered by a fuel heater | not used by the battery calculation | no. Flag: "diesel heater fuel not reported". |
+
+**Report flags:** bus method used for a truck cab; hourly weather instead of VECTO's 11 conditions; COP interpolated, shares from the nearest point; COP held below −5 °C (optimistic); fresh air on; fan at least as large as fresh air; 18 °C set-point may understate winter energy; no door openings, no warm-up of a cold cab, no humidity.
+
+## C8. `P_aux` (FINAL)
+
+**What it does.** One line per auxiliary: electric W = entered W × its VECTO factor. Always-on PTO is divided by its efficiency. Works for one number or an array.
+
+```python
+P_aux(ES_power, PS_power, HVAC_power, SP_power, cond_power, PTO_always_on,
+      ES_alteff=0.7, PS_alteff=1.0, HVAC_eff=1.25, SP_alteff=0.7, cond_eff=1.0, PTO_eff=1.0)
+```
+
+| Argument | Unit | Filled from | Default | Notes |
+|---|---|---|---|---|
+| `ES_power` | W | `aux.es` | VECTO row for the mission | |
+| `PS_power` | W | `aux.ps` | VECTO row for the mission | |
+| `HVAC_power` | W, number or per hour | `hv.const` / `hv.own_w` / `HVAC_el` | by `hv.mode` | |
+| `SP_power` | W | `SP_power_helper` or own W | VECTO method | |
+| `cond_power` | W | `aux.cond` | VECTO by mission | |
+| `PTO_always_on` | W, number or per hour | `pto.always_w` | 0 | |
+| `ES_alteff` | – | `aux.es_eff` | 0.7 | Multiplies. |
+| `PS_alteff` | – | `aux.ps_eff` | 1.0 | Multiplies. |
+| `HVAC_eff` | – | `hv.eff` | 1.25; 1.0 in thermal mode | Multiplies. |
+| `SP_alteff` | – | `aux.sp_eff` | 0.7 | Multiplies. |
+| `cond_eff` | – | `aux.cond_eff` | 1.0 | Multiplies. |
+| `PTO_eff` | – | `pto.always_eff` | 1.0 | **Divides.** |
+
+| Output | Unit | Goes to (`consumption_engine` argument) | When it is on | User sees |
+|---|---|---|---|---|
+| `ES_power` | W electric | `ES` | always | electrical system line |
+| `PS_power` | W electric | `PS` | always | air system line |
+| `HVAC_power` | W electric | `HVAC` | always (per hour in thermal mode) | cab climate line |
+| `SP_power` | W electric | `SP` | only while moving | steering line |
+| `cond_power` | W electric | `cond` | while moving or PTO active *(under review)* | cooling line |
+| `PTO_always_on` | W electric | `PTO_always_on` | always | equipment line |
+
+Parser checks: every power ≥ 0, every factor > 0, no NaN or infinity. Verified by Kiro against VECTO for all 68,040 combinations.
+
+## C9. `consumption_engine` (WIP)
+
+**What it does.** Brings everything together per row: mass, weather hour, air density, effective drag area, wheel power, PTO placement, drivetrain and regeneration rules, auxiliaries, battery power, trip energy. Bob is rewriting steps 5–7 now. The input paths below do not depend on how those steps end up.
+
+Signature in the notebook today:
+
+```python
+consumption_engine(T, S, V, M, dt,                                      # driver_model rows
+                   k_lin, k_roll, k_rot_wheel, k_rot_rotor, L, v_avg,   # force_engine
+                   m_curb, m_trailer, wp_s, payload_wp, beta,           # masses, payload
+                   t_start, T_amb_h, W1, W2, cdxa_v, CdxA0, p_air, R_air,   # weather + crosswind
+                   ES, PS, HVAC, SP, cond, PTO_always_on,               # P_aux outputs
+                   is_on, pto_start, stop_1s, drive_1s,                 # pto_engine outputs
+                   drive_eff, regen_eff, drivetrain_drag, P_regen_max=None)
+```
+
+Agreed changes not yet in the notebook (16 Nov closeouts): `drivetrain_drag` → `drivetrain_drag_N`; add `v_no_regen` and `P_drive_max`; `P_regen_max` becomes required; `m_trailer` holds body + trailer (`m_body_trailer`).
+
+Step order agreed 16 Nov: 1 mass · 2 weather hour · 3 air density and CdxA · 4 wheel power · 5 place PTO · 6 drivetrain and regeneration rules · 7 auxiliaries and battery.
+
+| Argument | Unit | Filled from | Default | Step | Notes |
+|---|---|---|---|---|---|
+| `T`, `S`, `V`, `M` | s, m, m/s, mode | `driver_model` | – | all | CALC |
+| `dt` | s | driver `dt` | 1.0 | 7 | |
+| `k_lin`, `k_roll`, `k_rot_wheel`, `L`, `v_avg` | see C5 | `force_engine` | – | 3, 4 | CALC |
+| `k_rot_rotor` | W | `force_engine` | – | 6 | Motor side. |
+| `m_curb` | kg | `veh.curb_mass` | – | 1 | |
+| `m_trailer` (body + trailer) | kg | `veh.body_mass` + `veh.trailer_mass` | VECTO by group and mission | 1 | |
+| `wp_s` | m | route reader | – | 1, 5 | Parser: first waypoint = first driver row = 0. |
+| `payload_wp` | kg | `payload_engine` | – | 1 | Carried forward by distance. |
+| `beta` | – | `tyre.beta` | 0.9 | 4 | |
+| `t_start` | s | `rt.depart` / `sch.out` | – | 2 | Offset into the weather array. |
+| `T_amb_h` | K per hour | `wx.t_amb` | – | 3 | The `+ 273.15` in the old code goes (temperatures arrive in K). |
+| `W1`, `W2` | tables | `crosswind_engine` | – | 3 | One row per weather hour. |
+| `cdxa_v` | speed grid | `wx.const` | 60–130 km/h | 3 | Proposed SI fix: grid converted to m/s once in the parser. |
+| `CdxA0` | m² | `aero.cdxa0` (+ trailer ΔCdxA) | VECTO standard value | 3 | |
+| `p_air`, `R_air` | Pa, J/kgK | `wx.p_air`, constant | 101,325; 287.05 | 3 | |
+| `ES`, `PS`, `HVAC`, `SP`, `cond`, `PTO_always_on` | W | `P_aux` | – | 7 | `HVAC` and `PTO_always_on` may be per hour. |
+| `is_on`, `pto_start`, `stop_1s`, `drive_1s` | see C3 | `pto_engine` | – | 5 | |
+| `drive_eff`, `regen_eff`, `drivetrain_drag_N` | –, –, N | `drv.drive_eff`, `drv.regen_eff`, `drv.drag_n` | from the drivetrain library | 6 | Method C. |
+| `P_regen_max` | W | `drv.regen_cap` | rated motor power | 6 | |
+| `P_drive_max` *(to add)* | W | `drv.drive_limit` | **OPEN** rated or peak | 6 | Report only. |
+| `v_no_regen` *(to add)* | m/s | `drv.v_no_regen` | 5 km/h | 6 | |
+| stop / drive PTO constants *(to add)* | W | `pto.stop_w`, `pto.drive_w` | none | 5 | No slot yet. |
+| body-has-own-motor flag *(to add)* | yes/no | `pto.own_motor` | none | 5–6 | Decides where the drive PTO is added. |
+| `rho_fixed` *(proposed)* | kg/m³ | `wx.rho_mode` | none | 3 | For VECTO-mode fitting. |
+| map set *(map path)* | – | `drv.map_*`, `drv.gear_row` | – | 6 | Passed on to `drivetrain()`. |
+
+| Output | Unit | Meaning | Goes to | User sees |
+|---|---|---|---|---|
+| `P_wheel` | W per row | power at the wheels (+ driving, − braking) | energy balance | wheel energy; split into air, rolling, grade, inertia |
+| `P_trac` | W per row | electric traction power (+ drawn, − recovered) | battery | driving energy; energy recovered by braking; drivetrain loss |
+| `P_aux_row` | W per row | all auxiliaries and PTO | battery | on-board systems energy, per system |
+| `P_battery` | W per row | power at the battery terminals | battery model, sizing, charging session | battery power over the day; peak power |
+| `E_battery` | kWh | net trip energy | session hand-over, sizing | **kWh per day and kWh/km** (the headline numbers) |
+| `drive_limit` *(to add)* | dict: rows, peak W, kWh above | rows above the motor's drive limit | report; trigger for the exact-mass rerun | warning line; "share of time at full power" |
+| battery dict / per-part energies *(planned, step 7)* | kWh | split by part | results | the full energy balance and loss diagram |
+
+**Report flags:** air density from temperature at fixed pressure (VECTO uses 1.188); hourly weather held for the whole hour; payload changes on arrival; battery treated as 100 % efficient until the battery model exists (certified figures include battery resistance loss); one number stands in for the motor's generation curve; `Cond` rule differs from VECTO.
+
+## C10. `drivetrain` and `vecto_loss_map` (map path)
+
+**What it does.** One chain, VECTO's loss rule at each part: wheel → axle → gearbox → mechanical PTO → motor's own gear (ADC) → rotor inertia → motor limits → motor map → electric power. Used only when the user gives a complete map set (`drv.method` = D). Kiro's Gate 2: −0.35 % / −0.56 % / −0.41 % against VECTO E2 electric energy.
+
+```python
+drivetrain(P_wheel, w_wheel, gear,
+           i_axle, axle_map, i_gears, gear_maps, i_adc, eta_adc,
+           n_em, em_map, em_T_drive, em_T_gen,
+           P_rot_rotor, P_pto_mech)
+vecto_loss_map(table)      # reader: VECTO .vtlm loss maps must go through this first
+```
+
+| Argument | Unit | Filled from | Notes |
+|---|---|---|---|
+| `P_wheel` | W per row | `consumption_engine` step 4 | |
+| `w_wheel` | rad/s per row | `v_avg / r_dyn` | CALC |
+| `gear` | integer per row, 0 = no gear | `drv.gear_row` | Gear rule **OPEN**. |
+| `i_axle`, `axle_map` | –, rows of (input speed, input torque, torque loss) | `drv.map_axle` | |
+| `i_gears`, `gear_maps` | one ratio and one map per gear | `drv.map_gear` | |
+| `i_adc`, `eta_adc` | –, – | `drv.adc` | VECTO declaration uses efficiency 1.0. |
+| `n_em`, `em_map`, `em_T_drive`, `em_T_gen` | count; rows of (speed, torque, electric power); limit curves | `drv.map_motor` | Recovering beyond the generation curve goes to the friction brakes. Driving beyond the drive curve is flagged, not clipped. |
+| `P_rot_rotor` | W per row | `k_rot_rotor` from `force_engine` | |
+| `P_pto_mech` | W per row | mechanical drive PTO from `pto.*` | 0 for now. |
+
+| Output | Unit | Meaning | User sees |
+|---|---|---|---|
+| `P_el` | W per row | electric power of the motors | becomes `P_trac` |
+| `P_axle_loss`, `P_gbx_loss`, `P_adc_loss`, `P_em_loss` | W per row | loss in each part | energy balance by part (the VECTO-style split) |
+| `P_to_brakes` | W per row | recovered power the motors cannot take | braking loss |
+| `extrapolated` | yes/no per row | row fell outside a map | count in the audit block |
+| `over_limit` | yes/no per row | drive torque above the motor curve | warning line |
+
+`vecto_loss_map(table)` takes a VECTO loss-map table and returns it with the torque column shifted by the loss (VECTO triangulates on input torque minus loss). Without it the gearbox loss is 2–3 % off.
+
+An idea that is **not decided** (Bob: "skip for now"): hide the difference between method C and maps behind one loss table `P_loss(Pw, v)` built before the engine runs.
