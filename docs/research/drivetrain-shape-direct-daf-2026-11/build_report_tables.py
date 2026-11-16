@@ -44,7 +44,7 @@ def main():
                          wr=f(s["worst_single_result_abs_err_pct"], 1), low=f(100 * float(s["share_results_too_low"]), 0) + " %"))
     T["T1"] = md(rows, ["method", "k", "ins", "insw", "cb", "mean", "p10", "p50", "p90", "w", "ci", "wm", "wr", "low"],
                  ["method", "fitted values", "in-sample mean abs err %", "in-sample worst %", "class-P50 config width pp", "held-out mean %", "P10 %", "P50 %", "P90 %",
-                  "**P90-P10 pp**", "95 % interval of width (bootstrap over models)", "worst model mean |err| %", "worst single result %", "results too low"])
+                  "**P90-P10 pp**", "95 % interval of width (bootstrap over models)", "worst model mean abs err %", "worst single result %", "results too low"])
     # without DAF
     sn = {r["method"]: r for r in rd("p2_g5_summary_without_daf.csv")}
     rows = []
@@ -54,14 +54,14 @@ def main():
                          w_no=f(b["holdout_width_pp"], 1), wm_all=f(a["worst_model_mean_abs_err_pct"], 1), wm_no=f(b["worst_model_mean_abs_err_pct"], 1),
                          wr_all=f(a["worst_single_result_abs_err_pct"], 1), wr_no=f(b["worst_single_result_abs_err_pct"], 1)))
     T["T3"] = md(rows, ["method", "cb_all", "cb_no", "w_all", "w_no", "wm_all", "wm_no", "wr_all", "wr_no"],
-                 ["method", "class-P50 width, all 254 configs", "without DAF (231)", "held-out width, 38 models", "without DAF (32 models)", "worst model |mean err| %, all", "without DAF",
+                 ["method", "class-P50 width, all 254 configs", "without DAF (231)", "held-out width, 38 models", "without DAF (32 models)", "worst model mean abs err %, all", "without DAF",
                   "worst single result %, all", "without DAF"])
     # PR #38 reproduction + DAF
     wd = rd("p1_without_daf.csv")
     T["T3b"] = md([dict(method=r["method"], case=r["case"], n=r["n_configs"], nm=r["n_models"], cb=f(r["class_band_width_pp"], 2), hw=f(r["holdout_width_pp"], 2),
                         wm=f(r["worst_model_mean_abs_pct"], 1), wr=f(r["worst_single_result_abs_pct"], 1)) for r in wd],
                   ["method", "case", "n", "nm", "cb", "hw", "wm", "wr"],
-                  ["method", "case", "configs", "models", "class-band width pp (P90-P10 of config mean error)", "held-out-model width pp", "worst model mean |err| %", "worst single result %"])
+                  ["method", "case", "configs", "models", "class-band width pp (P90-P10 of config mean error)", "held-out-model width pp", "worst model mean abs err %", "worst single result %"])
     # Part 3 table
     p3 = rd("p3_summary.csv")
     rows = []
@@ -83,7 +83,7 @@ def main():
                              mean=f(r["mean_of_model_mean_err_pct"], 1, True), wm=f(r["worst_model_mean_abs_err_pct"], 1), wr=f(r["worst_single_result_abs_err_pct"], 1),
                              low=f(100 * float(r["share_results_too_low"]), 0) + " %"))
     T["T4"] = md(rows, ["u", "m", "c", "w", "ci", "mean", "wm", "wr", "low"],
-                 ["models", "method", "CdxA of the target", "**P90-P10 pp**", "95 % interval", "mean of model mean err %", "worst model mean |err| %", "worst single result %", "results too low"])
+                 ["models", "method", "CdxA of the target", "**P90-P10 pp**", "95 % interval", "mean of model mean err %", "worst model mean abs err %", "worst single result %", "results too low"])
     # ten trucks
     ten = rd("p2_ten_summary.csv")
     T["T5"] = md([dict(m=r["method"], k=r["n_fitted"], t=r["trucks_all_within_5pct"], w5=f(100 * float(r["share_within_5pct"]), 0) + " %", low=f(100 * float(r["share_too_low"]), 0) + " %",
@@ -129,6 +129,46 @@ def main():
     T["T13"] = md([dict(mk=k, n=len(v), a=f(np.median([float(x["F0_with"]) for x in v]), 0), b=f(np.median([float(x["F0_without"]) for x in v]), 0),
                         s=sum(float(x["F0_without"]) >= 800 for x in v)) for k, v in sorted(mk.items())], ["mk", "n", "a", "b", "s"],
                   ["make", "configs with Construction", "median F0 N, all missions", "median F0 N, Construction rows dropped", "configs with F0 >= 800 N after dropping"])
+
+    pc = rd("p1_daf_inputs_per_config.csv")
+    pm_ = rd("p1_daf_inputs_per_mission.csv")
+    mass = {}
+    for r in pm_:
+        if r["mission"] == "Regional Delivery" and r["payload_kg"] == "12900":
+            mass[r["config_id"]] = r["total_mass_kg"]
+    T["T14"] = md([dict(c=r["config_id"], mo=r["model"].strip(), cl=r["cluster"].replace("_F0", ""), kw="%s kW, g%s, r%s" % (r["iepc_rated_kW"], r["n_gears"], r["lowest_total_ratio"]),
+                        ax=r["axlegear_ratio_eea"], ty=r["tyres"].replace("axle", "a").replace(" RRC=", " ").replace(" twin=", " twin ").replace("R22.5", "").replace(" | ", "; "),
+                        cd="%s [%s-%s) -> %.2f" % (r["cdxa_range"], r["cdxa_range_lo"], r["cdxa_range_hi"], float(r["cdxa_fit_C"])), mm=mass.get(r["config_id"], ""),
+                        ver=r["sim_tool_version_min"], ms=r["n_results"]) for r in pc],
+                  ["c", "mo", "cl", "kw", "ax", "ty", "cd", "mm", "ver", "ms"],
+                  ["config", "model", "F0 cluster", "IEPC rated, gears, lowest total ratio", "axle gear ratio (EEA)", "tyres, specific RRC, twin", "CdxA range [lo-hi) m2 -> C fit m2", "test mass Regional 12,900 kg",
+                   "VECTO version", "results"])
+
+    # shape scatter per bin (Part 2.1), from PR #37 partA_shapes.csv (re-run identical)
+    sh = L.read(os.path.join(L.LIB, "partA_shapes.csv")) if False else list(__import__("csv").DictReader(open(os.path.join(L.LIB, "partA_shapes.csv"))))
+    names = [("S3a_IEPC_1speed", "S3a GenericIEPC 1-speed"), ("S3b_IEPC_3speed", "S3b GenericIEPC 3-speed"), ("S2_busIEPC_PSM", "S2 bus IEPC PSM"), ("S2_busIEPC_ASM", "S2 bus IEPC ASM")]
+    out_rows = []
+    for side in ("drive", "regen"):
+        bins = sorted(set((float(r["x_lo"]), float(r["x_hi"])) for r in sh if r["side"] == side))
+        tot = {n: sum(float(r["wheel_kwh"]) for r in sh if r["shape"] == n and r["side"] == side) for n, _ in names}
+        rows_ = []
+        for lo, hi in bins:
+            row = dict(bin="%.3g-%.3g" % (lo, hi))
+            for n, lab in names:
+                x = [r for r in sh if r["shape"] == n and r["side"] == side and float(r["x_lo"]) == lo]
+                if x:
+                    x = x[0]
+                    row[n] = "%.3f (%.2f-%.2f)" % (float(x["eta"]), float(x["eta_p10"]), float(x["eta_p90"]))
+                    row["e_" + n] = "%.1f" % (100 * float(x["wheel_kwh"]) / tot[n])
+                    out_rows.append(dict(side=side, shape=n, x_lo=lo, x_hi=hi, x_mid=x["x_mid"], eta_energy_weighted=x["eta"], eta_p10=x["eta_p10"], eta_p90=x["eta_p90"],
+                                         n_rows=x["n_rows"], share_of_wheel_energy_pct=round(100 * float(x["wheel_kwh"]) / tot[n], 2)))
+                else:
+                    row[n] = ""; row["e_" + n] = ""
+            if any(row[n] for n, _ in names):
+                rows_.append(row)
+        T["T15_" + side] = md(rows_, ["bin"] + sum([[n, "e_" + n] for n, _ in names], []),
+                              ["x = abs(P_wheel) / P_rated"] + sum([[lab + ": eta (P10-P90 of 1 s rows)", "% of wheel energy"] for n, lab in names], []))
+    L.write(os.path.join(HERE, "p2_shape_scatter_per_bin.csv"), out_rows)
     json.dump(T, open(os.path.join(HERE, "report_tables.json"), "w"), indent=1)
     for k, v in T.items():
         print("=====", k)

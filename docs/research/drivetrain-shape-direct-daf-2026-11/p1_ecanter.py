@@ -47,6 +47,10 @@ def main():
         rows.append(row)
     L.write(os.path.join(HERE, "p1_ecanter.csv"), rows)
     # ratio signature
+    import csv as _csv
+    ie = {}
+    for r_ in _csv.DictReader(open(os.path.join(HERE, "..", "hdv_2024_iepc.csv"), encoding="utf-8-sig")):
+        ie.setdefault(r_["Vehicle_id"], r_)
     out = []
     for name, recs in (("eCanter C0059", rr),):
         d = {(r["mission"], round(r["payload"])): r for r in recs}
@@ -54,7 +58,10 @@ def main():
             if ("Regional Delivery", p) in d and ("Urban Delivery", p) in d:
                 a, b = d[("Regional Delivery", p)], d[("Urban Delivery", p)]
                 wa = float(np.sum(a["P_wheel"])) / 3.6e6 / a["km"]; wb = float(np.sum(b["P_wheel"])) / 3.6e6 / b["km"]
-                out.append(dict(truck=name, payload_kg=p, certified_regional_over_urban=round(a["cert"] / b["cert"], 3),
+                out.append(dict(truck=name, payload_kg=p, cert_over_VA_regional=round(a["cert"] / a["E_A"], 3), cert_over_VA_urban=round(b["cert"] / b["E_A"], 3),
+                                iepc_method_vehicle=ie.get(a["vehicle_id"], {}).get("CertificationMethod", "?"),
+                                iepc_certificate=ie.get(a["vehicle_id"], {}).get("CertificationNumber", ""),
+                                certified_regional_over_urban=round(a["cert"] / b["cert"], 3),
                                 wheel_energy_regional_over_urban_no_loss=round(wa / wb, 3),
                                 harness_V_A_regional_over_urban=round(a["E_A"] / b["E_A"], 3)))
     # DAF groups for comparison, group 5 (2600 kg both missions)
