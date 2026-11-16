@@ -1,0 +1,2 @@
+n_runs,pearson_r,pearson_r_within_truck,slope_within_truck_pp_per_unit,note
+88,-0.193,-0.52,-10.27,"Method A error [%] vs brake/drive wheel energy ratio, VECTO rule + range midpoint"

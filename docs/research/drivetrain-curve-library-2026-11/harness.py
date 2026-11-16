@@ -44,6 +44,97 @@ MISSIONS_BASE = ("Regional Delivery", "Urban Delivery", "Long Haul", "Constructi
                  "Regional Delivery EMS", "Long Haul EMS")      # Municipal excluded (v2 rule R12)
 
 
+# ---------------------------------------------------------------------------------------------
+# Air drag (Part 1). Reg. (EU) 2018/956 Annex I Part C (inserted by Delegated Reg. (EU) 2019/888): published
+# range of the CdxA of data entry 23; CdxA >= min and CdxA < max [m2]. Read from
+# https://www.legislation.gov.uk/eur/2018/956/annex/I (data.xml, fetched 16 Nov 2026); identical to the job table.
+# ---------------------------------------------------------------------------------------------
+CDXA_RANGES = {
+    "A1": (0.00, 3.00), "A2": (3.00, 3.15), "A3": (3.15, 3.31), "A4": (3.31, 3.48), "A5": (3.48, 3.65),
+    "A6": (3.65, 3.83), "A7": (3.83, 4.02), "A8": (4.02, 4.22), "A9": (4.22, 4.43), "A10": (4.43, 4.65),
+    "A11": (4.65, 4.88), "A12": (4.88, 5.12), "A13": (5.12, 5.38), "A14": (5.38, 5.65), "A15": (5.65, 5.93),
+    "A16": (5.93, 6.23), "A17": (6.23, 6.54), "A18": (6.54, 6.87), "A19": (6.87, 7.21), "A20": (7.21, 7.57),
+    "A21": (7.57, 7.95), "A22": (7.95, 8.35), "A23": (8.35, 8.77), "A24": (8.77, 9.21)}
+
+_SEG = None
+_BTW = None
+
+
+def _segment_rows():
+    """VECTO Resources/Declaration/SegmentTable.csv (read as data)."""
+    global _SEG
+    if _SEG is None:
+        path = os.path.join(os.environ["VECTO_SRC"], "VectoCore", "VectoCore", "Resources", "Declaration", "SegmentTable.csv")
+        rows = list(csv.reader(open(path, encoding="latin-1")))
+        h = [x.strip() for x in rows[0]]
+        _SEG = [dict(zip(h, [x.strip() for x in r])) for r in rows[1:] if r and r[0].strip()]
+    return _SEG
+
+
+def _delta_cda_table():
+    """VECTO Body_Trailers_Weights.csv column 'delta CdxA for trailer operation' (first/second+ trailer)."""
+    global _BTW
+    if _BTW is None:
+        path = os.path.join(os.environ["VECTO_SRC"], "VectoCore", "VectoCore", "Resources", "Declaration", "Body_Trailers_Weights.csv")
+        _BTW = {}
+        for r in csv.reader(open(path, encoding="latin-1")):
+            if len(r) < 4 or not r[0].strip() or r[0].strip() in ("name", "#"):
+                continue
+            d = r[3].strip()
+            vals = [0.0, 0.0] if d in ("-", "") else [float(x) for x in d.split("/")]
+            if len(vals) == 1:
+                vals = vals * 2
+            _BTW[r[0].strip()] = vals
+    return _BTW
+
+
+MISSION_SUFFIX = {"Long Haul": "Long haul", "Long Haul EMS": "Long haul EMS", "Regional Delivery": "Other",
+                  "Regional Delivery EMS": "Other EMS", "Urban Delivery": "Other", "Construction": "Other",
+                  "Municipal Utility": "Other"}
+
+
+def vecto_trailers(group, category, axle, mission):
+    """Trailer list and summed delta CdA exactly as VECTO TruckSegments.GetTrailers (cs 280-306) + CreateTrailer
+    (cs 394-407, DeltaCdA = DeltaCrossWindArea[first ? 0 : 1]) + ShouldTrailerBeUsed (cs 359-362: trailer only if the
+    'Trailer Axles - <suffix>' column is filled). Returns (list of trailer codes, sum delta CdA [m2], segment line)."""
+    cand = [r for r in _segment_rows() if r["HDV group"] == group and r["Vehicle Category"] == category
+            and r["Axle Conf."] == axle and r.get("Vocational", "0") == "0"]
+    if not cand:
+        cand = [r for r in _segment_rows() if r["HDV group"] == group and r["Axle Conf."] == axle and r.get("Vocational", "0") == "0"]
+    if not cand:
+        return None
+    row = cand[0]
+    suffix = MISSION_SUFFIX[mission]
+    btw = _delta_cda_table()
+    if "EMS" in mission:
+        codes = [c.strip() for c in row["EMS"].split("+") if c.strip()]
+    else:
+        if not row.get("Trailer Axles - " + suffix, ""):
+            return [], 0.0, row
+        codes = [row["Trailer Construction"] if mission == "Construction" else row["Trailer"]]
+    lookup = {"D": "Dolly"}
+    dcda = sum(btw[lookup.get(c, c)][0 if i == 0 else 1] for i, c in enumerate(codes))
+    return codes, dcda, row
+
+
+def vecto_cdxa(group, category, axle, mission, measured, cdxa_declared):
+    """CdxA0 of one run the VECTO way [VECTO AirdragDataAdapter.cs 140-152]:
+    measured: declared CdxA on every mission EXCEPT Construction (DefaultCDxA, cs 147-149); standard values (no
+    air-drag input): DefaultCDxA (cs 117); both + sum of the trailers' delta CdA (cs 117 / 151-152).
+    DefaultCDxA = SegmentTable CdxA_Default, or CdxA_Construction on Construction (TruckSegments.cs 326-335)."""
+    tr = vecto_trailers(group, category, axle, mission)
+    if tr is None:
+        return None
+    codes, dcda, row = tr
+    default = float(row["CdxA_Construction"] if (mission == "Construction" and row["CdxA_Construction"]) else row["CdxA_Default"])
+    base = cdxa_declared if (measured and mission != "Construction") else default
+    return dict(cdxa0=base + dcda, base=base, default=default, delta_cda=dcda, trailers="+".join(codes),
+                uses_declared=bool(measured and mission != "Construction"))
+
+
+AIRDRAG_MODE = "range_mid"     # "standard" (v2 as it was) or "range_mid" (Part 1 fix)
+
+
 class _Cfg(dict):
     def __missing__(self, k):
         return ""
@@ -117,7 +208,7 @@ def config_runs(config_id):
     return vid, out
 
 
-def build_record(config_id, vid, mission, payload, mass, cert):
+def build_record(config_id, vid, mission, payload, mass, cert, cdxa_override=None):
     """One physics run through the v2 harness. Returns a record dict with per-row arrays or
     dict(skip=reason)."""
     st = _state()
@@ -130,9 +221,23 @@ def build_record(config_id, vid, mission, payload, mass, cert):
     if geom.get("skip"):
         return dict(skip=geom["skip"])
     spec.r_dyn = geom["r_dyn"]
-    cdxa0 = RH.cdxa_for(group, mission, trailer_code)
+    cdxa_v2 = RH.cdxa_for(group, mission, trailer_code)           # v2 harness value (standard CdxA + delta of trailer_code)
+    measured = cfg["AirDrag_CertificationMethod"].strip().lower() == "measured"
+    rng = CDXA_RANGES.get(cfg["AirDrag_CdxA_range"].strip())
+    if measured and rng is None:
+        return dict(skip="BLOCKED: measured air drag but range %r not in Reg. 2018/956 table" % cfg["AirDrag_CdxA_range"])
+    cat = setup.get("vehicle_category", "")
+    if AIRDRAG_MODE == "standard":
+        cdxa0, cinfo = cdxa_v2, dict(base="", default="", delta_cda="", trailers=trailer_code, uses_declared=False)
+    else:
+        cinfo = vecto_cdxa(group, cat, cfg["AxleConfiguration"], mission, measured, (0.5 * (rng[0] + rng[1])) if measured else None)
+        if cinfo is None:
+            return dict(skip="BLOCKED: no SegmentTable row for group %s %s %s" % (group, cat, cfg["AxleConfiguration"]))
+        cdxa0 = cinfo["cdxa0"]
     if cdxa0 is None:
         return dict(skip="no_cdxa_setup")
+    if cdxa_override is not None:
+        cdxa0 = float(cdxa_override)
     p_max = spec.rated_kw_total * 1000.0 if spec.rated_kw_total else None
     res = RH.run_one(spec, geom, mission, mass, group, trailer_code, st["pneu_of"].get(vid, ""),
                      st["steer_of"].get(vid, ""), cdxa0, p_max)
@@ -152,7 +257,11 @@ def build_record(config_id, vid, mission, payload, mass, cert):
     return dict(
         config_id=config_id, vehicle_id=vid, mission=mission, payload=payload, mass=mass, cert=cert,
         group=group, arch=arch, n_gears=spec.n_gears, rated_kw=spec.rated_kw_total, r_dyn=geom["r_dyn"],
-        cdxa0=cdxa0, aero_k=aero_k, E_A=res["results"]["V-A"],
+        cdxa0=cdxa0, cdxa_v2=cdxa_v2, cdxa_range=cfg["AirDrag_CdxA_range"].strip(), airdrag_measured=measured,
+        cdxa_lo=(rng[0] + cinfo["delta_cda"] if (measured and cinfo.get("uses_declared")) else cdxa0),
+        cdxa_hi=(rng[1] + cinfo["delta_cda"] if (measured and cinfo.get("uses_declared")) else cdxa0),
+        cdxa_trailers=cinfo["trailers"], cdxa_delta=cinfo["delta_cda"], aux_pneu=st["pneu_of"].get(vid, ""),
+        crr_eff=geom["crr_eff"], m_red=geom["m_red"], aero_k=aero_k, E_A=res["results"]["V-A"],
         P_wheel=np.asarray(res["_P_wheel"], float), P_aux=np.asarray(res["_P_aux_row"], float),
         M=np.asarray(res["_M"]), V=np.asarray(res["_V"], float), v_avg=np.asarray(res["_v_avg"], float),
         km=float(res["_km"]), aux_notes=";".join(res["aux_notes"]))
@@ -200,12 +309,39 @@ def _build_one(cid):
     return build_config_records(cid)
 
 
+ARRAY_KEYS = ("P_wheel", "v_avg", "aero_k", "engaged")
+
+
+def _save_npz(path, recs, skipped):
+    d = {"n": np.array(len(recs)), "skipped": np.array(repr(skipped))}
+    for i, r in enumerate(recs):
+        for k, v in r.items():
+            if k not in ARRAY_KEYS and hasattr(v, "item") and np.ndim(v) == 0:
+                v = v.item()
+            d["%d|%s" % (i, k)] = np.asarray(v) if k in ARRAY_KEYS else np.array(repr(v))
+    np.savez_compressed(path, **d)
+
+
+def _load_npz(path):
+    import ast
+    z = np.load(path, allow_pickle=False)
+    n = int(z["n"])
+    recs = [dict() for _ in range(n)]
+    for key in z.files:
+        if "|" not in key:
+            continue
+        i, k = key.split("|", 1)
+        v = z[key]
+        recs[int(i)][k] = v if k in ARRAY_KEYS else ast.literal_eval(str(v))
+    return recs, ast.literal_eval(str(z["skipped"]))
+
+
 def load_or_build(config_ids, tag, processes=1):
+    """Per-run records cached as .npz (git-ignored) under cache/, one file per tag+air-drag mode."""
     os.makedirs(CACHE, exist_ok=True)
-    path = os.path.join(CACHE, "records_%s.pkl" % tag)
+    path = os.path.join(CACHE, "records_%s_%s.npz" % (tag, AIRDRAG_MODE))
     if os.path.isfile(path):
-        with open(path, "rb") as fh:
-            return pickle.load(fh)
+        return _load_npz(path)
     recs, skipped = [], []
     if processes and processes > 1:
         import multiprocessing as mp
@@ -216,6 +352,5 @@ def load_or_build(config_ids, tag, processes=1):
     for r, s_ in results:
         recs += r
         skipped += s_
-    with open(path, "wb") as fh:
-        pickle.dump((recs, skipped), fh)
+    _save_npz(path, recs, skipped)
     return recs, skipped
