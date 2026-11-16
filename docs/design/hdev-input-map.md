@@ -139,12 +139,12 @@ RESULT  (numbers + the source of every value used)  →  result pages, documents
 
 ```
 FLEET ROW  =  count  ×  [ Vehicle | Route | Payload | PTO | Schedule ]
-                            │        │        │       │        │
-                            │        │        │       │        └ when it runs (Part B10)
-                            │        │        │       └ body equipment power (B5)
-                            │        │        └ load along the route (B4)
-                            │        └ waypoints + stop table (B2, B3)
-                            └ everything physical about the truck (B1, B6–B9)
+                          │         │       │         │     │
+                          │         │       │         │     └ when it runs (B10)
+                          │         │       │         └ body equipment power (B5)
+                          │         │       └ load along the route (B4)
+                          │         └ waypoints + stop table (B2, B3)
+                          └ everything physical about the truck (B1, B6–B9)
 
 PROJECT-WIDE (one per project or per depot)
    Weather and cab climate (B11, B12) · Depot and grid · Charging · Prices ·
@@ -478,7 +478,7 @@ T9 ON-BOARD SYSTEMS   (each one: ◉ VECTO table row / own value)
 │     own W [USER]  ✕ closes: steered axles, technology
 │   factor SP_alteff: 0.7 for VECTO; 1.0 for an own electric W
 │   on only while the truck moves
-├─ Battery and motor cooling  Cond
+├─ Motor and battery conditioning  Cond
 │   ◉ VECTO value by mission [STD] (600 / 600 / 550 / 550 / 600 W)
 │     own W [USER] / thermal model *PLANNED*
 │   factor cond_eff: 1.0
@@ -804,7 +804,7 @@ All of these end in `P_aux`. The rule for every one: **a VECTO table row, or an 
 | `aux.sp_axles` | Number of steered axles | 1 to 4; library | from the axle layout | DEF | rows of `SP_axle_shares` [STD `SP-Axles.csv`: 1 axle 100/100/100, 2 axles 100/70/70, 3 and 4 axles 100/50/50 %] | Baseline by group and mission from `SP-Table.csv`, e.g. group 5 regional 540 / 90 / 40 W (unloaded friction / banking / steering). |
 | `aux.sp_tech` | Steering technology | one dropdown applied to all steered axles (decided 15 Oct). BEV rows: "Electric driven pump" (0.857, 0.857, 0.857), "Full electric steering gear" (0, 0.143, 1.429); or own factors | none stated | DEF | `SP_tech_factors` [STD `SP-Tech.csv`] | The library has the technology label per axle. The result of the helper is mechanical W. |
 | `aux.sp_eff` | SP factor | typed | 0.7 | DEF | `SP_alteff` | Same label rule as ES. Steering is on only while the truck moves. |
-| `aux.cond` | Battery and motor cooling (W) | (a) VECTO by mission [STD `Cond-Table.csv`]: 600 / 600 / 550 / 550 / 600 W for long haul / regional / urban / municipal / construction; (b) own W; (c) thermal model | (a) | DEF | `cond_power` | (c) is `PLANNED`. Timing rule today: on while moving or while PTO works. VECTO: on when a motor or the electric PTO is on, off when standing and when coasting. Kiro recommends keeping the HDEV rule (effect 0.012–0.090 % of trip energy). Under review in step 7. |
+| `aux.cond` | Motor and battery conditioning (W) | (a) VECTO by mission [STD `Cond-Table.csv`]: 600 / 600 / 550 / 550 / 600 W for long haul / regional / urban / municipal / construction; (b) own W; (c) thermal model | (a) | DEF | `cond_power` | (c) is `PLANNED`. Timing rule today: on while moving or while PTO works. VECTO: on when a motor or the electric PTO is on, off when standing and when coasting. Kiro recommends keeping the HDEV rule (effect 0.012–0.090 % of trip energy). Under review in step 7. |
 | `aux.cond_eff` | Cond factor | typed | 1.0 | DEF | `cond_eff` | |
 | `aux.depot_rule` | Aux power during depot charging | fixed rule | none drawn (decided 13 Oct) | CONST | charging stage | Battery conditioning during charging is a planned hook. |
 
@@ -1153,7 +1153,7 @@ P_aux(ES_power, PS_power, HVAC_power, SP_power, cond_power, PTO_always_on,
 | `PS_power` | W electric | `PS` | always | air system line |
 | `HVAC_power` | W electric | `HVAC` | always (per hour in thermal mode) | cab climate line |
 | `SP_power` | W electric | `SP` | only while moving | steering line |
-| `cond_power` | W electric | `cond` | while moving or PTO active *(under review)* | cooling line |
+| `cond_power` | W electric | `cond` | while moving or PTO active *(under review)* | conditioning line |
 | `PTO_always_on` | W electric | `PTO_always_on` | always | equipment line |
 
 Parser checks: every power ≥ 0, every factor > 0, no NaN or infinity. Verified by Kiro against VECTO for all 68,040 combinations.
@@ -1447,6 +1447,8 @@ The first table is the COWI sheet row by row, so no cost input is missed. The se
 
 **D9a. Every input in the COWI truck cost sheet**
 
+The `cost.*` labels in the third column are defined by this table.
+
 | COWI input (sheet `2025` unless noted) | COWI sample | HDEV input | How HDEV would get it |
 |---|---|---|---|
 | Km per year (Dashboard) | 100,000 | `cost.km_year` | CALC from the year run; typed when running cost only |
@@ -1561,3 +1563,283 @@ The first table is the COWI sheet row by row, so no cost input is missed. The se
 |---|---|---|
 | `Elindsigt2.2.xlsx` | Eloverblik token (MitID); metering point or address when there are several; expected yearly kWh; electricity supplier and product, or manual subscription and mark-up; period; production address | `dep.building` branch (c): token, metering point, period. It also returns address, grid company, supplier and power limit → could prefill `dep.dso`, `dep.conn_size` (PROPOSED). Supplier product → `pr.el` mark-up and subscription. The file does **not** compute a coincidence factor. |
 | `ChargePointCalculator_v5.xlsx` | municipality (98), year (2022–2050), EV uptake curve, split by place of charging (home / housing association / workplace / public), range-extension need | reference for `dep.housing` and for municipal clients only. Not part of depot sizing (decided 26 Sep). |
+
+---
+
+# PART E. Lock and unlock rules (what one choice does to other inputs)
+
+This is the list to build the form logic from. "Closes" means the field is hidden or greyed and its value is not sent. "Fills" means the field gets a value the user can still overwrite. Rules marked *(Claude)* follow from the documents but were never stated as a rule: check them.
+
+## E1. Vehicle
+
+| # | When the user picks | It opens | It closes | It fills |
+|---|---|---|---|---|
+| 1 | `veh.source` = library pick | every vehicle field as an editable copy | the group and class pickers | group, axle layout, curb mass range, GVW, tyre size and RRC per axle, CdxA range, motor rated power, gears, installed and usable kWh, steering technology, drivetrain numbers (when fitted) |
+| 2 | `veh.source` = class only | group or weight-class picker | library fields; OEM-only fields | every STD value for the group. Curb mass, tyre size, drivetrain numbers and the regen cap have no class value yet (see G1) |
+| 3 | `veh.source` = manual | all fields | library fields | STD values where they exist |
+| 4 | a mission | – | – | body or trailer, reference payload, crosswind set, axle load shares, the mission column of every aux table |
+| 5 | mission = Construction | – | the declared CdxA | VECTO's `CdxA_Construction` |
+| 6 | a trailer | – | – | trailer mass, trailer ΔCdxA (rigid + trailer), trailer axles in rolling resistance, trailer wheels in wheel inertia |
+| 7 | any edit of a filled value | "reset" on that field | – | the value is marked "your value"; a replaced VECTO value is labelled non-VECTO in the report |
+
+## E2. Route, stops, payload, PTO
+
+| # | When the user picks | It opens | It closes | It fills |
+|---|---|---|---|---|
+| 8 | route = VECTO cycle | stop time, payload and PTO columns of the stop table | distance, number of stops, time per stop default, road type, speeds, grade | the mission (rule 4); for MunicipalUtility the PTO stops from the file |
+| 9 | route = typed | distance, number of stops, time per stop, road type, speeds, grade; the full stop table | upload fields | 45 min, 30 / 50 / 80 km/h, flat (all flagged assumptions) |
+| 10 | route = map | the map; stop time, payload, PTO | distance, number of stops | distance, speeds, altitude from the provider |
+| 11 | route = GPS | payload and PTO columns only | distance, number of stops, speeds, stop times, grade | everything from the file |
+| 12 | route = describe it / call-outs | a confirmation step before Run | manual route fields until confirmed | waypoints from the AI reader, guesses flagged |
+| 13 | any edit of a VECTO cycle | "save as" | – | the route becomes a user route; the template stays untouched |
+| 14 | the schedule gives a departure time | – | the departure field on the route | `t_start` |
+| 15 | payload shape = constant | start payload | end payload, payload column of the stop table | – |
+| 16 | payload shape = linear | start and end payload | payload column of the stop table | equal step at each payload stop |
+| 17 | payload shape = per stop | payload column of the stop table | end payload | – |
+| 18 | payload basis = a VECTO value or maximum | – | the typed value | start payload |
+| 19 | "payload changes here" unticked on a stop | – | that stop's payload cell | the stop keeps its stop time for driving |
+| 20 | PTO = no | – | every PTO field and the PTO column of the stop table | – |
+| 21 | stop part = one number | stop power, efficiency | stop profile | – |
+| 22 | stop part = profile | profile picker or table, efficiency, standing-time rule | stop power | standing time = stop time + profile length (VECTO rule) |
+| 23 | drive part = one number or profile | "does the body have its own electric motor?" | the other drive option | – |
+| 24 | PTO on, but no stop is ticked *(Claude)* | a warning | – | – |
+| 25 | PTO ticked on a 0-second marker row | – | – | allowed only when a drive part exists |
+
+## E3. Aerodynamics, tyres, drivetrain, on-board systems
+
+| # | When the user picks | It opens | It closes | It fills |
+|---|---|---|---|---|
+| 26 | own a1, a2, a3 or own yaw table | – | the VECTO crosswind set | – |
+| 27 | tyre size from the list | – | typed radius | radius and wheel inertia |
+| 28 | cold-tyre correction on | tyre load index | – | Kt from the load index |
+| 29 | `drv.method` = library (A) | – | typed numbers, three efficiencies, all map uploads | `drive_eff`, `regen_eff`, `drivetrain_drag_N`, regen cap |
+| 30 | `drv.method` = typed (B) | the three numbers | library values, three efficiencies, maps | – |
+| 31 | `drv.method` = three efficiencies (C) | motor, inverter, gearbox, regen efficiency | the drag number (set to 0), maps | `drive_eff` = product of the three |
+| 32 | `drv.method` = maps (D) | every map upload, ratios, ADC, number of motors, limit curves, rotor inertia, gear rule | the three numbers and the typed regen cap (the generation curve replaces it) | – |
+| 33 | maps incomplete | an error naming what is missing | Run | – |
+| 34 | an aux = own W (ES, PS, SP, Cond) | the W field and its factor, with the "0.7 = VECTO; 1.0 if already electric" label | that aux's technology dropdown | – |
+| 35 | steering = own W | W | steered axles, steering technology | – |
+| 36 | no reference vehicle for the driver (`coast_mass` empty; engineering view) | – | coasting, overspeed, `P_max`, the driver's drag table | pure kinematic driver |
+
+## E4. Weather and cab climate
+
+| # | When the user picks | It opens | It closes | It fills |
+|---|---|---|---|---|
+| 37 | weather = stored DMI | location, year(s), shift, worst day | file upload | nearest station per parameter |
+| 38 | several weather years | P50 / P90 results | – | – |
+| 39 | weather = own file | upload | location, station, year | – |
+| 40 | weather = VECTO declaration | – | location, year, shift, worst day, air-pressure options | wind 3 m/s at 4 m, air density 1.188 |
+| 41 | weather = VECTO declaration *(Claude)* | – | cab climate mode C (it needs hourly temperature and sun) | – |
+| 42 | cab climate = VECTO constant (A) | "Default / None" | own W, every thermal field | factor 1.25 |
+| 43 | cab climate = own W (B) | W and the factor label | every thermal field | – |
+| 44 | cab climate = thermal (C) | people, heater set-up, set-points, cab data, power limits, ventilation, fresh air | the constant fields | factor forced to 1.0; COP tables from the heater set-up |
+| 45 | thermal, cab data missing | red fields | Run | – |
+
+## E5. Planned stages
+
+| # | When the user picks | It opens | It closes | It fills |
+|---|---|---|---|---|
+| 46 | run starts at charging / flexibility / cost | that stage's entry fields (D0) | all inputs of the earlier stages | – |
+| 47 | own kWh/km per route | the kWh/km field | vehicle physics, PTO, on-board systems, weather for that route | flagged override |
+| 48 | battery mode A | installed and usable kWh | sizing inputs | – |
+| 49 | battery mode B | sizing rule, glider mass, pack density, buffer | installed kWh | battery kWh, mass, new curb mass |
+| 50 | battery data = EU standard values | nominal voltage | OEM tables | OCV, resistance, charge-rate limit |
+| 51 | year-8 guarantee given | year-8 results | – | – |
+| 52 | charging mode = sizing | – | chargers, strategy, sharing rule, time step | smallest power per truck |
+| 53 | chargers = size them for me | – | charger power and count | both become results |
+| 54 | charger without smart charging | – | "Grid-friendly", "Lowest cost", flexibility offers | strategy = Ready earliest; the report says why |
+| 55 | strategy = Lowest cost | – | – | needs hourly prices: closed when the electricity price is one flat number *(Claude)* |
+| 56 | site = brownfield | connection size, building load, spare power | "required connection" as a result | – |
+| 57 | site = greenfield | – | connection size, building load | required connection becomes a result |
+| 58 | building load = Eloverblik | connect button, metering point, period | fixed kW, logger upload | hourly profile; could also fill grid company and connection size |
+| 59 | access = limited | what-if cut (%, from, to) | – | allowed only for 10 kV and above |
+| 60 | offer flexibility = yes | products, aggregator, V2G | – | – |
+| 61 | electricity = own hourly file | upload | fetch, price level | – |
+| 62 | financing = cash | – | interest, down payment, lease fields | – |
+| 63 | financing = loan | interest, down payment, residual | lease fields | – |
+| 64 | financing = lease | monthly lease, term | interest, residual *(Claude)* | – |
+| 65 | own road-tax rate | rate table | weight class, CO₂ class, zone | – |
+| 66 | grid CO₂ = own value | value | yearly path, hourly option | – |
+| 67 | project purpose = tender | the tender page (buyer and supplier sides) | – | – |
+| 68 | a scenario change | – | – | the run restarts at the first stage the change touches |
+
+---
+
+# PART F. Outputs
+
+## F1. What each written function hands on (engine outputs)
+
+Already listed per function in Part C. In one line each:
+
+| Function | Outputs | Seen by the user directly? |
+|---|---|---|
+| `crosswind_engine` | `W1`, `W2` | no |
+| `payload_engine` | payload per waypoint | yes: stop table, payload picture |
+| `pto_engine` | `is_on`, `pto_start`, `stop_1s`, `drive_1s` | no (profile preview proposed) |
+| `driver_model` | `T`, `S`, `V`, `A`, `grade`, `M` | yes: speed trace, time in each driving mode, trip duration |
+| `force_engine` | `k_lin`, `k_roll`, `k_rot_wheel`, `k_rot_rotor`, `L`, `v_avg` | no |
+| `SP_power_helper` | steering W | yes: one line in on-board systems |
+| `HVAC_thermal` | `HVAC_el` per hour, `fuel_heat` | yes: cab climate energy |
+| `P_aux` | six electric W values | yes: on-board systems table |
+| `consumption_engine` | `P_wheel`, `P_trac`, `P_aux_row`, `P_battery`, `E_battery` (+ drive-limit count) | yes: every energy result |
+| `drivetrain` | `P_el`, four loss arrays, `P_to_brakes`, two flag arrays | yes: loss per part |
+
+## F2. What the user sees, by result page
+
+Result pages as agreed on 13–14 Nov: Overview, Energy, Battery, Charging, Grid, Cost, CO₂, Compare, Documents, Inputs and sources. "Now" = can be produced when `consumption_engine` is finished. "Planned" = needs a stage from Part D.
+
+**Overview**
+
+| Result | Built from | When |
+|---|---|---|
+| Verdict per vehicle and for the fleet; first failing check | all stages | planned |
+| Six checks: battery new, battery at year 8, full before leaving, grid connection, route fits the shift, weight limit | D1–D6, payload check | route-fits-shift and weight: now; rest planned |
+| Input context as pictures: distance, stops, payload along the route, schedule | readers, `payload_engine` | now |
+| Four headline figures | – | now / planned |
+
+**Energy**
+
+| Result | Built from | When |
+|---|---|---|
+| kWh per day (average, hardest day), kWh/km, kWh per tonne-km, per tonne collected | `E_battery`, distance, payload | now |
+| P50 / P90 across weather years | several year runs | now |
+| Energy balance: air, rolling, grade, inertia, brakes, drivetrain (per part on the map path), each auxiliary, cab climate, PTO, regeneration recovered | `force_engine` coefficients, `P_wheel`, `P_trac`, `P_aux_row`, `drivetrain` losses | now (battery loss planned) |
+| Monthly table: km, °C, kWh driving, aux, cab climate, regeneration, at the battery, charger losses, from the grid, peak kW, cost | year run | first seven columns now |
+| Loss diagram: grid → charger → battery → motor → gearbox → wheel → air / rolling / grade / brakes, with an aux branch | all stages | planned |
+| Time standing, accelerating, cruising, coasting, braking | `M` | now |
+| Speed and battery power over the day | `V`, `P_battery` | now |
+| kWh/km per extra tonne and per °C; winter against summer | reruns of step 9 | now |
+| Expected kWh/km by month and temperature, in the shape fleets log it | year run | now |
+| Operating time (not only range) | `T` | now |
+| Simulation quality check: average / min / max speed, max acceleration and deceleration, distance, share of time at full power | driver rows, drive-limit count | now |
+
+**Battery**
+
+| Result | When |
+|---|---|
+| Installed against usable; usable at year 8 | planned |
+| Hardest day at year-8 capacity; winter at year 8; margin left | planned |
+| SOC on return per truck across the year; lowest SOC | planned |
+| Minimum usable kWh at year 8 for these routes; position on the tender's score curve | planned |
+| Battery against payload; payload left; payload against diesel | planned |
+| Predicted battery passport values after 8 years | planned |
+
+**Charging**
+
+| Result | When |
+|---|---|
+| Charger size and count; chargers per truck | planned |
+| Session table: arrival SOC, kWh, start, end, power, finish, slack before departure | planned |
+| Fleet schedule; busy hours per charger; share of sessions met | planned |
+| Strategies compared | planned |
+| Robustness: one charger out, late return, cold week; spare trucks | planned |
+| Charging losses; energy from the grid | planned |
+
+**Grid**
+
+| Result | When |
+|---|---|
+| Depot peak in kW and amperes; load hour by hour; load-duration curve | planned |
+| Required connection; customer category; connection fee; lead-time band | planned |
+| Full against limited access; what-if cut | planned |
+| Capacity charge with and without smart charging; peak by growth phase | planned |
+| Flexibility up and down per hour; products the fleet could qualify for; hours per week | planned |
+
+**Cost and CO₂**
+
+| Result | When |
+|---|---|
+| Cost per km / month / year / period, electric against diesel; break-even | planned |
+| Year-by-year cash flow; present value; cost by line; electricity split | planned |
+| Sensitivity; alternatives (HVO, biogas) | planned |
+| CO₂ per year and saved; grid factor path; at charging hours; life cycle | planned |
+
+**Compare, Documents, Inputs and sources**
+
+| Result | When |
+|---|---|
+| Two or more runs side by side: inputs that changed, results | planned |
+| Six documents: feasibility report, grid connection application, tender annex, financial model, grant application data, client presentation; CSV export | planned |
+| Crane / compactor energy sheet exported as a VECTO PTO profile | planned |
+| Every value used, with its source and its mark (given / default / assumption / no source) | now (from `fill()`) |
+| Run fingerprint: engine version, date, input hash | now |
+| Model status per result (validated / in testing / not built) | now |
+| Known decisions stated: 10° yaw clamp, reference driver mass, fresh-air term, PTO placement, drivetrain method | now |
+| Rule: no firm winter verdict until cold-weather effects are validated; winter shown as a labelled conservative case | now |
+
+---
+
+# PART G. What blocks a run, what is open, and where documents disagree
+
+## G1. The shortest path: what a user must give to run consumption
+
+| Vehicle source | Must give | Gets for free | Gap today |
+|---|---|---|---|
+| Library truck | the truck; a route (one source); departure time and working days; depot location and weather year; cab climate mode | everything else | curb mass is a range in the library (which value?); CdxA is a range (which value?) |
+| Class only | group or weight class; mission; route; schedule; location and weather year; cab climate mode | height, CdxA, body or trailer, payload, crosswind set, aux tables, `.vacc`, driver constants | **no class value yet for:** curb mass, tyre size (radius), drivetrain numbers, regen cap and drive limit (no rated power without a truck). These four decide whether a "weight class and routes only" user can run at all. |
+| Manual | group; mission; curb mass; GVW; tyre size; drivetrain numbers and regen cap; route; schedule; weather; cab climate mode | every STD value | – |
+
+Always required, whatever the path: a route source with its own required fields (B2), a departure time, working days, and in thermal cab mode the cab data, people, heater set-up and ventilation rates.
+
+Never asked from a client: yaw coefficients, `.vacc`, driver constants, physics constants, the factors in `P_aux`, loss maps, rotor inertia.
+
+## G2. Open decisions that change the UX
+
+| # | Decision | Where it bites |
+|---|---|---|
+| 1 | Default payload basis: VECTO reference, maximum, or both | `pl.basis` |
+| 2 | Generic curb mass per class: source | `veh.curb_mass`, class-only path |
+| 3 | Class-level drivetrain numbers, or always per truck | `drv.method` for sizing users |
+| 4 | `P_drive_max`: rated or peak power | `drv.drive_limit` |
+| 5 | Gear rule when the gear is unknown; rotor term with a fixed or per-row ratio | `drv.i_total`, map path |
+| 6 | Whether the fitted drivetrain drag also feeds the driver's coasting drag table | `drv.drag_table` |
+| 7 | Map route provider | `rt.map`, AI reader |
+| 8 | GPS: zero-speed threshold; can measured speed skip the driver model; do coordinates pick the weather station | `rt.gps_file` |
+| 9 | Emergency and on-call vehicles: how they are entered | `sch.oncall` |
+| 10 | Electric drive-PTO profile still running at the next stop: keep drawing while standing? Stop and sweeper constants now or later? | step 5 of `consumption_engine` |
+| 11 | Half-second PTO profiles: resample in the library or average in `pto_engine` | `pto.stop_profile` |
+| 12 | Mixer default profile (two sources 4× apart) | PTO library |
+| 13 | Cond rule (keep HDEV's or follow VECTO); Cond with the drive-PTO part | `aux.cond` |
+| 14 | Air pressure: fixed, per route from altitude, or per row; optional fixed air density | `wx.p_air`, `wx.rho_mode` |
+| 15 | Cold-tyre and wet-road factors: build or not | `tyre.cold`, `tyre.road` |
+| 16 | Weather default year; whether day-mean and drive-hours options stay | `wx.years`, `wx.detail` |
+| 17 | Which value is pre-filled from a library range (curb mass, CdxA) | library pick |
+| 18 | Who computes `m_red_wheels` and `Crr_eff` | parser / engine split |
+| 19 | SOC window, start SOC, target SOC, sizing buffer | D1, D3 |
+| 20 | Charging time step; default strategy; opportunity charging producer | D5 |
+| 21 | Price-level definitions; depot write-off years; residual linked to battery health | D8, D9 |
+| 22 | Slot shape for two-sided inputs; which fields are open, collapsed or hidden per view | all pages |
+| 23 | What to do when supplied data has a different time step from the stage | D0 |
+| 24 | If both departure and return times are given, which wins | `sch.out`, `sch.back` |
+
+## G3. Where the documents disagree (newer one used in this file)
+
+| # | Topic | Older statement | Newer statement used here |
+|---|---|---|---|
+| 1 | Wind into the crosswind engine | 13 Nov inventory: one reference wind, 5.028 m/s at 10 m | Notebook (16 Nov): the crosswind table is indexed by weather hour, so hourly wind. **Bob to confirm which is the default.** |
+| 2 | Gear unknown | 12 Nov: use the lowest gear | 14–16 Nov closeout: dropped (+46 % to +71 % wrong); rule open |
+| 3 | Regen cap | 26 Oct list and 13 Nov inventory: none = no cap | 16 Nov: required; default = rated motor power |
+| 4 | Drivetrain default | 13 Nov inventory: 0.95 / 0.95 / 0.98, or a toggle maps vs efficiencies | 16 Nov: method C from the library is the default; the three efficiencies are method C with zero drag; maps only as a full set |
+| 5 | `m_red_wheels` | `status-engine` (9–12 Nov): computed in the parser | 12 Nov correction: Bob never decided that; calculations stay in the engine |
+| 6 | HVAC functions | `status-engine`: final on 9 Nov | 12 Nov: sent to Kiro first; 13 Nov: final |
+| 7 | Gravity | 26 Oct list: 9.81 | 9.80665 (VECTO), decided |
+| 8 | `theta_red` unit | 13 Nov inventory: dimensionless "inertia reduction" | By the formula in `force_engine` it is wheel inertia in kg·m² |
+| 9 | Aux names | 13 Nov inventory: "Power steering PS", "Pneumatic system SP" | Code: PS = air (pneumatic) system, SP = steering pump. The inventory has them swapped. |
+| 10 | Default payload | 7 Oct: VECTO reference | Listed as open since 2 Nov |
+| 11 | Route sources | 8 Oct: four (VECTO cycle, typed, GPS, AI) | Bob's 16 Nov brief adds a map source and saved templates |
+| 12 | Typed route | 13 Nov inventory: distance and road type per leg | Bob's 16 Nov brief and `resolve_typed`: total distance + number of stops, then edit |
+| 13 | Time per stop default | 45 min (2 Sep, Bob's judgement) | The dt-cargo sample median is 22 min; the default has no source |
+| 14 | Run mode (sizing / simulation) | 13 Nov inventory: on the Project page | Later page list: with Charging |
+| 15 | PTO at a stop shorter than the profile | `pto_engine` raised an error (1 Nov) | 12 Nov: the check moved to the parser |
+
+## G4. Things this file could not settle from the documents
+
+- The crosswind speed-grid step, and the exact `dh` and `dphi_deg` the parser should pass (only the values of the VECTO check, 0.4 m and 1°, are written down).
+- Which column of `PS-Table.csv` a battery-electric truck reads.
+- Which VECTO standard value stands in for tyre rolling resistance when there is no certified or label value.
+- How the top-speed cap (design speed 85 km/h) is applied to typed and map routes.
+- Whether the EEA energy figure the drivetrain numbers were fitted on includes battery resistance loss (open since PR #40). It decides whether the battery model would count that loss twice.
+
+---
+
+*End of file. Sections A–C describe code that exists. Section D describes plans. Update the status tags as functions are finalised.*
