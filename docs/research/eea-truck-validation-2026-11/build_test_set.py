@@ -271,8 +271,10 @@ def main():
         for (cid, mission, payload), vals in sorted(mrows.items()):
             kwhs = [v[0] for v in vals]
             rngs = [v[1] for v in vals if v[1] is not None]
-            modes = ";".join(sorted({v[3] for v in vals}))
-            rts = ";".join(sorted({v[4] for v in vals}))
+            # section-1 fix: drop empty strings, keep a sorted unique list. v1 joined ""
+            # with "Total" -> ";Total" artifact. Collapsing empties first removes it.
+            modes = ";".join(sorted({v[3].strip() for v in vals if v[3].strip()}))
+            rts = ";".join(sorted({v[4].strip() for v in vals if v[4].strip()}))
             w.writerow([cid, mission, payload, len(vals),
                         round(min(kwhs), 4), round(statistics.median(kwhs), 4), round(max(kwhs), 4),
                         round(min(rngs), 1) if rngs else "",

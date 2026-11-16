@@ -1,0 +1,96 @@
+aux_term,label,mission,hdv_group,mech_W,electric_W,source_and_arithmetic
+ES,Standard technology,Long Haul,,1714.3,1200.0,ES-Tech.csv Standard technology [Long haul] mech=1714.3 * AlternatorEff 0.7 = 1200.0
+ES,Standard technology,Regional Delivery,,1428.6,1000.0,ES-Tech.csv Standard technology [Regional delivery] mech=1428.6 * AlternatorEff 0.7 = 1000.0
+ES,Standard technology,Urban Delivery,,1428.6,1000.0,ES-Tech.csv Standard technology [Urban delivery] mech=1428.6 * AlternatorEff 0.7 = 1000.0
+ES,Standard technology,Municipal Utility,,1428.6,1000.0,ES-Tech.csv Standard technology [Municipal utility] mech=1428.6 * AlternatorEff 0.7 = 1000.0
+ES,Standard technology,Construction,,1428.6,1000.0,ES-Tech.csv Standard technology [Construction] mech=1428.6 * AlternatorEff 0.7 = 1000.0
+PS,Large Supply + AMS + elec. driven,Long Haul,,,900.0,"PS-Table.csv 'Large Supply + AMS + elec. driven' [Long Haul_el]=900.0 (PEV electric, used directly)"
+PS,Large Supply + AMS + elec. driven,Regional Delivery,,,900.0,"PS-Table.csv 'Large Supply + AMS + elec. driven' [Regional Delivery_el]=900.0 (PEV electric, used directly)"
+PS,Large Supply + AMS + elec. driven,Urban Delivery,,,788.0,"PS-Table.csv 'Large Supply + AMS + elec. driven' [Urban  Delivery_el]=788.0 (PEV electric, used directly)"
+PS,Large Supply + AMS + elec. driven,Municipal Utility,,,788.0,"PS-Table.csv 'Large Supply + AMS + elec. driven' [Municipal utility_el]=788.0 (PEV electric, used directly)"
+PS,Large Supply + AMS + elec. driven,Construction,,,1013.0,"PS-Table.csv 'Large Supply + AMS + elec. driven' [Construction_el]=1013.0 (PEV electric, used directly)"
+PS,Large Supply + elec. driven,Long Haul,,,1000.0,"PS-Table.csv 'Large Supply + elec. driven' [Long Haul_el]=1000.0 (PEV electric, used directly)"
+PS,Large Supply + elec. driven,Regional Delivery,,,1000.0,"PS-Table.csv 'Large Supply + elec. driven' [Regional Delivery_el]=1000.0 (PEV electric, used directly)"
+PS,Large Supply + elec. driven,Urban Delivery,,,875.0,"PS-Table.csv 'Large Supply + elec. driven' [Urban  Delivery_el]=875.0 (PEV electric, used directly)"
+PS,Large Supply + elec. driven,Municipal Utility,,,875.0,"PS-Table.csv 'Large Supply + elec. driven' [Municipal utility_el]=875.0 (PEV electric, used directly)"
+PS,Large Supply + elec. driven,Construction,,,1125.0,"PS-Table.csv 'Large Supply + elec. driven' [Construction_el]=1125.0 (PEV electric, used directly)"
+PS,Medium Supply 1-stage + elec. driven,Long Haul,,,750.0,"PS-Table.csv 'Medium Supply 1-stage + elec. driven' [Long Haul_el]=750.0 (PEV electric, used directly)"
+PS,Medium Supply 1-stage + elec. driven,Regional Delivery,,,687.0,"PS-Table.csv 'Medium Supply 1-stage + elec. driven' [Regional Delivery_el]=687.0 (PEV electric, used directly)"
+PS,Medium Supply 1-stage + elec. driven,Urban Delivery,,,687.0,"PS-Table.csv 'Medium Supply 1-stage + elec. driven' [Urban  Delivery_el]=687.0 (PEV electric, used directly)"
+PS,Medium Supply 1-stage + elec. driven,Municipal Utility,,,687.0,"PS-Table.csv 'Medium Supply 1-stage + elec. driven' [Municipal utility_el]=687.0 (PEV electric, used directly)"
+PS,Medium Supply 1-stage + elec. driven,Construction,,,750.0,"PS-Table.csv 'Medium Supply 1-stage + elec. driven' [Construction_el]=750.0 (PEV electric, used directly)"
+PS,Medium Supply 2-stage + elec. driven,Long Haul,,,875.0,"PS-Table.csv 'Medium Supply 2-stage + elec. driven' [Long Haul_el]=875.0 (PEV electric, used directly)"
+PS,Medium Supply 2-stage + elec. driven,Regional Delivery,,,813.0,"PS-Table.csv 'Medium Supply 2-stage + elec. driven' [Regional Delivery_el]=813.0 (PEV electric, used directly)"
+PS,Medium Supply 2-stage + elec. driven,Urban Delivery,,,750.0,"PS-Table.csv 'Medium Supply 2-stage + elec. driven' [Urban  Delivery_el]=750.0 (PEV electric, used directly)"
+PS,Medium Supply 2-stage + elec. driven,Municipal Utility,,,750.0,"PS-Table.csv 'Medium Supply 2-stage + elec. driven' [Municipal utility_el]=750.0 (PEV electric, used directly)"
+PS,Medium Supply 2-stage + elec. driven,Construction,,,1000.0,"PS-Table.csv 'Medium Supply 2-stage + elec. driven' [Construction_el]=1000.0 (PEV electric, used directly)"
+PS,Small + elec. driven,Long Haul,,,750.0,"PS-Table.csv 'Small + elec. driven' [Long Haul_el]=750.0 (PEV electric, used directly)"
+PS,Small + elec. driven,Regional Delivery,,,750.0,"PS-Table.csv 'Small + elec. driven' [Regional Delivery_el]=750.0 (PEV electric, used directly)"
+PS,Small + elec. driven,Urban Delivery,,,813.0,"PS-Table.csv 'Small + elec. driven' [Urban  Delivery_el]=813.0 (PEV electric, used directly)"
+PS,Small + elec. driven,Municipal Utility,,,813.0,"PS-Table.csv 'Small + elec. driven' [Municipal utility_el]=813.0 (PEV electric, used directly)"
+PS,Small + elec. driven,Construction,,,750.0,"PS-Table.csv 'Small + elec. driven' [Construction_el]=750.0 (PEV electric, used directly)"
+PS,Vacuum pump + elec. driven,Long Haul,,,237.0,"PS-Table.csv 'Vacuum pump + elec. driven' [Long Haul_el]=237.0 (PEV electric, used directly)"
+PS,Vacuum pump + elec. driven,Regional Delivery,,,200.0,"PS-Table.csv 'Vacuum pump + elec. driven' [Regional Delivery_el]=200.0 (PEV electric, used directly)"
+PS,Vacuum pump + elec. driven,Urban Delivery,,,162.0,"PS-Table.csv 'Vacuum pump + elec. driven' [Urban  Delivery_el]=162.0 (PEV electric, used directly)"
+PS,Vacuum pump + elec. driven,Municipal Utility,,,162.0,"PS-Table.csv 'Vacuum pump + elec. driven' [Municipal utility_el]=162.0 (PEV electric, used directly)"
+PS,Vacuum pump + elec. driven,Construction,,,162.0,"PS-Table.csv 'Vacuum pump + elec. driven' [Construction_el]=162.0 (PEV electric, used directly)"
+HVAC,Default(grp 1),Long Haul,,200.0,250.0,HVAC-Table.csv Default grp 1 [Long haul] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 1),Regional Delivery,,150.0,187.5,HVAC-Table.csv Default grp 1 [Regional delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 1),Urban Delivery,,150.0,187.5,HVAC-Table.csv Default grp 1 [Urban delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 1),Municipal Utility,,,no_value(blank),
+HVAC,Default(grp 1),Construction,,,no_value(blank),
+HVAC,Default(grp 3),Long Haul,,200.0,250.0,HVAC-Table.csv Default grp 3 [Long haul] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 3),Regional Delivery,,200.0,250.0,HVAC-Table.csv Default grp 3 [Regional delivery] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 3),Urban Delivery,,150.0,187.5,HVAC-Table.csv Default grp 3 [Urban delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 3),Municipal Utility,,,no_value(blank),
+HVAC,Default(grp 3),Construction,,,no_value(blank),
+HVAC,Default(grp 4),Long Haul,,350.0,437.5,HVAC-Table.csv Default grp 4 [Long haul] mech=350.0 / 0.8 = 437.5
+HVAC,Default(grp 4),Regional Delivery,,200.0,250.0,HVAC-Table.csv Default grp 4 [Regional delivery] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 4),Urban Delivery,,150.0,187.5,HVAC-Table.csv Default grp 4 [Urban delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 4),Municipal Utility,,300.0,375.0,HVAC-Table.csv Default grp 4 [Municipal utility] mech=300.0 / 0.8 = 375.0
+HVAC,Default(grp 4),Construction,,200.0,250.0,HVAC-Table.csv Default grp 4 [Construction] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 5),Long Haul,,350.0,437.5,HVAC-Table.csv Default grp 5 [Long haul] mech=350.0 / 0.8 = 437.5
+HVAC,Default(grp 5),Regional Delivery,,200.0,250.0,HVAC-Table.csv Default grp 5 [Regional delivery] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 5),Urban Delivery,,150.0,187.5,HVAC-Table.csv Default grp 5 [Urban delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 5),Municipal Utility,,0.0,0.0,HVAC-Table.csv Default grp 5 [Municipal utility] mech=0.0 / 0.8 = 0.0
+HVAC,Default(grp 5),Construction,,200.0,250.0,HVAC-Table.csv Default grp 5 [Construction] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 9),Long Haul,,350.0,437.5,HVAC-Table.csv Default grp 9 [Long haul] mech=350.0 / 0.8 = 437.5
+HVAC,Default(grp 9),Regional Delivery,,200.0,250.0,HVAC-Table.csv Default grp 9 [Regional delivery] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 9),Urban Delivery,,150.0,187.5,HVAC-Table.csv Default grp 9 [Urban delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 9),Municipal Utility,,300.0,375.0,HVAC-Table.csv Default grp 9 [Municipal utility] mech=300.0 / 0.8 = 375.0
+HVAC,Default(grp 9),Construction,,200.0,250.0,HVAC-Table.csv Default grp 9 [Construction] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 10),Long Haul,,350.0,437.5,HVAC-Table.csv Default grp 10 [Long haul] mech=350.0 / 0.8 = 437.5
+HVAC,Default(grp 10),Regional Delivery,,200.0,250.0,HVAC-Table.csv Default grp 10 [Regional delivery] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 10),Urban Delivery,,150.0,187.5,HVAC-Table.csv Default grp 10 [Urban delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 10),Municipal Utility,,0.0,0.0,HVAC-Table.csv Default grp 10 [Municipal utility] mech=0.0 / 0.8 = 0.0
+HVAC,Default(grp 10),Construction,,200.0,250.0,HVAC-Table.csv Default grp 10 [Construction] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 11),Long Haul,,350.0,437.5,HVAC-Table.csv Default grp 11 [Long haul] mech=350.0 / 0.8 = 437.5
+HVAC,Default(grp 11),Regional Delivery,,200.0,250.0,HVAC-Table.csv Default grp 11 [Regional delivery] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 11),Urban Delivery,,150.0,187.5,HVAC-Table.csv Default grp 11 [Urban delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 11),Municipal Utility,,300.0,375.0,HVAC-Table.csv Default grp 11 [Municipal utility] mech=300.0 / 0.8 = 375.0
+HVAC,Default(grp 11),Construction,,200.0,250.0,HVAC-Table.csv Default grp 11 [Construction] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 12),Long Haul,,350.0,437.5,HVAC-Table.csv Default grp 12 [Long haul] mech=350.0 / 0.8 = 437.5
+HVAC,Default(grp 12),Regional Delivery,,200.0,250.0,HVAC-Table.csv Default grp 12 [Regional delivery] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 12),Urban Delivery,,150.0,187.5,HVAC-Table.csv Default grp 12 [Urban delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 12),Municipal Utility,,,no_value(blank),
+HVAC,Default(grp 12),Construction,,200.0,250.0,HVAC-Table.csv Default grp 12 [Construction] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 16),Long Haul,,350.0,437.5,HVAC-Table.csv Default grp 16 [Long haul] mech=350.0 / 0.8 = 437.5
+HVAC,Default(grp 16),Regional Delivery,,200.0,250.0,HVAC-Table.csv Default grp 16 [Regional delivery] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 16),Urban Delivery,,150.0,187.5,HVAC-Table.csv Default grp 16 [Urban delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 16),Municipal Utility,,,no_value(blank),
+HVAC,Default(grp 16),Construction,,200.0,250.0,HVAC-Table.csv Default grp 16 [Construction] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 1s),Long Haul,,200.0,250.0,HVAC-Table.csv Default grp 1s [Long haul] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 1s),Regional Delivery,,150.0,187.5,HVAC-Table.csv Default grp 1s [Regional delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 1s),Urban Delivery,,150.0,187.5,HVAC-Table.csv Default grp 1s [Urban delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 1s),Municipal Utility,,,no_value(blank),
+HVAC,Default(grp 1s),Construction,,,no_value(blank),
+HVAC,Default(grp 53),Long Haul,,200.0,250.0,HVAC-Table.csv Default grp 53 [Long haul] mech=200.0 / 0.8 = 250.0
+HVAC,Default(grp 53),Regional Delivery,,150.0,187.5,HVAC-Table.csv Default grp 53 [Regional delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 53),Urban Delivery,,150.0,187.5,HVAC-Table.csv Default grp 53 [Urban delivery] mech=150.0 / 0.8 = 187.5
+HVAC,Default(grp 53),Municipal Utility,,,no_value(blank),
+HVAC,Default(grp 53),Construction,,,no_value(blank),
+cond,Lorry,Long Haul,,,600.0,"Cond-Table.csv Lorry [Long Haul]=600.0 (electric, moving/PTO)"
+cond,Lorry,Regional Delivery,,,600.0,"Cond-Table.csv Lorry [Regional Delivery]=600.0 (electric, moving/PTO)"
+cond,Lorry,Urban Delivery,,,550.0,"Cond-Table.csv Lorry [Urban  Delivery]=550.0 (electric, moving/PTO)"
+cond,Lorry,Municipal Utility,,,550.0,"Cond-Table.csv Lorry [Municipal utility]=550.0 (electric, moving/PTO)"
+cond,Lorry,Construction,,,600.0,"Cond-Table.csv Lorry [Construction]=600.0 (electric, moving/PTO)"

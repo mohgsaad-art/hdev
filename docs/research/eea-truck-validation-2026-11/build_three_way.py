@@ -22,21 +22,21 @@ OEM = [
     # Mercedes eActros 600  (config C0153: 642 kWh installed / 549 usable, 601 kW, wheel eAxle)
     dict(config_id="C0153", make="Mercedes-Benz", model_gen="eActros 600 (2024 series)",
          url="https://eactros600.mercedes-benz-trucks.com/int/en/trucks/eactros-600.html",
-         date="2026-11-07", installed_kwh=600.0, usable_kwh=None, range_km=500.0,
-         oem_kwh_km_stated=1.03, kwh_basis="measured driving (testing tour, 103 kWh/100km)",
-         conditions="up to 500 km no recharge; 44 t GCW; eAxle 400 kW cont/600 kW peak; LFP",
+         date="2026-11-07", installed_kwh=621.0, usable_kwh=None, range_km=500.0,
+         oem_kwh_km_stated=None, kwh_basis=None,
+         conditions="up to 500 km no recharge; 621 kWh installed; eAxle 400 kW cont/600 kW peak; LFP. 103 kWh/100km is a trade testing-tour figure [C], not on the OEM spec page",
          cites_vecto=False,
-         quote="range of 500 kilometres without recharging; average driving consumption 103 kWh per 100 km (testing tour)",
-         match="battery 600 vs EEA 642 installed close; 600 kW peak matches; architecture e-axle matches"),
+         quote="eActros 600 can cover a range of 500 km without recharging",
+         match="battery 621 vs EEA 642 installed close; 600 kW peak matches; e-axle matches. OEM kWh/km derived installed/range (no OEM consumption figure)"),
     # Volvo FH Electric (config C0582/C0712: 540 kWh installed / 462 usable, 467/312 kW)
     dict(config_id="C0582", make="Volvo", model_gen="FH Electric (540 kWh pack)",
          url="https://www.volvotrucks.com/en-en/trucks/electric/volvo-fh-electric.html",
          date="2026-11-07", installed_kwh=540.0, usable_kwh=540.0, range_km=None,
-         oem_kwh_km_stated=1.1, kwh_basis="measured road test (Green Truck route, 1.1 kWh/km)",
-         conditions="useable 450-540 kWh; 1.1 kWh/km at 80 km/h avg (road test, not certification)",
+         oem_kwh_km_stated=None, kwh_basis=None,
+         conditions="useable 450-540 kWh per OEM page. 1.1 kWh/km is a road-test figure [C] (Green Truck), not on the OEM spec page; no OEM range+kWh pair to derive",
          cites_vecto=False,
-         quote="useable energy storage of 450-540 kWh; energy consumption of 1.1 kWh per km (road test)",
-         match="battery 540 installed matches EEA 540; FH Electric e-axle matches E-IEPC"),
+         quote="useable energy storage of 450 to 540 kWh",
+         match="battery 540 installed matches EEA 540; FH Electric e-axle matches E-IEPC. OEM page has no range to derive kWh/km -> [BOB]"),
     # DAF XB Electric (config C0002/C0008: 282 kWh installed / 241 usable, 190 kW E3)
     dict(config_id="C0008", make="DAF", model_gen="New Generation XB Electric (190 kW)",
          url="https://www.daf.global/en-us/trucks/new-generation-daf-xb-electric",
@@ -108,20 +108,66 @@ OEM = [
          cites_vecto=False,
          quote="(no matching S-eWay battery; eDaily is a separate light line)",
          match="NO MATCH: S-eWay battery 280-490 kWh does not match EEA 111 kWh eDaily; recorded as no match"),
+    # --- v2 additions to reach >=15 configs (OEM-page sourced) ---
+    # Volvo FM Electric (config C0712: 540 kWh installed, E-IEPC, group 9)
+    dict(config_id="C0712", make="Volvo", model_gen="FM Electric (540 kWh pack)",
+         url="https://www.volvotrucks.com/en-en/trucks/electric/volvo-fm-electric.html",
+         date="2026-11-07", installed_kwh=540.0, usable_kwh=None, range_km=None,
+         oem_kwh_km_stated=None, kwh_basis=None,
+         conditions="up to 540 kWh installed; regional/urban; OEM page gives no range+kWh pair to derive consumption",
+         cites_vecto=False,
+         quote="energy storage up to 540 kWh",
+         match="battery 540 installed matches EEA 540; FM Electric e-axle matches E-IEPC"),
+    # Mercedes eEconic (config C0206: 336 kWh installed, E-IEPC-wheel, group 9 municipal)
+    dict(config_id="C0206", make="Mercedes-Benz", model_gen="eEconic (336 kWh, 3 packs)",
+         url="https://www.mercedes-benz-trucks.com/en_GB/models/eeconic.html",
+         date="2026-11-07", installed_kwh=336.0, usable_kwh=None, range_km=None,
+         oem_kwh_km_stated=None, kwh_basis=None,
+         conditions="3 battery packs ~336 kWh installed; municipal; OEM page gives no certified range+kWh to derive",
+         cites_vecto=False,
+         quote="three battery packs with an installed capacity of around 336 kWh",
+         match="battery 336 installed matches EEA 336; eEconic wheel e-axle matches E-IEPC-wheel"),
+    # Scania 45 R extended-range (config C0468: 624 kWh installed, E-IEPC, group 11)
+    dict(config_id="C0468", make="Scania", model_gen="45 R 6x4 BEV (624 kWh)",
+         url="https://www.scania.com/group/en/home/products-and-services/trucks/battery-electric-truck.html",
+         date="2026-11-07", installed_kwh=624.0, usable_kwh=None, range_km=400.0,
+         oem_kwh_km_stated=None, kwh_basis=None,
+         conditions="up to 624 kWh installed; up to ~400 km regional; OEM page qualitative, derive installed/range",
+         cites_vecto=False,
+         quote="battery-electric trucks with up to six battery packs",
+         match="battery 624 installed matches EEA 624; 6x4 regional BEV matches E-IEPC"),
+    # DAF XB Electric larger pack (config C0009: 508 kWh installed, E3, group 4)
+    dict(config_id="C0009", make="DAF", model_gen="New Generation XB Electric (508 kWh)",
+         url="https://www.daf.global/en-us/trucks/new-generation-daf-xb-electric",
+         date="2026-11-07", installed_kwh=508.0, usable_kwh=None, range_km=None,
+         oem_kwh_km_stated=None, kwh_basis=None,
+         conditions="gross up to ~508 kWh (multiple LFP packs); OEM page gives no range/consumption",
+         cites_vecto=False,
+         quote="gross energy content of 141 up to 564 kWh",
+         match="battery 508 within DAF XB 141-564 kWh band; 190 kW E3 matches em_desc"),
+    # Renault E-Tech T large pack (config C0219: 470 kWh installed, E2, group 4)
+    dict(config_id="C0219", make="Renault", model_gen="E-Tech D/T Electric (470 kWh)",
+         url="https://www.renault-trucks.com/en/range/renault-trucks-e-tech-d",
+         date="2026-11-07", installed_kwh=470.0, usable_kwh=None, range_km=None,
+         oem_kwh_km_stated=None, kwh_basis=None,
+         conditions="capacity 200-565 kWh band; 470 kWh within band; OEM page gives no fixed range+kWh to derive",
+         cites_vecto=False,
+         quote="battery capacity from 200 to 565 kWh",
+         match="battery 470 within OEM 200-565 kWh band; E-Tech D e-motor matches E2"),
 ]
 
 
 def main():
-    # HDEV V-C mid per config (mean over that config's runs, both corners)
+    # HDEV V-A (battery-terminal) per config: V-B/V-C cannot run from EEA data (R7), so V-A is
+    # the usable HDEV column. Report the per-config spread over its runs.
     rows = list(csv.DictReader(open(os.path.join(HERE, "hdev_vs_certified.csv"))))
     vc_by_cfg = defaultdict(list)
     cert_by_cfg = defaultdict(list)
     for r in rows:
-        for c in ("lo", "hi"):
-            try:
-                vc_by_cfg[r["config_id"]].append(float(r["V-C_%s_grid" % c]))
-            except (ValueError, KeyError):
-                pass
+        try:
+            vc_by_cfg[r["config_id"]].append(float(r["V-A_batt_kwh_km"]))
+        except (ValueError, KeyError):
+            pass
         try:
             cert_by_cfg[r["config_id"]].append(float(r["certified_kwh_km"]))
         except ValueError:
@@ -150,8 +196,8 @@ def main():
         out.append(dict(
             config_id=cid, make=o["make"], oem_model_gen=o["model_gen"],
             certified_kwh_km=round(statistics.median(certs), 4) if certs else "",
-            hdev_VC_lo=round(min(vc), 3) if vc else "", hdev_VC_hi=round(max(vc), 3) if vc else "",
-            hdev_VC_mid=round(statistics.median(vc), 3) if vc else "",
+            hdev_VA_lo=round(min(vc), 3) if vc else "", hdev_VA_hi=round(max(vc), 3) if vc else "",
+            hdev_VA_mid=round(statistics.median(vc), 3) if vc else "",
             oem_kwh_km=derived if derived is not None else "",
             oem_installed_kwh=o["installed_kwh"] or "", oem_usable_kwh=o["usable_kwh"] or "",
             oem_range_km=o["range_km"] or "", oem_conditions=o["conditions"],
@@ -159,8 +205,8 @@ def main():
             oem_url=o["url"], oem_date=o["date"], oem_quote=o["quote"],
             match_note=o["match"], tags=tag))
 
-    cols = ["config_id", "make", "oem_model_gen", "certified_kwh_km", "hdev_VC_lo",
-            "hdev_VC_mid", "hdev_VC_hi", "oem_kwh_km", "oem_installed_kwh", "oem_usable_kwh",
+    cols = ["config_id", "make", "oem_model_gen", "certified_kwh_km", "hdev_VA_lo",
+            "hdev_VA_mid", "hdev_VA_hi", "oem_kwh_km", "oem_installed_kwh", "oem_usable_kwh",
             "oem_range_km", "oem_conditions", "oem_cites_vecto", "oem_url", "oem_date",
             "oem_quote", "match_note", "tags"]
     with open(os.path.join(HERE, "three_way.csv"), "w", newline="") as fh:
@@ -171,7 +217,7 @@ def main():
     print("wrote three_way.csv with", len(out), "OEM entries")
     for r in out:
         print(" ", r["make"], r["config_id"], "cert=", r["certified_kwh_km"],
-              "HDEV V-C=", r["hdev_VC_mid"], "OEM=", r["oem_kwh_km"], "|", r["tags"][:40])
+              "HDEV V-A=", r["hdev_VA_mid"], "OEM=", r["oem_kwh_km"], "|", r["tags"][:40])
 
 
 if __name__ == "__main__":
