@@ -1,0 +1,30 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+config_id,make,model,architecture,gears,iepc_rated_kW,battery_installed_kwh,airdrag_method,cdxa_range,method,n_results,n_fitted,dof,at_bound,in_sample_mean_abs_err_pct,in_sample_worst_abs_err_pct,in_sample_mean_err_pct,eta_d,eta_r,F0_N,a_W,b_perW,c_W_per_mps,cdxa_declared_m2
+C0676,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,C,10,4,6,cdxa_declared,1.416,2.342,-0.022,0.94812238,0.73273044,226.944336,,,,8.769999
+C0676,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,L4b,10,4,6,c_W_per_mps;cdxa_declared,1.768,4.027,0.274,,,,10386.31802337,3.1e-07,0.0,8.35
+C0677,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,C,12,4,8,cdxa_declared,1.234,2.471,-0.02,0.92620321,0.75771886,124.78662042,,,,8.769999
+C0677,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,L4b,12,4,8,c_W_per_mps,1.6,4.08,0.216,,,,9118.97865661,3.4e-07,0.0,8.46454736
+C0678,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,C,10,4,6,cdxa_declared,1.415,2.389,-0.022,0.94868488,0.7328848,227.63708864,,,,8.769999
+C0678,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,L4b,10,4,6,c_W_per_mps;cdxa_declared,1.788,4.083,0.273,,,,10328.23358124,3.1e-07,0.0,8.35
+C0679,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,C,12,4,8,cdxa_declared,1.159,2.43,-0.018,0.93835301,0.74687341,153.22984597,,,,8.769999
+C0679,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,L4b,12,4,8,c_W_per_mps,1.706,4.311,0.241,,,,9119.77106015,3.3e-07,0.0,8.37419423
+C0680,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,C,12,4,8,cdxa_declared,1.168,2.511,-0.018,0.93581994,0.74790107,140.8039247,,,,8.769999
+C0680,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,L4b,12,4,8,c_W_per_mps,1.832,4.623,0.274,,,,8863.57551878,3.3e-07,0.0,8.41574666
+C0681,Volvo,FM  42T  E,E-IEPC,12,467.0,486.0,Measured,A23,C,12,4,8,F0;cdxa_declared,1.203,2.127,-0.015,0.87100313,0.81546985,0.0,,,,8.769999
+C0681,Volvo,FM  42T  E,E-IEPC,12,467.0,486.0,Measured,A23,L4b,12,4,8,cdxa_declared,1.011,2.278,0.01,,,,8300.45582376,4.1e-07,36.0905139,8.769999
+C0682,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,C,10,4,6,cdxa_declared,1.271,2.194,-0.019,0.94058573,0.75127429,210.5598517,,,,8.769999
+C0682,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,L4b,10,4,6,c_W_per_mps;cdxa_declared,1.582,3.161,0.087,,,,10280.48200113,3.1e-07,0.0,8.35
+C0683,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,C,12,4,8,cdxa_declared,1.078,2.147,-0.015,0.93732482,0.76541111,181.71782436,,,,8.769999
+C0683,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,L4b,12,4,8,c_W_per_mps,1.501,3.569,0.179,,,,9070.61805412,3.1e-07,0.0,8.4891561
+C0684,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,C,12,4,8,cdxa_declared,1.163,2.396,-0.018,0.93199741,0.75991891,137.52305005,,,,8.769999
+C0684,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,L4b,12,4,8,c_W_per_mps,1.674,4.19,0.236,,,,8781.28388187,3.3e-07,0.0,8.47645216
+C0685,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,C,10,4,6,cdxa_declared,1.297,2.26,-0.02,0.93573365,0.75251347,190.67141362,,,,8.769999
+C0685,Volvo,FM  42T  E,E-IEPC,12,467.0,540.0,Measured,A23,L4b,10,4,6,c_W_per_mps;cdxa_declared,1.544,3.101,0.079,,,,10347.84777923,3.1e-07,0.0,8.35
+C0800,Volvo,FMX 42T  E,E-IEPC,12,467.0,540.0,Measured,A23,C,12,4,8,cdxa_declared,1.177,2.477,-0.019,0.93265071,0.74804323,121.2621733,,,,8.769999
+C0800,Volvo,FMX 42T  E,E-IEPC,12,467.0,540.0,Measured,A23,L4b,12,4,8,c_W_per_mps,1.761,4.526,0.255,,,,8749.66531123,3.4e-07,0.0,8.3973366
+C0801,Volvo,FMX 42T  E,E-IEPC,12,467.0,540.0,Measured,A23,C,12,4,8,cdxa_declared,1.167,2.272,-0.018,0.92989902,0.76301745,131.75398421,,,,8.769999
+C0801,Volvo,FMX 42T  E,E-IEPC,12,467.0,540.0,Measured,A23,L4b,12,4,8,c_W_per_mps,1.673,4.07,0.241,,,,8754.37579002,3.3e-07,0.0,8.50049072
+C0802,Volvo,FMX 42T  E,E-IEPC,12,467.0,540.0,Measured,A23,C,12,4,8,cdxa_declared,1.128,2.258,-0.017,0.93536232,0.75660678,151.09549052,,,,8.769999
+C0802,Volvo,FMX 42T  E,E-IEPC,12,467.0,540.0,Measured,A23,L4b,12,4,8,c_W_per_mps,1.694,4.165,0.247,,,,8851.61490019,3.2e-07,0.0,8.46045105
+C0803,Volvo,FMX 42T  E,E-IEPC,12,467.0,540.0,Measured,A23,C,12,4,8,cdxa_declared,1.165,2.436,-0.018,0.93137415,0.75883144,134.0596397,,,,8.769999
+C0803,Volvo,FMX 42T  E,E-IEPC,12,467.0,540.0,Measured,A23,L4b,12,4,8,c_W_per_mps,1.675,4.183,0.236,,,,8784.22258704,3.3e-07,0.0,8.46868956

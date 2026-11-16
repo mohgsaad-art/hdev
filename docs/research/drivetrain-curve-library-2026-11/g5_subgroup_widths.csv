@@ -1,0 +1,38 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+method,grouping,subgroup,n_configs,n_models,reliability,width_p90_minus_p10_pp,worst_config_mean_error_pct
+C,architecture,IEPC,254,38,reliable,14.705,29.354
+C,gears,g1,2,1,not_reliable (<3 models),0.008,0.018
+C,gears,g12,114,5,reliable,3.709,3.905
+C,gears,g2,10,4,reliable,20.671,14.094
+C,gears,g3,23,6,reliable,37.659,20.436
+C,gears,g4,58,16,reliable,9.162,14.651
+C,gears,g6,47,9,reliable,5.412,4.485
+C,continuous_kw_bin,200–<300,11,7,reliable,16.931,13.087
+C,continuous_kw_bin,300–<400,62,20,reliable,31.34,29.979
+C,continuous_kw_bin,400–<500,176,15,reliable,11.921,13.346
+C,continuous_kw_bin,≥500,2,1,not_reliable (<3 models),0.008,0.018
+C,make,DAF,23,6,reliable,37.659,20.436
+C,make,Iveco,2,1,not_reliable (<3 models),0.008,0.018
+C,make,MAN,22,10,reliable,10.316,7.687
+C,make,Mercedes-Benz,27,1,not_reliable (<3 models),17.612,20.871
+C,make,Renault,30,2,not_reliable (<3 models),3.991,3.614
+C,make,Scania,66,15,reliable,14.742,11.119
+C,make,Volvo,84,3,reliable,3.004,3.388
+L4b,architecture,IEPC,254,38,reliable,14.73,29.018
+L4b,gears,g1,2,1,not_reliable (<3 models),0.007,0.087
+L4b,gears,g12,114,5,reliable,3.868,3.807
+L4b,gears,g2,10,4,reliable,21.714,11.907
+L4b,gears,g3,23,6,reliable,36.754,20.405
+L4b,gears,g4,58,16,reliable,8.562,14.123
+L4b,gears,g6,47,9,reliable,5.559,3.858
+L4b,continuous_kw_bin,200–<300,11,7,reliable,17.673,11.317
+L4b,continuous_kw_bin,300–<400,62,20,reliable,31.298,30.321
+L4b,continuous_kw_bin,400–<500,176,15,reliable,11.149,10.919
+L4b,continuous_kw_bin,≥500,2,1,not_reliable (<3 models),0.007,0.087
+L4b,make,DAF,23,6,reliable,36.754,20.405
+L4b,make,Iveco,2,1,not_reliable (<3 models),0.007,0.087
+L4b,make,MAN,22,10,reliable,9.563,6.661
+L4b,make,Mercedes-Benz,27,1,not_reliable (<3 models),17.213,19.446
+L4b,make,Renault,30,2,not_reliable (<3 models),3.92,3.494
+L4b,make,Scania,66,15,reliable,14.345,10.607
+L4b,make,Volvo,84,3,reliable,3.297,3.168

@@ -1,0 +1,3 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+batch,configs_requested,records,skipped,wall_s,config_ids
+8,14,160,0,16.48,C0676;C0677;C0678;C0679;C0680;C0681;C0682;C0683;C0684;C0685;C0800;C0801;C0802;C0803
