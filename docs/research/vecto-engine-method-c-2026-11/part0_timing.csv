@@ -1,0 +1,4 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+mode,command,runs,wall_s,cpu_s,note
+sequential with mod data,vectocmd -mod -t BEV_E2.vecto,6,75.2,75.4,"read inputs 4.7 s + simulation 69.1 s = 11.5 s per run (E2 truck, 100 km cycles)"
+parallel no mod data,vectocmd -t BEV_E2.vecto,6,28.8,110.0,"read inputs 4.6 s + simulation 23.4 s on 8 cores; 18 CPU-s per run (threads contend)"
