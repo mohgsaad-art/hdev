@@ -1,0 +1,6 @@
+cycle,load,run_now_kwh_km,v2_report_kwh_km,diff_pct
+RegionalDelivery,reference,1.0471,1.0471,-0.004
+RegionalDelivery,low,0.9887,0.9887,0.003
+UrbanDelivery,reference,0.8267,0.8267,0.004
+UrbanDelivery,low,0.7376,0.7376,-0.0
+GATE1,PASS,tolerance_pct,0.1,
