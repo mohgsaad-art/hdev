@@ -1,0 +1,50 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+cluster,variant,mission,n_results,mean_err_pct,mean_abs_err_pct,worst_abs_err_pct
+HIGH_F0,V0,Construction,4,-1.124,1.384,2.661
+HIGH_F0,V0,Long Haul,18,-1.303,1.921,3.977
+HIGH_F0,V0,Long Haul EMS,18,-0.416,1.633,2.23
+HIGH_F0,V0,Regional Delivery,18,0.428,0.619,1.59
+HIGH_F0,V0,Regional Delivery EMS,18,1.106,1.106,2.168
+HIGH_F0,V0,Urban Delivery,18,0.082,5.231,5.984
+HIGH_F0,V1,Construction,4,-1.968,1.968,4.632
+HIGH_F0,V1,Long Haul,18,-7.498,7.498,16.102
+HIGH_F0,V1,Long Haul EMS,18,0.253,5.686,6.654
+HIGH_F0,V1,Regional Delivery,18,-4.609,4.668,10.163
+HIGH_F0,V1,Regional Delivery EMS,18,3.223,3.861,7.777
+HIGH_F0,V1,Urban Delivery,18,3.96,3.96,5.98
+HIGH_F0,V2,Construction,4,-0.763,1.95,2.76
+HIGH_F0,V2,Long Haul,18,-1.195,1.748,3.562
+HIGH_F0,V2,Long Haul EMS,18,-0.584,1.722,2.231
+HIGH_F0,V2,Regional Delivery,18,0.536,0.706,2.171
+HIGH_F0,V2,Regional Delivery EMS,18,0.922,0.955,1.987
+HIGH_F0,V2,Urban Delivery,18,0.124,5.419,7.105
+HIGH_F0,V3,Construction,4,-1.598,1.682,3.439
+HIGH_F0,V3,Long Haul,4,-1.45,2.033,3.885
+HIGH_F0,V3,Long Haul EMS,4,-0.727,1.296,2.038
+HIGH_F0,V3,Regional Delivery,4,0.607,0.699,1.402
+HIGH_F0,V3,Regional Delivery EMS,4,1.334,1.334,1.776
+HIGH_F0,V3,Urban Delivery,4,-0.114,5.2,5.582
+LOW_F0,V0,Construction,28,-0.111,0.443,1.805
+LOW_F0,V0,Long Haul,28,-1.477,1.534,3.744
+LOW_F0,V0,Long Haul EMS,26,-1.659,1.659,2.418
+LOW_F0,V0,Regional Delivery,28,1.765,1.767,3.438
+LOW_F0,V0,Regional Delivery EMS,26,1.392,1.392,2.072
+LOW_F0,V0,Urban Delivery,28,-0.214,3.456,6.638
+LOW_F0,V1,Construction,28,-0.164,0.443,1.225
+LOW_F0,V1,Long Haul,28,-1.902,1.981,8.468
+LOW_F0,V1,Long Haul EMS,26,-1.623,1.826,4.038
+LOW_F0,V1,Regional Delivery,28,1.43,2.005,4.329
+LOW_F0,V1,Regional Delivery EMS,26,1.545,1.546,4.184
+LOW_F0,V1,Urban Delivery,28,0.109,3.262,8.191
+LOW_F0,V2,Construction,28,13.173,13.698,22.868
+LOW_F0,V2,Long Haul,28,19.427,19.744,31.72
+LOW_F0,V2,Long Haul EMS,26,11.264,12.951,22.027
+LOW_F0,V2,Regional Delivery,28,20.66,20.66,31.362
+LOW_F0,V2,Regional Delivery EMS,26,12.044,12.815,21.942
+LOW_F0,V2,Urban Delivery,28,0.836,9.828,13.374
+LOW_F0,V3,Construction,28,-0.189,0.67,2.035
+LOW_F0,V3,Long Haul,28,-1.459,1.495,3.437
+LOW_F0,V3,Long Haul EMS,26,-1.693,1.693,2.252
+LOW_F0,V3,Regional Delivery,28,1.771,1.771,3.419
+LOW_F0,V3,Regional Delivery EMS,26,1.344,1.344,1.91
+LOW_F0,V3,Urban Delivery,28,-0.265,3.479,6.769

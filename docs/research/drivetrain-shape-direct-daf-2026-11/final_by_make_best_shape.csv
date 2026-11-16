@@ -1,0 +1,16 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+make,method,n_models,n_configs,insample_MAE_S3a_IEPC_1speed,insample_MAE_S3b_IEPC_3speed,insample_MAE_S2_busIEPC_PSM,insample_MAE_S2_busIEPC_ASM,best_by_insample,holdout_absmean_S3a_IEPC_1speed,holdout_absmean_S3b_IEPC_3speed,holdout_absmean_S2_busIEPC_PSM,holdout_absmean_S2_busIEPC_ASM,best_by_holdout,spread_insample_pp
+DAF,L1,6,23,4.281,4.706,4.172,4.737,S2_busIEPC_PSM,9.552,9.468,9.353,9.207,S2_busIEPC_ASM,0.565
+DAF,L1b,6,23,2.586,2.736,2.497,2.878,S2_busIEPC_PSM,10.156,10.306,9.974,10.465,S2_busIEPC_PSM,0.381
+Iveco,L1,1,2,1.568,2.015,1.527,2.433,S2_busIEPC_PSM,15.181,11.999,15.27,9.827,S2_busIEPC_ASM,0.906
+Iveco,L1b,1,2,1.351,1.257,1.323,1.284,S3b_IEPC_3speed,11.969,10.709,11.722,9.357,S2_busIEPC_ASM,0.094
+MAN,L1,10,22,2.195,1.881,2.344,1.873,S2_busIEPC_ASM,5.971,5.62,5.755,5.484,S2_busIEPC_ASM,0.471
+MAN,L1b,10,22,1.965,1.782,1.956,1.712,S2_busIEPC_ASM,5.422,5.717,5.302,6.131,S2_busIEPC_PSM,0.253
+Mercedes-Benz,L1,1,27,3.155,2.767,3.231,2.611,S2_busIEPC_ASM,9.078,7.303,9.04,6.271,S2_busIEPC_ASM,0.62
+Mercedes-Benz,L1b,1,27,2.321,2.091,2.312,1.944,S2_busIEPC_ASM,7.285,6.899,6.991,6.616,S2_busIEPC_ASM,0.377
+Renault,L1,2,30,3.755,3.074,3.945,2.868,S2_busIEPC_ASM,4.29,3.115,4.226,2.609,S2_busIEPC_ASM,1.077
+Renault,L1b,2,30,1.974,1.8,1.937,1.691,S2_busIEPC_ASM,3.08,3.27,2.785,3.424,S2_busIEPC_PSM,0.283
+Scania,L1,15,66,2.128,1.797,2.29,1.707,S2_busIEPC_ASM,4.072,4.077,3.8,3.84,S2_busIEPC_PSM,0.583
+Scania,L1b,15,66,2.053,1.759,2.115,1.651,S2_busIEPC_ASM,4.824,5.171,4.717,5.44,S2_busIEPC_PSM,0.464
+Volvo,L1,3,84,3.702,3.043,3.898,2.898,S2_busIEPC_ASM,4.867,3.758,4.834,3.378,S2_busIEPC_ASM,1.0
+Volvo,L1b,3,84,1.825,1.688,1.791,1.617,S2_busIEPC_ASM,3.794,4.035,3.549,4.332,S2_busIEPC_PSM,0.208

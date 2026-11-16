@@ -1,0 +1,5 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+config_id,variant,n_results,n_fitted,at_bound,eta_d,eta_r,F0_N,mean_abs_err_pct,worst_abs_err_pct,err_Regional_Delivery_333_kg_pct,err_Regional_Delivery_1664_kg_pct,err_Urban_Delivery_333_kg_pct,err_Urban_Delivery_1664_kg_pct
+C0059,V0,4,3,regen,0.6887,1.0,105.9,7.83,10.07,-10.07,-8.68,4.89,7.7
+C0059,V1,4,2,regen,0.6636,1.0,0.0,7.81,10.15,-10.15,-8.59,4.48,8.0
+C0059,V2,4,2,eta;regen,1.0,1.0,1600.0,11.03,19.01,-4.79,-4.86,19.01,15.45

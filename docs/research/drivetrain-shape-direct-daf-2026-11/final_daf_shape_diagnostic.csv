@@ -1,0 +1,14 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+group,n_configs,method,in_sample_mean_abs_err_pct
+R85 standard-values IEPC,12,C,2.017
+R85 standard-values IEPC,12,L4b,1.994
+R85 standard-values IEPC,12,L1[S3b_IEPC_3speed],6.867
+R85 standard-values IEPC,12,L1[S4_std_ASM],6.235
+R85 standard-values IEPC,12,L1b[S3b_IEPC_3speed],3.435
+R85 standard-values IEPC,12,L1b[S4_std_ASM],3.067
+VECTO-certified IEPC (2017/2400),11,C,1.678
+VECTO-certified IEPC (2017/2400),11,L4b,1.551
+VECTO-certified IEPC (2017/2400),11,L1[S3b_IEPC_3speed],2.348
+VECTO-certified IEPC (2017/2400),11,L1[S4_std_ASM],2.662
+VECTO-certified IEPC (2017/2400),11,L1b[S3b_IEPC_3speed],1.974
+VECTO-certified IEPC (2017/2400),11,L1b[S4_std_ASM],2.073

@@ -1,0 +1,7 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+truck,payload_kg,cert_over_VA_regional,cert_over_VA_urban,iepc_method_vehicle,iepc_certificate,certified_regional_over_urban,wheel_energy_regional_over_urban_no_loss,harness_V_A_regional_over_urban,n_configs
+eCanter C0059,333,1.49,1.365,StandardValues,,1.673,1.85,1.533,
+eCanter C0059,1664,1.468,1.341,StandardValues,,1.613,1.787,1.474,
+DAF HIGH_F0 (F0>=800),2600,,,,,1.077,1.491,1.1,9
+DAF LOW_F0,2600,,,,,1.038,1.481,1.109,14
+all other group 5,2600,,,,,1.077,1.565,1.189,231

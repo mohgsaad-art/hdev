@@ -1,0 +1,122 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+config_id,truck,method,values
+C0059,Fuso eCanter,C,eta=0.68868;regen=1;F0=105.91
+C0059,Fuso eCanter,L4b,a_W=3.9198e-18;b_perW=2.2287e-06;c_W_per_mps=826.32
+C0059,Fuso eCanter,L1[arch],s=1.3866
+C0059,Fuso eCanter,L1b[arch],s_drive=1.6562;s_regen=1.8868e-14
+C0059,Fuso eCanter,L1[S3a_IEPC_1speed],s=1.3866
+C0059,Fuso eCanter,L1b[S3a_IEPC_1speed],s_drive=1.6562;s_regen=1.8868e-14
+C0059,Fuso eCanter,L1[S3b_IEPC_3speed],s=2.2472
+C0059,Fuso eCanter,L1b[S3b_IEPC_3speed],s_drive=2.8436;s_regen=3.024e-23
+C0059,Fuso eCanter,L1[S2_busIEPC_PSM],s=0.88806
+C0059,Fuso eCanter,L1b[S2_busIEPC_PSM],s_drive=1.0405;s_regen=3.5649e-18
+C0059,Fuso eCanter,L1[S2_busIEPC_ASM],s=1.4442
+C0059,Fuso eCanter,L1b[S2_busIEPC_ASM],s_drive=1.7875;s_regen=8.8009e-29
+C0091,IVECO S-eWay,C,eta=0.96641;regen=0.91328;F0=602.8;cdxa_declared=5.65
+C0091,IVECO S-eWay,L4b,a_W=4102.8;b_perW=1.2755e-07;c_W_per_mps=509.04;cdxa_declared=5.65
+C0091,IVECO S-eWay,L1[arch],s=0.33201;cdxa_declared=5.65
+C0091,IVECO S-eWay,L1b[arch],s_drive=0.37811;s_regen=0.089623;cdxa_declared=5.65
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],s=0.33201;cdxa_declared=5.65
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],s_drive=0.37811;s_regen=0.089623;cdxa_declared=5.65
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],s=0.57697;cdxa_declared=5.65
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],s_drive=0.71425;s_regen=0.070571;cdxa_declared=5.65
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],s=0.20842;cdxa_declared=5.65
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],s_drive=0.23571;s_regen=0.033695;cdxa_declared=5.65
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],s=0.39273;cdxa_declared=5.65
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],s_drive=0.5004;s_regen=1.6174e-23;cdxa_declared=5.65
+C0371,Scania R 400E,C,eta=0.84932;regen=0.80835;F0=39.397
+C0371,Scania R 400E,L4b,a_W=8389;b_perW=4.6719e-07;c_W_per_mps=188.19
+C0371,Scania R 400E,L1[arch],s=1.1347
+C0371,Scania R 400E,L1b[arch],s_drive=1.0488;s_regen=1.482
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],s=0.69416
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],s_drive=0.60053;s_regen=1.2268
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],s=1.1347
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],s_drive=1.0488;s_regen=1.482
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],s=0.43846
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],s_drive=0.36647;s_regen=0.90443
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],s=0.72616
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],s_drive=0.6557;s_regen=1.0302
+C0116,MAN eTGX,C,eta=0.87604;regen=0.84333;F0=7.2384e-21;cdxa_declared=5.12
+C0116,MAN eTGX,L4b,a_W=4432.2;b_perW=4.9668e-07;c_W_per_mps=83.759;cdxa_declared=5.12
+C0116,MAN eTGX,L1[arch],s=0.96648;cdxa_declared=4.8938
+C0116,MAN eTGX,L1b[arch],s_drive=0.80783;s_regen=1.3704;cdxa_declared=5.12
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],s=0.60722;cdxa_declared=4.88
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],s_drive=0.46583;s_regen=1.1654;cdxa_declared=5.12
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],s=0.96648;cdxa_declared=4.8938
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],s_drive=0.80783;s_regen=1.3704;cdxa_declared=5.12
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],s=0.38689;cdxa_declared=4.88
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],s_drive=0.28814;s_regen=0.82744;cdxa_declared=5.12
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],s=0.617;cdxa_declared=4.8871
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],s_drive=0.50672;s_regen=0.91718;cdxa_declared=5.12
+C0153,Mercedes eActros 600,C,eta=0.96899;regen=0.79301;F0=157.79;cdxa_declared=5.12
+C0153,Mercedes eActros 600,L4b,a_W=6562.2;b_perW=2.5383e-07;c_W_per_mps=5.3852e-23;cdxa_declared=4.88
+C0153,Mercedes eActros 600,L1[arch],s=0.37237;cdxa_declared=4.88
+C0153,Mercedes eActros 600,L1b[arch],s_drive=0.1646;s_regen=1.7588;cdxa_declared=5.12
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],s=0.34552;cdxa_declared=4.88
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],s_drive=0.16395;s_regen=1.1641;cdxa_declared=5.12
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],s=0.58931;cdxa_declared=4.88
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],s_drive=0.31;s_regen=1.4451;cdxa_declared=5.12
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],s=0.21746;cdxa_declared=4.88
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],s_drive=0.10057;s_regen=0.84329;cdxa_declared=5.12
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],s=0.39386;cdxa_declared=4.88
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],s_drive=0.21823;s_regen=0.9428;cdxa_declared=5.12
+C0218,Renault D,C,eta=0.76286;regen=0.99982;F0=438.26;cdxa_declared=5.3556
+C0218,Renault D,L4b,a_W=4.3628e-19;b_perW=9.7063e-07;c_W_per_mps=1163.7;cdxa_declared=5.38
+C0218,Renault D,L1[arch],s=0.9722;cdxa_declared=5.38
+C0218,Renault D,L1b[arch],s_drive=1.1943;s_regen=1.1589e-25;cdxa_declared=5.38
+C0218,Renault D,L1[S3a_IEPC_1speed],s=1.3099;cdxa_declared=5.38
+C0218,Renault D,L1b[S3a_IEPC_1speed],s_drive=1.5629;s_regen=4.1553e-29;cdxa_declared=5.38
+C0218,Renault D,L1[S3b_IEPC_3speed],s=2.1025;cdxa_declared=5.38
+C0218,Renault D,L1b[S3b_IEPC_3speed],s_drive=2.6614;s_regen=1.126e-26;cdxa_declared=5.38
+C0218,Renault D,L1[S2_busIEPC_PSM],s=0.83498;cdxa_declared=5.38
+C0218,Renault D,L1b[S2_busIEPC_PSM],s_drive=0.97726;s_regen=1.1205e-27;cdxa_declared=5.38
+C0218,Renault D,L1[S2_busIEPC_ASM],s=1.3381;cdxa_declared=5.38
+C0218,Renault D,L1b[S2_busIEPC_ASM],s_drive=1.6605;s_regen=4.5695e-28;cdxa_declared=5.38
+C0712,Volvo FM,C,eta=0.88097;regen=1;F0=1.8133e-11;cdxa_declared=8.3872
+C0712,Volvo FM,L4b,a_W=4.9739e-15;b_perW=3.065e-07;c_W_per_mps=279.56;cdxa_declared=8.77
+C0712,Volvo FM,L1[arch],s=0.76497;cdxa_declared=8.35
+C0712,Volvo FM,L1b[arch],s_drive=0.82884;s_regen=0.067461;cdxa_declared=8.35
+C0712,Volvo FM,L1[S3a_IEPC_1speed],s=0.46906;cdxa_declared=8.35
+C0712,Volvo FM,L1b[S3a_IEPC_1speed],s_drive=0.48583;s_regen=0.22365;cdxa_declared=8.35
+C0712,Volvo FM,L1[S3b_IEPC_3speed],s=0.76497;cdxa_declared=8.35
+C0712,Volvo FM,L1b[S3b_IEPC_3speed],s_drive=0.82884;s_regen=0.067461;cdxa_declared=8.35
+C0712,Volvo FM,L1[S2_busIEPC_PSM],s=0.29574;cdxa_declared=8.35
+C0712,Volvo FM,L1b[S2_busIEPC_PSM],s_drive=0.28984;s_regen=0.39181;cdxa_declared=8.35
+C0712,Volvo FM,L1[S2_busIEPC_ASM],s=0.47222;cdxa_declared=8.35
+C0712,Volvo FM,L1b[S2_busIEPC_ASM],s_drive=0.49567;s_regen=0.19505;cdxa_declared=8.35
+C0206,Mercedes Econic,C,eta=0.86906;regen=0.93903;F0=4.1301e-16
+C0206,Mercedes Econic,L4b,a_W=7.4996;b_perW=4.1116e-07;c_W_per_mps=383.96
+C0206,Mercedes Econic,L1[arch],s=0.45382
+C0206,Mercedes Econic,L1b[arch],s_drive=0.47989;s_regen=0.048982
+C0206,Mercedes Econic,L1[S3a_IEPC_1speed],s=0.43691
+C0206,Mercedes Econic,L1b[S3a_IEPC_1speed],s_drive=0.47834;s_regen=1.9071e-16
+C0206,Mercedes Econic,L1[S3b_IEPC_3speed],s=0.75469
+C0206,Mercedes Econic,L1b[S3b_IEPC_3speed],s_drive=0.85346;s_regen=5.5307e-29
+C0206,Mercedes Econic,L1[S2_busIEPC_PSM],s=0.271
+C0206,Mercedes Econic,L1b[S2_busIEPC_PSM],s_drive=0.29281;s_regen=3.249e-28
+C0206,Mercedes Econic,L1[S2_busIEPC_ASM],s=0.49197
+C0206,Mercedes Econic,L1b[S2_busIEPC_ASM],s_drive=0.54043;s_regen=0.095682
+C0070,IVECO eDaily,C,eta=0.82924;regen=0.9984;F0=5.2112e-20
+C0070,IVECO eDaily,L4b,a_W=1.5209e-11;b_perW=2.0911e-06;c_W_per_mps=168.46
+C0070,IVECO eDaily,L1[arch],s=0.37237
+C0070,IVECO eDaily,L1b[arch],s_drive=0.44211;s_regen=1.8486e-21
+C0070,IVECO eDaily,L1[S3a_IEPC_1speed],s=0.51676
+C0070,IVECO eDaily,L1b[S3a_IEPC_1speed],s_drive=0.59569;s_regen=4.2907e-20
+C0070,IVECO eDaily,L1[S3b_IEPC_3speed],s=0.87822
+C0070,IVECO eDaily,L1b[S3b_IEPC_3speed],s_drive=1.0595;s_regen=3.2948e-20
+C0070,IVECO eDaily,L1[S2_busIEPC_PSM],s=0.32086
+C0070,IVECO eDaily,L1b[S2_busIEPC_PSM],s_drive=0.36045;s_regen=8.8892e-22
+C0070,IVECO eDaily,L1[S2_busIEPC_ASM],s=0.56178
+C0070,IVECO eDaily,L1b[S2_busIEPC_ASM],s_drive=0.66142;s_regen=1.9109e-18
+C0001,DAF XB,C,eta=0.88469;regen=0.84241;F0=961.4;cdxa_declared=4.65
+C0001,DAF XB,L4b,a_W=5689.5;b_perW=4.486e-07;c_W_per_mps=1080.7;cdxa_declared=4.65
+C0001,DAF XB,L1[arch],s=2.024;cdxa_declared=4.88
+C0001,DAF XB,L1b[arch],s_drive=2.2783;s_regen=0.53566;cdxa_declared=4.88
+C0001,DAF XB,L1[S3a_IEPC_1speed],s=1.2192;cdxa_declared=4.88
+C0001,DAF XB,L1b[S3a_IEPC_1speed],s_drive=1.3285;s_regen=0.32903;cdxa_declared=4.88
+C0001,DAF XB,L1[S3b_IEPC_3speed],s=2.024;cdxa_declared=4.88
+C0001,DAF XB,L1b[S3b_IEPC_3speed],s_drive=2.2783;s_regen=0.53566;cdxa_declared=4.88
+C0001,DAF XB,L1[S2_busIEPC_PSM],s=0.76718;cdxa_declared=4.88
+C0001,DAF XB,L1b[S2_busIEPC_PSM],s_drive=0.82686;s_regen=0.21576;cdxa_declared=4.88
+C0001,DAF XB,L1[S2_busIEPC_ASM],s=1.2967;cdxa_declared=4.88
+C0001,DAF XB,L1b[S2_busIEPC_ASM],s_drive=1.4424;s_regen=0.39656;cdxa_declared=4.88

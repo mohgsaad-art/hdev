@@ -1,0 +1,122 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+config_id,truck,method,n_results,n_fitted,dof,worst_abs_err_pct,mean_abs_err_pct,largest_under_pct,all_within_5pct
+C0059,Fuso eCanter,C,4,3,1,12.7,11.25,-11.97,False
+C0059,Fuso eCanter,L4b,4,3,1,14.19,11.83,-14.19,False
+C0059,Fuso eCanter,L1[arch],4,1,3,19.55,16.45,-19.55,False
+C0059,Fuso eCanter,L1b[arch],4,2,2,15.99,13.9,-15.99,False
+C0059,Fuso eCanter,L1[S3a_IEPC_1speed],4,1,3,19.55,16.45,-19.55,False
+C0059,Fuso eCanter,L1b[S3a_IEPC_1speed],4,2,2,15.99,13.9,-15.99,False
+C0059,Fuso eCanter,L1[S3b_IEPC_3speed],4,1,3,19.75,16.54,-19.75,False
+C0059,Fuso eCanter,L1b[S3b_IEPC_3speed],4,2,2,14.92,12.98,-14.92,False
+C0059,Fuso eCanter,L1[S2_busIEPC_PSM],4,1,3,19.48,16.48,-19.48,False
+C0059,Fuso eCanter,L1b[S2_busIEPC_PSM],4,2,2,16.32,14.25,-16.32,False
+C0059,Fuso eCanter,L1[S2_busIEPC_ASM],4,1,3,18.12,15.49,-18.12,False
+C0059,Fuso eCanter,L1b[S2_busIEPC_ASM],4,2,2,13.3,11.82,-13.3,False
+C0091,IVECO S-eWay,C,12,4,8,3.71,1.55,-3.71,True
+C0091,IVECO S-eWay,L4b,12,4,8,4.62,1.54,-4.62,True
+C0091,IVECO S-eWay,L1[arch],12,2,10,4.28,1.71,-4.28,True
+C0091,IVECO S-eWay,L1b[arch],12,3,9,3.66,1.67,-3.66,True
+C0091,IVECO S-eWay,L1[S3a_IEPC_1speed],12,2,10,4.28,1.71,-4.28,True
+C0091,IVECO S-eWay,L1b[S3a_IEPC_1speed],12,3,9,3.66,1.67,-3.66,True
+C0091,IVECO S-eWay,L1[S3b_IEPC_3speed],12,2,10,5.35,2.23,-5.35,False
+C0091,IVECO S-eWay,L1b[S3b_IEPC_3speed],12,3,9,3.39,1.5,-3.39,True
+C0091,IVECO S-eWay,L1[S2_busIEPC_PSM],12,2,10,4.14,1.66,-4.14,True
+C0091,IVECO S-eWay,L1b[S2_busIEPC_PSM],12,3,9,3.2,1.6,-3.2,True
+C0091,IVECO S-eWay,L1[S2_busIEPC_ASM],12,2,10,6.19,2.71,-6.19,False
+C0091,IVECO S-eWay,L1b[S2_busIEPC_ASM],12,3,9,3.76,1.38,-3.76,True
+C0371,Scania R 400E,C,12,3,9,5.77,1.64,-5.77,False
+C0371,Scania R 400E,L4b,12,3,9,5.82,1.73,-5.82,False
+C0371,Scania R 400E,L1[arch],12,1,11,7.28,1.66,-7.28,False
+C0371,Scania R 400E,L1b[arch],12,2,10,7.83,2.05,-7.83,False
+C0371,Scania R 400E,L1[S3a_IEPC_1speed],12,1,11,9.87,2.15,-9.87,False
+C0371,Scania R 400E,L1b[S3a_IEPC_1speed],12,2,10,9.02,2.45,-9.02,False
+C0371,Scania R 400E,L1[S3b_IEPC_3speed],12,1,11,7.28,1.66,-7.28,False
+C0371,Scania R 400E,L1b[S3b_IEPC_3speed],12,2,10,7.83,2.05,-7.83,False
+C0371,Scania R 400E,L1[S2_busIEPC_PSM],12,1,11,10.91,2.44,-10.91,False
+C0371,Scania R 400E,L1b[S2_busIEPC_PSM],12,2,10,9.08,2.53,-9.08,False
+C0371,Scania R 400E,L1[S2_busIEPC_ASM],12,1,11,7.62,1.68,-7.62,False
+C0371,Scania R 400E,L1b[S2_busIEPC_ASM],12,2,10,7.48,1.98,-7.48,False
+C0116,MAN eTGX,C,12,4,8,7.52,2.15,-7.52,False
+C0116,MAN eTGX,L4b,12,4,8,5.47,1.74,-5.47,False
+C0116,MAN eTGX,L1[arch],12,2,10,9.14,2.41,-9.14,False
+C0116,MAN eTGX,L1b[arch],12,3,9,9.75,2.8,-9.75,False
+C0116,MAN eTGX,L1[S3a_IEPC_1speed],12,2,10,10.79,2.63,-10.79,False
+C0116,MAN eTGX,L1b[S3a_IEPC_1speed],12,3,9,10.51,3.13,-10.51,False
+C0116,MAN eTGX,L1[S3b_IEPC_3speed],12,2,10,9.14,2.41,-9.14,False
+C0116,MAN eTGX,L1b[S3b_IEPC_3speed],12,3,9,9.75,2.8,-9.75,False
+C0116,MAN eTGX,L1[S2_busIEPC_PSM],12,2,10,10.92,2.77,-10.92,False
+C0116,MAN eTGX,L1b[S2_busIEPC_PSM],12,3,9,9.73,3.03,-9.73,False
+C0116,MAN eTGX,L1[S2_busIEPC_ASM],12,2,10,8.95,2.32,-8.95,False
+C0116,MAN eTGX,L1b[S2_busIEPC_ASM],12,3,9,9.03,2.57,-9.03,False
+C0153,Mercedes eActros 600,C,12,4,8,9.84,3.04,-9.84,False
+C0153,Mercedes eActros 600,L4b,12,4,8,11.93,2.88,-11.93,False
+C0153,Mercedes eActros 600,L1[arch],12,2,10,15.28,3.82,-15.28,False
+C0153,Mercedes eActros 600,L1b[arch],12,3,9,10.01,2.92,-10.01,False
+C0153,Mercedes eActros 600,L1[S3a_IEPC_1speed],12,2,10,15.06,3.51,-15.06,False
+C0153,Mercedes eActros 600,L1b[S3a_IEPC_1speed],12,3,9,11.39,3.35,-11.39,False
+C0153,Mercedes eActros 600,L1[S3b_IEPC_3speed],12,2,10,12.89,2.99,-12.89,False
+C0153,Mercedes eActros 600,L1b[S3b_IEPC_3speed],12,3,9,10.51,3.12,-10.51,False
+C0153,Mercedes eActros 600,L1[S2_busIEPC_PSM],12,2,10,15.58,3.6,-15.58,False
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_PSM],12,3,9,11.43,3.21,-11.43,False
+C0153,Mercedes eActros 600,L1[S2_busIEPC_ASM],12,2,10,11.64,2.86,-11.64,False
+C0153,Mercedes eActros 600,L1b[S2_busIEPC_ASM],12,3,9,10.05,2.93,-10.05,False
+C0218,Renault D,C,8,4,4,6.86,2.5,-5.05,False
+C0218,Renault D,L4b,8,4,4,6.1,2.01,-3.25,False
+C0218,Renault D,L1[arch],8,2,6,16.45,7.36,-8.85,False
+C0218,Renault D,L1b[arch],8,3,5,10.84,3.3,-4.36,False
+C0218,Renault D,L1[S3a_IEPC_1speed],8,2,6,14.89,6.69,-7.72,False
+C0218,Renault D,L1b[S3a_IEPC_1speed],8,3,5,9.89,3.06,-3.83,False
+C0218,Renault D,L1[S3b_IEPC_3speed],8,2,6,14.88,7.45,-9.35,False
+C0218,Renault D,L1b[S3b_IEPC_3speed],8,3,5,8.31,2.86,-4.58,False
+C0218,Renault D,L1[S2_busIEPC_PSM],8,2,6,14.42,6.13,-7.4,False
+C0218,Renault D,L1b[S2_busIEPC_PSM],8,3,5,10.03,2.97,-3.77,False
+C0218,Renault D,L1[S2_busIEPC_ASM],8,2,6,13.43,6.45,-8.64,False
+C0218,Renault D,L1b[S2_busIEPC_ASM],8,3,5,7.16,2.3,-4.11,False
+C0712,Volvo FM,C,8,4,4,1.48,0.8,-1.23,True
+C0712,Volvo FM,L4b,8,4,4,1.35,0.76,-1.2,True
+C0712,Volvo FM,L1[arch],8,2,6,1.99,1.05,-1.5,True
+C0712,Volvo FM,L1b[arch],8,3,5,1.8,1.05,-1.5,True
+C0712,Volvo FM,L1[S3a_IEPC_1speed],8,2,6,2.32,1.25,-1.48,True
+C0712,Volvo FM,L1b[S3a_IEPC_1speed],8,3,5,2.35,1.38,-2.01,True
+C0712,Volvo FM,L1[S3b_IEPC_3speed],8,2,6,1.99,1.05,-1.5,True
+C0712,Volvo FM,L1b[S3b_IEPC_3speed],8,3,5,1.8,1.05,-1.5,True
+C0712,Volvo FM,L1[S2_busIEPC_PSM],8,2,6,2.55,1.4,-1.9,True
+C0712,Volvo FM,L1b[S2_busIEPC_PSM],8,3,5,2.73,1.61,-2.54,True
+C0712,Volvo FM,L1[S2_busIEPC_ASM],8,2,6,1.91,1.01,-1.27,True
+C0712,Volvo FM,L1b[S2_busIEPC_ASM],8,3,5,1.84,1.08,-1.74,True
+C0206,Mercedes Econic,C,10,3,7,2.33,0.74,-2.33,True
+C0206,Mercedes Econic,L4b,10,3,7,1.9,0.86,-1.3,True
+C0206,Mercedes Econic,L1[arch],10,1,9,4.89,2.24,-4.89,True
+C0206,Mercedes Econic,L1b[arch],10,2,8,4.78,2.21,-4.78,True
+C0206,Mercedes Econic,L1[S3a_IEPC_1speed],10,1,9,5.39,2.7,-5.39,False
+C0206,Mercedes Econic,L1b[S3a_IEPC_1speed],10,2,8,5.07,2.41,-5.07,False
+C0206,Mercedes Econic,L1[S3b_IEPC_3speed],10,1,9,4.61,2.26,-4.61,True
+C0206,Mercedes Econic,L1b[S3b_IEPC_3speed],10,2,8,4.14,1.84,-4.14,True
+C0206,Mercedes Econic,L1[S2_busIEPC_PSM],10,1,9,5.71,2.74,-5.71,False
+C0206,Mercedes Econic,L1b[S2_busIEPC_PSM],10,2,8,5.53,2.61,-5.53,False
+C0206,Mercedes Econic,L1[S2_busIEPC_ASM],10,1,9,4.0,1.56,-4.0,True
+C0206,Mercedes Econic,L1b[S2_busIEPC_ASM],10,2,8,3.67,1.34,-3.67,True
+C0070,IVECO eDaily,C,4,3,1,0.81,0.38,-0.32,True
+C0070,IVECO eDaily,L4b,4,3,1,3.27,1.79,-1.42,True
+C0070,IVECO eDaily,L1[arch],4,1,3,5.49,4.63,-5.29,False
+C0070,IVECO eDaily,L1b[arch],4,2,2,4.41,3.07,-3.46,True
+C0070,IVECO eDaily,L1[S3a_IEPC_1speed],4,1,3,4.8,4.09,-4.56,True
+C0070,IVECO eDaily,L1b[S3a_IEPC_1speed],4,2,2,3.78,2.68,-2.93,True
+C0070,IVECO eDaily,L1[S3b_IEPC_3speed],4,1,3,4.59,4.07,-4.59,True
+C0070,IVECO eDaily,L1b[S3b_IEPC_3speed],4,2,2,2.97,2.11,-2.28,True
+C0070,IVECO eDaily,L1[S2_busIEPC_PSM],4,1,3,4.64,3.78,-4.27,True
+C0070,IVECO eDaily,L1b[S2_busIEPC_PSM],4,2,2,3.8,2.58,-2.91,True
+C0070,IVECO eDaily,L1[S2_busIEPC_ASM],4,1,3,3.3,2.99,-3.3,True
+C0070,IVECO eDaily,L1b[S2_busIEPC_ASM],4,2,2,1.59,0.94,-0.99,True
+C0001,DAF XB,C,6,4,2,4.88,2.81,-4.5,True
+C0001,DAF XB,L4b,6,4,2,5.13,3.02,-4.2,False
+C0001,DAF XB,L1[arch],6,2,4,4.47,2.72,-4.47,True
+C0001,DAF XB,L1b[arch],6,3,3,5.65,2.26,-3.37,False
+C0001,DAF XB,L1[S3a_IEPC_1speed],6,2,4,3.87,1.91,-3.87,True
+C0001,DAF XB,L1b[S3a_IEPC_1speed],6,3,3,3.7,2.11,-3.42,True
+C0001,DAF XB,L1[S3b_IEPC_3speed],6,2,4,4.47,2.72,-4.47,True
+C0001,DAF XB,L1b[S3b_IEPC_3speed],6,3,3,5.65,2.26,-3.37,False
+C0001,DAF XB,L1[S2_busIEPC_PSM],6,2,4,3.44,1.67,-3.44,True
+C0001,DAF XB,L1b[S2_busIEPC_PSM],6,3,3,2.99,2.02,-2.99,True
+C0001,DAF XB,L1[S2_busIEPC_ASM],6,2,4,5.67,3.12,-5.67,False
+C0001,DAF XB,L1b[S2_busIEPC_ASM],6,3,3,6.54,2.52,-5.11,False
