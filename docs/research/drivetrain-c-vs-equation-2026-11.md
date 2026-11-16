@@ -240,7 +240,7 @@ The large misses are the eCanter (Urban over, Regional under, with every method)
 - **L4a/L4b implied drive efficiency** at x = 0.1 / 0.25 / 0.5 / 1.0: the large tractors are 0.84–0.89 / 0.90–0.92 / 0.90–0.92 / 0.85–0.89. That is a plausible shape: low at small load, peak at medium load, dropping at full load. The eCanter, Renault and DAF are much lower at x = 0.1 (0.52–0.67).
 - **a vs VECTO no-load loss**: a/P_rated is 0–0.079. VECTO's generic no-load mean is 0.016–0.067, so most trucks sit inside VECTO's range. The DAF (L4a 0.079) is above it.
 - **Fits on a bound** (within 0.1 % of the bound width):
-  - CdxA on a range edge on **all 6 measured trucks**, with every method: S-eWay at max, MAN at max, eActros at min (L4) or max (C), Volvo at max (L4), DAF at min, Renault at max (L4).
+  - CdxA on a range edge in **16 of 18 fits of the 6 measured trucks**: S-eWay max (all 3), MAN max (all 3), eActros max (C) / min (L4a, L4b), Renault max (L4a, L4b), Volvo max (L4a, L4b), DAF min (C, L4b) / max (L4a). Not at a bound: Renault C (5.36 m²) and Volvo C (8.39 m²).
   - b at its maximum on the eCanter, Renault (L4a) and eDaily (L4a).
   - c at its maximum on the eCanter.
 
