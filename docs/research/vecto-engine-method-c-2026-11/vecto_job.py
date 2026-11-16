@@ -6,7 +6,7 @@ Method C as VECTO inputs (all constructions by us, [ASSUMPTION], explained in th
                    (wheel side, because the differential is part of the IEPC in both EEA configs): n_out [rpm], T_out [Nm], P_el [kW].
   F0               constant torque loss  T0 = F0 * r_dyn  [Nm at the wheel]. Two constructions:
                    f0_mode = "axle" : separate axle gear, ratio 1.0, whose loss map has a constant torque loss column (the way the
-                                      prompt asks; TransmissionLossMap.cs 66-70, 90-100). IEPC then declared with DifferentialIncluded = false.
+                                      prompt asks; TransmissionLossMap.cs lines 77 and 94, see p1_vecto_refs.csv). IEPC then declared with DifferentialIncluded = false.
                    f0_mode = "iepc" : the same loss inside the IEPC map, P_el = (T + T0) * omega / eta_d  (sensitivity variant).
   full load curve  T_drive_out(n) = min(T_cap, P_rated / omega) ; T_recuperation_out = -(same). P_rated = EEA IEPC rated power.
   drag curve       0 Nm (the harness variant V-A has zero coasting drag).
@@ -48,7 +48,7 @@ N_TORQUE = 45
 
 def power_map(P_rated_W, eta_d, eta_r, T0, T_cap):
     """Grid of (n_out rpm, T_out Nm, P_el kW). The speed grid follows the VECTO generic IEPC maps (first speeds 0, 3.37, 33.7 rpm: the reader finds the
-    zero-rpm entries by clustering the two lowest speeds, IEPCMapReader.cs 144-190, and fails on duplicates when they are closer). P_el is the product
+    zero-rpm entries by clustering the two lowest speeds, IEPCMapReader.cs line 85, and fails on duplicates when they are closer). P_el is the product
     T*omega divided by eta; a Delaunay linear interpolation reproduces that only approximately between grid points. The offline test on the harness
     wheel-power rows of both trucks (p1_grid_test.csv) gives an energy error of at most 0.14 % for this grid."""
     n_rad = N_RPM * math.pi / 30.0

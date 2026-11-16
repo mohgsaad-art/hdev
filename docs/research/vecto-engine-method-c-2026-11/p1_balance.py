@@ -33,7 +33,7 @@ def integrate(path):
         if sel is not None:
             x = x[sel(d[:, ix[col]])]
         return x.sum() / 3600.0 / km          # kWh/km
-    out = dict(km=km, dt_s_median=float(np.median(dt)), rows=len(dt),
+    out = dict(km=km, time_s=float(d[-1, ix["time [s]"]]), dt_s_median=float(np.median(dt)), rows=len(dt),
                E_REESS_T=-e("P_REESS_T [kW]"), E_REESS_int=-e("P_REESS_int [kW]"), E_REESS_loss=e("P_REESS_loss [kW]"), E_JB=e("P_REESS_JB_Cables_loss [kW]"),
                E_IEPC_el=-e("P_IEPC_el [kW]"), E_aux=e("P_aux_el_HV [kW]"), E_IEPC_out=e("P_IEPC_out [kW]"), E_wheel_in=e("P_wheel_in [kW]"),
                E_brake_loss=e("P_brake_loss [kW]"), E_axle_loss=e("P_axle_loss [kW]"), E_trac=e("P_trac [kW]"),
@@ -80,7 +80,7 @@ def main(cids=("C0059", "C0091")):
                              vmod_E_wheel_drive=round(v["E_wheel_drive"], 5), vmod_E_wheel_regen_side=round(v["E_wheel_regen_side"], 5),
                              vmod_battery_internal_loss_not_in_terminal=round(v["E_REESS_loss"], 5),
                              harness_E_wheel_net=round(wh, 5), harness_E_wheel_drive=round(whd, 5), harness_E_wheel_regen_side=round(whr, 5),
-                             vecto_step_s=v["dt_s_median"]))
+                             harness_E_aux=round(r["E_aux_Ws"] / 3.6e6 / r["km"], 5), vecto_step_s=v["dt_s_median"], cycle_time_s=round(v["time_s"], 1), avg_speed_kmh=round(v["km"] / v["time_s"] * 3600.0, 2)))
     path = os.path.join(HERE, "p1_balance.csv")
     with open(path, "w", newline="") as fh:
         fh.write(ATTR + "\n")

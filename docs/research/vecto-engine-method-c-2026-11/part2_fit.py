@@ -35,6 +35,8 @@ def full(cid, f0_mode):
     starts = [np.array(ref["theta"], float)]
     s_c = E.starts(cid)                      # PR #37 starts of method C (+ CdxA range middle)
     starts.append(np.array(s_c[2], float))   # the third PR #37 start (0.95, 0.95, 0 [, CdxA mid]), unrelated to the HDEV optimum
+    if f0_mode != "axle":                      # sensitivity variant: one start, from the axle-construction optimum
+        starts = [np.array(json.load(open(os.path.join(RES, "%s_axle_full.json" % cid)))["theta"], float)]
     best = None
     runs = []
     for i, s in enumerate(starts):

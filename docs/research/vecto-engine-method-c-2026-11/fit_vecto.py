@@ -25,13 +25,15 @@ EPS_B = 1e-6
 
 
 class Problem:
-    def __init__(self, cid, f0_mode="axle", used=None, log=None):
+    def __init__(self, cid, f0_mode="axle", used=None, log=None, bounds=None):
         E.prewarm()
         self.cid, self.f0_mode = cid, f0_mode
         self.cert = E.certified(cid)
         self.n = len(self.cert)
         self.used = np.arange(self.n) if used is None else np.array(used)
         self.lo, self.hi, self.names = E.bounds(cid)
+        if bounds is not None:                       # diagnostic runs only (relaxed bounds)
+            self.lo, self.hi = np.array(bounds[0], float), np.array(bounds[1], float)
         self.scale = np.where(self.hi > 0, self.hi, 1.0)
         self.k = len(self.names)
         self.nfun = 0
