@@ -1,0 +1,32 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+input,vecto_file,line,vecto_text,used_in_harness_as
+"segment (payload pairs, trailer, axle shares, CdxA default, height)",VectoCore/VectoCore/Resources/Declaration/SegmentTable.csv,17,"5 , 0 , 1 , Tractor , 4x2 , 16 , 99 , 4 , 85 , , , , ST1 , STT1 , ST1+T2 , Truck.vacc , TractorSemitrailer , RigidTrailer , TractorSemitrailer , 20/25 , 25/25 , 55 , 50 ,","mission_setup.csv rows (hdv_group 5, Tractor, 4x2)"
+"tyre dimension 315/70 R22.5 (r_dyn, inertia)",VectoCore/VectoCore/Resources/Declaration/Wheels.csv,41,"315/70 R22.5 , 312.00 , 0.7 , 22.5 , 1014.0 , 14.9 , 3.05 ,","run_hdev.load_wheels (d, inertia, f)"
+"tyre dimension 385/55 R22.5 (r_dyn, inertia)",VectoCore/VectoCore/Resources/Declaration/Wheels.csv,50,"385/55 R22.5 , 386.00 , 0.55 , 22.5 , 996.0 , 15.9 , 3.03 ,","run_hdev.load_wheels (d, inertia, f)"
+"tyre dimension 315/80 R22.5 (r_dyn, inertia)",VectoCore/VectoCore/Resources/Declaration/Wheels.csv,42,"315/80 R22.5 , 312.00 , 0.8 , 22.5 , 1076.0 , 17.6 , 3.05 ,","run_hdev.load_wheels (d, inertia, f)"
+"tyre dimension 385/65 R22.5 (r_dyn, inertia)",VectoCore/VectoCore/Resources/Declaration/Wheels.csv,51,"385/65 R22.5 , 389.00 , 0.65 , 22.5 , 1072.0 , 19.2 , 3.03 ,","run_hdev.load_wheels (d, inertia, f)"
+trailer ST1,VectoCore/VectoCore/Resources/Declaration/Body_Trailers_Weights.csv,17,"ST1 , 7500 , 24000 , 0/2.1 , 3 , 385/65 R22.5 , 91 , relevant for fully loaded is GVM of tractor semitrailer combination = 40000kg","semitrailer ST1: delta CdxA 0/2.1, trailer tyre 385/65 R22.5"
+trailer STT1,VectoCore/VectoCore/Resources/Declaration/Body_Trailers_Weights.csv,20,"STT1 , 6100 , 24000 , 0/0 , 3 , 385/65 R22.5 , 0 , tipper semitrailer for construction cycle",construction semitrailer STT1: 0/0
+trailer T2,VectoCore/VectoCore/Resources/Declaration/Body_Trailers_Weights.csv,16,"T2 , 5400 , 18000 , 1.5/1.5 , 2 , 385/65 R22.5 , 49.5 ,",EMS second trailer T2 1.5/1.5
+electric system ES (Standard technology),VectoCore/VectoCore/Resources/Declaration/VAUX/ES-Tech.csv,2,"Standard technology ,1714.2857 , 1428.5714 , 1428.5714 , 1428.5714 , 1428.5714",aux_per_label.csv ES x AlternatorEfficiency 0.7
+pneumatic system PS 'Large Supply + AMS + elec. driven',VectoCore/VectoCore/Resources/Declaration/VAUX/PS-Table.csv,38,"Large Supply + AMS + elec. driven , 1 , 1 , 1 , 1 , 1 , 536 , 893 , 893 , 893 , 714 ,900 ,900 ,788 ,788 ,1013",aux_per_label.csv PS (the *_el columns)
+"HVAC Default, group 5",VectoCore/VectoCore/Resources/Declaration/VAUX/HVAC-Table.csv,27,"Default , 5 , 350 , 200 , 150 , 0 , 200",aux_per_label.csv HVAC / 0.8
+condenser (Lorry),VectoCore/VectoCore/Resources/Declaration/VAUX/Cond-Table.csv,2,"Lorry , 600 , 600 , 550 , 550 , 600",aux_per_label.csv cond
+g,VectoCore/VectoCore/Models/Declaration/DeclarationData.cs,72,public static readonly MeterPerSquareSecond GravityAccelleration = 9.80665.SI<MeterPerSquareSecond>();,9.80665
+air density,VectoCore/VectoCore/Models/Declaration/DeclarationData.cs,74,public static readonly KilogramPerCubicMeter AirDensity = 1.188.SI<KilogramPerCubicMeter>();,1.188
+alternator efficiency,VectoCore/VectoCore/Models/Declaration/DeclarationData.cs,123,public const double AlternatorEfficiency = 0.7;,0.7
+HVAC electric efficiency factor,VectoCore/VectoCore/Models/Declaration/DeclarationData.cs,126,public const double HVACElectricEfficiencyFactor = 0.8;,0.8
+trailer rolling resistance coefficient,VectoCore/VectoCore/Models/Declaration/DeclarationData.cs,837,public const double RollResistanceCoefficient = 0.0055;,0.0055
+trailer tyre test load,VectoCore/VectoCore/Models/Declaration/DeclarationData.cs,839,public const double TyreTestLoad = 37500;,37500 N
+declared CdxA replaced by default on Construction,VectoCore/VectoCore/InputData/Reader/DataObjectAdapter/SimulationComponents/AirdragDataAdapter.cs,147,retVal.DeclaredAirdragArea = mission.MissionType == MissionType.Construction,uses_declared = measured and mission != Construction
+CdxA + trailer DeltaCdA,VectoCore/VectoCore/InputData/Reader/DataObjectAdapter/SimulationComponents/AirdragDataAdapter.cs,152,retVal.DeclaredAirdragArea + mission.Trailer.Sum(t => t.DeltaCdA).DefaultIfNull(0);,cdxa0 = base + delta
+tyre test load FzISO is a declared input (not in EEA),VectoCore/VectoCore/InputData/FileIO/XML/Declaration/DataProvider/XMLDeclarationTyreDataProvider.cs,76,public virtual Newton TyreTestLoad => _fzIso ?? (_fzIso = GetDouble(XMLNames.AxleWheels_Axles_Axle_FzISO).SI<Newton>());,NO SOURCE in EEA; harness stand-in 31300 N
+rolling resistance and wheel inertia of the vehicle,VectoCore/VectoCore/Models/SimulationComponent/Data/VehicleData.cs,166,ComputeRollResistanceAndReducedMassWheels();,run_hdev.vehicle_rrc_inertia
+trailers per mission,VectoCore/VectoCore/Models/Declaration/TruckSegments.cs,198,"var trailers = GetTrailers(row, missionType);",harness.vecto_trailers
+default CdxA / construction CdxA,VectoCore/VectoCore/Models/Declaration/TruckSegments.cs,255,"DefaultCDxA = ReadDefaultAirDragValue(row, missionType)",harness.vecto_cdxa default
+cycle RegionalDelivery,VectoCore/VectoCore/Resources/Declaration/MissionCycles/RegionalDelivery.vdri,1,first line is the header; data from line 2,run_hdev.load_cycle
+cycle UrbanDelivery,VectoCore/VectoCore/Resources/Declaration/MissionCycles/UrbanDelivery.vdri,1,first line is the header; data from line 2,run_hdev.load_cycle
+cycle LongHaul,VectoCore/VectoCore/Resources/Declaration/MissionCycles/LongHaul.vdri,1,first line is the header; data from line 2,run_hdev.load_cycle
+cycle Construction,VectoCore/VectoCore/Resources/Declaration/MissionCycles/Construction.vdri,1,first line is the header; data from line 2,run_hdev.load_cycle
+VECTO 4.1.0 added missing mission profiles (Construction for non-vocational),CHANGES.md,229,* CodeEU-577: Add missing mission profiles to vocational and non-vocational,explains why 4.0.x results have no Construction mission
+"IEPC loss map of the DAF component (certification R00/11*4203*00, 379*I*00743*00)",NO SOURCE,,"EEA gives certification number, digest, rated power, gears, lowest ratio only",not used: C and L4b fit the losses

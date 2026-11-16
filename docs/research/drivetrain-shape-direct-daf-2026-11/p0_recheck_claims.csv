@@ -1,0 +1,21 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+item,found_in_this_run,stated_on_16_nov
+C: fits with a drivetrain value at a bound,90/254,C 90/254 and L4b 166/254 claimed
+L4b: fits with a drivetrain value at a bound,166/254,C 90/254 and L4b 166/254 claimed
+C: F0 = 0 on 87 fits,87,
+L4b: c = 0 on 160 fits,160,
+C: CdxA at upper / lower range edge (measured configs 184),"upper 124, lower 0",C upper 124; L4b lower 121 of 146 claimed
+L4b: CdxA at upper / lower range edge (measured configs 184),"upper 25, lower 121",C upper 124; L4b lower 121 of 146 claimed
+gear count nearly equals make: 12-gear = Volvo 84 + Renault 30; 3-gear = DAF only,DAF g3 x23; Renault g12 x30; Volvo g12 x84,
+all group 5 configs are E-IEPC in the harness,"Counter({'E-IEPC': 227, 'E-IEPC-wheel': 27})",
+"EEA PEVArchitecture of group 5 ZEV vehicles in the join file (claimed 201 BEV configs E-IEPC, 26 blank)","{'E-IEPC': 1826, '(blank)': 1192}","vehicle level, not config level"
+C: four worst held-out models by mean error are all DAF,DAF G0200A -27.0%; DAF XD  350 FT -12.0%; DAF G0100A -11.7%; Scania G 230E A4x2NB -10.9%; Scania P 230E A4x2NB -10.5%,"claimed G0200A -27, G0100A -12, XD 350 -12, XF 350 -9"
+C: five largest single-result errors by model,DAF XD  350 FT 38.0%; DAF G0100A 35.6%; DAF G0200A 35.1%; DAF XF  350 FT 34.3%; DAF XD  310 FT 24.6%,
+C: held-out class P50 width / worst model,15.84 pp / worst single 38.05%,"claimed about 16 pp, 36-38 %"
+"C: held-out class P50 width without the fits with a drivetrain bound hit (164 configs, 20 models)",34.55 pp,claimed 15.6 (C) / 15.5 (L4b)
+"C: same, bound-hit fits removed from the donors only (all 38 models are targets)",15.71 pp,
+L4b: four worst held-out models by mean error are all DAF,DAF G0200A -26.2%; DAF G0100A -11.2%; DAF XD  350 FT -10.9%; Scania G 230E A4x2NB -10.2%; Scania P 230E A4x2NB -9.5%,"claimed G0200A -27, G0100A -12, XD 350 -12, XF 350 -9"
+L4b: five largest single-result errors by model,DAF XD  350 FT 36.2%; DAF G0100A 34.8%; DAF G0200A 34.7%; DAF XF  350 FT 32.9%; DAF XD  310 FT 23.0%,
+L4b: held-out class P50 width / worst model,15.79 pp / worst single 36.25%,"claimed about 16 pp, 36-38 %"
+"L4b: held-out class P50 width without the fits with a drivetrain bound hit (88 configs, 25 models)",20.33 pp,claimed 15.6 (C) / 15.5 (L4b)
+"L4b: same, bound-hit fits removed from the donors only (all 38 models are targets)",16.03 pp,

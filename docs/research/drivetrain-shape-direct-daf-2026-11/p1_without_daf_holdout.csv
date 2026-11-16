@@ -1,0 +1,218 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+case,method,target_model,target_make,n,mean_err_pct,worst_abs_err_pct
+A all configs,C,Actros,Mercedes-Benz,320,1.696,21.764
+A all configs,C,FH  42T  E,Volvo,660,0.747,12.025
+A all configs,C,FM  42T  E,Volvo,258,0.267,11.23
+A all configs,C,FMX 42T  E,Volvo,48,1.085,5.136
+A all configs,C,G 230E A4x2NB,Scania,8,-10.883,15.772
+A all configs,C,G 360E A4x2NA,Scania,24,4.846,9.313
+A all configs,C,G0100A,DAF,24,-11.725,35.65
+A all configs,C,G0200A,DAF,22,-27.028,35.051
+A all configs,C,P 230E A4x2NA,Scania,16,-8.708,15.697
+A all configs,C,P 230E A4x2NB,Scania,8,-10.461,22.51
+A all configs,C,R 360E A4x2NB,Scania,36,2.816,9.212
+A all configs,C,R 400E A4x2LA,Scania,12,-5.504,12.558
+A all configs,C,R 400E A4x2LB,Scania,24,3.376,9.971
+A all configs,C,R 400E A4x2NA,Scania,96,-4.01,17.879
+A all configs,C,R 400E A4x2NB,Scania,264,-5.211,17.808
+A all configs,C,R 450E A4x2LB,Scania,12,-4.586,9.59
+A all configs,C,R 450E A4x2NA,Scania,72,-6.36,13.983
+A all configs,C,R 450E A4x2NB,Scania,96,-6.539,11.272
+A all configs,C,S 400E A4x2NB,Scania,12,-5.387,11.435
+A all configs,C,S 450E A4x2NA,Scania,12,-8.374,13.901
+A all configs,C,S 450E A4x2NB,Scania,84,-6.589,15.508
+A all configs,C,S-eWay,Iveco,24,1.5,12.771
+A all configs,C,TGS 18.449 4x2 BL SA EB,MAN,24,-3.965,7.479
+A all configs,C,TGS 20.449 4x2 BL SA EB,MAN,24,6.195,12.723
+A all configs,C,TGS 20.544 4x2 LL SA EB,MAN,12,9.567,17.135
+A all configs,C,TGX 18.449 4x2 BL SA EB,MAN,36,-2.608,11.936
+A all configs,C,TGX 18.449 4x2 LL SA EB,MAN,36,-1.648,7.936
+A all configs,C,TGX 18.544 4x2 BL SA EB,MAN,12,-2.719,5.628
+A all configs,C,TGX 20.449 4x2 BL SA EB,MAN,48,3.102,13.05
+A all configs,C,TGX 20.449 4x2 LL SA EB,MAN,36,4.532,13.995
+A all configs,C,TGX 20.544 4x2 BL SA EB,MAN,12,8.019,14.111
+A all configs,C,TGX 20.544 4x2 LL SA EB,MAN,24,7.684,14.519
+A all configs,C,XD  270 FT,DAF,8,2.015,4.804
+A all configs,C,XD  310 FT,DAF,36,-4.181,24.629
+A all configs,C,XD  350 FT,DAF,100,-11.976,38.046
+A all configs,C,XF  350 FT,DAF,68,-9.025,34.315
+A all configs,C,ZM42T_HIGH,Renault,36,-0.404,10.522
+A all configs,C,ZM42T_MED,Renault,314,0.017,13.011
+B DAF removed (donors and targets),C,Actros,Mercedes-Benz,320,1.89,21.657
+B DAF removed (donors and targets),C,FH  42T  E,Volvo,660,0.934,11.742
+B DAF removed (donors and targets),C,FM  42T  E,Volvo,258,0.479,10.946
+B DAF removed (donors and targets),C,FMX 42T  E,Volvo,48,1.301,4.833
+B DAF removed (donors and targets),C,G 230E A4x2NB,Scania,8,-11.92,17.03
+B DAF removed (donors and targets),C,G 360E A4x2NA,Scania,24,5.098,9.702
+B DAF removed (donors and targets),C,P 230E A4x2NA,Scania,16,-9.834,17.125
+B DAF removed (donors and targets),C,P 230E A4x2NB,Scania,8,-11.559,23.815
+B DAF removed (donors and targets),C,R 360E A4x2NB,Scania,36,3.062,9.605
+B DAF removed (donors and targets),C,R 400E A4x2LA,Scania,12,-6.609,14.082
+B DAF removed (donors and targets),C,R 400E A4x2LB,Scania,24,3.626,10.364
+B DAF removed (donors and targets),C,R 400E A4x2NA,Scania,96,-5.042,19.117
+B DAF removed (donors and targets),C,R 400E A4x2NB,Scania,264,-6.378,19.275
+B DAF removed (donors and targets),C,R 450E A4x2LB,Scania,12,-5.776,11.242
+B DAF removed (donors and targets),C,R 450E A4x2NA,Scania,72,-7.369,15.294
+B DAF removed (donors and targets),C,R 450E A4x2NB,Scania,96,-7.539,12.604
+B DAF removed (donors and targets),C,S 400E A4x2NB,Scania,12,-6.478,12.93
+B DAF removed (donors and targets),C,S 450E A4x2NA,Scania,12,-9.395,15.235
+B DAF removed (donors and targets),C,S 450E A4x2NB,Scania,84,-7.595,16.788
+B DAF removed (donors and targets),C,S-eWay,Iveco,24,1.776,13.373
+B DAF removed (donors and targets),C,TGS 18.449 4x2 BL SA EB,MAN,24,-5.044,8.891
+B DAF removed (donors and targets),C,TGS 20.449 4x2 BL SA EB,MAN,24,6.424,13.109
+B DAF removed (donors and targets),C,TGS 20.544 4x2 LL SA EB,MAN,12,9.812,17.558
+B DAF removed (donors and targets),C,TGX 18.449 4x2 BL SA EB,MAN,36,-3.834,13.569
+B DAF removed (donors and targets),C,TGX 18.449 4x2 LL SA EB,MAN,36,-2.873,9.634
+B DAF removed (donors and targets),C,TGX 18.544 4x2 BL SA EB,MAN,12,-3.825,6.606
+B DAF removed (donors and targets),C,TGX 20.449 4x2 BL SA EB,MAN,48,3.248,13.238
+B DAF removed (donors and targets),C,TGX 20.449 4x2 LL SA EB,MAN,36,4.688,14.192
+B DAF removed (donors and targets),C,TGX 20.544 4x2 BL SA EB,MAN,12,8.295,14.58
+B DAF removed (donors and targets),C,TGX 20.544 4x2 LL SA EB,MAN,24,7.962,14.996
+B DAF removed (donors and targets),C,ZM42T_HIGH,Renault,36,-0.202,10.235
+B DAF removed (donors and targets),C,ZM42T_MED,Renault,314,0.207,12.736
+"C DAF removed from donors, DAF still evaluated",C,Actros,Mercedes-Benz,320,1.89,21.657
+"C DAF removed from donors, DAF still evaluated",C,FH  42T  E,Volvo,660,0.934,11.742
+"C DAF removed from donors, DAF still evaluated",C,FM  42T  E,Volvo,258,0.479,10.946
+"C DAF removed from donors, DAF still evaluated",C,FMX 42T  E,Volvo,48,1.301,4.833
+"C DAF removed from donors, DAF still evaluated",C,G 230E A4x2NB,Scania,8,-11.92,17.03
+"C DAF removed from donors, DAF still evaluated",C,G 360E A4x2NA,Scania,24,5.098,9.702
+"C DAF removed from donors, DAF still evaluated",C,G0100A,DAF,24,-12.36,36.084
+"C DAF removed from donors, DAF still evaluated",C,G0200A,DAF,22,-27.157,35.193
+"C DAF removed from donors, DAF still evaluated",C,P 230E A4x2NA,Scania,16,-9.834,17.125
+"C DAF removed from donors, DAF still evaluated",C,P 230E A4x2NB,Scania,8,-11.559,23.815
+"C DAF removed from donors, DAF still evaluated",C,R 360E A4x2NB,Scania,36,3.062,9.605
+"C DAF removed from donors, DAF still evaluated",C,R 400E A4x2LA,Scania,12,-6.609,14.082
+"C DAF removed from donors, DAF still evaluated",C,R 400E A4x2LB,Scania,24,3.626,10.364
+"C DAF removed from donors, DAF still evaluated",C,R 400E A4x2NA,Scania,96,-5.042,19.117
+"C DAF removed from donors, DAF still evaluated",C,R 400E A4x2NB,Scania,264,-6.378,19.275
+"C DAF removed from donors, DAF still evaluated",C,R 450E A4x2LB,Scania,12,-5.776,11.242
+"C DAF removed from donors, DAF still evaluated",C,R 450E A4x2NA,Scania,72,-7.369,15.294
+"C DAF removed from donors, DAF still evaluated",C,R 450E A4x2NB,Scania,96,-7.539,12.604
+"C DAF removed from donors, DAF still evaluated",C,S 400E A4x2NB,Scania,12,-6.478,12.93
+"C DAF removed from donors, DAF still evaluated",C,S 450E A4x2NA,Scania,12,-9.395,15.235
+"C DAF removed from donors, DAF still evaluated",C,S 450E A4x2NB,Scania,84,-7.595,16.788
+"C DAF removed from donors, DAF still evaluated",C,S-eWay,Iveco,24,1.776,13.373
+"C DAF removed from donors, DAF still evaluated",C,TGS 18.449 4x2 BL SA EB,MAN,24,-5.044,8.891
+"C DAF removed from donors, DAF still evaluated",C,TGS 20.449 4x2 BL SA EB,MAN,24,6.424,13.109
+"C DAF removed from donors, DAF still evaluated",C,TGS 20.544 4x2 LL SA EB,MAN,12,9.812,17.558
+"C DAF removed from donors, DAF still evaluated",C,TGX 18.449 4x2 BL SA EB,MAN,36,-3.834,13.569
+"C DAF removed from donors, DAF still evaluated",C,TGX 18.449 4x2 LL SA EB,MAN,36,-2.873,9.634
+"C DAF removed from donors, DAF still evaluated",C,TGX 18.544 4x2 BL SA EB,MAN,12,-3.825,6.606
+"C DAF removed from donors, DAF still evaluated",C,TGX 20.449 4x2 BL SA EB,MAN,48,3.248,13.238
+"C DAF removed from donors, DAF still evaluated",C,TGX 20.449 4x2 LL SA EB,MAN,36,4.688,14.192
+"C DAF removed from donors, DAF still evaluated",C,TGX 20.544 4x2 BL SA EB,MAN,12,8.295,14.58
+"C DAF removed from donors, DAF still evaluated",C,TGX 20.544 4x2 LL SA EB,MAN,24,7.962,14.996
+"C DAF removed from donors, DAF still evaluated",C,XD  270 FT,DAF,8,1.117,3.847
+"C DAF removed from donors, DAF still evaluated",C,XD  310 FT,DAF,36,-4.342,24.782
+"C DAF removed from donors, DAF still evaluated",C,XD  350 FT,DAF,100,-12.13,38.191
+"C DAF removed from donors, DAF still evaluated",C,XF  350 FT,DAF,68,-9.671,34.755
+"C DAF removed from donors, DAF still evaluated",C,ZM42T_HIGH,Renault,36,-0.202,10.235
+"C DAF removed from donors, DAF still evaluated",C,ZM42T_MED,Renault,314,0.207,12.736
+A all configs,L4b,Actros,Mercedes-Benz,320,2.506,21.34
+A all configs,L4b,FH  42T  E,Volvo,660,1.604,10.16
+A all configs,L4b,FM  42T  E,Volvo,258,0.174,9.578
+A all configs,L4b,FMX 42T  E,Volvo,48,1.292,5.286
+A all configs,L4b,G 230E A4x2NB,Scania,8,-10.195,15.217
+A all configs,L4b,G 360E A4x2NA,Scania,24,5.744,8.553
+A all configs,L4b,G0100A,DAF,24,-11.231,34.847
+A all configs,L4b,G0200A,DAF,22,-26.234,34.744
+A all configs,L4b,P 230E A4x2NA,Scania,16,-7.988,15.084
+A all configs,L4b,P 230E A4x2NB,Scania,8,-9.547,21.993
+A all configs,L4b,R 360E A4x2NB,Scania,36,3.9,8.785
+A all configs,L4b,R 400E A4x2LA,Scania,12,-4.0,10.204
+A all configs,L4b,R 400E A4x2LB,Scania,24,4.655,9.629
+A all configs,L4b,R 400E A4x2NA,Scania,96,-2.721,15.868
+A all configs,L4b,R 400E A4x2NB,Scania,264,-4.006,15.862
+A all configs,L4b,R 450E A4x2LB,Scania,12,-3.005,6.8
+A all configs,L4b,R 450E A4x2NA,Scania,72,-4.827,11.505
+A all configs,L4b,R 450E A4x2NB,Scania,96,-4.892,9.482
+A all configs,L4b,S 400E A4x2NB,Scania,12,-4.109,9.426
+A all configs,L4b,S 450E A4x2NA,Scania,12,-6.812,11.192
+A all configs,L4b,S 450E A4x2NB,Scania,84,-5.059,13.004
+A all configs,L4b,S-eWay,Iveco,24,3.482,16.168
+A all configs,L4b,TGS 18.449 4x2 BL SA EB,MAN,24,-2.671,6.667
+A all configs,L4b,TGS 20.449 4x2 BL SA EB,MAN,24,6.767,11.788
+A all configs,L4b,TGS 20.544 4x2 LL SA EB,MAN,12,10.253,16.125
+A all configs,L4b,TGX 18.449 4x2 BL SA EB,MAN,36,-0.921,10.442
+A all configs,L4b,TGX 18.449 4x2 LL SA EB,MAN,36,-0.008,6.358
+A all configs,L4b,TGX 18.544 4x2 BL SA EB,MAN,12,-1.089,3.46
+A all configs,L4b,TGX 20.449 4x2 BL SA EB,MAN,48,4.249,12.134
+A all configs,L4b,TGX 20.449 4x2 LL SA EB,MAN,36,5.545,13.528
+A all configs,L4b,TGX 20.544 4x2 BL SA EB,MAN,12,8.87,13.311
+A all configs,L4b,TGX 20.544 4x2 LL SA EB,MAN,24,9.042,14.022
+A all configs,L4b,XD  270 FT,DAF,8,2.939,5.292
+A all configs,L4b,XD  310 FT,DAF,36,-2.972,22.968
+A all configs,L4b,XD  350 FT,DAF,100,-10.921,36.249
+A all configs,L4b,XF  350 FT,DAF,68,-8.46,32.908
+A all configs,L4b,ZM42T_HIGH,Renault,36,-0.045,8.701
+A all configs,L4b,ZM42T_MED,Renault,314,0.487,11.554
+B DAF removed (donors and targets),L4b,Actros,Mercedes-Benz,320,1.188,22.317
+B DAF removed (donors and targets),L4b,FH  42T  E,Volvo,660,1.298,10.54
+B DAF removed (donors and targets),L4b,FM  42T  E,Volvo,258,-0.106,9.94
+B DAF removed (donors and targets),L4b,FMX 42T  E,Volvo,48,1.01,4.931
+B DAF removed (donors and targets),L4b,G 230E A4x2NB,Scania,8,-11.403,16.512
+B DAF removed (donors and targets),L4b,G 360E A4x2NA,Scania,24,5.619,8.751
+B DAF removed (donors and targets),L4b,P 230E A4x2NA,Scania,16,-9.223,16.389
+B DAF removed (donors and targets),L4b,P 230E A4x2NB,Scania,8,-9.893,22.486
+B DAF removed (donors and targets),L4b,R 360E A4x2NB,Scania,36,3.619,8.63
+B DAF removed (donors and targets),L4b,R 400E A4x2LA,Scania,12,-5.556,11.948
+B DAF removed (donors and targets),L4b,R 400E A4x2LB,Scania,24,3.144,7.793
+B DAF removed (donors and targets),L4b,R 400E A4x2NA,Scania,96,-3.985,17.242
+B DAF removed (donors and targets),L4b,R 400E A4x2NB,Scania,264,-5.247,17.214
+B DAF removed (donors and targets),L4b,R 450E A4x2LB,Scania,12,-4.395,8.582
+B DAF removed (donors and targets),L4b,R 450E A4x2NA,Scania,72,-6.075,12.978
+B DAF removed (donors and targets),L4b,R 450E A4x2NB,Scania,96,-6.088,10.583
+B DAF removed (donors and targets),L4b,S 400E A4x2NB,Scania,12,-5.336,10.85
+B DAF removed (donors and targets),L4b,S 450E A4x2NA,Scania,12,-8.039,12.66
+B DAF removed (donors and targets),L4b,S 450E A4x2NB,Scania,84,-6.302,14.444
+B DAF removed (donors and targets),L4b,S-eWay,Iveco,24,2.206,14.678
+B DAF removed (donors and targets),L4b,TGS 18.449 4x2 BL SA EB,MAN,24,-3.973,8.139
+B DAF removed (donors and targets),L4b,TGS 20.449 4x2 BL SA EB,MAN,24,6.487,11.656
+B DAF removed (donors and targets),L4b,TGS 20.544 4x2 LL SA EB,MAN,12,9.933,15.96
+B DAF removed (donors and targets),L4b,TGX 18.449 4x2 BL SA EB,MAN,36,-1.366,11.131
+B DAF removed (donors and targets),L4b,TGX 18.449 4x2 LL SA EB,MAN,36,-0.28,6.815
+B DAF removed (donors and targets),L4b,TGX 18.544 4x2 BL SA EB,MAN,12,-2.369,4.954
+B DAF removed (donors and targets),L4b,TGX 20.449 4x2 BL SA EB,MAN,48,3.948,11.983
+B DAF removed (donors and targets),L4b,TGX 20.449 4x2 LL SA EB,MAN,36,4.965,12.914
+B DAF removed (donors and targets),L4b,TGX 20.544 4x2 BL SA EB,MAN,12,8.548,13.152
+B DAF removed (donors and targets),L4b,TGX 20.544 4x2 LL SA EB,MAN,24,8.721,13.857
+B DAF removed (donors and targets),L4b,ZM42T_HIGH,Renault,36,-0.33,9.069
+B DAF removed (donors and targets),L4b,ZM42T_MED,Renault,314,0.189,11.912
+"C DAF removed from donors, DAF still evaluated",L4b,Actros,Mercedes-Benz,320,1.188,22.317
+"C DAF removed from donors, DAF still evaluated",L4b,FH  42T  E,Volvo,660,1.298,10.54
+"C DAF removed from donors, DAF still evaluated",L4b,FM  42T  E,Volvo,258,-0.106,9.94
+"C DAF removed from donors, DAF still evaluated",L4b,FMX 42T  E,Volvo,48,1.01,4.931
+"C DAF removed from donors, DAF still evaluated",L4b,G 230E A4x2NB,Scania,8,-11.403,16.512
+"C DAF removed from donors, DAF still evaluated",L4b,G 360E A4x2NA,Scania,24,5.619,8.751
+"C DAF removed from donors, DAF still evaluated",L4b,G0100A,DAF,24,-11.884,35.373
+"C DAF removed from donors, DAF still evaluated",L4b,G0200A,DAF,22,-26.776,35.269
+"C DAF removed from donors, DAF still evaluated",L4b,P 230E A4x2NA,Scania,16,-9.223,16.389
+"C DAF removed from donors, DAF still evaluated",L4b,P 230E A4x2NB,Scania,8,-9.893,22.486
+"C DAF removed from donors, DAF still evaluated",L4b,R 360E A4x2NB,Scania,36,3.619,8.63
+"C DAF removed from donors, DAF still evaluated",L4b,R 400E A4x2LA,Scania,12,-5.556,11.948
+"C DAF removed from donors, DAF still evaluated",L4b,R 400E A4x2LB,Scania,24,3.144,7.793
+"C DAF removed from donors, DAF still evaluated",L4b,R 400E A4x2NA,Scania,96,-3.985,17.242
+"C DAF removed from donors, DAF still evaluated",L4b,R 400E A4x2NB,Scania,264,-5.247,17.214
+"C DAF removed from donors, DAF still evaluated",L4b,R 450E A4x2LB,Scania,12,-4.395,8.582
+"C DAF removed from donors, DAF still evaluated",L4b,R 450E A4x2NA,Scania,72,-6.075,12.978
+"C DAF removed from donors, DAF still evaluated",L4b,R 450E A4x2NB,Scania,96,-6.088,10.583
+"C DAF removed from donors, DAF still evaluated",L4b,S 400E A4x2NB,Scania,12,-5.336,10.85
+"C DAF removed from donors, DAF still evaluated",L4b,S 450E A4x2NA,Scania,12,-8.039,12.66
+"C DAF removed from donors, DAF still evaluated",L4b,S 450E A4x2NB,Scania,84,-6.302,14.444
+"C DAF removed from donors, DAF still evaluated",L4b,S-eWay,Iveco,24,2.206,14.678
+"C DAF removed from donors, DAF still evaluated",L4b,TGS 18.449 4x2 BL SA EB,MAN,24,-3.973,8.139
+"C DAF removed from donors, DAF still evaluated",L4b,TGS 20.449 4x2 BL SA EB,MAN,24,6.487,11.656
+"C DAF removed from donors, DAF still evaluated",L4b,TGS 20.544 4x2 LL SA EB,MAN,12,9.933,15.96
+"C DAF removed from donors, DAF still evaluated",L4b,TGX 18.449 4x2 BL SA EB,MAN,36,-1.366,11.131
+"C DAF removed from donors, DAF still evaluated",L4b,TGX 18.449 4x2 LL SA EB,MAN,36,-0.28,6.815
+"C DAF removed from donors, DAF still evaluated",L4b,TGX 18.544 4x2 BL SA EB,MAN,12,-2.369,4.954
+"C DAF removed from donors, DAF still evaluated",L4b,TGX 20.449 4x2 BL SA EB,MAN,48,3.948,11.983
+"C DAF removed from donors, DAF still evaluated",L4b,TGX 20.449 4x2 LL SA EB,MAN,36,4.965,12.914
+"C DAF removed from donors, DAF still evaluated",L4b,TGX 20.544 4x2 BL SA EB,MAN,12,8.548,13.152
+"C DAF removed from donors, DAF still evaluated",L4b,TGX 20.544 4x2 LL SA EB,MAN,24,8.721,13.857
+"C DAF removed from donors, DAF still evaluated",L4b,XD  270 FT,DAF,8,1.773,4.156
+"C DAF removed from donors, DAF still evaluated",L4b,XD  310 FT,DAF,36,-3.659,23.549
+"C DAF removed from donors, DAF still evaluated",L4b,XD  350 FT,DAF,100,-11.574,36.778
+"C DAF removed from donors, DAF still evaluated",L4b,XF  350 FT,DAF,68,-9.125,33.439
+"C DAF removed from donors, DAF still evaluated",L4b,ZM42T_HIGH,Renault,36,-0.33,9.069
+"C DAF removed from donors, DAF still evaluated",L4b,ZM42T_MED,Renault,314,0.189,11.912

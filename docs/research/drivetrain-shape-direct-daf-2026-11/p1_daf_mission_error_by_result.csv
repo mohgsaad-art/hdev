@@ -1,0 +1,964 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+config_id,cluster,variant,mission,payload_kg,err_pct,in_fit
+C0004,HIGH_F0,V0,Construction,2600,0.25,True
+C0004,HIGH_F0,V0,Construction,12900,-2.661,True
+C0004,HIGH_F0,V0,Long Haul,2600,-3.213,True
+C0004,HIGH_F0,V0,Long Haul,19300,0.686,True
+C0004,HIGH_F0,V0,Long Haul EMS,3500,-1.862,True
+C0004,HIGH_F0,V0,Long Haul EMS,26500,1.468,True
+C0004,HIGH_F0,V0,Regional Delivery,2600,-0.183,True
+C0004,HIGH_F0,V0,Regional Delivery,12900,1.189,True
+C0004,HIGH_F0,V0,Regional Delivery EMS,3500,0.758,True
+C0004,HIGH_F0,V0,Regional Delivery EMS,17500,2.046,True
+C0004,HIGH_F0,V0,Urban Delivery,2600,5.395,True
+C0004,HIGH_F0,V0,Urban Delivery,12900,-4.604,True
+C0004,HIGH_F0,V1,Construction,2600,-4.632,True
+C0004,HIGH_F0,V1,Construction,12900,-0.289,True
+C0004,HIGH_F0,V1,Long Haul,2600,-13.644,True
+C0004,HIGH_F0,V1,Long Haul,19300,-0.777,True
+C0004,HIGH_F0,V1,Long Haul EMS,3500,-4.966,True
+C0004,HIGH_F0,V1,Long Haul EMS,26500,6.632,True
+C0004,HIGH_F0,V1,Regional Delivery,2600,-8.559,True
+C0004,HIGH_F0,V1,Regional Delivery,12900,-0.238,True
+C0004,HIGH_F0,V1,Regional Delivery EMS,3500,-0.068,True
+C0004,HIGH_F0,V1,Regional Delivery EMS,17500,7.777,True
+C0004,HIGH_F0,V1,Urban Delivery,2600,4.156,True
+C0004,HIGH_F0,V1,Urban Delivery,12900,4.252,True
+C0004,HIGH_F0,V2,Construction,2600,0.297,True
+C0004,HIGH_F0,V2,Construction,12900,-2.667,True
+C0004,HIGH_F0,V2,Long Haul,2600,-3.16,True
+C0004,HIGH_F0,V2,Long Haul,19300,0.674,True
+C0004,HIGH_F0,V2,Long Haul EMS,3500,-1.866,True
+C0004,HIGH_F0,V2,Long Haul EMS,26500,1.405,True
+C0004,HIGH_F0,V2,Regional Delivery,2600,-0.137,True
+C0004,HIGH_F0,V2,Regional Delivery,12900,1.185,True
+C0004,HIGH_F0,V2,Regional Delivery EMS,3500,0.745,True
+C0004,HIGH_F0,V2,Regional Delivery EMS,17500,1.987,True
+C0004,HIGH_F0,V2,Urban Delivery,2600,5.441,True
+C0004,HIGH_F0,V2,Urban Delivery,12900,-4.634,True
+C0004,HIGH_F0,V3,Construction,2600,-0.465,False
+C0004,HIGH_F0,V3,Construction,12900,-3.439,False
+C0004,HIGH_F0,V3,Long Haul,2600,-3.081,True
+C0004,HIGH_F0,V3,Long Haul,19300,0.505,True
+C0004,HIGH_F0,V3,Long Haul EMS,3500,-2.008,True
+C0004,HIGH_F0,V3,Long Haul EMS,26500,1.028,True
+C0004,HIGH_F0,V3,Regional Delivery,2600,-0.184,True
+C0004,HIGH_F0,V3,Regional Delivery,12900,0.982,True
+C0004,HIGH_F0,V3,Regional Delivery EMS,3500,0.493,True
+C0004,HIGH_F0,V3,Regional Delivery EMS,17500,1.589,True
+C0004,HIGH_F0,V3,Urban Delivery,2600,5.094,True
+C0004,HIGH_F0,V3,Urban Delivery,12900,-5.047,True
+C0005,LOW_F0,V0,Construction,2600,-0.151,True
+C0005,LOW_F0,V0,Construction,12900,-0.808,True
+C0005,LOW_F0,V0,Long Haul,2600,-2.622,True
+C0005,LOW_F0,V0,Long Haul,19300,-0.006,True
+C0005,LOW_F0,V0,Long Haul EMS,3500,-2.058,True
+C0005,LOW_F0,V0,Long Haul EMS,26500,-1.474,True
+C0005,LOW_F0,V0,Regional Delivery,2600,0.886,True
+C0005,LOW_F0,V0,Regional Delivery,12900,2.92,True
+C0005,LOW_F0,V0,Regional Delivery EMS,3500,1.775,True
+C0005,LOW_F0,V0,Regional Delivery EMS,17500,1.796,True
+C0005,LOW_F0,V0,Urban Delivery,2600,2.548,True
+C0005,LOW_F0,V0,Urban Delivery,12900,-3.224,True
+C0005,LOW_F0,V1,Construction,2600,-0.151,True
+C0005,LOW_F0,V1,Construction,12900,-0.808,True
+C0005,LOW_F0,V1,Long Haul,2600,-2.622,True
+C0005,LOW_F0,V1,Long Haul,19300,-0.006,True
+C0005,LOW_F0,V1,Long Haul EMS,3500,-2.058,True
+C0005,LOW_F0,V1,Long Haul EMS,26500,-1.474,True
+C0005,LOW_F0,V1,Regional Delivery,2600,0.886,True
+C0005,LOW_F0,V1,Regional Delivery,12900,2.92,True
+C0005,LOW_F0,V1,Regional Delivery EMS,3500,1.775,True
+C0005,LOW_F0,V1,Regional Delivery EMS,17500,1.796,True
+C0005,LOW_F0,V1,Urban Delivery,2600,2.548,True
+C0005,LOW_F0,V1,Urban Delivery,12900,-3.224,True
+C0005,LOW_F0,V2,Construction,2600,22.612,True
+C0005,LOW_F0,V2,Construction,12900,10.901,True
+C0005,LOW_F0,V2,Long Haul,2600,31.084,True
+C0005,LOW_F0,V2,Long Haul,19300,21.567,True
+C0005,LOW_F0,V2,Long Haul EMS,3500,21.882,True
+C0005,LOW_F0,V2,Long Haul EMS,26500,12.085,True
+C0005,LOW_F0,V2,Regional Delivery,2600,30.82,True
+C0005,LOW_F0,V2,Regional Delivery,12900,22.829,True
+C0005,LOW_F0,V2,Regional Delivery EMS,3500,21.852,True
+C0005,LOW_F0,V2,Regional Delivery EMS,17500,13.111,True
+C0005,LOW_F0,V2,Urban Delivery,2600,10.734,True
+C0005,LOW_F0,V2,Urban Delivery,12900,-9.923,True
+C0005,LOW_F0,V3,Construction,2600,-0.735,False
+C0005,LOW_F0,V3,Construction,12900,-1.362,False
+C0005,LOW_F0,V3,Long Haul,2600,-2.499,True
+C0005,LOW_F0,V3,Long Haul,19300,-0.082,True
+C0005,LOW_F0,V3,Long Haul EMS,3500,-2.126,True
+C0005,LOW_F0,V3,Long Haul EMS,26500,-1.702,True
+C0005,LOW_F0,V3,Regional Delivery,2600,0.918,True
+C0005,LOW_F0,V3,Regional Delivery,12900,2.831,True
+C0005,LOW_F0,V3,Regional Delivery EMS,3500,1.635,True
+C0005,LOW_F0,V3,Regional Delivery EMS,17500,1.563,True
+C0005,LOW_F0,V3,Urban Delivery,2600,2.441,True
+C0005,LOW_F0,V3,Urban Delivery,12900,-3.374,True
+C0006,HIGH_F0,V0,Long Haul,2600,-3.526,True
+C0006,HIGH_F0,V0,Long Haul,19300,0.117,True
+C0006,HIGH_F0,V0,Long Haul EMS,3500,-1.637,True
+C0006,HIGH_F0,V0,Long Haul EMS,26500,1.879,True
+C0006,HIGH_F0,V0,Regional Delivery,2600,-0.74,True
+C0006,HIGH_F0,V0,Regional Delivery,12900,0.659,True
+C0006,HIGH_F0,V0,Regional Delivery EMS,3500,0.824,True
+C0006,HIGH_F0,V0,Regional Delivery EMS,17500,1.443,True
+C0006,HIGH_F0,V0,Urban Delivery,2600,5.901,True
+C0006,HIGH_F0,V0,Urban Delivery,12900,-5.73,True
+C0006,HIGH_F0,V1,Long Haul,2600,-14.32,True
+C0006,HIGH_F0,V1,Long Haul,19300,-2.463,True
+C0006,HIGH_F0,V1,Long Haul EMS,3500,-5.751,True
+C0006,HIGH_F0,V1,Long Haul EMS,26500,5.446,True
+C0006,HIGH_F0,V1,Regional Delivery,2600,-9.432,True
+C0006,HIGH_F0,V1,Regional Delivery,12900,-1.2,True
+C0006,HIGH_F0,V1,Regional Delivery EMS,3500,-0.946,True
+C0006,HIGH_F0,V1,Regional Delivery EMS,17500,5.917,True
+C0006,HIGH_F0,V1,Urban Delivery,2600,5.867,True
+C0006,HIGH_F0,V1,Urban Delivery,12900,4.488,True
+C0006,HIGH_F0,V2,Long Haul,2600,-2.647,True
+C0006,HIGH_F0,V2,Long Haul,19300,0.021,True
+C0006,HIGH_F0,V2,Long Haul EMS,3500,-1.625,True
+C0006,HIGH_F0,V2,Long Haul EMS,26500,0.988,True
+C0006,HIGH_F0,V2,Regional Delivery,2600,0.013,True
+C0006,HIGH_F0,V2,Regional Delivery,12900,0.629,True
+C0006,HIGH_F0,V2,Regional Delivery EMS,3500,0.687,True
+C0006,HIGH_F0,V2,Regional Delivery EMS,17500,0.614,True
+C0006,HIGH_F0,V2,Urban Delivery,2600,6.648,True
+C0006,HIGH_F0,V2,Urban Delivery,12900,-6.135,True
+C0007,HIGH_F0,V0,Construction,2600,0.269,True
+C0007,HIGH_F0,V0,Construction,12900,-2.356,True
+C0007,HIGH_F0,V0,Long Haul,2600,-3.977,True
+C0007,HIGH_F0,V0,Long Haul,19300,0.842,True
+C0007,HIGH_F0,V0,Long Haul EMS,3500,-1.907,True
+C0007,HIGH_F0,V0,Long Haul EMS,26500,0.48,True
+C0007,HIGH_F0,V0,Regional Delivery,2600,0.208,True
+C0007,HIGH_F0,V0,Regional Delivery,12900,1.59,True
+C0007,HIGH_F0,V0,Regional Delivery EMS,3500,1.683,True
+C0007,HIGH_F0,V0,Regional Delivery EMS,17500,2.168,True
+C0007,HIGH_F0,V0,Urban Delivery,2600,5.285,True
+C0007,HIGH_F0,V0,Urban Delivery,12900,-5.124,True
+C0007,HIGH_F0,V1,Construction,2600,-2.577,True
+C0007,HIGH_F0,V1,Construction,12900,-0.376,True
+C0007,HIGH_F0,V1,Long Haul,2600,-11.386,True
+C0007,HIGH_F0,V1,Long Haul,19300,-0.406,True
+C0007,HIGH_F0,V1,Long Haul EMS,3500,-4.331,True
+C0007,HIGH_F0,V1,Long Haul EMS,26500,3.568,True
+C0007,HIGH_F0,V1,Regional Delivery,2600,-5.622,True
+C0007,HIGH_F0,V1,Regional Delivery,12900,0.535,True
+C0007,HIGH_F0,V1,Regional Delivery EMS,3500,0.975,True
+C0007,HIGH_F0,V1,Regional Delivery EMS,17500,5.764,True
+C0007,HIGH_F0,V1,Urban Delivery,2600,5.403,True
+C0007,HIGH_F0,V1,Urban Delivery,12900,1.255,True
+C0007,HIGH_F0,V2,Construction,2600,2.078,True
+C0007,HIGH_F0,V2,Construction,12900,-2.76,True
+C0007,HIGH_F0,V2,Long Haul,2600,-1.664,True
+C0007,HIGH_F0,V2,Long Haul,19300,0.291,True
+C0007,HIGH_F0,V2,Long Haul EMS,3500,-2.063,True
+C0007,HIGH_F0,V2,Long Haul EMS,26500,-2.152,True
+C0007,HIGH_F0,V2,Regional Delivery,2600,2.171,True
+C0007,HIGH_F0,V2,Regional Delivery,12900,1.411,True
+C0007,HIGH_F0,V2,Regional Delivery EMS,3500,1.114,True
+C0007,HIGH_F0,V2,Regional Delivery EMS,17500,-0.293,True
+C0007,HIGH_F0,V2,Urban Delivery,2600,7.105,True
+C0007,HIGH_F0,V2,Urban Delivery,12900,-6.276,True
+C0007,HIGH_F0,V3,Construction,2600,0.168,False
+C0007,HIGH_F0,V3,Construction,12900,-2.657,False
+C0007,HIGH_F0,V3,Long Haul,2600,-3.885,True
+C0007,HIGH_F0,V3,Long Haul,19300,0.66,True
+C0007,HIGH_F0,V3,Long Haul EMS,3500,-2.038,True
+C0007,HIGH_F0,V3,Long Haul EMS,26500,0.109,True
+C0007,HIGH_F0,V3,Regional Delivery,2600,0.229,True
+C0007,HIGH_F0,V3,Regional Delivery,12900,1.402,True
+C0007,HIGH_F0,V3,Regional Delivery EMS,3500,1.477,True
+C0007,HIGH_F0,V3,Regional Delivery EMS,17500,1.776,True
+C0007,HIGH_F0,V3,Urban Delivery,2600,5.079,True
+C0007,HIGH_F0,V3,Urban Delivery,12900,-5.582,True
+C0030,LOW_F0,V0,Construction,2600,0.195,True
+C0030,LOW_F0,V0,Construction,12900,-0.315,True
+C0030,LOW_F0,V0,Long Haul,2600,-2.096,True
+C0030,LOW_F0,V0,Long Haul,19300,-1.24,True
+C0030,LOW_F0,V0,Regional Delivery,2600,1.16,True
+C0030,LOW_F0,V0,Regional Delivery,12900,2.246,True
+C0030,LOW_F0,V0,Urban Delivery,2600,3.525,True
+C0030,LOW_F0,V0,Urban Delivery,12900,-3.759,True
+C0030,LOW_F0,V1,Construction,2600,0.195,True
+C0030,LOW_F0,V1,Construction,12900,-0.315,True
+C0030,LOW_F0,V1,Long Haul,2600,-2.096,True
+C0030,LOW_F0,V1,Long Haul,19300,-1.24,True
+C0030,LOW_F0,V1,Regional Delivery,2600,1.16,True
+C0030,LOW_F0,V1,Regional Delivery,12900,2.246,True
+C0030,LOW_F0,V1,Urban Delivery,2600,3.525,True
+C0030,LOW_F0,V1,Urban Delivery,12900,-3.759,True
+C0030,LOW_F0,V2,Construction,2600,22.038,True
+C0030,LOW_F0,V2,Construction,12900,9.885,True
+C0030,LOW_F0,V2,Long Haul,2600,28.29,True
+C0030,LOW_F0,V2,Long Haul,19300,17.293,True
+C0030,LOW_F0,V2,Regional Delivery,2600,28.31,True
+C0030,LOW_F0,V2,Regional Delivery,12900,19.313,True
+C0030,LOW_F0,V2,Urban Delivery,2600,12.302,True
+C0030,LOW_F0,V2,Urban Delivery,12900,-10.076,True
+C0030,LOW_F0,V3,Construction,2600,0.177,False
+C0030,LOW_F0,V3,Construction,12900,-0.336,False
+C0030,LOW_F0,V3,Long Haul,2600,-2.11,True
+C0030,LOW_F0,V3,Long Haul,19300,-1.255,True
+C0030,LOW_F0,V3,Regional Delivery,2600,1.144,True
+C0030,LOW_F0,V3,Regional Delivery,12900,2.228,True
+C0030,LOW_F0,V3,Urban Delivery,2600,3.495,True
+C0030,LOW_F0,V3,Urban Delivery,12900,-3.789,True
+C0032,LOW_F0,V0,Construction,2600,0.346,True
+C0032,LOW_F0,V0,Construction,12900,0.152,True
+C0032,LOW_F0,V0,Long Haul,2600,-1.808,True
+C0032,LOW_F0,V0,Long Haul,19300,-1.182,True
+C0032,LOW_F0,V0,Long Haul EMS,3500,-1.284,True
+C0032,LOW_F0,V0,Long Haul EMS,26500,-2.418,True
+C0032,LOW_F0,V0,Regional Delivery,2600,2.006,True
+C0032,LOW_F0,V0,Regional Delivery,12900,3.276,True
+C0032,LOW_F0,V0,Regional Delivery EMS,3500,1.023,True
+C0032,LOW_F0,V0,Regional Delivery EMS,17500,0.24,True
+C0032,LOW_F0,V0,Urban Delivery,2600,3.02,True
+C0032,LOW_F0,V0,Urban Delivery,12900,-3.767,True
+C0032,LOW_F0,V1,Construction,2600,0.346,True
+C0032,LOW_F0,V1,Construction,12900,0.152,True
+C0032,LOW_F0,V1,Long Haul,2600,-1.808,True
+C0032,LOW_F0,V1,Long Haul,19300,-1.182,True
+C0032,LOW_F0,V1,Long Haul EMS,3500,-1.284,True
+C0032,LOW_F0,V1,Long Haul EMS,26500,-2.418,True
+C0032,LOW_F0,V1,Regional Delivery,2600,2.006,True
+C0032,LOW_F0,V1,Regional Delivery,12900,3.276,True
+C0032,LOW_F0,V1,Regional Delivery EMS,3500,1.023,True
+C0032,LOW_F0,V1,Regional Delivery EMS,17500,0.24,True
+C0032,LOW_F0,V1,Urban Delivery,2600,3.02,True
+C0032,LOW_F0,V1,Urban Delivery,12900,-3.767,True
+C0032,LOW_F0,V2,Construction,2600,22.315,True
+C0032,LOW_F0,V2,Construction,12900,11.195,True
+C0032,LOW_F0,V2,Long Haul,2600,28.151,True
+C0032,LOW_F0,V2,Long Haul,19300,17.324,True
+C0032,LOW_F0,V2,Long Haul EMS,3500,19.3,True
+C0032,LOW_F0,V2,Long Haul EMS,26500,8.653,True
+C0032,LOW_F0,V2,Regional Delivery,2600,28.928,True
+C0032,LOW_F0,V2,Regional Delivery,12900,20.694,True
+C0032,LOW_F0,V2,Regional Delivery EMS,3500,18.38,True
+C0032,LOW_F0,V2,Regional Delivery EMS,17500,9.661,True
+C0032,LOW_F0,V2,Urban Delivery,2600,13.374,True
+C0032,LOW_F0,V2,Urban Delivery,12900,-7.822,True
+C0032,LOW_F0,V3,Construction,2600,1.462,False
+C0032,LOW_F0,V3,Construction,12900,1.205,False
+C0032,LOW_F0,V3,Long Haul,2600,-2.186,True
+C0032,LOW_F0,V3,Long Haul,19300,-1.149,True
+C0032,LOW_F0,V3,Long Haul EMS,3500,-1.245,True
+C0032,LOW_F0,V3,Long Haul EMS,26500,-2.066,True
+C0032,LOW_F0,V3,Regional Delivery,2600,1.824,True
+C0032,LOW_F0,V3,Regional Delivery,12900,3.342,True
+C0032,LOW_F0,V3,Regional Delivery EMS,3500,1.19,True
+C0032,LOW_F0,V3,Regional Delivery EMS,17500,0.585,True
+C0032,LOW_F0,V3,Urban Delivery,2600,2.999,True
+C0032,LOW_F0,V3,Urban Delivery,12900,-3.703,True
+C0033,LOW_F0,V0,Construction,2600,1.296,True
+C0033,LOW_F0,V0,Construction,12900,-0.072,True
+C0033,LOW_F0,V0,Long Haul,2600,-2.928,True
+C0033,LOW_F0,V0,Long Haul,19300,-1.877,True
+C0033,LOW_F0,V0,Long Haul EMS,3500,-1.612,True
+C0033,LOW_F0,V0,Long Haul EMS,26500,-2.028,True
+C0033,LOW_F0,V0,Regional Delivery,2600,-0.028,True
+C0033,LOW_F0,V0,Regional Delivery,12900,0.958,True
+C0033,LOW_F0,V0,Regional Delivery EMS,3500,1.09,True
+C0033,LOW_F0,V0,Regional Delivery EMS,17500,0.239,True
+C0033,LOW_F0,V0,Urban Delivery,2600,6.638,True
+C0033,LOW_F0,V0,Urban Delivery,12900,-4.245,True
+C0033,LOW_F0,V1,Construction,2600,-0.977,True
+C0033,LOW_F0,V1,Construction,12900,1.225,True
+C0033,LOW_F0,V1,Long Haul,2600,-8.468,True
+C0033,LOW_F0,V1,Long Haul,19300,-3.522,True
+C0033,LOW_F0,V1,Long Haul EMS,3500,-4.038,True
+C0033,LOW_F0,V1,Long Haul EMS,26500,-1.071,True
+C0033,LOW_F0,V1,Regional Delivery,2600,-4.329,True
+C0033,LOW_F0,V1,Regional Delivery,12900,-0.09,True
+C0033,LOW_F0,V1,Regional Delivery EMS,3500,-0.02,True
+C0033,LOW_F0,V1,Regional Delivery EMS,17500,1.896,True
+C0033,LOW_F0,V1,Urban Delivery,2600,8.191,True
+C0033,LOW_F0,V1,Urban Delivery,12900,1.834,True
+C0033,LOW_F0,V2,Construction,2600,3.7,True
+C0033,LOW_F0,V2,Construction,12900,-1.886,True
+C0033,LOW_F0,V2,Long Haul,2600,1.874,True
+C0033,LOW_F0,V2,Long Haul,19300,-1.898,True
+C0033,LOW_F0,V2,Long Haul EMS,3500,-1.148,True
+C0033,LOW_F0,V2,Long Haul EMS,26500,-5.621,True
+C0033,LOW_F0,V2,Regional Delivery,2600,3.911,True
+C0033,LOW_F0,V2,Regional Delivery,12900,0.908,True
+C0033,LOW_F0,V2,Regional Delivery EMS,3500,0.589,True
+C0033,LOW_F0,V2,Regional Delivery EMS,17500,-3.48,True
+C0033,LOW_F0,V2,Urban Delivery,2600,8.872,True
+C0033,LOW_F0,V2,Urban Delivery,12900,-7.727,True
+C0033,LOW_F0,V3,Construction,2600,1.479,False
+C0033,LOW_F0,V3,Construction,12900,0.014,False
+C0033,LOW_F0,V3,Long Haul,2600,-2.675,True
+C0033,LOW_F0,V3,Long Haul,19300,-1.73,True
+C0033,LOW_F0,V3,Long Haul EMS,3500,-1.449,True
+C0033,LOW_F0,V3,Long Haul EMS,26500,-1.957,True
+C0033,LOW_F0,V3,Regional Delivery,2600,0.201,True
+C0033,LOW_F0,V3,Regional Delivery,12900,1.099,True
+C0033,LOW_F0,V3,Regional Delivery EMS,3500,1.227,True
+C0033,LOW_F0,V3,Regional Delivery EMS,17500,0.302,True
+C0033,LOW_F0,V3,Urban Delivery,2600,6.769,True
+C0033,LOW_F0,V3,Urban Delivery,12900,-4.253,True
+C0034,LOW_F0,V0,Construction,2600,0.292,True
+C0034,LOW_F0,V0,Construction,12900,-0.534,True
+C0034,LOW_F0,V0,Long Haul,2600,-2.005,True
+C0034,LOW_F0,V0,Long Haul,19300,-0.499,True
+C0034,LOW_F0,V0,Long Haul EMS,3500,-1.438,True
+C0034,LOW_F0,V0,Long Haul EMS,26500,-2.136,True
+C0034,LOW_F0,V0,Regional Delivery,2600,1.136,True
+C0034,LOW_F0,V0,Regional Delivery,12900,2.689,True
+C0034,LOW_F0,V0,Regional Delivery EMS,3500,1.494,True
+C0034,LOW_F0,V0,Regional Delivery EMS,17500,1.214,True
+C0034,LOW_F0,V0,Urban Delivery,2600,3.284,True
+C0034,LOW_F0,V0,Urban Delivery,12900,-3.895,True
+C0034,LOW_F0,V1,Construction,2600,0.292,True
+C0034,LOW_F0,V1,Construction,12900,-0.534,True
+C0034,LOW_F0,V1,Long Haul,2600,-2.005,True
+C0034,LOW_F0,V1,Long Haul,19300,-0.499,True
+C0034,LOW_F0,V1,Long Haul EMS,3500,-1.438,True
+C0034,LOW_F0,V1,Long Haul EMS,26500,-2.136,True
+C0034,LOW_F0,V1,Regional Delivery,2600,1.136,True
+C0034,LOW_F0,V1,Regional Delivery,12900,2.689,True
+C0034,LOW_F0,V1,Regional Delivery EMS,3500,1.494,True
+C0034,LOW_F0,V1,Regional Delivery EMS,17500,1.214,True
+C0034,LOW_F0,V1,Urban Delivery,2600,3.284,True
+C0034,LOW_F0,V1,Urban Delivery,12900,-3.895,True
+C0034,LOW_F0,V2,Construction,2600,22.167,True
+C0034,LOW_F0,V2,Construction,12900,10.883,True
+C0034,LOW_F0,V2,Long Haul,2600,29.017,True
+C0034,LOW_F0,V2,Long Haul,19300,19.329,True
+C0034,LOW_F0,V2,Long Haul EMS,3500,20.45,True
+C0034,LOW_F0,V2,Long Haul EMS,26500,10.364,True
+C0034,LOW_F0,V2,Regional Delivery,2600,28.884,True
+C0034,LOW_F0,V2,Regional Delivery,12900,21.042,True
+C0034,LOW_F0,V2,Regional Delivery EMS,3500,20.032,True
+C0034,LOW_F0,V2,Regional Delivery EMS,17500,11.743,True
+C0034,LOW_F0,V2,Urban Delivery,2600,12.125,True
+C0034,LOW_F0,V2,Urban Delivery,12900,-8.897,True
+C0034,LOW_F0,V3,Construction,2600,-0.089,False
+C0034,LOW_F0,V3,Construction,12900,-0.893,False
+C0034,LOW_F0,V3,Long Haul,2600,-1.878,True
+C0034,LOW_F0,V3,Long Haul,19300,-0.513,True
+C0034,LOW_F0,V3,Long Haul EMS,3500,-1.448,True
+C0034,LOW_F0,V3,Long Haul EMS,26500,-2.252,True
+C0034,LOW_F0,V3,Regional Delivery,2600,1.199,True
+C0034,LOW_F0,V3,Regional Delivery,12900,2.664,True
+C0034,LOW_F0,V3,Regional Delivery EMS,3500,1.438,True
+C0034,LOW_F0,V3,Regional Delivery EMS,17500,1.092,True
+C0034,LOW_F0,V3,Urban Delivery,2600,3.257,True
+C0034,LOW_F0,V3,Urban Delivery,12900,-3.952,True
+C0041,LOW_F0,V0,Construction,2600,0.379,True
+C0041,LOW_F0,V0,Construction,12900,-0.649,True
+C0041,LOW_F0,V0,Long Haul,2600,-2.639,True
+C0041,LOW_F0,V0,Long Haul,19300,0.041,True
+C0041,LOW_F0,V0,Long Haul EMS,3500,-2.045,True
+C0041,LOW_F0,V0,Long Haul EMS,26500,-1.768,True
+C0041,LOW_F0,V0,Regional Delivery,2600,0.96,True
+C0041,LOW_F0,V0,Regional Delivery,12900,2.774,True
+C0041,LOW_F0,V0,Regional Delivery EMS,3500,1.78,True
+C0041,LOW_F0,V0,Regional Delivery EMS,17500,1.566,True
+C0041,LOW_F0,V0,Urban Delivery,2600,2.741,True
+C0041,LOW_F0,V0,Urban Delivery,12900,-3.564,True
+C0041,LOW_F0,V1,Construction,2600,0.379,True
+C0041,LOW_F0,V1,Construction,12900,-0.649,True
+C0041,LOW_F0,V1,Long Haul,2600,-2.639,True
+C0041,LOW_F0,V1,Long Haul,19300,0.041,True
+C0041,LOW_F0,V1,Long Haul EMS,3500,-2.045,True
+C0041,LOW_F0,V1,Long Haul EMS,26500,-1.768,True
+C0041,LOW_F0,V1,Regional Delivery,2600,0.96,True
+C0041,LOW_F0,V1,Regional Delivery,12900,2.774,True
+C0041,LOW_F0,V1,Regional Delivery EMS,3500,1.78,True
+C0041,LOW_F0,V1,Regional Delivery EMS,17500,1.566,True
+C0041,LOW_F0,V1,Urban Delivery,2600,2.741,True
+C0041,LOW_F0,V1,Urban Delivery,12900,-3.564,True
+C0041,LOW_F0,V2,Construction,2600,22.727,True
+C0041,LOW_F0,V2,Construction,12900,10.714,True
+C0041,LOW_F0,V2,Long Haul,2600,30.295,True
+C0041,LOW_F0,V2,Long Haul,19300,20.719,True
+C0041,LOW_F0,V2,Long Haul EMS,3500,20.993,True
+C0041,LOW_F0,V2,Long Haul EMS,26500,10.997,True
+C0041,LOW_F0,V2,Regional Delivery,2600,30.036,True
+C0041,LOW_F0,V2,Regional Delivery,12900,21.895,True
+C0041,LOW_F0,V2,Regional Delivery EMS,3500,21.027,True
+C0041,LOW_F0,V2,Regional Delivery EMS,17500,12.145,True
+C0041,LOW_F0,V2,Urban Delivery,2600,10.415,True
+C0041,LOW_F0,V2,Urban Delivery,12900,-10.549,True
+C0041,LOW_F0,V3,Construction,2600,0.352,False
+C0041,LOW_F0,V3,Construction,12900,-0.681,False
+C0041,LOW_F0,V3,Long Haul,2600,-2.651,True
+C0041,LOW_F0,V3,Long Haul,19300,0.025,True
+C0041,LOW_F0,V3,Long Haul EMS,3500,-2.057,True
+C0041,LOW_F0,V3,Long Haul EMS,26500,-1.784,True
+C0041,LOW_F0,V3,Regional Delivery,2600,0.94,True
+C0041,LOW_F0,V3,Regional Delivery,12900,2.75,True
+C0041,LOW_F0,V3,Regional Delivery EMS,3500,1.76,True
+C0041,LOW_F0,V3,Regional Delivery EMS,17500,1.543,True
+C0041,LOW_F0,V3,Urban Delivery,2600,2.677,True
+C0041,LOW_F0,V3,Urban Delivery,12900,-3.63,True
+C0042,HIGH_F0,V0,Long Haul,2600,-2.895,True
+C0042,HIGH_F0,V0,Long Haul,19300,0.554,True
+C0042,HIGH_F0,V0,Long Haul EMS,3500,-2.177,True
+C0042,HIGH_F0,V0,Long Haul EMS,26500,1.044,True
+C0042,HIGH_F0,V0,Regional Delivery,2600,-0.099,True
+C0042,HIGH_F0,V0,Regional Delivery,12900,1.093,True
+C0042,HIGH_F0,V0,Regional Delivery EMS,3500,0.288,True
+C0042,HIGH_F0,V0,Regional Delivery EMS,17500,1.571,True
+C0042,HIGH_F0,V0,Urban Delivery,2600,4.898,True
+C0042,HIGH_F0,V0,Urban Delivery,12900,-4.871,True
+C0042,HIGH_F0,V1,Long Haul,2600,-13.774,True
+C0042,HIGH_F0,V1,Long Haul,19300,-1.09,True
+C0042,HIGH_F0,V1,Long Haul EMS,3500,-5.427,True
+C0042,HIGH_F0,V1,Long Haul EMS,26500,6.329,True
+C0042,HIGH_F0,V1,Regional Delivery,2600,-8.811,True
+C0042,HIGH_F0,V1,Regional Delivery,12900,-0.551,True
+C0042,HIGH_F0,V1,Regional Delivery EMS,3500,-0.61,True
+C0042,HIGH_F0,V1,Regional Delivery EMS,17500,7.315,True
+C0042,HIGH_F0,V1,Urban Delivery,2600,3.272,True
+C0042,HIGH_F0,V1,Urban Delivery,12900,3.641,True
+C0042,HIGH_F0,V2,Long Haul,2600,-3.032,True
+C0042,HIGH_F0,V2,Long Haul,19300,0.57,True
+C0042,HIGH_F0,V2,Long Haul EMS,3500,-2.18,True
+C0042,HIGH_F0,V2,Long Haul EMS,26500,1.181,True
+C0042,HIGH_F0,V2,Regional Delivery,2600,-0.214,True
+C0042,HIGH_F0,V2,Regional Delivery,12900,1.091,True
+C0042,HIGH_F0,V2,Regional Delivery EMS,3500,0.31,True
+C0042,HIGH_F0,V2,Regional Delivery EMS,17500,1.697,True
+C0042,HIGH_F0,V2,Urban Delivery,2600,4.794,True
+C0042,HIGH_F0,V2,Urban Delivery,12900,-4.817,True
+C0043,LOW_F0,V0,Construction,2600,0.038,True
+C0043,LOW_F0,V0,Construction,12900,-1.048,True
+C0043,LOW_F0,V0,Long Haul,2600,-2.781,True
+C0043,LOW_F0,V0,Long Haul,19300,0.252,True
+C0043,LOW_F0,V0,Long Haul EMS,3500,-2.136,True
+C0043,LOW_F0,V0,Long Haul EMS,26500,-1.473,True
+C0043,LOW_F0,V0,Regional Delivery,2600,0.812,True
+C0043,LOW_F0,V0,Regional Delivery,12900,2.939,True
+C0043,LOW_F0,V0,Regional Delivery EMS,3500,1.792,True
+C0043,LOW_F0,V0,Regional Delivery EMS,17500,1.838,True
+C0043,LOW_F0,V0,Urban Delivery,2600,2.599,True
+C0043,LOW_F0,V0,Urban Delivery,12900,-3.273,True
+C0043,LOW_F0,V1,Construction,2600,0.038,True
+C0043,LOW_F0,V1,Construction,12900,-1.048,True
+C0043,LOW_F0,V1,Long Haul,2600,-2.781,True
+C0043,LOW_F0,V1,Long Haul,19300,0.252,True
+C0043,LOW_F0,V1,Long Haul EMS,3500,-2.136,True
+C0043,LOW_F0,V1,Long Haul EMS,26500,-1.473,True
+C0043,LOW_F0,V1,Regional Delivery,2600,0.812,True
+C0043,LOW_F0,V1,Regional Delivery,12900,2.939,True
+C0043,LOW_F0,V1,Regional Delivery EMS,3500,1.792,True
+C0043,LOW_F0,V1,Regional Delivery EMS,17500,1.838,True
+C0043,LOW_F0,V1,Urban Delivery,2600,2.599,True
+C0043,LOW_F0,V1,Urban Delivery,12900,-3.273,True
+C0043,LOW_F0,V2,Construction,2600,22.549,True
+C0043,LOW_F0,V2,Construction,12900,10.59,True
+C0043,LOW_F0,V2,Long Haul,2600,30.512,True
+C0043,LOW_F0,V2,Long Haul,19300,21.348,True
+C0043,LOW_F0,V2,Long Haul EMS,3500,21.313,True
+C0043,LOW_F0,V2,Long Haul EMS,26500,11.662,True
+C0043,LOW_F0,V2,Regional Delivery,2600,30.229,True
+C0043,LOW_F0,V2,Regional Delivery,12900,22.373,True
+C0043,LOW_F0,V2,Regional Delivery EMS,3500,21.386,True
+C0043,LOW_F0,V2,Regional Delivery EMS,17500,12.72,True
+C0043,LOW_F0,V2,Urban Delivery,2600,10.129,True
+C0043,LOW_F0,V2,Urban Delivery,12900,-10.455,True
+C0043,LOW_F0,V3,Construction,2600,-0.061,False
+C0043,LOW_F0,V3,Construction,12900,-1.158,False
+C0043,LOW_F0,V3,Long Haul,2600,-2.853,True
+C0043,LOW_F0,V3,Long Haul,19300,0.171,True
+C0043,LOW_F0,V3,Long Haul EMS,3500,-2.209,True
+C0043,LOW_F0,V3,Long Haul EMS,26500,-1.553,True
+C0043,LOW_F0,V3,Regional Delivery,2600,0.725,True
+C0043,LOW_F0,V3,Regional Delivery,12900,2.842,True
+C0043,LOW_F0,V3,Regional Delivery EMS,3500,1.704,True
+C0043,LOW_F0,V3,Regional Delivery EMS,17500,1.743,True
+C0043,LOW_F0,V3,Urban Delivery,2600,2.437,True
+C0043,LOW_F0,V3,Urban Delivery,12900,-3.439,True
+C0044,HIGH_F0,V0,Long Haul,2600,-2.966,True
+C0044,HIGH_F0,V0,Long Haul,19300,0.426,True
+C0044,HIGH_F0,V0,Long Haul EMS,3500,-2.025,True
+C0044,HIGH_F0,V0,Long Haul EMS,26500,1.124,True
+C0044,HIGH_F0,V0,Regional Delivery,2600,-0.009,True
+C0044,HIGH_F0,V0,Regional Delivery,12900,1.078,True
+C0044,HIGH_F0,V0,Regional Delivery EMS,3500,0.223,True
+C0044,HIGH_F0,V0,Regional Delivery EMS,17500,1.531,True
+C0044,HIGH_F0,V0,Urban Delivery,2600,4.836,True
+C0044,HIGH_F0,V0,Urban Delivery,12900,-4.795,True
+C0044,HIGH_F0,V1,Long Haul,2600,-13.192,True
+C0044,HIGH_F0,V1,Long Haul,19300,-0.975,True
+C0044,HIGH_F0,V1,Long Haul EMS,3500,-4.956,True
+C0044,HIGH_F0,V1,Long Haul EMS,26500,6.525,True
+C0044,HIGH_F0,V1,Regional Delivery,2600,-8.261,True
+C0044,HIGH_F0,V1,Regional Delivery,12900,-0.31,True
+C0044,HIGH_F0,V1,Regional Delivery EMS,3500,-0.52,True
+C0044,HIGH_F0,V1,Regional Delivery EMS,17500,7.242,True
+C0044,HIGH_F0,V1,Urban Delivery,2600,2.767,True
+C0044,HIGH_F0,V1,Urban Delivery,12900,3.016,True
+C0044,HIGH_F0,V2,Long Haul,2600,-3.009,True
+C0044,HIGH_F0,V2,Long Haul,19300,0.431,True
+C0044,HIGH_F0,V2,Long Haul EMS,3500,-2.026,True
+C0044,HIGH_F0,V2,Long Haul EMS,26500,1.167,True
+C0044,HIGH_F0,V2,Regional Delivery,2600,-0.045,True
+C0044,HIGH_F0,V2,Regional Delivery,12900,1.078,True
+C0044,HIGH_F0,V2,Regional Delivery EMS,3500,0.23,True
+C0044,HIGH_F0,V2,Regional Delivery EMS,17500,1.571,True
+C0044,HIGH_F0,V2,Urban Delivery,2600,4.803,True
+C0044,HIGH_F0,V2,Urban Delivery,12900,-4.778,True
+C0045,LOW_F0,V0,Construction,2600,-0.14,True
+C0045,LOW_F0,V0,Construction,12900,-0.483,True
+C0045,LOW_F0,V0,Long Haul,2600,-2.42,True
+C0045,LOW_F0,V0,Long Haul,19300,-0.002,True
+C0045,LOW_F0,V0,Long Haul EMS,3500,-1.741,True
+C0045,LOW_F0,V0,Long Haul EMS,26500,-1.73,True
+C0045,LOW_F0,V0,Regional Delivery,2600,1.014,True
+C0045,LOW_F0,V0,Regional Delivery,12900,2.941,True
+C0045,LOW_F0,V0,Regional Delivery EMS,3500,1.522,True
+C0045,LOW_F0,V0,Regional Delivery EMS,17500,1.34,True
+C0045,LOW_F0,V0,Urban Delivery,2600,2.393,True
+C0045,LOW_F0,V0,Urban Delivery,12900,-3.045,True
+C0045,LOW_F0,V1,Construction,2600,-0.14,True
+C0045,LOW_F0,V1,Construction,12900,-0.483,True
+C0045,LOW_F0,V1,Long Haul,2600,-2.42,True
+C0045,LOW_F0,V1,Long Haul,19300,-0.002,True
+C0045,LOW_F0,V1,Long Haul EMS,3500,-1.741,True
+C0045,LOW_F0,V1,Long Haul EMS,26500,-1.73,True
+C0045,LOW_F0,V1,Regional Delivery,2600,1.014,True
+C0045,LOW_F0,V1,Regional Delivery,12900,2.941,True
+C0045,LOW_F0,V1,Regional Delivery EMS,3500,1.522,True
+C0045,LOW_F0,V1,Regional Delivery EMS,17500,1.34,True
+C0045,LOW_F0,V1,Urban Delivery,2600,2.393,True
+C0045,LOW_F0,V1,Urban Delivery,12900,-3.045,True
+C0045,LOW_F0,V2,Construction,2600,22.77,True
+C0045,LOW_F0,V2,Construction,12900,11.094,True
+C0045,LOW_F0,V2,Long Haul,2600,30.63,True
+C0045,LOW_F0,V2,Long Haul,19300,20.694,True
+C0045,LOW_F0,V2,Long Haul EMS,3500,21.228,True
+C0045,LOW_F0,V2,Long Haul EMS,26500,10.961,True
+C0045,LOW_F0,V2,Regional Delivery,2600,30.565,True
+C0045,LOW_F0,V2,Regional Delivery,12900,22.15,True
+C0045,LOW_F0,V2,Regional Delivery EMS,3500,20.96,True
+C0045,LOW_F0,V2,Regional Delivery EMS,17500,11.958,True
+C0045,LOW_F0,V2,Urban Delivery,2600,11.737,True
+C0045,LOW_F0,V2,Urban Delivery,12900,-9.008,True
+C0045,LOW_F0,V3,Construction,2600,-0.585,False
+C0045,LOW_F0,V3,Construction,12900,-0.905,False
+C0045,LOW_F0,V3,Long Haul,2600,-2.312,True
+C0045,LOW_F0,V3,Long Haul,19300,-0.053,True
+C0045,LOW_F0,V3,Long Haul EMS,3500,-1.789,True
+C0045,LOW_F0,V3,Long Haul EMS,26500,-1.898,True
+C0045,LOW_F0,V3,Regional Delivery,2600,1.05,True
+C0045,LOW_F0,V3,Regional Delivery,12900,2.878,True
+C0045,LOW_F0,V3,Regional Delivery EMS,3500,1.423,True
+C0045,LOW_F0,V3,Regional Delivery EMS,17500,1.17,True
+C0045,LOW_F0,V3,Urban Delivery,2600,2.333,True
+C0045,LOW_F0,V3,Urban Delivery,12900,-3.139,True
+C0046,LOW_F0,V0,Construction,2600,-0.068,True
+C0046,LOW_F0,V0,Construction,12900,-0.542,True
+C0046,LOW_F0,V0,Long Haul,2600,-2.456,True
+C0046,LOW_F0,V0,Long Haul,19300,-0.099,True
+C0046,LOW_F0,V0,Long Haul EMS,3500,-1.887,True
+C0046,LOW_F0,V0,Long Haul EMS,26500,-1.727,True
+C0046,LOW_F0,V0,Regional Delivery,2600,1.071,True
+C0046,LOW_F0,V0,Regional Delivery,12900,3.181,True
+C0046,LOW_F0,V0,Regional Delivery EMS,3500,1.56,True
+C0046,LOW_F0,V0,Regional Delivery EMS,17500,1.273,True
+C0046,LOW_F0,V0,Urban Delivery,2600,2.593,True
+C0046,LOW_F0,V0,Urban Delivery,12900,-3.294,True
+C0046,LOW_F0,V1,Construction,2600,-0.068,True
+C0046,LOW_F0,V1,Construction,12900,-0.542,True
+C0046,LOW_F0,V1,Long Haul,2600,-2.456,True
+C0046,LOW_F0,V1,Long Haul,19300,-0.099,True
+C0046,LOW_F0,V1,Long Haul EMS,3500,-1.887,True
+C0046,LOW_F0,V1,Long Haul EMS,26500,-1.727,True
+C0046,LOW_F0,V1,Regional Delivery,2600,1.071,True
+C0046,LOW_F0,V1,Regional Delivery,12900,3.181,True
+C0046,LOW_F0,V1,Regional Delivery EMS,3500,1.56,True
+C0046,LOW_F0,V1,Regional Delivery EMS,17500,1.273,True
+C0046,LOW_F0,V1,Urban Delivery,2600,2.593,True
+C0046,LOW_F0,V1,Urban Delivery,12900,-3.294,True
+C0046,LOW_F0,V2,Construction,2600,22.403,True
+C0046,LOW_F0,V2,Construction,12900,11.021,True
+C0046,LOW_F0,V2,Long Haul,2600,29.862,True
+C0046,LOW_F0,V2,Long Haul,19300,20.438,True
+C0046,LOW_F0,V2,Long Haul EMS,3500,20.885,True
+C0046,LOW_F0,V2,Long Haul EMS,26500,11.117,True
+C0046,LOW_F0,V2,Regional Delivery,2600,29.816,True
+C0046,LOW_F0,V2,Regional Delivery,12900,22.095,True
+C0046,LOW_F0,V2,Regional Delivery EMS,3500,20.781,True
+C0046,LOW_F0,V2,Regional Delivery EMS,17500,11.983,True
+C0046,LOW_F0,V2,Urban Delivery,2600,10.76,True
+C0046,LOW_F0,V2,Urban Delivery,12900,-9.64,True
+C0046,LOW_F0,V3,Construction,2600,-0.246,False
+C0046,LOW_F0,V3,Construction,12900,-0.716,False
+C0046,LOW_F0,V3,Long Haul,2600,-2.455,True
+C0046,LOW_F0,V3,Long Haul,19300,-0.148,True
+C0046,LOW_F0,V3,Long Haul EMS,3500,-1.933,True
+C0046,LOW_F0,V3,Long Haul EMS,26500,-1.812,True
+C0046,LOW_F0,V3,Regional Delivery,2600,1.045,True
+C0046,LOW_F0,V3,Regional Delivery,12900,3.121,True
+C0046,LOW_F0,V3,Regional Delivery EMS,3500,1.493,True
+C0046,LOW_F0,V3,Regional Delivery EMS,17500,1.181,True
+C0046,LOW_F0,V3,Urban Delivery,2600,2.508,True
+C0046,LOW_F0,V3,Urban Delivery,12900,-3.39,True
+C0047,LOW_F0,V0,Construction,2600,1.325,True
+C0047,LOW_F0,V0,Construction,12900,-0.086,True
+C0047,LOW_F0,V0,Long Haul,2600,-3.744,True
+C0047,LOW_F0,V0,Long Haul,19300,-0.833,True
+C0047,LOW_F0,V0,Long Haul EMS,3500,-1.2,True
+C0047,LOW_F0,V0,Long Haul EMS,26500,-0.422,True
+C0047,LOW_F0,V0,Regional Delivery,2600,-0.009,True
+C0047,LOW_F0,V0,Regional Delivery,12900,1.759,True
+C0047,LOW_F0,V0,Regional Delivery EMS,3500,1.687,True
+C0047,LOW_F0,V0,Regional Delivery EMS,17500,1.946,True
+C0047,LOW_F0,V0,Urban Delivery,2600,3.691,True
+C0047,LOW_F0,V0,Urban Delivery,12900,-4.686,True
+C0047,LOW_F0,V1,Construction,2600,0.389,True
+C0047,LOW_F0,V1,Construction,12900,0.552,True
+C0047,LOW_F0,V1,Long Haul,2600,-5.93,True
+C0047,LOW_F0,V1,Long Haul,19300,-1.162,True
+C0047,LOW_F0,V1,Long Haul EMS,3500,-1.862,True
+C0047,LOW_F0,V1,Long Haul EMS,26500,0.477,True
+C0047,LOW_F0,V1,Regional Delivery,2600,-1.722,True
+C0047,LOW_F0,V1,Regional Delivery,12900,1.528,True
+C0047,LOW_F0,V1,Regional Delivery EMS,3500,1.534,True
+C0047,LOW_F0,V1,Regional Delivery EMS,17500,3.024,True
+C0047,LOW_F0,V1,Urban Delivery,2600,3.706,True
+C0047,LOW_F0,V1,Urban Delivery,12900,-2.756,True
+C0047,LOW_F0,V2,Construction,2600,4.335,True
+C0047,LOW_F0,V2,Construction,12900,-2.359,True
+C0047,LOW_F0,V2,Long Haul,2600,1.91,True
+C0047,LOW_F0,V2,Long Haul,19300,-1.838,True
+C0047,LOW_F0,V2,Long Haul EMS,3500,-1.514,True
+C0047,LOW_F0,V2,Long Haul EMS,26500,-6.145,True
+C0047,LOW_F0,V2,Regional Delivery,2600,4.661,True
+C0047,LOW_F0,V2,Regional Delivery,12900,1.247,True
+C0047,LOW_F0,V2,Regional Delivery EMS,3500,0.308,True
+C0047,LOW_F0,V2,Regional Delivery EMS,17500,-3.575,True
+C0047,LOW_F0,V2,Urban Delivery,2600,8.099,True
+C0047,LOW_F0,V2,Urban Delivery,12900,-7.026,True
+C0047,LOW_F0,V3,Construction,2600,1.552,False
+C0047,LOW_F0,V3,Construction,12900,-0.026,False
+C0047,LOW_F0,V3,Long Haul,2600,-3.437,True
+C0047,LOW_F0,V3,Long Haul,19300,-0.731,True
+C0047,LOW_F0,V3,Long Haul EMS,3500,-1.076,True
+C0047,LOW_F0,V3,Long Haul EMS,26500,-0.466,True
+C0047,LOW_F0,V3,Regional Delivery,2600,0.27,True
+C0047,LOW_F0,V3,Regional Delivery,12900,1.879,True
+C0047,LOW_F0,V3,Regional Delivery EMS,3500,1.781,True
+C0047,LOW_F0,V3,Regional Delivery EMS,17500,1.91,True
+C0047,LOW_F0,V3,Urban Delivery,2600,3.954,True
+C0047,LOW_F0,V3,Urban Delivery,12900,-4.643,True
+C0048,HIGH_F0,V0,Long Haul,2600,-3.295,True
+C0048,HIGH_F0,V0,Long Haul,19300,0.551,True
+C0048,HIGH_F0,V0,Long Haul EMS,3500,-2.194,True
+C0048,HIGH_F0,V0,Long Haul EMS,26500,1.517,True
+C0048,HIGH_F0,V0,Regional Delivery,2600,-0.402,True
+C0048,HIGH_F0,V0,Regional Delivery,12900,0.744,True
+C0048,HIGH_F0,V0,Regional Delivery EMS,3500,0.503,True
+C0048,HIGH_F0,V0,Regional Delivery EMS,17500,1.653,True
+C0048,HIGH_F0,V0,Urban Delivery,2600,5.852,True
+C0048,HIGH_F0,V0,Urban Delivery,12900,-5.741,True
+C0048,HIGH_F0,V1,Long Haul,2600,-14.967,True
+C0048,HIGH_F0,V1,Long Haul,19300,-1.864,True
+C0048,HIGH_F0,V1,Long Haul EMS,3500,-6.325,True
+C0048,HIGH_F0,V1,Long Haul EMS,26500,6.064,True
+C0048,HIGH_F0,V1,Regional Delivery,2600,-9.707,True
+C0048,HIGH_F0,V1,Regional Delivery,12900,-1.332,True
+C0048,HIGH_F0,V1,Regional Delivery EMS,3500,-1.018,True
+C0048,HIGH_F0,V1,Regional Delivery EMS,17500,7.005,True
+C0048,HIGH_F0,V1,Urban Delivery,2600,5.488,True
+C0048,HIGH_F0,V1,Urban Delivery,12900,4.462,True
+C0048,HIGH_F0,V2,Long Haul,2600,-3.482,True
+C0048,HIGH_F0,V2,Long Haul,19300,0.572,True
+C0048,HIGH_F0,V2,Long Haul EMS,3500,-2.199,True
+C0048,HIGH_F0,V2,Long Haul EMS,26500,1.706,True
+C0048,HIGH_F0,V2,Regional Delivery,2600,-0.56,True
+C0048,HIGH_F0,V2,Regional Delivery,12900,0.741,True
+C0048,HIGH_F0,V2,Regional Delivery EMS,3500,0.533,True
+C0048,HIGH_F0,V2,Regional Delivery EMS,17500,1.828,True
+C0048,HIGH_F0,V2,Urban Delivery,2600,5.706,True
+C0048,HIGH_F0,V2,Urban Delivery,12900,-5.665,True
+C0049,HIGH_F0,V0,Long Haul,2600,-3.268,True
+C0049,HIGH_F0,V0,Long Haul,19300,0.676,True
+C0049,HIGH_F0,V0,Long Haul EMS,3500,-2.182,True
+C0049,HIGH_F0,V0,Long Haul EMS,26500,1.582,True
+C0049,HIGH_F0,V0,Regional Delivery,2600,-0.196,True
+C0049,HIGH_F0,V0,Regional Delivery,12900,0.714,True
+C0049,HIGH_F0,V0,Regional Delivery EMS,3500,0.167,True
+C0049,HIGH_F0,V0,Regional Delivery EMS,17500,1.526,True
+C0049,HIGH_F0,V0,Urban Delivery,2600,5.984,True
+C0049,HIGH_F0,V0,Urban Delivery,12900,-5.83,True
+C0049,HIGH_F0,V1,Long Haul,2600,-16.102,True
+C0049,HIGH_F0,V1,Long Haul,19300,-1.924,True
+C0049,HIGH_F0,V1,Long Haul EMS,3500,-6.654,True
+C0049,HIGH_F0,V1,Long Haul EMS,26500,6.281,True
+C0049,HIGH_F0,V1,Regional Delivery,2600,-10.163,True
+C0049,HIGH_F0,V1,Regional Delivery,12900,-1.531,True
+C0049,HIGH_F0,V1,Regional Delivery EMS,3500,-1.573,True
+C0049,HIGH_F0,V1,Regional Delivery EMS,17500,7.18,True
+C0049,HIGH_F0,V1,Urban Delivery,2600,5.98,True
+C0049,HIGH_F0,V1,Urban Delivery,12900,5.054,True
+C0049,HIGH_F0,V2,Long Haul,2600,-3.562,True
+C0049,HIGH_F0,V2,Long Haul,19300,0.712,True
+C0049,HIGH_F0,V2,Long Haul EMS,3500,-2.186,True
+C0049,HIGH_F0,V2,Long Haul EMS,26500,1.867,True
+C0049,HIGH_F0,V2,Regional Delivery,2600,-0.434,True
+C0049,HIGH_F0,V2,Regional Delivery,12900,0.71,True
+C0049,HIGH_F0,V2,Regional Delivery EMS,3500,0.211,True
+C0049,HIGH_F0,V2,Regional Delivery EMS,17500,1.79,True
+C0049,HIGH_F0,V2,Urban Delivery,2600,5.773,True
+C0049,HIGH_F0,V2,Urban Delivery,12900,-5.722,True
+C0051,LOW_F0,V0,Construction,2600,0.109,True
+C0051,LOW_F0,V0,Construction,12900,-0.794,True
+C0051,LOW_F0,V0,Long Haul,2600,-2.511,True
+C0051,LOW_F0,V0,Long Haul,19300,0.052,True
+C0051,LOW_F0,V0,Long Haul EMS,3500,-2.027,True
+C0051,LOW_F0,V0,Long Haul EMS,26500,-1.806,True
+C0051,LOW_F0,V0,Regional Delivery,2600,1.066,True
+C0051,LOW_F0,V0,Regional Delivery,12900,2.837,True
+C0051,LOW_F0,V0,Regional Delivery EMS,3500,1.811,True
+C0051,LOW_F0,V0,Regional Delivery EMS,17500,1.55,True
+C0051,LOW_F0,V0,Urban Delivery,2600,2.817,True
+C0051,LOW_F0,V0,Urban Delivery,12900,-3.531,True
+C0051,LOW_F0,V1,Construction,2600,0.109,True
+C0051,LOW_F0,V1,Construction,12900,-0.794,True
+C0051,LOW_F0,V1,Long Haul,2600,-2.511,True
+C0051,LOW_F0,V1,Long Haul,19300,0.052,True
+C0051,LOW_F0,V1,Long Haul EMS,3500,-2.027,True
+C0051,LOW_F0,V1,Long Haul EMS,26500,-1.806,True
+C0051,LOW_F0,V1,Regional Delivery,2600,1.066,True
+C0051,LOW_F0,V1,Regional Delivery,12900,2.837,True
+C0051,LOW_F0,V1,Regional Delivery EMS,3500,1.811,True
+C0051,LOW_F0,V1,Regional Delivery EMS,17500,1.55,True
+C0051,LOW_F0,V1,Urban Delivery,2600,2.817,True
+C0051,LOW_F0,V1,Urban Delivery,12900,-3.531,True
+C0051,LOW_F0,V2,Construction,2600,22.868,True
+C0051,LOW_F0,V2,Construction,12900,10.912,True
+C0051,LOW_F0,V2,Long Haul,2600,31.72,True
+C0051,LOW_F0,V2,Long Haul,19300,21.689,True
+C0051,LOW_F0,V2,Long Haul EMS,3500,22.027,True
+C0051,LOW_F0,V2,Long Haul EMS,26500,11.664,True
+C0051,LOW_F0,V2,Regional Delivery,2600,31.362,True
+C0051,LOW_F0,V2,Regional Delivery,12900,22.889,True
+C0051,LOW_F0,V2,Regional Delivery EMS,3500,21.942,True
+C0051,LOW_F0,V2,Regional Delivery EMS,17500,12.822,True
+C0051,LOW_F0,V2,Urban Delivery,2600,11.215,True
+C0051,LOW_F0,V2,Urban Delivery,12900,-10.041,True
+C0051,LOW_F0,V3,Construction,2600,-0.337,False
+C0051,LOW_F0,V3,Construction,12900,-1.216,False
+C0051,LOW_F0,V3,Long Haul,2600,-2.405,True
+C0051,LOW_F0,V3,Long Haul,19300,-0.0,True
+C0051,LOW_F0,V3,Long Haul EMS,3500,-2.072,True
+C0051,LOW_F0,V3,Long Haul EMS,26500,-1.975,True
+C0051,LOW_F0,V3,Regional Delivery,2600,1.098,True
+C0051,LOW_F0,V3,Regional Delivery,12900,2.776,True
+C0051,LOW_F0,V3,Regional Delivery EMS,3500,1.709,True
+C0051,LOW_F0,V3,Regional Delivery EMS,17500,1.376,True
+C0051,LOW_F0,V3,Urban Delivery,2600,2.732,True
+C0051,LOW_F0,V3,Urban Delivery,12900,-3.649,True
+C0052,HIGH_F0,V0,Long Haul,2600,-2.947,True
+C0052,HIGH_F0,V0,Long Haul,19300,0.868,True
+C0052,HIGH_F0,V0,Long Haul EMS,3500,-2.227,True
+C0052,HIGH_F0,V0,Long Haul EMS,26500,0.916,True
+C0052,HIGH_F0,V0,Regional Delivery,2600,-0.068,True
+C0052,HIGH_F0,V0,Regional Delivery,12900,1.077,True
+C0052,HIGH_F0,V0,Regional Delivery EMS,3500,0.244,True
+C0052,HIGH_F0,V0,Regional Delivery EMS,17500,1.541,True
+C0052,HIGH_F0,V0,Urban Delivery,2600,4.856,True
+C0052,HIGH_F0,V0,Urban Delivery,12900,-4.853,True
+C0052,HIGH_F0,V1,Long Haul,2600,-13.406,True
+C0052,HIGH_F0,V1,Long Haul,19300,-0.54,True
+C0052,HIGH_F0,V1,Long Haul EMS,3500,-5.222,True
+C0052,HIGH_F0,V1,Long Haul EMS,26500,6.284,True
+C0052,HIGH_F0,V1,Regional Delivery,2600,-8.492,True
+C0052,HIGH_F0,V1,Regional Delivery,12900,-0.345,True
+C0052,HIGH_F0,V1,Regional Delivery EMS,3500,-0.445,True
+C0052,HIGH_F0,V1,Regional Delivery EMS,17500,7.293,True
+C0052,HIGH_F0,V1,Urban Delivery,2600,2.951,True
+C0052,HIGH_F0,V1,Urban Delivery,12900,3.029,True
+C0052,HIGH_F0,V2,Long Haul,2600,-2.965,True
+C0052,HIGH_F0,V2,Long Haul,19300,0.87,True
+C0052,HIGH_F0,V2,Long Haul EMS,3500,-2.227,True
+C0052,HIGH_F0,V2,Long Haul EMS,26500,0.934,True
+C0052,HIGH_F0,V2,Regional Delivery,2600,-0.083,True
+C0052,HIGH_F0,V2,Regional Delivery,12900,1.077,True
+C0052,HIGH_F0,V2,Regional Delivery EMS,3500,0.247,True
+C0052,HIGH_F0,V2,Regional Delivery EMS,17500,1.558,True
+C0052,HIGH_F0,V2,Urban Delivery,2600,4.843,True
+C0052,HIGH_F0,V2,Urban Delivery,12900,-4.846,True
+C0053,HIGH_F0,V0,Long Haul,2600,-2.927,True
+C0053,HIGH_F0,V0,Long Haul,19300,0.836,True
+C0053,HIGH_F0,V0,Long Haul EMS,3500,-2.23,True
+C0053,HIGH_F0,V0,Long Haul EMS,26500,0.951,True
+C0053,HIGH_F0,V0,Regional Delivery,2600,-0.03,True
+C0053,HIGH_F0,V0,Regional Delivery,12900,1.072,True
+C0053,HIGH_F0,V0,Regional Delivery EMS,3500,0.207,True
+C0053,HIGH_F0,V0,Regional Delivery EMS,17500,1.526,True
+C0053,HIGH_F0,V0,Urban Delivery,2600,4.806,True
+C0053,HIGH_F0,V0,Urban Delivery,12900,-4.794,True
+C0053,HIGH_F0,V1,Long Haul,2600,-13.503,True
+C0053,HIGH_F0,V1,Long Haul,19300,-0.629,True
+C0053,HIGH_F0,V1,Long Haul EMS,3500,-5.259,True
+C0053,HIGH_F0,V1,Long Haul EMS,26500,6.319,True
+C0053,HIGH_F0,V1,Regional Delivery,2600,-8.499,True
+C0053,HIGH_F0,V1,Regional Delivery,12900,-0.444,True
+C0053,HIGH_F0,V1,Regional Delivery EMS,3500,-0.561,True
+C0053,HIGH_F0,V1,Regional Delivery EMS,17500,7.282,True
+C0053,HIGH_F0,V1,Urban Delivery,2600,2.959,True
+C0053,HIGH_F0,V1,Urban Delivery,12900,3.249,True
+C0053,HIGH_F0,V2,Long Haul,2600,-2.963,True
+C0053,HIGH_F0,V2,Long Haul,19300,0.84,True
+C0053,HIGH_F0,V2,Long Haul EMS,3500,-2.231,True
+C0053,HIGH_F0,V2,Long Haul EMS,26500,0.988,True
+C0053,HIGH_F0,V2,Regional Delivery,2600,-0.061,True
+C0053,HIGH_F0,V2,Regional Delivery,12900,1.072,True
+C0053,HIGH_F0,V2,Regional Delivery EMS,3500,0.213,True
+C0053,HIGH_F0,V2,Regional Delivery EMS,17500,1.56,True
+C0053,HIGH_F0,V2,Urban Delivery,2600,4.778,True
+C0053,HIGH_F0,V2,Urban Delivery,12900,-4.78,True
+C0054,LOW_F0,V0,Construction,2600,0.029,True
+C0054,LOW_F0,V0,Construction,12900,-0.186,True
+C0054,LOW_F0,V0,Long Haul,2600,-2.211,True
+C0054,LOW_F0,V0,Long Haul,19300,-0.402,True
+C0054,LOW_F0,V0,Long Haul EMS,3500,-1.622,True
+C0054,LOW_F0,V0,Long Haul EMS,26500,-2.139,True
+C0054,LOW_F0,V0,Regional Delivery,2600,1.577,True
+C0054,LOW_F0,V0,Regional Delivery,12900,3.438,True
+C0054,LOW_F0,V0,Regional Delivery EMS,3500,1.143,True
+C0054,LOW_F0,V0,Regional Delivery EMS,17500,0.781,True
+C0054,LOW_F0,V0,Urban Delivery,2600,2.408,True
+C0054,LOW_F0,V0,Urban Delivery,12900,-3.187,True
+C0054,LOW_F0,V1,Construction,2600,0.029,True
+C0054,LOW_F0,V1,Construction,12900,-0.186,True
+C0054,LOW_F0,V1,Long Haul,2600,-2.211,True
+C0054,LOW_F0,V1,Long Haul,19300,-0.402,True
+C0054,LOW_F0,V1,Long Haul EMS,3500,-1.622,True
+C0054,LOW_F0,V1,Long Haul EMS,26500,-2.139,True
+C0054,LOW_F0,V1,Regional Delivery,2600,1.577,True
+C0054,LOW_F0,V1,Regional Delivery,12900,3.438,True
+C0054,LOW_F0,V1,Regional Delivery EMS,3500,1.143,True
+C0054,LOW_F0,V1,Regional Delivery EMS,17500,0.781,True
+C0054,LOW_F0,V1,Urban Delivery,2600,2.408,True
+C0054,LOW_F0,V1,Urban Delivery,12900,-3.187,True
+C0054,LOW_F0,V2,Construction,2600,21.89,True
+C0054,LOW_F0,V2,Construction,12900,10.878,True
+C0054,LOW_F0,V2,Long Haul,2600,30.17,True
+C0054,LOW_F0,V2,Long Haul,19300,19.896,True
+C0054,LOW_F0,V2,Long Haul EMS,3500,21.085,True
+C0054,LOW_F0,V2,Long Haul EMS,26500,10.55,True
+C0054,LOW_F0,V2,Regional Delivery,2600,30.269,True
+C0054,LOW_F0,V2,Regional Delivery,12900,22.267,True
+C0054,LOW_F0,V2,Regional Delivery EMS,3500,20.148,True
+C0054,LOW_F0,V2,Regional Delivery EMS,17500,11.354,True
+C0054,LOW_F0,V2,Urban Delivery,2600,10.939,True
+C0054,LOW_F0,V2,Urban Delivery,12900,-8.867,True
+C0054,LOW_F0,V3,Construction,2600,-0.223,False
+C0054,LOW_F0,V3,Construction,12900,-0.425,False
+C0054,LOW_F0,V3,Long Haul,2600,-2.127,True
+C0054,LOW_F0,V3,Long Haul,19300,-0.413,True
+C0054,LOW_F0,V3,Long Haul EMS,3500,-1.632,True
+C0054,LOW_F0,V3,Long Haul EMS,26500,-2.22,True
+C0054,LOW_F0,V3,Regional Delivery,2600,1.617,True
+C0054,LOW_F0,V3,Regional Delivery,12900,3.419,True
+C0054,LOW_F0,V3,Regional Delivery EMS,3500,1.104,True
+C0054,LOW_F0,V3,Regional Delivery EMS,17500,0.698,True
+C0054,LOW_F0,V3,Urban Delivery,2600,2.4,True
+C0054,LOW_F0,V3,Urban Delivery,12900,-3.214,True
+C0055,LOW_F0,V0,Construction,2600,0.291,True
+C0055,LOW_F0,V0,Construction,12900,-1.805,True
+C0055,LOW_F0,V0,Long Haul,2600,-3.398,True
+C0055,LOW_F0,V0,Long Haul,19300,0.453,True
+C0055,LOW_F0,V0,Long Haul EMS,3500,-1.701,True
+C0055,LOW_F0,V0,Long Haul EMS,26500,-0.082,True
+C0055,LOW_F0,V0,Regional Delivery,2600,0.156,True
+C0055,LOW_F0,V0,Regional Delivery,12900,1.729,True
+C0055,LOW_F0,V0,Regional Delivery EMS,3500,1.876,True
+C0055,LOW_F0,V0,Regional Delivery EMS,17500,2.072,True
+C0055,LOW_F0,V0,Urban Delivery,2600,4.291,True
+C0055,LOW_F0,V0,Urban Delivery,12900,-4.498,True
+C0055,LOW_F0,V1,Construction,2600,-0.773,True
+C0055,LOW_F0,V1,Construction,12900,-0.975,True
+C0055,LOW_F0,V1,Long Haul,2600,-5.904,True
+C0055,LOW_F0,V1,Long Haul,19300,0.75,True
+C0055,LOW_F0,V1,Long Haul EMS,3500,-1.775,True
+C0055,LOW_F0,V1,Long Haul EMS,26500,2.161,True
+C0055,LOW_F0,V1,Regional Delivery,2600,-1.902,True
+C0055,LOW_F0,V1,Regional Delivery,12900,1.714,True
+C0055,LOW_F0,V1,Regional Delivery EMS,3500,2.267,True
+C0055,LOW_F0,V1,Regional Delivery EMS,17500,4.184,True
+C0055,LOW_F0,V1,Urban Delivery,2600,2.695,True
+C0055,LOW_F0,V1,Urban Delivery,12900,-3.44,True
+C0055,LOW_F0,V2,Construction,2600,3.426,True
+C0055,LOW_F0,V2,Construction,12900,-3.109,True
+C0055,LOW_F0,V2,Long Haul,2600,1.585,True
+C0055,LOW_F0,V2,Long Haul,19300,-0.691,True
+C0055,LOW_F0,V2,Long Haul EMS,3500,-2.053,True
+C0055,LOW_F0,V2,Long Haul EMS,26500,-5.458,True
+C0055,LOW_F0,V2,Regional Delivery,2600,4.293,True
+C0055,LOW_F0,V2,Regional Delivery,12900,1.343,True
+C0055,LOW_F0,V2,Regional Delivery EMS,3500,0.626,True
+C0055,LOW_F0,V2,Regional Delivery EMS,17500,-2.972,True
+C0055,LOW_F0,V2,Urban Delivery,2600,8.08,True
+C0055,LOW_F0,V2,Urban Delivery,12900,-6.735,True
+C0055,LOW_F0,V3,Construction,2600,0.225,False
+C0055,LOW_F0,V3,Construction,12900,-2.035,False
+C0055,LOW_F0,V3,Long Haul,2600,-3.304,True
+C0055,LOW_F0,V3,Long Haul,19300,0.315,True
+C0055,LOW_F0,V3,Long Haul EMS,3500,-1.796,True
+C0055,LOW_F0,V3,Long Haul EMS,26500,-0.37,True
+C0055,LOW_F0,V3,Regional Delivery,2600,0.191,True
+C0055,LOW_F0,V3,Regional Delivery,12900,1.59,True
+C0055,LOW_F0,V3,Regional Delivery EMS,3500,1.719,True
+C0055,LOW_F0,V3,Regional Delivery EMS,17500,1.769,True
+C0055,LOW_F0,V3,Urban Delivery,2600,4.151,True
+C0055,LOW_F0,V3,Urban Delivery,12900,-4.844,True
+C0056,LOW_F0,V0,Construction,2600,0.2,True
+C0056,LOW_F0,V0,Construction,12900,-0.066,True
+C0056,LOW_F0,V0,Long Haul,2600,-1.838,True
+C0056,LOW_F0,V0,Long Haul,19300,-0.559,True
+C0056,LOW_F0,V0,Long Haul EMS,3500,-1.347,True
+C0056,LOW_F0,V0,Long Haul EMS,26500,-1.828,True
+C0056,LOW_F0,V0,Regional Delivery,2600,1.329,True
+C0056,LOW_F0,V0,Regional Delivery,12900,2.587,True
+C0056,LOW_F0,V0,Regional Delivery EMS,3500,1.344,True
+C0056,LOW_F0,V0,Regional Delivery EMS,17500,0.437,True
+C0056,LOW_F0,V0,Urban Delivery,2600,2.848,True
+C0056,LOW_F0,V0,Urban Delivery,12900,-3.409,True
+C0056,LOW_F0,V1,Construction,2600,0.2,True
+C0056,LOW_F0,V1,Construction,12900,-0.066,True
+C0056,LOW_F0,V1,Long Haul,2600,-1.838,True
+C0056,LOW_F0,V1,Long Haul,19300,-0.559,True
+C0056,LOW_F0,V1,Long Haul EMS,3500,-1.347,True
+C0056,LOW_F0,V1,Long Haul EMS,26500,-1.828,True
+C0056,LOW_F0,V1,Regional Delivery,2600,1.329,True
+C0056,LOW_F0,V1,Regional Delivery,12900,2.587,True
+C0056,LOW_F0,V1,Regional Delivery EMS,3500,1.344,True
+C0056,LOW_F0,V1,Regional Delivery EMS,17500,0.437,True
+C0056,LOW_F0,V1,Urban Delivery,2600,2.848,True
+C0056,LOW_F0,V1,Urban Delivery,12900,-3.409,True
+C0056,LOW_F0,V2,Construction,2600,21.668,True
+C0056,LOW_F0,V2,Construction,12900,10.651,True
+C0056,LOW_F0,V2,Long Haul,2600,25.821,True
+C0056,LOW_F0,V2,Long Haul,19300,17.177,True
+C0056,LOW_F0,V2,Long Haul EMS,3500,18.368,True
+C0056,LOW_F0,V2,Long Haul EMS,26500,9.21,True
+C0056,LOW_F0,V2,Regional Delivery,2600,26.237,True
+C0056,LOW_F0,V2,Regional Delivery,12900,19.121,True
+C0056,LOW_F0,V2,Regional Delivery EMS,3500,17.958,True
+C0056,LOW_F0,V2,Regional Delivery EMS,17500,9.674,True
+C0056,LOW_F0,V2,Urban Delivery,2600,10.515,True
+C0056,LOW_F0,V2,Urban Delivery,12900,-9.133,True
+C0056,LOW_F0,V3,Construction,2600,0.267,False
+C0056,LOW_F0,V3,Construction,12900,-0.003,False
+C0056,LOW_F0,V3,Long Haul,2600,-1.845,True
+C0056,LOW_F0,V3,Long Haul,19300,-0.546,True
+C0056,LOW_F0,V3,Long Haul EMS,3500,-1.335,True
+C0056,LOW_F0,V3,Long Haul EMS,26500,-1.8,True
+C0056,LOW_F0,V3,Regional Delivery,2600,1.332,True
+C0056,LOW_F0,V3,Regional Delivery,12900,2.601,True
+C0056,LOW_F0,V3,Regional Delivery EMS,3500,1.363,True
+C0056,LOW_F0,V3,Regional Delivery EMS,17500,0.465,True
+C0056,LOW_F0,V3,Urban Delivery,2600,2.857,True
+C0056,LOW_F0,V3,Urban Delivery,12900,-3.397,True
