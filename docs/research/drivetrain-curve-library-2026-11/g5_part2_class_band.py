@@ -51,7 +51,7 @@ def fitted():
     for r in read(os.path.join(HERE, "g5_fits.csv")):
         vals = tuple(float(r[p]) for p in PARAMS[r["method"]])
         cdxa = float(r["cdxa_declared_m2"]) if r["cdxa_declared_m2"] else None
-        out[r["method"]][r["config_id"]] = dict(values=vals, cdxa=cdxa, model=r["model"])
+        out[r["method"]][r["config_id"]] = dict(values=vals, cdxa=cdxa, model=r["model"], make=r["make"])
     return out
 
 
@@ -91,7 +91,7 @@ def main():
                     m, th = theta_for(rr[0], method, vals, own["cdxa"])
                     e = np.array([m.predict(r, th) / r["cert"] - 1 for r in rr])
                     config_err.append(float(np.mean(e)))
-                    band.append(dict(config_id=cid, make=own["model"], model=own["model"], method=method, weighting=weighting,
+                    band.append(dict(config_id=cid, make=own["make"], model=own["model"], method=method, weighting=weighting,
                                      percentile="P%d" % q, n_results=len(rr), own_cdxa_m2=(round(own["cdxa"], 5) if own["cdxa"] else ""),
                                      mean_err_pct=round(100 * float(np.mean(e)), 3), mean_abs_err_pct=round(100 * float(np.mean(abs(e))), 3),
                                      worst_abs_err_pct=round(100 * float(max(abs(e))), 3)))
