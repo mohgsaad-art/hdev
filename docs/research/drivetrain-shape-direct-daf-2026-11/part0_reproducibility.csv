@@ -1,0 +1,13 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+file,sha256_g5_fits_csv
+"run1 (this session, fresh cache rebuilt)",e5fb06766cc9874c90c75b4349c8a46f77a83f31eb50aa984e2204a8dc39ab91
+"run2 (this session, same cache)",e5fb06766cc9874c90c75b4349c8a46f77a83f31eb50aa984e2204a8dc39ab91
+committed in PR #38 (c80200b),0be434cf3b0a77a4fda37a06937f7ec776d25bf34c2fe544044a03e97c1cb16d
+
+"max abs difference run1 vs committed, per column"
+eta_r,2e-08
+F0_N,0.000133
+cdxa_declared_m2,1.6e-07
+a_W,0.000607
+c_W_per_mps,2.56e-05
+eta_d,2e-08
