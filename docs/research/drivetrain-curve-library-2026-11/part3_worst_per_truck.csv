@@ -2,81 +2,81 @@
 config_id,truck,view,method,method_full,worst_abs_err_pct,largest_under_pct,all_within_5pct,n_results,n_fitted,dof_full,cpu_s
 C0059,Fuso eCanter,LORO,A,A,32.54,-32.54,False,4,0,4,0.0
 C0059,Fuso eCanter,LOMO,A,A,32.54,-32.54,False,4,0,4,0.0
-C0059,Fuso eCanter,LORO,C,C,12.7,-11.97,False,4,3,1,0.19
-C0059,Fuso eCanter,LOMO,C,C,32.39,-20.91,False,4,3,1,1.91
-C0059,Fuso eCanter,LORO,L4a,L4a,22.0,-22.0,False,4,2,2,0.11
+C0059,Fuso eCanter,LORO,C,C,12.7,-11.97,False,4,3,1,0.2
+C0059,Fuso eCanter,LOMO,C,C,32.39,-20.91,False,4,3,1,1.9
+C0059,Fuso eCanter,LORO,L4a,L4a,22.0,-22.0,False,4,2,2,0.09
 C0059,Fuso eCanter,LOMO,L4a,L4a,69.68,-26.28,False,4,2,2,0.05
-C0059,Fuso eCanter,LORO,L4b,L4b,14.19,-14.19,False,4,3,1,0.16
-C0059,Fuso eCanter,LOMO,L4b,L4b,61.12,-22.83,False,4,3,1,1.06
+C0059,Fuso eCanter,LORO,L4b,L4b,14.19,-14.19,False,4,3,1,0.17
+C0059,Fuso eCanter,LOMO,L4b,L4b,61.12,-22.83,False,4,3,1,1.1
 C0091,IVECO S-eWay,LORO,A,A,8.59,-8.59,False,12,0,12,0.0
 C0091,IVECO S-eWay,LOMO,A,A,8.59,-8.59,False,12,0,12,0.0
-C0091,IVECO S-eWay,LORO,C,C+CdxA,3.71,-3.71,True,12,4,8,1.3
-C0091,IVECO S-eWay,LOMO,C,C+CdxA,8.95,-8.95,False,12,4,8,0.63
-C0091,IVECO S-eWay,LORO,L4a,L4a+CdxA,12.12,-7.03,False,12,3,9,0.96
+C0091,IVECO S-eWay,LORO,C,C+CdxA,3.71,-3.71,True,12,4,8,1.28
+C0091,IVECO S-eWay,LOMO,C,C+CdxA,8.95,-8.95,False,12,4,8,0.65
+C0091,IVECO S-eWay,LORO,L4a,L4a+CdxA,12.12,-7.03,False,12,3,9,1.0
 C0091,IVECO S-eWay,LOMO,L4a,L4a+CdxA,12.54,-7.08,False,12,3,9,0.45
-C0091,IVECO S-eWay,LORO,L4b,L4b+CdxA,4.62,-4.62,True,12,4,8,1.41
-C0091,IVECO S-eWay,LOMO,L4b,L4b+CdxA,8.31,-8.31,False,12,4,8,0.66
+C0091,IVECO S-eWay,LORO,L4b,L4b+CdxA,4.62,-4.62,True,12,4,8,1.5
+C0091,IVECO S-eWay,LOMO,L4b,L4b+CdxA,8.31,-8.31,False,12,4,8,0.68
 C0371,Scania R 400E,LORO,A,A,22.72,-22.72,False,12,0,12,0.0
 C0371,Scania R 400E,LOMO,A,A,22.72,-22.72,False,12,0,12,0.0
-C0371,Scania R 400E,LORO,C,C,5.77,-5.77,False,12,3,9,0.9
-C0371,Scania R 400E,LOMO,C,C,7.57,-7.57,False,12,3,9,0.42
-C0371,Scania R 400E,LORO,L4a,L4a,4.27,-3.91,True,12,2,10,0.6
+C0371,Scania R 400E,LORO,C,C,5.77,-5.77,False,12,3,9,0.92
+C0371,Scania R 400E,LOMO,C,C,7.57,-7.57,False,12,3,9,0.41
+C0371,Scania R 400E,LORO,L4a,L4a,4.27,-3.91,True,12,2,10,0.61
 C0371,Scania R 400E,LOMO,L4a,L4a,4.23,-3.91,True,12,2,10,0.28
-C0371,Scania R 400E,LORO,L4b,L4b,5.82,-5.82,False,12,3,9,0.85
-C0371,Scania R 400E,LOMO,L4b,L4b,8.1,-8.1,False,12,3,9,0.37
+C0371,Scania R 400E,LORO,L4b,L4b,5.82,-5.82,False,12,3,9,0.8
+C0371,Scania R 400E,LOMO,L4b,L4b,8.1,-8.1,False,12,3,9,0.4
 C0116,MAN eTGX,LORO,A,A,17.3,-17.3,False,12,0,12,0.0
 C0116,MAN eTGX,LOMO,A,A,17.3,-17.3,False,12,0,12,0.0
-C0116,MAN eTGX,LORO,C,C+CdxA,7.52,-7.52,False,12,4,8,1.34
-C0116,MAN eTGX,LOMO,C,C+CdxA,13.55,-13.55,False,12,4,8,0.66
-C0116,MAN eTGX,LORO,L4a,L4a+CdxA,3.46,-3.46,True,12,3,9,0.9
-C0116,MAN eTGX,LOMO,L4a,L4a+CdxA,3.49,-3.49,True,12,3,9,0.41
-C0116,MAN eTGX,LORO,L4b,L4b+CdxA,5.47,-5.47,False,12,4,8,1.33
-C0116,MAN eTGX,LOMO,L4b,L4b+CdxA,9.14,-9.14,False,12,4,8,0.6
+C0116,MAN eTGX,LORO,C,C+CdxA,7.52,-7.52,False,12,4,8,1.37
+C0116,MAN eTGX,LOMO,C,C+CdxA,13.55,-13.55,False,12,4,8,0.68
+C0116,MAN eTGX,LORO,L4a,L4a+CdxA,3.46,-3.46,True,12,3,9,0.92
+C0116,MAN eTGX,LOMO,L4a,L4a+CdxA,3.49,-3.49,True,12,3,9,0.44
+C0116,MAN eTGX,LORO,L4b,L4b+CdxA,5.47,-5.47,False,12,4,8,1.29
+C0116,MAN eTGX,LOMO,L4b,L4b+CdxA,9.14,-9.14,False,12,4,8,0.64
 C0153,Mercedes eActros 600,LORO,A,A,9.62,-9.62,False,12,0,12,0.0
 C0153,Mercedes eActros 600,LOMO,A,A,9.62,-9.62,False,12,0,12,0.0
-C0153,Mercedes eActros 600,LORO,C,C+CdxA,9.84,-9.84,False,12,4,8,1.52
-C0153,Mercedes eActros 600,LOMO,C,C+CdxA,11.16,-11.16,False,12,4,8,0.67
-C0153,Mercedes eActros 600,LORO,L4a,L4a+CdxA,11.48,-11.48,False,12,3,9,0.99
-C0153,Mercedes eActros 600,LOMO,L4a,L4a+CdxA,11.34,-11.34,False,12,3,9,0.46
-C0153,Mercedes eActros 600,LORO,L4b,L4b+CdxA,11.93,-11.93,False,12,4,8,1.43
-C0153,Mercedes eActros 600,LOMO,L4b,L4b+CdxA,12.69,-12.69,False,12,4,8,0.67
+C0153,Mercedes eActros 600,LORO,C,C+CdxA,9.84,-9.84,False,12,4,8,1.61
+C0153,Mercedes eActros 600,LOMO,C,C+CdxA,11.16,-11.16,False,12,4,8,0.69
+C0153,Mercedes eActros 600,LORO,L4a,L4a+CdxA,11.48,-11.48,False,12,3,9,1.02
+C0153,Mercedes eActros 600,LOMO,L4a,L4a+CdxA,11.34,-11.34,False,12,3,9,0.51
+C0153,Mercedes eActros 600,LORO,L4b,L4b+CdxA,11.93,-11.93,False,12,4,8,1.44
+C0153,Mercedes eActros 600,LOMO,L4b,L4b+CdxA,12.69,-12.69,False,12,4,8,0.68
 C0218,Renault D,LORO,A,A,32.37,-32.37,False,8,0,8,0.0
 C0218,Renault D,LOMO,A,A,32.37,-32.37,False,8,0,8,0.0
-C0218,Renault D,LORO,C,C+CdxA,6.86,-5.05,False,8,4,4,0.8
-C0218,Renault D,LOMO,C,C+CdxA,5.36,-5.36,False,8,4,4,0.33
-C0218,Renault D,LORO,L4a,L4a+CdxA,19.71,-14.46,False,8,3,5,0.51
+C0218,Renault D,LORO,C,C+CdxA,6.86,-5.05,False,8,4,4,0.83
+C0218,Renault D,LOMO,C,C+CdxA,5.36,-5.36,False,8,4,4,0.32
+C0218,Renault D,LORO,L4a,L4a+CdxA,19.71,-14.46,False,8,3,5,0.54
 C0218,Renault D,LOMO,L4a,L4a+CdxA,30.02,-15.15,False,8,3,5,0.25
-C0218,Renault D,LORO,L4b,L4b+CdxA,6.1,-3.25,False,8,4,4,0.75
-C0218,Renault D,LOMO,L4b,L4b+CdxA,5.43,-2.55,False,8,4,4,0.33
+C0218,Renault D,LORO,L4b,L4b+CdxA,6.1,-3.25,False,8,4,4,0.73
+C0218,Renault D,LOMO,L4b,L4b+CdxA,5.43,-2.55,False,8,4,4,0.34
 C0712,Volvo FM,LORO,A,A,2.21,0.0,True,8,0,8,0.0
 C0712,Volvo FM,LOMO,A,A,2.21,0.0,True,8,0,8,0.0
-C0712,Volvo FM,LORO,C,C+CdxA,1.48,-1.23,True,8,4,4,0.67
-C0712,Volvo FM,LOMO,C,C+CdxA,1.83,-1.33,True,8,4,4,0.25
-C0712,Volvo FM,LORO,L4a,L4a+CdxA,1.63,-1.63,True,8,3,5,0.38
-C0712,Volvo FM,LOMO,L4a,L4a+CdxA,2.92,-1.64,True,8,3,5,0.18
-C0712,Volvo FM,LORO,L4b,L4b+CdxA,1.35,-1.2,True,8,4,4,0.64
-C0712,Volvo FM,LOMO,L4b,L4b+CdxA,2.46,-1.18,True,8,4,4,0.27
+C0712,Volvo FM,LORO,C,C+CdxA,1.48,-1.23,True,8,4,4,0.63
+C0712,Volvo FM,LOMO,C,C+CdxA,1.83,-1.33,True,8,4,4,0.26
+C0712,Volvo FM,LORO,L4a,L4a+CdxA,1.63,-1.63,True,8,3,5,0.39
+C0712,Volvo FM,LOMO,L4a,L4a+CdxA,2.92,-1.64,True,8,3,5,0.19
+C0712,Volvo FM,LORO,L4b,L4b+CdxA,1.35,-1.2,True,8,4,4,0.61
+C0712,Volvo FM,LOMO,L4b,L4b+CdxA,2.46,-1.18,True,8,4,4,0.29
 C0206,Mercedes Econic,LORO,A,A,4.0,-4.0,True,10,0,10,0.0
 C0206,Mercedes Econic,LOMO,A,A,4.0,-4.0,True,10,0,10,0.0
 C0206,Mercedes Econic,LORO,C,C,2.33,-2.33,True,10,3,7,0.54
-C0206,Mercedes Econic,LOMO,C,C,2.51,-2.51,True,10,3,7,0.25
-C0206,Mercedes Econic,LORO,L4a,L4a,3.06,-2.35,True,10,2,8,0.38
-C0206,Mercedes Econic,LOMO,L4a,L4a,3.65,-2.5,True,10,2,8,0.17
-C0206,Mercedes Econic,LORO,L4b,L4b,1.9,-1.3,True,10,3,7,0.72
-C0206,Mercedes Econic,LOMO,L4b,L4b,1.94,-1.47,True,10,3,7,0.31
+C0206,Mercedes Econic,LOMO,C,C,2.51,-2.51,True,10,3,7,0.27
+C0206,Mercedes Econic,LORO,L4a,L4a,3.06,-2.35,True,10,2,8,0.36
+C0206,Mercedes Econic,LOMO,L4a,L4a,3.65,-2.5,True,10,2,8,0.2
+C0206,Mercedes Econic,LORO,L4b,L4b,1.9,-1.3,True,10,3,7,0.69
+C0206,Mercedes Econic,LOMO,L4b,L4b,1.94,-1.47,True,10,3,7,0.3
 C0070,IVECO eDaily,LORO,A,A,6.07,-6.07,False,4,0,4,0.0
 C0070,IVECO eDaily,LOMO,A,A,6.07,-6.07,False,4,0,4,0.0
 C0070,IVECO eDaily,LORO,C,C,0.81,-0.32,True,4,3,1,0.17
 C0070,IVECO eDaily,LOMO,C,C,8.24,-6.49,False,4,3,1,1.37
-C0070,IVECO eDaily,LORO,L4a,L4a,3.25,-3.25,True,4,2,2,0.11
+C0070,IVECO eDaily,LORO,L4a,L4a,3.25,-3.25,True,4,2,2,0.12
 C0070,IVECO eDaily,LOMO,L4a,L4a,22.39,-5.62,False,4,2,2,0.04
-C0070,IVECO eDaily,LORO,L4b,L4b,3.27,-1.42,True,4,3,1,0.16
-C0070,IVECO eDaily,LOMO,L4b,L4b,16.09,-4.19,False,4,3,1,0.65
+C0070,IVECO eDaily,LORO,L4b,L4b,3.27,-1.42,True,4,3,1,0.14
+C0070,IVECO eDaily,LOMO,L4b,L4b,16.09,-4.19,False,4,3,1,0.58
 C0001,DAF XB,LORO,A,A,26.85,-26.85,False,6,0,6,0.0
 C0001,DAF XB,LOMO,A,A,26.85,-26.85,False,6,0,6,0.0
-C0001,DAF XB,LORO,C,C+CdxA,4.88,-4.5,True,6,4,2,0.32
-C0001,DAF XB,LOMO,C,C+CdxA,6.88,-6.88,False,6,4,2,0.15
-C0001,DAF XB,LORO,L4a,L4a+CdxA,6.9,-6.9,False,6,3,3,0.2
-C0001,DAF XB,LOMO,L4a,L4a+CdxA,7.48,-7.29,False,6,3,3,0.09
-C0001,DAF XB,LORO,L4b,L4b+CdxA,5.13,-4.2,False,6,4,2,0.26
-C0001,DAF XB,LOMO,L4b,L4b+CdxA,6.72,-6.72,False,6,4,2,0.13
+C0001,DAF XB,LORO,C,C+CdxA,4.88,-4.5,True,6,4,2,0.27
+C0001,DAF XB,LOMO,C,C+CdxA,6.88,-6.88,False,6,4,2,0.16
+C0001,DAF XB,LORO,L4a,L4a+CdxA,6.9,-6.9,False,6,3,3,0.22
+C0001,DAF XB,LOMO,L4a,L4a+CdxA,7.48,-7.29,False,6,3,3,0.1
+C0001,DAF XB,LORO,L4b,L4b+CdxA,5.13,-4.2,False,6,4,2,0.28
+C0001,DAF XB,LOMO,L4b,L4b+CdxA,6.72,-6.72,False,6,4,2,0.14

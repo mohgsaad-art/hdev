@@ -415,8 +415,8 @@ class WithCdxARange(Method):
 
     @staticmethod
     def _range(rec):
-        import harness as HN
-        return HN.CDXA_RANGES[rec["cdxa_range"]]
+        from cdxa_ranges import CDXA_RANGES
+        return CDXA_RANGES[rec["cdxa_range"]]
 
     def bounds_for(self, rec):
         lo, hi = self.base.bounds_for(rec) if hasattr(self.base, "bounds_for") else self.base.bounds
