@@ -1253,3 +1253,311 @@ vecto_loss_map(table)      # reader: VECTO .vtlm loss maps must go through this 
 `vecto_loss_map(table)` takes a VECTO loss-map table and returns it with the torque column shifted by the loss (VECTO triangulates on input torque minus loss). Without it the gearbox loss is 2–3 % off.
 
 An idea that is **not decided** (Bob: "skip for now"): hide the difference between method C and maps behind one loss table `P_loss(Pw, v)` built before the engine runs.
+
+---
+
+# PART D. Stages that are not written yet
+
+**Read this first.** Nothing in Part D is code of record. Each row carries one of these:
+
+- `PLANNED` = the project documents say this input will exist (a date is given where there is one).
+- `DESIGNED` = Bob decided how it works.
+- `PROPOSED` = not decided. Either another tool asks for it (the tool is named) or Claude suggests it. **Bob decides.**
+- `OPEN` = a choice Bob has not made.
+- `DRAFT CODE` = Kiro wrote a function in `src/` marked "NEW, Bob to review". The shape is shown because it is useful, not because it is agreed.
+
+Numbers quoted from the COWI sheet are **samples from that file**. Most have no source in the file (audited 26 Sep). They are shown so the UX knows the field exists and what size of number goes in it. They must not ship as defaults without a source.
+
+## D0. Stage order and entry contracts (DESIGNED 12 Oct)
+
+```
+consumption ─▶ battery ─▶ charging ─▶ flexibility ─▶ cost and CO₂
+                 ▲           ▲
+              sizing       sweeps        (operations wrapped around stages)
+```
+
+| Stage | What it needs at its door | Comes from the stage before as | Or the user gives |
+|---|---|---|---|
+| consumption | project JSON: vehicles, routes, calendar, weather | – | the full project, or own kWh/km per route (flagged override that skips E1–E9) |
+| battery | battery power per row or energy per day; battery data | `P_battery`, `E_battery` | daily kWh |
+| charging | session list `{arrival, departure, energy_need_kWh, arrival_SOC}` + battery + chargers + site limit | one session per vehicle per operating date | a pasted session list |
+| flexibility | load profile `{time, kW}` or per-session power + equipment capabilities | charging power traces, site peak | a pasted load profile + capabilities |
+| cost and CO₂ | annual energy, peak power, equipment list, prices, tariffs | charging and flexibility results | annual kWh + peak kW + prices |
+
+`OPEN`: what happens when user-supplied data has a different time step from the stage (resample, reject, or run at the supplied step and flag it).
+
+## D1. Battery electrical model (PLANNED; DRAFT CODE `src/charging/battery_ocv_ri.py`)
+
+Decided in principle: VECTO's OCV + internal resistance model, with the EU standard values (Reg. 2017/2400 Annex Xb Appendix 10) when the user has no battery data. Today the battery is treated as 100 % efficient.
+
+Draft shape: `battery_step(soc, power_w, dt_s, ocv_table, r_internal, capacity_as)` → new SOC, current, terminal voltage, loss.
+
+| ID | Input | Ways to fill it | Default · source | Status | Notes |
+|---|---|---|---|---|---|
+| `bat.mode` | Battery mode | (A) I have a battery; (B) size it for me | none | DESIGNED 6 Oct | A closes the sizing inputs (D3). B closes installed kWh. |
+| `bat.installed` | Installed energy (kWh) | library (EEA `battery` table, per pack); spec sheet; typed | none | PLANNED | REQ in mode A. |
+| `bat.usable` | Usable energy (kWh) | (a) OEM usable value; (b) VECTO usable = SOC window 7.25 %–92.75 % ≈ 0.855 × installed [STD VECTO `BatteryDataAdapter.cs`]; (c) own share | (b) | PLANNED | Keep **installed, VECTO-usable and OEM-usable as three separate fields** (decided 7 Nov). Example of how far they differ: Volvo 540 kWh installed → 380 kWh usable. |
+| `bat.v_nom` | Nominal voltage (V) | library; OEM | none | PLANNED | Needed to turn the standard OCV multipliers into volts. |
+| `bat.ocv` | Open-circuit voltage by SOC | (a) EU standard: 0.88 / 0.94 / 1.00 / 1.06 / 1.12 × nominal at 0 / 10 / 50 / 90 / 100 % SOC [STD App. 10]; (b) OEM table | (a) | PLANNED | Parser: SOC strictly increasing. The lookup never extrapolates. |
+| `bat.ri` | Internal resistance | (a) EU standard for high-energy batteries: 210 / 240 / 270 / 390 mΩ·Ah for 2 / 10 / 20 / 120 s pulses [STD App. 10]; (b) OEM table by SOC | (a) | PLANNED | Which pulse length to use for hours-long depot charging is a choice to flag (the 120 s value is the closest). |
+| `bat.c_rate` | Largest charge rate by SOC | (a) EU standard: 0.9 C up to 80 % SOC, falling to 0 at 100 % [STD App. 10]; (b) OEM charging curve (kW by SOC); (c) one kW value | (a) | PLANNED | An OEM curve must override: real tapers are set by the battery management system. Also gives "no regeneration at a full battery" for free. |
+| `bat.dc_max` | Fastest DC charging power (kW), connector | OEM spec sheet (CCS2 / MCS) | none | PLANNED | The EEA field for this is 0 % filled, so it must come from OEM sheets. Limits the charger power a truck can use. |
+| `bat.mass`, `bat.chem` | Battery weight, chemistry | library / OEM | none | PLANNED | Chemistry is only needed for ageing. Neither is in EEA. |
+| `bat.soc_window` | Lowest and highest SOC allowed (%) | typed; from `bat.usable` | **OPEN** | OPEN | Bob's own baseline uses a 20 % buffer (÷ 0.8). |
+| `bat.soc_start`, `bat.soc_target` | SOC at the first departure; SOC to charge to | typed | **OPEN** (not in any document) | OPEN | After day one, arrival SOC is carried from the day before. |
+| `bat.heating` | Battery heating and conditioning | OEM power or model | none | PLANNED hook (13 Oct) | "High-fidelity physics when data exists, simple model otherwise." Dollinger 2021 (model): about 4 % in winter. |
+| `bat.charge_chain` | Charger + battery chain efficiency | from the charger (D5) and this model | measured range 82–91 % (CARB), 90 % (NREL) | PLANNED | Not in HDEV yet. Decides energy from the grid against energy into the battery. |
+
+**Outputs (planned):** SOC over the day and the year, battery loss (kWh), energy at the terminals against energy inside the battery, lowest SOC of the hardest day, rows where regeneration was refused.
+
+## D2. Battery ageing and the year-8 check (PLANNED, mandatory wherever it applies, Bob 14 Nov)
+
+Danish tenders state a guaranteed usable capacity at year 8 (Ressourceindsamling: at least 80 % after 8 years; ARC 2022: at most 25 % loss in 8 years). The tool must take it as an input and report the hardest winter day at year-8 capacity.
+
+| ID | Input | Ways to fill it | Default · source | Status | Notes |
+|---|---|---|---|---|---|
+| `age.guarantee` | Usable capacity guaranteed at the check year (%) | (a) the tender's or warranty's value; (b) OEM state-of-health curve or table; (c) an ageing model | none. No default exists | PLANNED | REQ for the year-8 check. Without it the check shows "not given", not a guess. |
+| `age.check_year` | Year the check is made | typed | 8 | PLANNED | |
+| `age.warranty` | Warranty years and km | typed / OEM | none | PLANNED | |
+| `age.soh_curve` | State of health by year or by cycles | OEM table | none | PLANNED | |
+| `age.model` | Ageing model | calendar + cycle model driven by HDEV's own SOC and temperature series | none | PROPOSED | From the 9 Nov tools review (SimSES, BLAST-Lite). Needs chemistry. Parameters only from the original papers: three open implementations of one paper give three different results. Results are qualitative and cannot show a late-life "knee". |
+| `age.replace` | Battery replacement: year, cost | typed | none | PLANNED | Feeds cost. |
+| `age.residual_link` | Link the residual value to remaining state of health | toggle | off | OPEN | KIT formula from the tools review: battery residual = (15 % scrap + 85 % × remaining state of health) × battery cost. |
+| `age.passport` | Battery passport fields | OEM / passport file | none | PLANNED | Required for EV batteries placed on the market from 18 Feb 2027. Use the passport's field names in the battery data model: rated capacity and fade, power and fade, internal resistance and its increase, round-trip efficiency, expected lifetime, state of certified energy. |
+
+**Outputs (planned):** usable kWh at year 8; hardest day at year-8 capacity (pass / fail and margin); winter at year 8; minimum usable kWh at year 8 for these routes (the tender figure); when capacity would run out; predicted passport values after 8 years (energy throughput, full equivalent cycles, charging rates, time at hot and cold temperatures).
+
+## D3. Battery sizing (PLANNED; "not designed yet" on Bob's data-flow page; DRAFT CODE `src/charging/sizing.py`)
+
+Draft shape of mode B: `size_battery_mode_b(glider_mass_kg, pack_kwh_per_kg, payload_kg, energy_per_km_per_kg, range_km, usable_fraction)`.
+
+| ID | Input | Ways to fill it | Default · source | Status | Notes |
+|---|---|---|---|---|---|
+| `siz.rule` | What the battery must cover | hardest day of the year; at year-8 capacity; plus a buffer | none | DESIGNED in outline | The hardest day comes from the year run, not from a typed range. |
+| `siz.buffer` | SOC buffer (%) | typed | **OPEN** | OPEN | Bob's baseline: × 1.1 for weather, ÷ 0.8 for a 20 % buffer. |
+| `siz.glider_mass` | Truck weight without the battery (kg) | OEM; library (curb mass − battery mass, when both are known) | none. No source | PLANNED | REQ in mode B. |
+| `siz.pack_density` | Pack energy density (kWh/kg) | OEM; literature | none. No source chosen | PLANNED | REQ in mode B. |
+| `siz.step` | Battery size step (kWh) | (a) continuous; (b) real pack sizes from the library | none | PROPOSED | Real trucks come in pack steps (e.g. 4–6 packs). |
+| `siz.payload_loop` | Feed battery mass back into curb mass and max payload | fixed rule | on | DESIGNED | A bigger battery lowers the payload left. An early note (9 Sep) solved this in closed form by treating energy as a straight line in mass. The 6 Oct finding is that a mass change can flip a row between driving and regeneration, so battery energy is not exactly a straight line in mass. Kiro's draft uses a loop. Which to use is **OPEN**. |
+
+**Outputs (planned):** battery kWh (installed and usable), battery mass, new curb mass, payload left on each route, payload against diesel, the band from several weather years, position on a tender's score curve.
+
+Bob's own baseline, kept as a comparison beside VECTO and HDEV: regression of kWh/km against weight for popular trucks in Denmark; battery = consumption × longest trip × 1.1 ÷ 0.8.
+
+## D4. Calendar expansion and the session hand-over (DESIGNED 12 Oct; DRAFT CODE `src/resolver/calendar.py`, `session_handover.py`)
+
+Inputs are the schedule inputs of B10. Nothing new for the user.
+
+| Function (draft) | Takes | Gives |
+|---|---|---|
+| `build_calendar(start_date, end_date, operating_pattern, weather_by_date, danish_holidays, day_type)` | date range, weekday pattern, weather per date, holiday set | one row per date: operating yes/no, day type, weather |
+| `build_sessions(day_energy_rows, start_soc, usable_pack_kwh)` | per operating day: arrival, departure, energy used | ordered sessions `{arrival, departure, energy_need_kWh, arrival_SOC}`; SOC carried from day to day and across weekends |
+
+`OPEN` from the same notes: `charger_available` during the day has no producer; per-leg time windows.
+
+## D5. Charging (PLANNED; DRAFT CODE `src/charging/charging_sim.py`, `year_depot_run.py`, Bob's thesis code `ev_charging_env.py`, `allocators_edf_es.py`, `flexibility_setpoints.py`)
+
+Decided: two separate functions. **Sizing mode** is `P = E / t` per vehicle. **Simulation mode** is a per-time-step loop with the OCV + Ri battery, shared chargers and a site limit, run over the whole year with SOC carried over. Draft shapes: `sizing_power(energy_kwh, available_hours)`; `simulate_session(soc_start, power_request_w, duration_s, dt, ocv_table, r_internal, capacity_as, soc_max)`; `run_year_depot(sessions, chargers, site_limit_kw, dt, battery_params, soc_max)`.
+
+| ID | Input | Ways to fill it | Default · source | Status | Notes |
+|---|---|---|---|---|---|
+| `chg.mode` | How charging is worked out | (a) sizing: smallest power that refills in the time parked; (b) simulation: step by step | **OPEN** | DESIGNED | (a) needs no chargers and no strategy: it closes `chg.strategy`, `chg.share_rule`, `chg.step`. |
+| `chg.chargers` | Chargers | (a) size them for me; (b) I choose | none | DESIGNED | (a) makes power and count **outputs**. (b) opens the next three rows. |
+| `chg.power` | Charger power per point (kW) | charger library pick; standard power steps; typed | none | PLANNED | COWI's steps: 22 (AC), 43.5, 50, 80, 150, 400 kW. Capped by `bat.dc_max`. |
+| `chg.count` | Number of charge points | typed; or an output | none | PLANNED | Proposed way to get it (eFLIPS): simulate with plenty, then shrink to the peak number in use at once. |
+| `chg.type` | Charger type, connector | AC (on-board charger) / DC; CCS2 / MCS | none | PLANNED | AC needs the truck's on-board charger power. |
+| `chg.caps` | Charger capabilities | smart charging (yes/no); bidirectional (yes/no); lowest power; connectors per charger | none | DESIGNED (first), PROPOSED (rest) | **Decided rule:** no smart charging → ASAP only; the other strategies and flexibility are closed, and the report says why. |
+| `chg.eff` | Charger losses | (a) one efficiency; (b) part-load curve from the datasheet | 3–4 % loss (4-leaf report 2023), an assumption | PLANNED | (b) is PROPOSED (matters for slow overnight charging). COWI uses a different idea: average session power = 0.85 × rated power ("load factor", no source in the file). |
+| `chg.strategy` | Charging plan | Ready earliest (ASAP) / Grid-friendly (just in time) / Lowest cost (cheapest hours first) | **OPEN** | DESIGNED | Client names on the left, internal names stay hidden. Lowest cost needs hourly prices (D8). Other tools also offer: least-laxity-first, peak-minimising, a grid-company time window (PROPOSED). |
+| `chg.share_rule` | How a limited site power is shared between trucks | earliest deadline first / equal share / least laxity first | none | thesis code has the first two; third PROPOSED | Engineering view. |
+| `chg.ready_by` | Ready-by time | empty = when the truck leaves; or a clock time | departure time | PLANNED | Tender example: ready at 80 % by 06:00. |
+| `chg.step` | Time step | typed | **OPEN**: must come from Energinet product specs. Bob wants finer than 5 min | OPEN | An argument, never hard-coded. |
+| `chg.assign` | Which truck uses which point | auto / table; shared chargers | auto | PLANNED | |
+| `chg.opportunity` | Charging during the day | none / between shifts at the depot / at a stop (tip site) | none | OPEN | Uses `stop.charger`. ARC added 100 kW chargers for this. |
+| `chg.public` | Public charging | share of energy (%) or "only when the depot cannot cover it"; price (DKK/kWh) | COWI computes the share; price sample 3.25 DKK/kWh (FDM 2024) | PLANNED | COWI asks two yes/no questions here: "charge during driving and rest breaks?" and "can the truck charge at the depot during the day?". Both decide the lost-production cost (D9). |
+| `chg.aux` | Aux power while charging | fixed rule: none | none (decided 13 Oct) | DESIGNED | |
+| `chg.robust` | Robustness cases | one charger out of service; late return (min); cold week; plug-in discipline (% plugged in on return) | off | PLANNED | Each is a labelled what-if case. |
+| `chg.min_conn` | Find the smallest connection that still works | toggle | off | PROPOSED | From eFLIPS (`lowest_power`, bisection). Gives the number a grid application needs. |
+
+**Outputs (planned):** charger size and count, chargers per truck; per-session table (arrival SOC, kWh, start, end, power, finish time, slack before departure); fleet schedule; busy hours per charger; share of sessions met; strategies compared; depot load per time step; peak kW; energy from the grid including losses; unmet energy and which trucks; spare trucks needed in a cold week; the "at least 150 kW between 10 % and 75 %" check.
+
+## D6. Depot and grid (PLANNED)
+
+Site capacity is an **input** in one mode and an **output** in the other. Either way it reaches charging as power available over time.
+
+| ID | Input | Ways to fill it | Default · source | Status | Notes |
+|---|---|---|---|---|---|
+| `dep.mode` | Is there a connection today? | (a) brownfield: yes; (b) greenfield: no | none | DESIGNED 22 Sep | (a) makes connection size an input and a constraint. (b) makes it an output and closes `dep.conn_size`, `dep.building`. |
+| `dep.address` | Site address | text / map | none | PLANNED | Also gives price area and the default weather location. |
+| `dep.dso` | Grid company | Radius, Cerius, N1, TREFOR El-net, other; or read from Eloverblik master data | from the address or Eloverblik | PLANNED | The Elindsigt file shows Eloverblik returns grid company, supplier and the power limit of the metering point. Using that to prefill is PROPOSED. |
+| `dep.category` | Customer category | C, B-lav, B-høj, A-lav, A-høj | from connection size and voltage | PLANNED | Decides the fee formula and the tariff. |
+| `dep.conn_size` | Connection size today | amperes or kW (unit switch); or Eloverblik power limit | none | PLANNED | REQ in brownfield. Danish connections are bought per ampere. |
+| `dep.building` | Other load on the same connection | (a) none; (b) one number (kW); (c) Eloverblik hourly data through MitID; (d) CT-logger upload | none | PLANNED | (c) and (d) give an hourly profile and a coincidence factor. Shared buildings often have no meter on the main supply, so (d) needs an authorised installer for 4–8 weeks. |
+| `dep.spare` | Spare power | computed: connection − building load, per hour | – | AUTO | This is what charging may use. |
+| `dep.access` | Access to the grid | full (FNA) / limited (BNA) / stepwise | full | PLANNED | BNA only for 10 kV and above. |
+| `dep.bna_cut` | Limited-access what-if | cut in %, from time, to time | none | PLANNED | A labelled what-if, never a forecast: nobody publishes how often cuts happen. Opens only when access = limited. |
+| `dep.spaces` | Parking spaces that can have a charger; power per space | table | none | PLANNED | |
+| `dep.growth` | Fleet growth phases | table: trucks, month | none | PLANNED | Tender example: 10 trucks now, up to 70 within 48 months. |
+| `dep.lead_time` | Lead-time band; wanted commissioning date | typed / from the grid company | none | PLANNED | Reported range: 9 months to more than 6 years. |
+| `dep.buffer` | Battery on site | kWh, kW | none | PLANNED | |
+| `dep.solar` | Solar on site | kW | none | PROPOSED | In Kiro's registry and in SpiceEV. Not in Bob's notes. |
+| `dep.distance` | Distance to the connection point (m) | typed | none | PROPOSED | For trenching cost. COWI uses a flat trenching amount per charger size instead. |
+| `dep.housing` | Housing-association mode | residents, cars, share with a charge point by year | none | PLANNED, not designed | Coincidence factor from Eloverblik. The municipal calculator file gives a top-down demand curve (2022–2050, split home / housing association / workplace / public) as a reference only. |
+
+**Outputs (planned):** depot peak in kW and amperes; load hour by hour; load-duration curve; required connection (greenfield); customer category; connection fee from the price list; lead-time band; full against limited access side by side; whether a given cut still leaves every truck ready; capacity charge with and without smart charging; peak by growth phase; capacity-friendly and system-friendly as two separate scores; amperes saved by load management.
+
+## D7. Flexibility (thesis code exists; tool integration PLANNED; DRAFT CODE `src/charging/flexibility.py`)
+
+Flexibility is **always calculated**. It is the gap between the earliest and the latest way of delivering the same energy, kept energy-neutral: anything shifted is recovered within the charging period. The inputs below only decide what is reported as an offer.
+
+Engine-side quantities (all `CALC` from charging, nothing typed): which trucks are present, energy still needed, largest charging rate, site limit, time step, and for export: V2G-capable flag, current SOC, lowest SOC for V2G, battery capacity. Draft shapes: `feasible_heads(present, power_needed_kwh, max_charging_rate_kw, max_station_capacity_kw, dt_h, v2g_capable, soc_current, min_soc_v2g, battery_capacity_kwh)` and `flexibility_per_hour(load_profile_kw, feasible_import_kw, feasible_export_kw, dt_h)`.
+
+| ID | Input | Ways to fill it | Default · source | Status | Notes |
+|---|---|---|---|---|---|
+| `flex.offer` | Offer flexibility to markets | yes / no | no | DESIGNED | Closed when the chargers have no smart charging. |
+| `flex.products` | Products to check | FCR-D, FCR-N, mFRR, aFRR | none | PLANNED | A check against the rules, not a revenue promise. Rules noted on 26 Oct from Energinet's tender conditions: FCR-D minimum bid 0.1 MW, full response in 7.5 s; FCR-N 0.1 MW and at least 1 h of energy; mFRR 1 MW within 12.5 min; sub-second metering. Re-check before use. |
+| `flex.aggregator` | Through an aggregator | yes / no | none | PLANNED | A small fleet is below the minimum bids on its own. |
+| `flex.dso` | Grid-company flexibility | Cerius-Radius pilot terms | off | PLANNED | Pilot stage, 2 areas, limited-access customers excluded. |
+| `flex.v2g` | Vehicle-to-grid | yes / no; lowest SOC for V2G | no | PLANNED | Needs ISO 15118-20 on both truck and charger. |
+| `flex.core_window` | Hours the aggregator can rely on | from–to | none | PROPOSED | SpiceEV's "core standing time". |
+
+**Outputs (planned):** up and down power per hour within readiness; the same as cumulative energy bounds (the standard shape every aggregator can read); which products the fleet could qualify for and why not; hours per week available; rebound after a curtailment; cost to readiness.
+
+## D8. Prices (PLANNED)
+
+| ID | Input | Ways to fill it | Default · source | Status | Notes |
+|---|---|---|---|---|---|
+| `pr.area` | Price area | DK1 / DK2 | from the site address | PLANNED | |
+| `pr.el` | Electricity price | (a) hourly spot prices fetched from Energinet's Energi Data Service; (b) own hourly file; (c) day price + night price; (d) one flat price | (a) | PLANNED | (c) and (d) are the simple entries in Kiro's registry (PROPOSED). The plan for cost is the price **at the hours the simulation actually charges**. COWI's stand-in is the mean of the cheapest N hours of the day (N = daily depot charging hours, rounded up), on Jan–Jun 2024 prices × 1.92 for tariffs (the 1.92 has no stated basis). |
+| `pr.level` | Price level | low / expected / high | expected; how the levels are defined is **OPEN** | OPEN | Scenario lever. KIT uses the 25 / 50 / 75 % quantiles of a Monte Carlo (PROPOSED). |
+| `pr.tariff` | Grid tariff | (a) grid company's time-of-day table for the customer category; (b) own values | none; current price lists not yet in the repo | PLANNED | The Elindsigt file splits a bill into: spot price, supplier mark-up, supplier subscription, grid tariff (low 00–06 / high 06–17 and 21–24 / peak 17–21), grid subscription, Energinet system tariff, transmission tariff, system subscription, electricity tax. Those windows are household (C) tariffs, not depot (A / B) tariffs. |
+| `pr.capacity` | Capacity charge | from the grid company | none | PLANNED | For 10 kV customers: based on the average of the 10 busiest hours. |
+| `pr.tax` | Electricity tax and refund | typed / from the rate table | none. Kiro's tariff CSV contradicts itself; needs skat.dk | PLANNED | |
+| `pr.vat` | Show prices with or without VAT | with / without | without (COWI is without) | PROPOSED | Elindsigt applies × 1.25. Businesses usually reclaim VAT. |
+| `pr.path` | Price path over the years | (a) flat; (b) Energistyrelsen projection (Klimastatus og -fremskrivning, newest edition); (c) own % per year | none | PLANNED | COWI computes the projection but no cost formula uses it. |
+| `pr.diesel` | Diesel (DKK/l) | typed | COWI sample 11.65 (ok.dk Jan–Jun 2024 + 0.50 duty) | PLANNED | |
+| `pr.adblue` | AdBlue | DKK/l, or DKK/km | COWI sample 6.96 DKK/l; the cost sheet uses 0.11 DKK/km | PLANNED | |
+| `pr.alt_fuel` | HVO100, biogas | DKK/l, DKK/kg | COWI sample HVO100 19.97 | PLANNED | |
+| `pr.public` | Public fast charging (DKK/kWh) | typed | COWI sample 3.25 (FDM 2024) | PLANNED | |
+| `pr.flex` | Payment for flexibility products | from Energinet / own | none | PROPOSED | Only if a revenue figure is ever shown. |
+
+## D9. Costs and finance (PLANNED: "port the logic from the COWI sheet")
+
+The first table is the COWI sheet row by row, so no cost input is missed. The second table is what the project notes and other tools add.
+
+**D9a. Every input in the COWI truck cost sheet**
+
+| COWI input (sheet `2025` unless noted) | COWI sample | HDEV input | How HDEV would get it |
+|---|---|---|---|
+| Km per year (Dashboard) | 100,000 | `cost.km_year` | CALC from the year run; typed when running cost only |
+| Years in the fleet (Dashboard) | 8 | `cost.years` | typed: 8 / 10 / 12 (scenario lever) |
+| Operating days per year | 300 | – | CALC from the calendar (B10) |
+| Km per day, kWh per day | computed | – | CALC |
+| Battery capacity, max charging power, average session power | 600 kWh, 400 kW, 352 kW | `bat.*`, `chg.*` | from D1 and D5 |
+| Consumption, summer and for the calculation | 1.07 and 1.19 kWh/km | – | CALC by the engine (this is HDEV's main difference) |
+| Diesel consumption | 0.288 l/km | `veh.diesel_use` | typed; or from certified diesel data (PROPOSED) |
+| Range | 504 km | – | CALC |
+| Loading metres | 13.6 m | `cost.loading_m` | typed (PROPOSED: also cost per tonne-km) |
+| Price new incl. equipment, electric and diesel | 2,050,000 / 1,150,000 DKK | `cost.price_ev`, `cost.price_diesel` | typed; library when a bid is entered |
+| Subsidy (DKK) | 0 | `tax.subsidy` | D10 |
+| Down payment | 0 | `cost.down` | typed |
+| Residual value % by years held | 15 % (1–6 yrs), 12.5 (7), 10 (8), 7.5 (9), 5 (10), 0 (11–12), same for both | `cost.residual` | table; or linked to battery health (`age.residual_link`) |
+| Interest | 3.45 % | `cost.interest` | typed |
+| Financing rule | annuity, monthly, paid in advance, residual as balloon | `cost.financing` | cash / loan / lease |
+| Depot charger power (Dashboard) | 50 kW | `chg.power` | from D5 |
+| Charger and switchboard price | 12,500 to 700,000 DKK by size | `cost.charger` | library band by kW, or own quote |
+| Connection amperes | 35 to 650 A by size | – | CALC from the depot peak |
+| Price first 25 A, price per ampere | 17,950 and 1,280 DKK (Radius) | `cost.conn_fee` | grid company formula by category (Cerius 2026 incl. VAT: 23,500 for the first 25 A; then per ampere C 1,812.50, B-lav 1,737.50, B-høj 1,675; A-lav 1,637,500 and A-høj 900,000 per MVA), or own figure |
+| Groundworks and trenching | 10,000 to 500,000 DKK by size | `cost.trench` | band by kW, or own quote, or from `dep.distance` |
+| Driver wage per month (+ a hidden EV premium % that is empty) | 30,000 DKK | `cost.wage` | typed |
+| Electricity price at the depot | from the price sheet | `pr.el` | D8, at the simulated charging hours |
+| Diesel price, AdBlue per km | 11.65 DKK/l, 0.11 DKK/km | `pr.diesel`, `pr.adblue` | D8 |
+| Share charged at the depot, public charging price | computed, 3.25 DKK/kWh | `chg.public`, `pr.public` | CALC from charging; price typed |
+| Service per month | 7,685 / 5,000 DKK | `cost.service` | typed, electric and diesel |
+| Tyre cost per tyre per km, number of tyres | 0.015 DKK, 8 | `cost.tyres` | typed; tyre count from the axle layout |
+| Insurance per month | 1,476 / 768 DKK | `cost.insurance` | typed |
+| Road tax per km by year (sheet `Afgifter`) | by weight class, CO₂ class, zone | `tax.km_*` | D10 |
+| Hours in operation per day | 9.75 h | – | CALC from the schedule and the driver model |
+| Charge during driving and rest breaks? (Dashboard) | No | `chg.public` | D5 |
+| Can the truck charge at the depot during the day? | No | `chg.opportunity` | D5 |
+| Lost production time | computed % × monthly fixed costs | `cost.lost_time` | CALC from charging (hours of public charging beyond breaks) |
+
+**D9b. Added by the project notes and by other tools**
+
+| ID | Input | Ways to fill it | Default · source | Status | Notes |
+|---|---|---|---|---|---|
+| `cost.discount` | Discount rate and present-value rule | typed | none | PLANNED | Vejdirektoratet's rule: year 1 is discounted one full period. |
+| `cost.depot_years` | Years the depot is written off over | typed | **OPEN** (about 30 years suggested in the 4-leaf report against about 10 for vehicles) | OPEN | |
+| `cost.downtime` | Cost of a day out of service | DKK/day | none (tender fine example: 2,000 DKK per truck per day) | PLANNED | T3CO: planned hours per year + unplanned hours per km × cost per hour (PROPOSED). |
+| `cost.payload` | Cost of lost payload | DKK/t or extra trips | none | PLANNED | T3CO does this from a distribution of real loads (PROPOSED). |
+| `cost.service_contract` | Service contract of 8–10 years | DKK/year | none | PLANNED | All the tenders read bundle one. |
+| `cost.battery_price` | Battery price per kWh; replacement | DKK/kWh | none | PROPOSED | Needed to price sizing mode B and replacement. |
+| `cost.sensitivity` | Sensitivity ranges | ± % on electricity, diesel, km/year, residual, battery replacement, interest | none | PLANNED | |
+| `cost.alt` | Compare against HVO, biogas, B7 | toggles | off | PLANNED | |
+| `cost.split` | Split the depot cost across trucks | rule | none | PLANNED | |
+
+**Outputs (planned; COWI has the first two lines):** cost per km, month, year and period, electric against diesel; extra cost at the start, monthly operating saving, break-even in months and years; cost per loading metre per km. Added: year-by-year cash flow; present value; cost by line; electricity split into spot, tariff and tax; sensitivity chart; cost per tonne-km and per tonne collected; grant-ready numbers.
+
+## D10. Taxes and subsidies (PLANNED)
+
+| ID | Input | Ways to fill it | Default · source | Status | Notes |
+|---|---|---|---|---|---|
+| `tax.km_class` | Km-based road tax class | weight class (3.5–12 / 12–18 / 18–32 / over 32 t) from GVW; CO₂ emission class 1–5 (zero-emission = class 5); zone (environmental zone / other) | auto from the vehicle; zone share **OPEN** | PLANNED | COWI's sample pair: 0.1008 (electric) against 0.8525 DKK/km (diesel) for 2025–27, rising in 2028 and again in 2029. Take current rates from skm.dk. |
+| `tax.km_zone_share` | Share of km inside environmental zones | typed; from the route when it has coordinates | none | PROPOSED | The rate differs by zone, so a share is needed. |
+| `tax.km_rate` | Own rate table | DKK/km by year | none | PLANNED | Closes `tax.km_class`. |
+| `tax.ets2` | Diesel under ETS2 from 2028 | toggle + price | off | PLANNED | |
+| `tax.other` | Registration tax, yearly vehicle tax | typed | none | PROPOSED | In Kiro's registry. COWI only has the old yearly Eurovignette table as a comparison. |
+| `tax.subsidy` | Subsidy | none / a scheme / own amount (DKK) | none | PLANNED | The Vejdirektoratet pool closed 30 Sep 2026. Separate fields for vehicle, charger and grid subsidy are PROPOSED (Kiro's registry). |
+
+## D11. CO₂ and life cycle (PLANNED)
+
+| ID | Input | Ways to fill it | Default · source | Status | Notes |
+|---|---|---|---|---|---|
+| `co2.grid` | CO₂ per kWh of grid electricity | (a) Energistyrelsen yearly series (COWI's copy: 41.5 g/kWh in 2024 falling to 7.0 in 2034; take the newest edition); (b) own value; (c) at the actual charging hours from Energi Data Service (5-minute values per price area) | (a) | PLANNED | (c): average or marginal factor is a method choice to state. |
+| `co2.upstream` | Upstream factor on grid electricity | typed | COWI uses × 1.18 | PROPOSED | |
+| `co2.diesel` | Diesel: tailpipe and fuel production (g CO₂e/l) | typed | COWI sample 2,420 + 900 for diesel with 7 % biodiesel; no source verified by us | PLANNED | |
+| `co2.alt` | Biodiesel 1st and 2nd generation, HVO, biogas | typed | COWI sample fuel production 2,650 (1st gen. incl. land-use change) and 440 g/l (2nd gen.) | PLANNED | |
+| `co2.vehicle` | Vehicle production (kg CO₂e per kg of vehicle), vehicle weight | typed | COWI sample 6.6 kg/kg (ICCT 2023) and 14,884 kg | PLANNED | |
+| `co2.battery` | Battery production (kg CO₂e/kWh), battery size | typed | COWI sample 61 kg/kWh (IVL 2019) | PLANNED | |
+
+**Outputs (planned):** tonnes per year, electric and diesel; saved over the period; grid factor path; CO₂ at the charging hours; life-cycle total and per km; km driven before the electric truck is ahead; comparison with HVO, biogas and B7.
+
+## D12. Tender and offer sheet (PLANNED; shown only when the project is a tender)
+
+| ID | Input | Side | Status | Notes |
+|---|---|---|---|---|
+| `ten.weights` | Award weights: price / technical / delivery / environment | buyer | PLANNED | Seen in Danish tenders: price 50–70 %, technical 25–35 %, delivery 15–25 %, environment 10 %. |
+| `ten.curves` | Score curves, e.g. battery 250 → 450 kWh for 1 → 10 points | buyer | PLANNED | |
+| `ten.minimums` | Minimum requirements: usable kWh at year 8; at least 150 kW between 10 % and 75 %; crane and compactor at the same time; ready at 80 % by 06:00 | buyer | PLANNED | |
+| `ten.bids` | One column of spec values per bid (battery, usable, charging power, weight, price, service) | supplier | PLANNED | Bids override the generic values on the same routes. Idea being weighed: a link where bidders fill in their own column. |
+| `ten.guarantees` | Guaranteed values: year-8 capacity, downtime ≤ 5 days per year, response within 2 h | supplier | PLANNED | |
+| `ten.brand_neutral` | Brand-neutral report | buyer | PLANNED | |
+
+## D13. Scenarios, sweeps, uncertainty (DESIGNED in outline)
+
+| ID | Input | Ways to fill it | Status | Notes |
+|---|---|---|---|---|
+| `scn.changes` | A scenario = the base project + a list of changes | any field | DESIGNED | The base is never overwritten. The run restarts at the first stage a change touches. |
+| `scn.levers` | Quick levers | fleet size, charging plan, price level, weather year, ownership years | DESIGNED | |
+| `scn.sweep` | Option lists to try | battery sizes, charger power steps, charging plans, site limits | DESIGNED 22 Sep | The result is a menu of options, not one number. Include rows just under thresholds where the price jumps. Lists must come from real products and grid-company steps. |
+| `scn.mc` | Uncertain inputs | distributions for payload, temperature, arrival time | PLANNED | Method: JCGM 101:2008. Gives ranges (P10 / P50 / P90). Weather spread across years is not Monte Carlo. |
+| `scn.compare` | Compare runs | pick two or more | PLANNED | |
+
+## D14. Libraries, assistant, views (PLANNED)
+
+| Item | What it holds or does | Status |
+|---|---|---|
+| Vehicle library | one row per exact configuration, EEA certified data + spec sheets, provenance class on every field | data joined 7 Nov; schema is a draft |
+| Drivetrain library | `drive_eff`, `regen_eff`, `drivetrain_drag_N` per truck, fitted on certified results | Kiro PRs #37–#40; decision on class numbers OPEN |
+| Charger and tariff library | charger specs, grid-company price lists | Kiro PR #26, with known errors to fix |
+| PTO profile library | sourced profiles per body type | only the VECTO refuse profile is an official default |
+| Saved routes, payload profiles, schedules | the user's own templates | DESIGNED: reached from the fleet table, no separate templates page |
+| AI assistant | fills the project JSON from dumped data, then asks for what `check()` lists as missing | PLANNED. It never picks defaults. |
+| Client / OEM / engineering view | same engine, different fields shown | DESIGNED; slot shape OPEN |
+
+## D15. Cross-check against the other two Excel files
+
+| File | Inputs it asks for | Where they land in HDEV |
+|---|---|---|
+| `Elindsigt2.2.xlsx` | Eloverblik token (MitID); metering point or address when there are several; expected yearly kWh; electricity supplier and product, or manual subscription and mark-up; period; production address | `dep.building` branch (c): token, metering point, period. It also returns address, grid company, supplier and power limit → could prefill `dep.dso`, `dep.conn_size` (PROPOSED). Supplier product → `pr.el` mark-up and subscription. The file does **not** compute a coincidence factor. |
+| `ChargePointCalculator_v5.xlsx` | municipality (98), year (2022–2050), EV uptake curve, split by place of charging (home / housing association / workplace / public), range-extension need | reference for `dep.housing` and for municipal clients only. Not part of depot sizing (decided 26 Sep). |
