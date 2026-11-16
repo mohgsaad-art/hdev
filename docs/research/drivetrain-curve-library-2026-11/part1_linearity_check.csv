@@ -1,0 +1,4 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+config_id,mission,cdxa_mid,cdxa_hi,A_full_rerun_kwh_km,A_linear_kwh_km,diff_pct
+C0116,Long Haul,5.0,5.12,1.00795,1.00752,-0.0433
+C0091,Regional Delivery,5.515000000000001,5.65,1.29415,1.29375,-0.0311

@@ -1,0 +1,90 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+config_id,truck,group,mission,payload_kg,airdrag,trailers_vecto,cdxa_before_m2,cdxa_after_m2,certified_kwh_km,A_before_kwh_km,A_after_kwh_km,err_before_pct,err_after_pct
+C0059,Fuso eCanter,1,Regional Delivery,333,standard A19,,7.1,7.1,1.235,0.8332,0.8332,-32.54,-32.54
+C0059,Fuso eCanter,1,Regional Delivery,1664,standard A19,,7.1,7.1,1.262,0.8639,0.8639,-31.55,-31.55
+C0059,Fuso eCanter,1,Urban Delivery,333,standard A19,,7.1,7.1,0.738,0.5433,0.5433,-26.38,-26.38
+C0059,Fuso eCanter,1,Urban Delivery,1664,standard A19,,7.1,7.1,0.7822,0.586,0.586,-25.08,-25.08
+C0091,IVECO S-eWay,5,Construction,2600,measured A14,STT1,7.2,7.2,1.139,1.0855,1.0855,-4.7,-4.7
+C0091,IVECO S-eWay,5,Construction,12900,measured A14,STT1,7.2,7.2,1.337,1.3336,1.3336,-0.25,-0.25
+C0091,IVECO S-eWay,5,Long Haul,2600,measured A14,ST1,8.7,5.515,1.189,1.3904,1.0869,16.94,-8.59
+C0091,IVECO S-eWay,5,Long Haul,19300,measured A14,ST1,8.7,5.515,1.457,1.7006,1.3937,16.72,-4.34
+C0091,IVECO S-eWay,5,Long Haul EMS,3500,measured A14,ST1+T2,8.7,7.015,1.473,1.5569,1.3963,5.69,-5.21
+C0091,IVECO S-eWay,5,Long Haul EMS,26500,measured A14,ST1+T2,8.7,7.015,1.854,1.9889,1.8199,7.28,-1.84
+C0091,IVECO S-eWay,5,Regional Delivery,2600,measured A14,ST1,8.7,5.515,1.125,1.3195,1.0625,17.29,-5.56
+C0091,IVECO S-eWay,5,Regional Delivery,12900,measured A14,ST1,8.7,5.515,1.302,1.5443,1.2833,18.61,-1.44
+C0091,IVECO S-eWay,5,Regional Delivery EMS,3500,measured A14,ST1+T2,8.7,7.015,1.4,1.5055,1.3676,7.53,-2.31
+C0091,IVECO S-eWay,5,Regional Delivery EMS,17500,measured A14,ST1+T2,8.7,7.015,1.654,1.8018,1.6668,8.93,0.77
+C0091,IVECO S-eWay,5,Urban Delivery,2600,measured A14,ST1,8.7,5.515,0.9854,1.0577,0.9541,7.33,-3.18
+C0091,IVECO S-eWay,5,Urban Delivery,12900,measured A14,ST1,8.7,5.515,1.247,1.346,1.2393,7.94,-0.62
+C0371,Scania R 400E,5,Construction,2600,standard A23,STT1,7.2,7.2,1.171,1.0538,1.0538,-10.01,-10.01
+C0371,Scania R 400E,5,Construction,12900,standard A23,STT1,7.2,7.2,1.456,1.2815,1.2815,-11.98,-11.98
+C0371,Scania R 400E,5,Long Haul,2600,standard A23,ST1,8.7,8.7,1.467,1.355,1.355,-7.63,-7.63
+C0371,Scania R 400E,5,Long Haul,19300,standard A23,ST1,8.7,8.7,1.755,1.6448,1.6448,-6.28,-6.28
+C0371,Scania R 400E,5,Long Haul EMS,3500,standard A23,ST1+T2,8.7,10.2,1.784,1.5208,1.6613,-14.76,-6.88
+C0371,Scania R 400E,5,Long Haul EMS,26500,standard A23,ST1+T2,8.7,10.2,2.189,1.907,2.0474,-12.88,-6.47
+C0371,Scania R 400E,5,Regional Delivery,2600,standard A23,ST1,8.7,8.7,1.38,1.2823,1.2823,-7.08,-7.08
+C0371,Scania R 400E,5,Regional Delivery,12900,standard A23,ST1,8.7,8.7,1.594,1.4861,1.4861,-6.77,-6.77
+C0371,Scania R 400E,5,Regional Delivery EMS,3500,standard A23,ST1+T2,8.7,10.2,1.693,1.4679,1.5861,-13.29,-6.31
+C0371,Scania R 400E,5,Regional Delivery EMS,17500,standard A23,ST1+T2,8.7,10.2,1.994,1.7447,1.8638,-12.5,-6.53
+C0371,Scania R 400E,5,Urban Delivery,2600,standard A23,ST1,8.7,8.7,1.228,1.0136,1.0136,-17.46,-17.46
+C0371,Scania R 400E,5,Urban Delivery,12900,standard A23,ST1,8.7,8.7,1.66,1.2828,1.2828,-22.72,-22.72
+C0116,MAN eTGX,5,Construction,2600,measured A12,STT1,7.2,7.2,1.094,1.0495,1.0495,-4.06,-4.06
+C0116,MAN eTGX,5,Construction,12900,measured A12,STT1,7.2,7.2,1.367,1.2838,1.2838,-6.09,-6.09
+C0116,MAN eTGX,5,Long Haul,2600,measured A12,ST1,8.7,5.0,1.046,1.3505,0.9962,29.11,-4.76
+C0116,MAN eTGX,5,Long Haul,19300,measured A12,ST1,8.7,5.0,1.348,1.6287,1.2905,20.82,-4.27
+C0116,MAN eTGX,5,Long Haul EMS,3500,measured A12,ST1+T2,8.7,6.5,1.349,1.5135,1.301,12.19,-3.56
+C0116,MAN eTGX,5,Long Haul EMS,26500,measured A12,ST1+T2,8.7,6.5,1.776,1.89,1.6845,6.42,-5.15
+C0116,MAN eTGX,5,Regional Delivery,2600,measured A12,ST1,8.7,5.0,1.016,1.2814,0.9802,26.12,-3.52
+C0116,MAN eTGX,5,Regional Delivery,12900,measured A12,ST1,8.7,5.0,1.225,1.4914,1.1934,21.75,-2.58
+C0116,MAN eTGX,5,Regional Delivery EMS,3500,measured A12,ST1+T2,8.7,6.5,1.313,1.4583,1.2751,11.06,-2.88
+C0116,MAN eTGX,5,Regional Delivery EMS,17500,measured A12,ST1+T2,8.7,6.5,1.62,1.7268,1.5527,6.59,-4.15
+C0116,MAN eTGX,5,Urban Delivery,2600,measured A12,ST1,8.7,5.0,0.9857,1.0082,0.8861,2.28,-10.1
+C0116,MAN eTGX,5,Urban Delivery,12900,measured A12,ST1,8.7,5.0,1.404,1.2781,1.1611,-8.97,-17.3
+C0153,Mercedes eActros 600,5,Construction,2600,measured A12,STT1,7.2,7.2,1.007,1.0178,1.0178,1.07,1.07
+C0153,Mercedes eActros 600,5,Construction,12900,measured A12,STT1,7.2,7.2,1.228,1.2219,1.2219,-0.5,-0.5
+C0153,Mercedes eActros 600,5,Long Haul,2600,measured A12,ST1,8.7,5.0,0.9732,1.3245,0.9633,36.1,-1.02
+C0153,Mercedes eActros 600,5,Long Haul,19300,measured A12,ST1,8.7,5.0,1.209,1.5807,1.2479,30.74,3.22
+C0153,Mercedes eActros 600,5,Long Haul EMS,3500,measured A12,ST1+T2,8.7,6.5,1.252,1.4863,1.2748,18.71,1.82
+C0153,Mercedes eActros 600,5,Long Haul EMS,26500,measured A12,ST1+T2,8.7,6.5,1.605,1.858,1.6657,15.76,3.78
+C0153,Mercedes eActros 600,5,Regional Delivery,2600,measured A12,ST1,8.7,5.0,0.9258,1.25,0.9435,35.02,1.92
+C0153,Mercedes eActros 600,5,Regional Delivery,12900,measured A12,ST1,8.7,5.0,1.087,1.4349,1.1349,32.01,4.41
+C0153,Mercedes eActros 600,5,Regional Delivery EMS,3500,measured A12,ST1+T2,8.7,6.5,1.189,1.4287,1.2487,20.16,5.02
+C0153,Mercedes eActros 600,5,Regional Delivery EMS,17500,measured A12,ST1+T2,8.7,6.5,1.444,1.6964,1.5245,17.48,5.57
+C0153,Mercedes eActros 600,5,Urban Delivery,2600,measured A12,ST1,8.7,5.0,0.8762,0.9753,0.8549,11.31,-2.43
+C0153,Mercedes eActros 600,5,Urban Delivery,12900,measured A12,ST1,8.7,5.0,1.233,1.2296,1.1143,-0.28,-9.62
+C0218,Renault D,4,Construction,900,measured A13,,8.1,6.6,1.065,0.8814,0.7824,-17.24,-26.54
+C0218,Renault D,4,Construction,4400,measured A13,,8.1,6.6,1.171,0.959,0.8625,-18.1,-26.35
+C0218,Renault D,4,Long Haul,1900,measured A13,T2,9.9,6.75,1.482,1.4337,1.1316,-3.26,-23.64
+C0218,Renault D,4,Long Haul,14000,measured A13,T2,9.9,6.75,1.684,1.6197,1.3366,-3.82,-20.63
+C0218,Renault D,4,Regional Delivery,900,measured A13,,9.9,5.25,1.051,1.1445,0.7557,8.89,-28.1
+C0218,Renault D,4,Regional Delivery,4400,measured A13,,9.9,5.25,1.127,1.216,0.8312,7.9,-26.25
+C0218,Renault D,4,Urban Delivery,900,measured A13,,9.9,5.25,0.8482,0.7602,0.6037,-10.38,-28.83
+C0218,Renault D,4,Urban Delivery,4400,measured A13,,9.9,5.25,1.035,0.8557,0.6999,-17.32,-32.37
+C0712,Volvo FM,9,Long Haul,2600,measured A23,T2,10.0,10.06,1.559,1.5583,1.5643,-0.04,0.34
+C0712,Volvo FM,9,Long Haul,19300,measured A23,T2,10.0,10.06,1.815,1.8486,1.8541,1.85,2.16
+C0712,Volvo FM,9,Long Haul EMS,3500,measured A23,D+ST1,10.0,10.66,1.719,1.6601,1.722,-3.42,0.17
+C0712,Volvo FM,9,Long Haul EMS,26500,measured A23,D+ST1,10.0,10.66,2.093,2.0497,2.1082,-2.07,0.73
+C0712,Volvo FM,9,Regional Delivery,1400,measured A23,,10.0,8.56,1.133,1.2667,1.1452,11.8,1.08
+C0712,Volvo FM,9,Regional Delivery,7100,measured A23,,10.0,8.56,1.236,1.383,1.2633,11.9,2.21
+C0712,Volvo FM,9,Regional Delivery EMS,3500,measured A23,D+ST1,10.0,10.66,1.624,1.5907,1.6457,-2.05,1.34
+C0712,Volvo FM,9,Regional Delivery EMS,17500,measured A23,D+ST1,10.0,10.66,1.901,1.8628,1.9133,-2.01,0.65
+C0206,Mercedes Econic,9,Construction,1400,standard A23,,8.2,6.7,0.8858,0.9545,0.86,7.75,-2.91
+C0206,Mercedes Econic,9,Construction,7100,standard A23,,8.2,6.7,1.014,1.083,0.987,6.8,-2.66
+C0206,Mercedes Econic,9,Long Haul,2600,standard A23,T2,10.0,10.0,1.517,1.4918,1.4918,-1.66,-1.66
+C0206,Mercedes Econic,9,Long Haul,19300,standard A23,T2,10.0,10.0,1.816,1.782,1.782,-1.87,-1.87
+C0206,Mercedes Econic,9,Long Haul EMS,3500,standard A23,D+ST1,10.0,10.6,1.7,1.6024,1.6603,-5.74,-2.33
+C0206,Mercedes Econic,9,Long Haul EMS,26500,standard A23,D+ST1,10.0,10.6,2.134,1.9962,2.0487,-6.46,-4.0
+C0206,Mercedes Econic,9,Regional Delivery,1400,standard A23,,10.0,8.5,1.077,1.1923,1.0659,10.71,-1.03
+C0206,Mercedes Econic,9,Regional Delivery,7100,standard A23,,10.0,8.5,1.182,1.3008,1.1747,10.05,-0.62
+C0206,Mercedes Econic,9,Regional Delivery EMS,3500,standard A23,D+ST1,10.0,10.6,1.598,1.5223,1.5726,-4.74,-1.59
+C0206,Mercedes Econic,9,Regional Delivery EMS,17500,standard A23,D+ST1,10.0,10.6,1.907,1.8093,1.8603,-5.12,-2.45
+C0070,IVECO eDaily,53,Regional Delivery,232,standard A15,,5.8,5.8,0.728,0.6838,0.6838,-6.07,-6.07
+C0070,IVECO eDaily,53,Regional Delivery,1169,standard A15,,5.8,5.8,0.7538,0.7099,0.7099,-5.82,-5.82
+C0070,IVECO eDaily,53,Urban Delivery,232,standard A15,,5.8,5.8,0.4893,0.4625,0.4625,-5.47,-5.47
+C0070,IVECO eDaily,53,Urban Delivery,1169,standard A15,,5.8,5.8,0.5275,0.4967,0.4967,-5.85,-5.85
+C0001,DAF XB,9,Construction,1400,measured A11,,8.2,6.7,1.14,0.9489,0.852,-16.77,-25.27
+C0001,DAF XB,9,Construction,7100,measured A11,,8.2,6.7,1.291,1.0606,0.9647,-17.85,-25.28
+C0001,DAF XB,9,Long Haul,2600,measured A11,T2,10.0,6.265,1.436,1.48,1.1225,3.06,-21.83
+C0001,DAF XB,9,Long Haul,19300,measured A11,T2,10.0,6.265,1.644,1.7235,1.3827,4.83,-15.89
+C0001,DAF XB,9,Regional Delivery,1400,measured A11,,10.0,4.765,1.021,1.1832,0.7468,15.89,-26.85
+C0001,DAF XB,9,Regional Delivery,7100,measured A11,,10.0,4.765,1.115,1.2787,0.8525,14.68,-23.55

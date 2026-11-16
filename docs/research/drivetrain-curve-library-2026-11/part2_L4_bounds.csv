@@ -1,0 +1,8 @@
+coef,unit,upper_bound,value_frac,source
+a,W,0.18482 * P_rated,0.18482,max no-load P_el / P_rated over VECTO generic chains (part2_noload_by_chain.csv)
+b,1/W,0.36145 / P_rated,0.361451852255245,max k_d = 1/eta-1 at x >= 0.6 over VECTO shapes (partA_shapes.csv)
+c,W per m/s,0.006260 * P_rated,0.00626,max slope of no-load P_el vs vehicle speed / P_rated over VECTO generic chains
+eta_d (C),-,0.5 .. 1.0,,ASSUMPTION: job prompt bounds
+eta_r (C),-,0.3 .. 1.0,,ASSUMPTION: job prompt bounds
+F0 (C),N,0 .. 3000,,ASSUMPTION: job prompt bounds
+CdxA declared,m2,"[min, max) of the EEA range",,REG 2018/956 Annex I Part C; measured air drag only

@@ -1,0 +1,7 @@
+run,km,E_internal_kwh,E_terminal_kwh,battery_Ri_loss_kwh,battery_Ri_loss_pct_of_internal,jb_cable_loss_kwh,aux_el_kwh,aux_pct_of_internal,motor_el_kwh,charging_kwh,charging_pct,internal_kwh_per_km,grid_kwh_per_km
+RegionalDelivery ReferenceLoad,100.0,105.954,105.035,0.92,0.87,0.042,3.241,3.06,101.751,0.532,0.503,1.0595,1.0649
+RegionalDelivery LowLoading,100.0,99.981,99.24,0.742,0.74,0.034,3.244,3.25,95.962,0.502,0.503,0.9998,1.0048
+UrbanDelivery ReferenceLoad,99.999,85.048,84.023,1.025,1.21,0.048,6.627,7.79,77.348,0.427,0.503,0.8505,0.8548
+UrbanDelivery LowLoading,99.999,75.478,74.817,0.661,0.88,0.03,6.641,8.8,68.146,0.379,0.503,0.7548,0.7586
+LongHaul ReferenceLoad,100.185,154.914,152.831,2.083,1.34,0.095,2.847,1.84,149.889,0.778,0.503,1.5463,1.5541
+LongHaul LowLoading,100.185,136.714,135.324,1.39,1.02,0.063,2.846,2.08,132.415,0.687,0.503,1.3646,1.3715

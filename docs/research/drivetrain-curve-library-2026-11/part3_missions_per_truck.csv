@@ -1,0 +1,12 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+config_id,truck,missions
+C0059,Fuso eCanter,Regional Delivery 333 kg; Regional Delivery 1664 kg; Urban Delivery 333 kg; Urban Delivery 1664 kg
+C0091,IVECO S-eWay,Construction 2600 kg; Construction 12900 kg; Long Haul 2600 kg; Long Haul 19300 kg; Long Haul EMS 3500 kg; Long Haul EMS 26500 kg; Regional Delivery 2600 kg; Regional Delivery 12900 kg; Regional Delivery EMS 3500 kg; Regional Delivery EMS 17500 kg; Urban Delivery 2600 kg; Urban Delivery 12900 kg
+C0371,Scania R 400E,Construction 2600 kg; Construction 12900 kg; Long Haul 2600 kg; Long Haul 19300 kg; Long Haul EMS 3500 kg; Long Haul EMS 26500 kg; Regional Delivery 2600 kg; Regional Delivery 12900 kg; Regional Delivery EMS 3500 kg; Regional Delivery EMS 17500 kg; Urban Delivery 2600 kg; Urban Delivery 12900 kg
+C0116,MAN eTGX,Construction 2600 kg; Construction 12900 kg; Long Haul 2600 kg; Long Haul 19300 kg; Long Haul EMS 3500 kg; Long Haul EMS 26500 kg; Regional Delivery 2600 kg; Regional Delivery 12900 kg; Regional Delivery EMS 3500 kg; Regional Delivery EMS 17500 kg; Urban Delivery 2600 kg; Urban Delivery 12900 kg
+C0153,Mercedes eActros 600,Construction 2600 kg; Construction 12900 kg; Long Haul 2600 kg; Long Haul 19300 kg; Long Haul EMS 3500 kg; Long Haul EMS 26500 kg; Regional Delivery 2600 kg; Regional Delivery 12900 kg; Regional Delivery EMS 3500 kg; Regional Delivery EMS 17500 kg; Urban Delivery 2600 kg; Urban Delivery 12900 kg
+C0218,Renault D,Construction 900 kg; Construction 4400 kg; Long Haul 1900 kg; Long Haul 14000 kg; Regional Delivery 900 kg; Regional Delivery 4400 kg; Urban Delivery 900 kg; Urban Delivery 4400 kg
+C0712,Volvo FM,Long Haul 2600 kg; Long Haul 19300 kg; Long Haul EMS 3500 kg; Long Haul EMS 26500 kg; Regional Delivery 1400 kg; Regional Delivery 7100 kg; Regional Delivery EMS 3500 kg; Regional Delivery EMS 17500 kg
+C0206,Mercedes Econic,Construction 1400 kg; Construction 7100 kg; Long Haul 2600 kg; Long Haul 19300 kg; Long Haul EMS 3500 kg; Long Haul EMS 26500 kg; Regional Delivery 1400 kg; Regional Delivery 7100 kg; Regional Delivery EMS 3500 kg; Regional Delivery EMS 17500 kg
+C0070,IVECO eDaily,Regional Delivery 232 kg; Regional Delivery 1169 kg; Urban Delivery 232 kg; Urban Delivery 1169 kg
+C0001,DAF XB,Construction 1400 kg; Construction 7100 kg; Long Haul 2600 kg; Long Haul 19300 kg; Regional Delivery 1400 kg; Regional Delivery 7100 kg

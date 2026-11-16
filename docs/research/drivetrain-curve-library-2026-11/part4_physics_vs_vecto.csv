@@ -1,0 +1,7 @@
+run,hdev_mass_kg,vecto_km,hdev_km,vecto_time_s,hdev_time_s,vecto_wheel_pos_kwh,hdev_wheel_pos_kwh,vecto_wheel_neg_kwh,hdev_wheel_neg_kwh,diff_pos_pct,diff_neg_pct,note
+RegionalDelivery ReferenceLoad,9589.6,100.0,100.0,5885,5885,67.209,67.213,-8.597,-8.616,0.01,0.23,
+RegionalDelivery LowLoading,7173.9,100.0,100.0,5885,5887,59.863,59.833,-5.652,-5.641,-0.05,-0.19,
+UrbanDelivery ReferenceLoad,9589.6,99.999,100.0,13489,13576,79.586,80.543,-43.902,-44.91,1.2,2.3,
+UrbanDelivery LowLoading,7173.9,99.999,100.0,13482,13567,63.547,64.082,-32.25,-32.826,0.84,1.79,
+LongHaul ReferenceLoad,9589.6,100.185,100.185,4521,4499,106.095,67.299,-7.65,-2.699,-36.57,-64.72,"BLOCKED: VECTO LongHaul E2 run has a trailer (vsum Total vehicle mass 11273.9 / 19811.2 kg, CdxA 6.13 m2); the HDEV E2 set-up used here (shapes_lib.e2_vehicle_rows) has no trailer -> not comparable"
+LongHaul LowLoading,7173.9,100.185,100.185,4503,4499,87.561,61.891,-2.857,-1.651,-29.32,-42.22,"BLOCKED: VECTO LongHaul E2 run has a trailer (vsum Total vehicle mass 11273.9 / 19811.2 kg, CdxA 6.13 m2); the HDEV E2 set-up used here (shapes_lib.e2_vehicle_rows) has no trailer -> not comparable"

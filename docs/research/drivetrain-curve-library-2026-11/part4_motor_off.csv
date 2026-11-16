@@ -1,0 +1,7 @@
+run,rows_off_any,rows_off_full,rows_off_braking,wheel_brake_energy_on_off_rows_kwh,vecto_el_on_off_rows_kwh,hdev_methodA_el_on_off_rows_kwh,hdev_drivetrain_el_on_off_rows_kwh,diff_methodA_pct_of_motor_el,diff_drivetrain_pct_of_motor_el
+RegionalDelivery ReferenceLoad,883,814,128,0.779,0.0944,-0.739,-0.251,-0.82,-0.34
+RegionalDelivery LowLoading,863,807,109,0.583,0.0942,-0.553,-0.176,-0.67,-0.28
+UrbanDelivery ReferenceLoad,3985,3606,580,2.759,0.0991,-2.607,-1.17,-3.5,-1.64
+UrbanDelivery LowLoading,3877,3518,478,1.77,0.0311,-1.668,-0.744,-2.49,-1.14
+LongHaul ReferenceLoad,191,163,120,1.408,0.0129,-1.337,-0.408,-0.9,-0.28
+LongHaul LowLoading,122,98,50,0.454,0.1103,-0.431,-0.125,-0.41,-0.18
