@@ -21,9 +21,17 @@ class Fitted:
         self.tag, self.make_method, self.params, self.cdxa = tag, make_method, params, cdxa
         self.model, self.make_name, self.n_params = model, make_name, n_params
 
-    def errors(self, cid, rr, drivetrain):
+    def errors(self, cid, rr, drivetrain, cdxa_mode="own"):
+        """cdxa_mode 'own': the target config's own fitted declared CdxA (PR #38). 'mid': the middle of its published range
+        (what is known for an unseen model; no use of the target's certified results)."""
         m = self.make_method(rr[0])
-        th = tuple(drivetrain) + ((self.cdxa[cid],) if rr[0]["airdrag_measured"] else ())
+        if cdxa_mode == "mid" and rr[0]["airdrag_measured"]:
+            from cdxa_ranges import CDXA_RANGES
+            lo, hi = CDXA_RANGES[rr[0]["cdxa_range"]]
+            cd = 0.5 * (lo + hi)
+        else:
+            cd = self.cdxa[cid]
+        th = tuple(drivetrain) + ((cd,) if rr[0]["airdrag_measured"] else ())
         return np.array([m.predict(r, th) / r["cert"] - 1 for r in rr])
 
 
@@ -59,7 +67,7 @@ def class_band(F, by, eval_ids, donor_ids):
                 worst_config_mean_abs_err_pct=round(float(np.abs(e).max()), 3), params_p50=";".join("%.6g" % v for v in vals)), e
 
 
-def holdout_models(F, by, ids):
+def holdout_models(F, by, ids, cdxa_mode="own"):
     """PR #38 Part 4 class source. ids = configs of the universe (targets and donors)."""
     models = sorted(set(F.model[c] for c in ids))
     rows = []
@@ -67,7 +75,7 @@ def holdout_models(F, by, ids):
         tc = [c for c in ids if F.model[c] == tgt]
         donors = [c for c in ids if F.model[c] != tgt]
         vals = class_p50(F, donors)
-        es = np.concatenate([F.errors(c, by[c], vals) for c in tc])
+        es = np.concatenate([F.errors(c, by[c], vals, cdxa_mode) for c in tc])
         rows.append(dict(method=F.tag, target_model=tgt, target_make=F.make_name[tc[0]], n_target_configs=len(tc), n_predictions=len(es),
                          mean_err=float(es.mean()), worst_abs=float(np.abs(es).max()), n=len(es), n_low=int((es < 0).sum()), mean_err_pct=round(100 * float(es.mean()), 3),
                          worst_abs_err_pct=round(100 * float(np.abs(es).max()), 3), share_too_low=round(float((es < 0).mean()), 3),

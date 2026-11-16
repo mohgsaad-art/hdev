@@ -1,0 +1,772 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+universe,method,target_model,target_make,n,mean_err_pct,worst_abs_err_pct,mean_donors
+all 38 models,B0 median of all other models,Actros,Mercedes-Benz,320,12.803,31.373,35.6
+all 38 models,B0 median of all other models,FH  42T  E,Volvo,660,13.951,33.053,35.6
+all 38 models,B0 median of all other models,FM  42T  E,Volvo,258,-4.926,11.075,35.6
+all 38 models,B0 median of all other models,FMX 42T  E,Volvo,48,-6.174,10.691,35.7
+all 38 models,B0 median of all other models,G 230E A4x2NB,Scania,8,-15.396,20.225,37.0
+all 38 models,B0 median of all other models,G 360E A4x2NA,Scania,24,0.117,12.112,35.7
+all 38 models,B0 median of all other models,G0100A,DAF,24,2.689,29.311,35.7
+all 38 models,B0 median of all other models,G0200A,DAF,22,-14.283,27.875,35.5
+all 38 models,B0 median of all other models,P 230E A4x2NA,Scania,16,-13.168,17.848,37.0
+all 38 models,B0 median of all other models,P 230E A4x2NB,Scania,8,-12.603,17.976,37.0
+all 38 models,B0 median of all other models,R 360E A4x2NB,Scania,36,-0.017,13.553,35.7
+all 38 models,B0 median of all other models,R 400E A4x2LA,Scania,12,-8.842,12.702,35.7
+all 38 models,B0 median of all other models,R 400E A4x2LB,Scania,24,-2.135,11.199,35.7
+all 38 models,B0 median of all other models,R 400E A4x2NA,Scania,96,-8.504,19.605,35.7
+all 38 models,B0 median of all other models,R 400E A4x2NB,Scania,264,-10.449,19.396,35.7
+all 38 models,B0 median of all other models,R 450E A4x2LB,Scania,12,-7.341,11.896,35.7
+all 38 models,B0 median of all other models,R 450E A4x2NA,Scania,72,-10.314,17.023,35.7
+all 38 models,B0 median of all other models,R 450E A4x2NB,Scania,96,-12.193,20.735,35.7
+all 38 models,B0 median of all other models,S 400E A4x2NB,Scania,12,-12.331,15.208,35.7
+all 38 models,B0 median of all other models,S 450E A4x2NA,Scania,12,-11.464,14.801,35.7
+all 38 models,B0 median of all other models,S 450E A4x2NB,Scania,84,-10.769,17.245,35.7
+all 38 models,B0 median of all other models,S-eWay,Iveco,24,6.361,20.473,35.7
+all 38 models,B0 median of all other models,TGS 18.449 4x2 BL SA EB,MAN,24,-0.558,6.486,35.7
+all 38 models,B0 median of all other models,TGS 20.449 4x2 BL SA EB,MAN,24,11.685,22.191,35.7
+all 38 models,B0 median of all other models,TGS 20.544 4x2 LL SA EB,MAN,12,20.179,28.18,35.7
+all 38 models,B0 median of all other models,TGX 18.449 4x2 BL SA EB,MAN,36,14.694,23.631,35.7
+all 38 models,B0 median of all other models,TGX 18.449 4x2 LL SA EB,MAN,36,12.455,22.533,35.7
+all 38 models,B0 median of all other models,TGX 18.544 4x2 BL SA EB,MAN,12,10.537,16.769,35.7
+all 38 models,B0 median of all other models,TGX 20.449 4x2 BL SA EB,MAN,48,19.981,29.762,35.7
+all 38 models,B0 median of all other models,TGX 20.449 4x2 LL SA EB,MAN,36,16.712,25.607,35.7
+all 38 models,B0 median of all other models,TGX 20.544 4x2 BL SA EB,MAN,12,25.375,31.707,35.7
+all 38 models,B0 median of all other models,TGX 20.544 4x2 LL SA EB,MAN,24,21.952,32.947,35.7
+all 38 models,B0 median of all other models,XD  270 FT,DAF,8,16.83,24.612,37.0
+all 38 models,B0 median of all other models,XD  310 FT,DAF,36,7.011,23.14,35.7
+all 38 models,B0 median of all other models,XD  350 FT,DAF,100,2.407,30.62,35.6
+all 38 models,B0 median of all other models,XF  350 FT,DAF,68,3.344,31.978,35.6
+all 38 models,B0 median of all other models,ZM42T_HIGH,Renault,36,-0.384,6.821,35.7
+all 38 models,B0 median of all other models,ZM42T_MED,Renault,314,9.167,26.388,35.6
+all 38 models,"B1 median of 5 nearest models (mass, kW)",Actros,Mercedes-Benz,320,25.136,52.765,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",FH  42T  E,Volvo,660,13.137,32.026,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",FM  42T  E,Volvo,258,-11.49,22.424,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",FMX 42T  E,Volvo,48,-12.49,22.089,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",G 230E A4x2NB,Scania,8,-22.77,33.955,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",G 360E A4x2NA,Scania,24,-2.589,10.245,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",G0100A,DAF,24,-6.561,27.981,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",G0200A,DAF,22,-17.301,26.641,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",P 230E A4x2NA,Scania,16,-20.764,31.987,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",P 230E A4x2NB,Scania,8,-11.899,18.501,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",R 360E A4x2NB,Scania,36,-1.227,10.646,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",R 400E A4x2LA,Scania,12,0.247,2.738,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",R 400E A4x2LB,Scania,24,-0.86,7.063,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",R 400E A4x2NA,Scania,96,0.358,29.082,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",R 400E A4x2NB,Scania,264,-2.087,22.561,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",R 450E A4x2LB,Scania,12,3.869,4.361,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",R 450E A4x2NA,Scania,72,0.543,5.065,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",R 450E A4x2NB,Scania,96,-2.034,8.175,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",S 400E A4x2NB,Scania,12,-4.122,6.616,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",S 450E A4x2NA,Scania,12,-1.212,2.563,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",S 450E A4x2NB,Scania,84,-0.446,4.695,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",S-eWay,Iveco,24,17.818,26.521,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",TGS 18.449 4x2 BL SA EB,MAN,24,4.409,16.655,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",TGS 20.449 4x2 BL SA EB,MAN,24,18.664,38.761,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",TGS 20.544 4x2 LL SA EB,MAN,12,8.732,15.535,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",TGX 18.449 4x2 BL SA EB,MAN,36,2.025,3.818,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",TGX 18.449 4x2 LL SA EB,MAN,36,-1.932,4.327,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",TGX 18.544 4x2 BL SA EB,MAN,12,-7.865,12.87,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",TGX 20.449 4x2 BL SA EB,MAN,48,6.764,16.318,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",TGX 20.449 4x2 LL SA EB,MAN,36,3.864,12.642,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",TGX 20.544 4x2 BL SA EB,MAN,12,13.378,18.266,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",TGX 20.544 4x2 LL SA EB,MAN,24,9.469,19.379,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",XD  270 FT,DAF,8,29.258,42.004,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",XD  310 FT,DAF,36,2.213,23.74,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",XD  350 FT,DAF,100,-1.062,26.547,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",XF  350 FT,DAF,68,1.641,31.978,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",ZM42T_HIGH,Renault,36,-7.752,13.425,5.0
+all 38 models,"B1 median of 5 nearest models (mass, kW)",ZM42T_MED,Renault,314,8.164,25.412,5.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",Actros,Mercedes-Benz,320,25.136,52.765,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",FH  42T  E,Volvo,660,13.293,32.026,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",FM  42T  E,Volvo,258,-11.47,22.424,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",FMX 42T  E,Volvo,48,-12.183,22.089,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",G 230E A4x2NB,Scania,8,-24.421,35.113,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",G 360E A4x2NA,Scania,24,0.196,14.279,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",G0100A,DAF,24,1.154,26.964,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",G0200A,DAF,22,-24.77,31.87,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",P 230E A4x2NA,Scania,16,-0.639,5.84,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",P 230E A4x2NB,Scania,8,-20.352,25.94,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",R 360E A4x2NB,Scania,36,-2.344,13.226,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",R 400E A4x2LA,Scania,12,2.151,2.908,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",R 400E A4x2LB,Scania,24,6.539,17.617,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",R 400E A4x2NA,Scania,96,2.509,29.935,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",R 400E A4x2NB,Scania,264,-1.209,26.011,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",R 450E A4x2LB,Scania,12,3.894,4.361,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",R 450E A4x2NA,Scania,72,0.567,5.065,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",R 450E A4x2NB,Scania,96,-2.034,8.175,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",S 400E A4x2NB,Scania,12,-3.265,4.93,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",S 450E A4x2NA,Scania,12,-0.717,2.188,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",S 450E A4x2NB,Scania,84,0.625,5.044,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",S-eWay,Iveco,24,17.818,26.521,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",TGS 18.449 4x2 BL SA EB,MAN,24,-9.7,12.374,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",TGS 20.449 4x2 BL SA EB,MAN,24,11.528,21.618,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",TGS 20.544 4x2 LL SA EB,MAN,12,-1.298,3.064,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",TGX 18.449 4x2 BL SA EB,MAN,36,-1.631,8.185,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",TGX 18.449 4x2 LL SA EB,MAN,36,-3.576,7.924,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",TGX 18.544 4x2 BL SA EB,MAN,12,-7.865,12.87,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",TGX 20.449 4x2 BL SA EB,MAN,48,4.675,14.561,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",TGX 20.449 4x2 LL SA EB,MAN,36,1.819,10.94,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",TGX 20.544 4x2 BL SA EB,MAN,12,4.448,6.048,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",TGX 20.544 4x2 LL SA EB,MAN,24,9.469,19.379,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",XD  270 FT,DAF,8,15.83,24.536,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",XD  310 FT,DAF,36,6.699,32.209,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",XD  350 FT,DAF,100,0.822,26.547,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",XF  350 FT,DAF,68,3.299,31.978,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",ZM42T_HIGH,Renault,36,-7.478,13.425,3.0
+all 38 models,"B1 median of 3 nearest models (mass, kW)",ZM42T_MED,Renault,314,8.522,25.412,3.0
+all 38 models,class-P50 C (CdxA own),Actros,Mercedes-Benz,320,1.696,21.764,
+all 38 models,class-P50 C (CdxA own),FH  42T  E,Volvo,660,0.747,12.025,
+all 38 models,class-P50 C (CdxA own),FM  42T  E,Volvo,258,0.267,11.23,
+all 38 models,class-P50 C (CdxA own),FMX 42T  E,Volvo,48,1.085,5.136,
+all 38 models,class-P50 C (CdxA own),G 230E A4x2NB,Scania,8,-10.883,15.772,
+all 38 models,class-P50 C (CdxA own),G 360E A4x2NA,Scania,24,4.846,9.313,
+all 38 models,class-P50 C (CdxA own),G0100A,DAF,24,-11.725,35.65,
+all 38 models,class-P50 C (CdxA own),G0200A,DAF,22,-27.028,35.051,
+all 38 models,class-P50 C (CdxA own),P 230E A4x2NA,Scania,16,-8.708,15.697,
+all 38 models,class-P50 C (CdxA own),P 230E A4x2NB,Scania,8,-10.461,22.51,
+all 38 models,class-P50 C (CdxA own),R 360E A4x2NB,Scania,36,2.816,9.212,
+all 38 models,class-P50 C (CdxA own),R 400E A4x2LA,Scania,12,-5.504,12.558,
+all 38 models,class-P50 C (CdxA own),R 400E A4x2LB,Scania,24,3.376,9.971,
+all 38 models,class-P50 C (CdxA own),R 400E A4x2NA,Scania,96,-4.01,17.879,
+all 38 models,class-P50 C (CdxA own),R 400E A4x2NB,Scania,264,-5.211,17.808,
+all 38 models,class-P50 C (CdxA own),R 450E A4x2LB,Scania,12,-4.586,9.59,
+all 38 models,class-P50 C (CdxA own),R 450E A4x2NA,Scania,72,-6.36,13.983,
+all 38 models,class-P50 C (CdxA own),R 450E A4x2NB,Scania,96,-6.539,11.272,
+all 38 models,class-P50 C (CdxA own),S 400E A4x2NB,Scania,12,-5.387,11.435,
+all 38 models,class-P50 C (CdxA own),S 450E A4x2NA,Scania,12,-8.374,13.901,
+all 38 models,class-P50 C (CdxA own),S 450E A4x2NB,Scania,84,-6.589,15.508,
+all 38 models,class-P50 C (CdxA own),S-eWay,Iveco,24,1.5,12.771,
+all 38 models,class-P50 C (CdxA own),TGS 18.449 4x2 BL SA EB,MAN,24,-3.965,7.479,
+all 38 models,class-P50 C (CdxA own),TGS 20.449 4x2 BL SA EB,MAN,24,6.195,12.723,
+all 38 models,class-P50 C (CdxA own),TGS 20.544 4x2 LL SA EB,MAN,12,9.567,17.135,
+all 38 models,class-P50 C (CdxA own),TGX 18.449 4x2 BL SA EB,MAN,36,-2.608,11.936,
+all 38 models,class-P50 C (CdxA own),TGX 18.449 4x2 LL SA EB,MAN,36,-1.648,7.936,
+all 38 models,class-P50 C (CdxA own),TGX 18.544 4x2 BL SA EB,MAN,12,-2.719,5.628,
+all 38 models,class-P50 C (CdxA own),TGX 20.449 4x2 BL SA EB,MAN,48,3.102,13.05,
+all 38 models,class-P50 C (CdxA own),TGX 20.449 4x2 LL SA EB,MAN,36,4.532,13.995,
+all 38 models,class-P50 C (CdxA own),TGX 20.544 4x2 BL SA EB,MAN,12,8.019,14.111,
+all 38 models,class-P50 C (CdxA own),TGX 20.544 4x2 LL SA EB,MAN,24,7.684,14.519,
+all 38 models,class-P50 C (CdxA own),XD  270 FT,DAF,8,2.015,4.804,
+all 38 models,class-P50 C (CdxA own),XD  310 FT,DAF,36,-4.181,24.629,
+all 38 models,class-P50 C (CdxA own),XD  350 FT,DAF,100,-11.976,38.046,
+all 38 models,class-P50 C (CdxA own),XF  350 FT,DAF,68,-9.025,34.315,
+all 38 models,class-P50 C (CdxA own),ZM42T_HIGH,Renault,36,-0.404,10.522,
+all 38 models,class-P50 C (CdxA own),ZM42T_MED,Renault,314,0.017,13.011,
+all 38 models,class-P50 C (CdxA mid),Actros,Mercedes-Benz,320,1.415,22.708,
+all 38 models,class-P50 C (CdxA mid),FH  42T  E,Volvo,660,0.398,12.115,
+all 38 models,class-P50 C (CdxA mid),FM  42T  E,Volvo,258,-0.64,11.618,
+all 38 models,class-P50 C (CdxA mid),FMX 42T  E,Volvo,48,0.247,5.535,
+all 38 models,class-P50 C (CdxA mid),G 230E A4x2NB,Scania,8,-10.883,15.772,
+all 38 models,class-P50 C (CdxA mid),G 360E A4x2NA,Scania,24,4.846,9.313,
+all 38 models,class-P50 C (CdxA mid),G0100A,DAF,24,-11.792,35.586,
+all 38 models,class-P50 C (CdxA mid),G0200A,DAF,22,-27.48,35.766,
+all 38 models,class-P50 C (CdxA mid),P 230E A4x2NA,Scania,16,-8.708,15.697,
+all 38 models,class-P50 C (CdxA mid),P 230E A4x2NB,Scania,8,-10.461,22.51,
+all 38 models,class-P50 C (CdxA mid),R 360E A4x2NB,Scania,36,2.816,9.212,
+all 38 models,class-P50 C (CdxA mid),R 400E A4x2LA,Scania,12,-5.504,12.558,
+all 38 models,class-P50 C (CdxA mid),R 400E A4x2LB,Scania,24,3.376,9.971,
+all 38 models,class-P50 C (CdxA mid),R 400E A4x2NA,Scania,96,-4.01,17.879,
+all 38 models,class-P50 C (CdxA mid),R 400E A4x2NB,Scania,264,-5.211,17.808,
+all 38 models,class-P50 C (CdxA mid),R 450E A4x2LB,Scania,12,-4.586,9.59,
+all 38 models,class-P50 C (CdxA mid),R 450E A4x2NA,Scania,72,-6.36,13.983,
+all 38 models,class-P50 C (CdxA mid),R 450E A4x2NB,Scania,96,-6.539,11.272,
+all 38 models,class-P50 C (CdxA mid),S 400E A4x2NB,Scania,12,-5.387,11.435,
+all 38 models,class-P50 C (CdxA mid),S 450E A4x2NA,Scania,12,-8.374,13.901,
+all 38 models,class-P50 C (CdxA mid),S 450E A4x2NB,Scania,84,-6.589,15.508,
+all 38 models,class-P50 C (CdxA mid),S-eWay,Iveco,24,0.896,12.46,
+all 38 models,class-P50 C (CdxA mid),TGS 18.449 4x2 BL SA EB,MAN,24,-4.453,7.803,
+all 38 models,class-P50 C (CdxA mid),TGS 20.449 4x2 BL SA EB,MAN,24,5.572,12.402,
+all 38 models,class-P50 C (CdxA mid),TGS 20.544 4x2 LL SA EB,MAN,12,9.097,16.822,
+all 38 models,class-P50 C (CdxA mid),TGX 18.449 4x2 BL SA EB,MAN,36,-3.183,12.162,
+all 38 models,class-P50 C (CdxA mid),TGX 18.449 4x2 LL SA EB,MAN,36,-2.209,8.171,
+all 38 models,class-P50 C (CdxA mid),TGX 18.544 4x2 BL SA EB,MAN,12,-3.279,6.679,
+all 38 models,class-P50 C (CdxA mid),TGX 20.449 4x2 BL SA EB,MAN,48,2.597,12.897,
+all 38 models,class-P50 C (CdxA mid),TGX 20.449 4x2 LL SA EB,MAN,36,3.976,13.6,
+all 38 models,class-P50 C (CdxA mid),TGX 20.544 4x2 BL SA EB,MAN,12,7.39,13.704,
+all 38 models,class-P50 C (CdxA mid),TGX 20.544 4x2 LL SA EB,MAN,24,7.069,14.112,
+all 38 models,class-P50 C (CdxA mid),XD  270 FT,DAF,8,1.472,4.419,
+all 38 models,class-P50 C (CdxA mid),XD  310 FT,DAF,36,-4.633,25.446,
+all 38 models,class-P50 C (CdxA mid),XD  350 FT,DAF,100,-12.456,38.704,
+all 38 models,class-P50 C (CdxA mid),XF  350 FT,DAF,68,-9.476,35.039,
+all 38 models,class-P50 C (CdxA mid),ZM42T_HIGH,Renault,36,-1.127,10.836,
+all 38 models,class-P50 C (CdxA mid),ZM42T_MED,Renault,314,-0.628,13.237,
+all 38 models,class-P50 L4b (CdxA own),Actros,Mercedes-Benz,320,2.506,21.34,
+all 38 models,class-P50 L4b (CdxA own),FH  42T  E,Volvo,660,1.604,10.16,
+all 38 models,class-P50 L4b (CdxA own),FM  42T  E,Volvo,258,0.174,9.578,
+all 38 models,class-P50 L4b (CdxA own),FMX 42T  E,Volvo,48,1.292,5.286,
+all 38 models,class-P50 L4b (CdxA own),G 230E A4x2NB,Scania,8,-10.195,15.217,
+all 38 models,class-P50 L4b (CdxA own),G 360E A4x2NA,Scania,24,5.744,8.553,
+all 38 models,class-P50 L4b (CdxA own),G0100A,DAF,24,-11.231,34.847,
+all 38 models,class-P50 L4b (CdxA own),G0200A,DAF,22,-26.234,34.744,
+all 38 models,class-P50 L4b (CdxA own),P 230E A4x2NA,Scania,16,-7.988,15.084,
+all 38 models,class-P50 L4b (CdxA own),P 230E A4x2NB,Scania,8,-9.547,21.993,
+all 38 models,class-P50 L4b (CdxA own),R 360E A4x2NB,Scania,36,3.9,8.785,
+all 38 models,class-P50 L4b (CdxA own),R 400E A4x2LA,Scania,12,-4.0,10.204,
+all 38 models,class-P50 L4b (CdxA own),R 400E A4x2LB,Scania,24,4.655,9.629,
+all 38 models,class-P50 L4b (CdxA own),R 400E A4x2NA,Scania,96,-2.721,15.868,
+all 38 models,class-P50 L4b (CdxA own),R 400E A4x2NB,Scania,264,-4.006,15.862,
+all 38 models,class-P50 L4b (CdxA own),R 450E A4x2LB,Scania,12,-3.005,6.8,
+all 38 models,class-P50 L4b (CdxA own),R 450E A4x2NA,Scania,72,-4.827,11.505,
+all 38 models,class-P50 L4b (CdxA own),R 450E A4x2NB,Scania,96,-4.892,9.482,
+all 38 models,class-P50 L4b (CdxA own),S 400E A4x2NB,Scania,12,-4.109,9.426,
+all 38 models,class-P50 L4b (CdxA own),S 450E A4x2NA,Scania,12,-6.812,11.192,
+all 38 models,class-P50 L4b (CdxA own),S 450E A4x2NB,Scania,84,-5.059,13.004,
+all 38 models,class-P50 L4b (CdxA own),S-eWay,Iveco,24,3.482,16.168,
+all 38 models,class-P50 L4b (CdxA own),TGS 18.449 4x2 BL SA EB,MAN,24,-2.671,6.667,
+all 38 models,class-P50 L4b (CdxA own),TGS 20.449 4x2 BL SA EB,MAN,24,6.767,11.788,
+all 38 models,class-P50 L4b (CdxA own),TGS 20.544 4x2 LL SA EB,MAN,12,10.253,16.125,
+all 38 models,class-P50 L4b (CdxA own),TGX 18.449 4x2 BL SA EB,MAN,36,-0.921,10.442,
+all 38 models,class-P50 L4b (CdxA own),TGX 18.449 4x2 LL SA EB,MAN,36,-0.008,6.358,
+all 38 models,class-P50 L4b (CdxA own),TGX 18.544 4x2 BL SA EB,MAN,12,-1.089,3.46,
+all 38 models,class-P50 L4b (CdxA own),TGX 20.449 4x2 BL SA EB,MAN,48,4.249,12.134,
+all 38 models,class-P50 L4b (CdxA own),TGX 20.449 4x2 LL SA EB,MAN,36,5.545,13.528,
+all 38 models,class-P50 L4b (CdxA own),TGX 20.544 4x2 BL SA EB,MAN,12,8.87,13.311,
+all 38 models,class-P50 L4b (CdxA own),TGX 20.544 4x2 LL SA EB,MAN,24,9.042,14.022,
+all 38 models,class-P50 L4b (CdxA own),XD  270 FT,DAF,8,2.939,5.292,
+all 38 models,class-P50 L4b (CdxA own),XD  310 FT,DAF,36,-2.972,22.968,
+all 38 models,class-P50 L4b (CdxA own),XD  350 FT,DAF,100,-10.921,36.249,
+all 38 models,class-P50 L4b (CdxA own),XF  350 FT,DAF,68,-8.46,32.908,
+all 38 models,class-P50 L4b (CdxA own),ZM42T_HIGH,Renault,36,-0.045,8.701,
+all 38 models,class-P50 L4b (CdxA own),ZM42T_MED,Renault,314,0.487,11.554,
+all 38 models,class-P50 L4b (CdxA mid),Actros,Mercedes-Benz,320,2.988,21.443,
+all 38 models,class-P50 L4b (CdxA mid),FH  42T  E,Volvo,660,2.226,9.932,
+all 38 models,class-P50 L4b (CdxA mid),FM  42T  E,Volvo,258,0.738,9.65,
+all 38 models,class-P50 L4b (CdxA mid),FMX 42T  E,Volvo,48,1.702,5.8,
+all 38 models,class-P50 L4b (CdxA mid),G 230E A4x2NB,Scania,8,-10.195,15.217,
+all 38 models,class-P50 L4b (CdxA mid),G 360E A4x2NA,Scania,24,5.744,8.553,
+all 38 models,class-P50 L4b (CdxA mid),G0100A,DAF,24,-10.727,34.154,
+all 38 models,class-P50 L4b (CdxA mid),G0200A,DAF,22,-26.25,34.054,
+all 38 models,class-P50 L4b (CdxA mid),P 230E A4x2NA,Scania,16,-7.988,15.084,
+all 38 models,class-P50 L4b (CdxA mid),P 230E A4x2NB,Scania,8,-9.547,21.993,
+all 38 models,class-P50 L4b (CdxA mid),R 360E A4x2NB,Scania,36,3.9,8.785,
+all 38 models,class-P50 L4b (CdxA mid),R 400E A4x2LA,Scania,12,-4.0,10.204,
+all 38 models,class-P50 L4b (CdxA mid),R 400E A4x2LB,Scania,24,4.655,9.629,
+all 38 models,class-P50 L4b (CdxA mid),R 400E A4x2NA,Scania,96,-2.721,15.868,
+all 38 models,class-P50 L4b (CdxA mid),R 400E A4x2NB,Scania,264,-4.006,15.862,
+all 38 models,class-P50 L4b (CdxA mid),R 450E A4x2LB,Scania,12,-3.005,6.8,
+all 38 models,class-P50 L4b (CdxA mid),R 450E A4x2NA,Scania,72,-4.827,11.505,
+all 38 models,class-P50 L4b (CdxA mid),R 450E A4x2NB,Scania,96,-4.892,9.482,
+all 38 models,class-P50 L4b (CdxA mid),S 400E A4x2NB,Scania,12,-4.109,9.426,
+all 38 models,class-P50 L4b (CdxA mid),S 450E A4x2NA,Scania,12,-6.812,11.192,
+all 38 models,class-P50 L4b (CdxA mid),S 450E A4x2NB,Scania,84,-5.059,13.004,
+all 38 models,class-P50 L4b (CdxA mid),S-eWay,Iveco,24,2.884,15.855,
+all 38 models,class-P50 L4b (CdxA mid),TGS 18.449 4x2 BL SA EB,MAN,24,-3.366,6.991,
+all 38 models,class-P50 L4b (CdxA mid),TGS 20.449 4x2 BL SA EB,MAN,24,6.722,11.986,
+all 38 models,class-P50 L4b (CdxA mid),TGS 20.544 4x2 LL SA EB,MAN,12,10.867,16.535,
+all 38 models,class-P50 L4b (CdxA mid),TGX 18.449 4x2 BL SA EB,MAN,36,-1.486,10.669,
+all 38 models,class-P50 L4b (CdxA mid),TGX 18.449 4x2 LL SA EB,MAN,36,-0.561,6.594,
+all 38 models,class-P50 L4b (CdxA mid),TGX 18.544 4x2 BL SA EB,MAN,12,-1.641,4.477,
+all 38 models,class-P50 L4b (CdxA mid),TGX 20.449 4x2 BL SA EB,MAN,48,4.143,12.564,
+all 38 models,class-P50 L4b (CdxA mid),TGX 20.449 4x2 LL SA EB,MAN,36,5.426,13.249,
+all 38 models,class-P50 L4b (CdxA mid),TGX 20.544 4x2 BL SA EB,MAN,12,9.299,13.59,
+all 38 models,class-P50 L4b (CdxA mid),TGX 20.544 4x2 LL SA EB,MAN,24,8.991,13.983,
+all 38 models,class-P50 L4b (CdxA mid),XD  270 FT,DAF,8,2.495,4.653,
+all 38 models,class-P50 L4b (CdxA mid),XD  310 FT,DAF,36,-3.126,23.758,
+all 38 models,class-P50 L4b (CdxA mid),XD  350 FT,DAF,100,-10.882,36.884,
+all 38 models,class-P50 L4b (CdxA mid),XF  350 FT,DAF,68,-8.299,33.605,
+all 38 models,class-P50 L4b (CdxA mid),ZM42T_HIGH,Renault,36,0.4,8.751,
+all 38 models,class-P50 L4b (CdxA mid),ZM42T_MED,Renault,314,1.091,11.373,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),Actros,Mercedes-Benz,320,7.303,21.767,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),FH  42T  E,Volvo,660,4.686,9.857,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),FM  42T  E,Volvo,258,2.812,9.446,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),FMX 42T  E,Volvo,48,3.775,7.46,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),G 230E A4x2NB,Scania,8,-9.145,15.916,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),G 360E A4x2NA,Scania,24,7.525,13.099,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),G0100A,DAF,24,-9.498,31.594,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),G0200A,DAF,22,-24.818,33.508,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),P 230E A4x2NA,Scania,16,-6.864,15.757,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),P 230E A4x2NB,Scania,8,-8.398,22.33,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 360E A4x2NB,Scania,36,5.462,12.942,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 400E A4x2LA,Scania,12,-2.25,11.158,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 400E A4x2LB,Scania,24,6.605,14.773,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 400E A4x2NA,Scania,96,-0.725,17.941,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 400E A4x2NB,Scania,264,-2.024,17.805,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 450E A4x2LB,Scania,12,0.692,5.699,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 450E A4x2NA,Scania,72,-1.637,11.06,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 450E A4x2NB,Scania,96,-1.872,8.238,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),S 400E A4x2NB,Scania,12,-2.203,9.949,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),S 450E A4x2NA,Scania,12,-3.86,11.127,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),S 450E A4x2NB,Scania,84,-1.899,12.678,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),S-eWay,Iveco,24,11.999,26.371,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGS 18.449 4x2 BL SA EB,MAN,24,-1.715,7.088,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGS 20.449 4x2 BL SA EB,MAN,24,7.503,15.408,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGS 20.544 4x2 LL SA EB,MAN,12,12.32,21.822,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 18.449 4x2 BL SA EB,MAN,36,-1.335,12.488,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 18.449 4x2 LL SA EB,MAN,36,-0.331,8.503,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 18.544 4x2 BL SA EB,MAN,12,1.268,4.08,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 20.449 4x2 BL SA EB,MAN,48,4.504,15.666,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 20.449 4x2 LL SA EB,MAN,36,5.883,16.41,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 20.544 4x2 BL SA EB,MAN,12,10.865,18.844,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 20.544 4x2 LL SA EB,MAN,24,10.474,19.152,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),XD  270 FT,DAF,8,3.314,6.726,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),XD  310 FT,DAF,36,-2.338,21.264,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),XD  350 FT,DAF,100,-9.648,34.528,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),XF  350 FT,DAF,68,-7.194,31.177,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),ZM42T_HIGH,Renault,36,2.711,8.594,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA own),ZM42T_MED,Renault,314,3.52,10.85,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),Actros,Mercedes-Benz,320,7.835,22.172,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),FH  42T  E,Volvo,660,5.335,10.398,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),FM  42T  E,Volvo,258,3.697,9.047,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),FMX 42T  E,Volvo,48,4.614,7.46,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),G 230E A4x2NB,Scania,8,-9.145,15.916,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),G 360E A4x2NA,Scania,24,7.525,13.099,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),G0100A,DAF,24,-9.396,32.318,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),G0200A,DAF,22,-25.276,33.674,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),P 230E A4x2NA,Scania,16,-6.864,15.757,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),P 230E A4x2NB,Scania,8,-8.398,22.33,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 360E A4x2NB,Scania,36,5.462,12.942,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2LA,Scania,12,-2.25,11.158,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2LB,Scania,24,6.605,14.773,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2NA,Scania,96,-0.725,17.941,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2NB,Scania,264,-2.024,17.805,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 450E A4x2LB,Scania,12,0.692,5.699,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 450E A4x2NA,Scania,72,-1.637,11.06,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 450E A4x2NB,Scania,96,-1.872,8.238,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),S 400E A4x2NB,Scania,12,-2.203,9.949,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),S 450E A4x2NA,Scania,12,-3.86,11.127,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),S 450E A4x2NB,Scania,84,-1.899,12.678,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),S-eWay,Iveco,24,11.369,25.948,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGS 18.449 4x2 BL SA EB,MAN,24,-2.071,7.42,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGS 20.449 4x2 BL SA EB,MAN,24,8.209,15.848,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGS 20.544 4x2 LL SA EB,MAN,12,13.007,22.291,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 18.449 4x2 BL SA EB,MAN,36,-0.755,12.256,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 18.449 4x2 LL SA EB,MAN,36,0.213,8.262,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 18.544 4x2 BL SA EB,MAN,12,0.701,3.823,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 20.449 4x2 BL SA EB,MAN,48,5.123,16.114,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 20.449 4x2 LL SA EB,MAN,36,6.495,16.815,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 20.544 4x2 BL SA EB,MAN,12,11.501,19.266,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 20.544 4x2 LL SA EB,MAN,24,11.095,19.573,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),XD  270 FT,DAF,8,3.861,7.122,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),XD  310 FT,DAF,36,-2.079,22.086,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),XD  350 FT,DAF,100,-9.608,35.201,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),XF  350 FT,DAF,68,-7.099,31.904,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),ZM42T_HIGH,Renault,36,3.439,8.27,
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),ZM42T_MED,Renault,314,4.189,10.617,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),Actros,Mercedes-Benz,320,6.899,21.822,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),FH  42T  E,Volvo,660,4.566,9.729,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),FM  42T  E,Volvo,258,3.35,8.929,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),FMX 42T  E,Volvo,48,4.189,6.586,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),G 230E A4x2NB,Scania,8,-10.476,16.455,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),G 360E A4x2NA,Scania,24,6.519,13.016,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),G0100A,DAF,24,-10.596,33.045,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),G0200A,DAF,22,-25.994,33.81,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),P 230E A4x2NA,Scania,16,-8.403,16.678,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),P 230E A4x2NB,Scania,8,-9.942,23.203,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 360E A4x2NB,Scania,36,4.486,12.896,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 400E A4x2LA,Scania,12,-4.027,12.183,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 400E A4x2LB,Scania,24,5.574,14.652,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 400E A4x2NA,Scania,96,-2.37,17.111,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 400E A4x2NB,Scania,264,-3.802,17.467,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 450E A4x2LB,Scania,12,-1.754,7.669,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 450E A4x2NA,Scania,72,-3.389,11.689,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 450E A4x2NB,Scania,96,-3.625,8.929,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),S 400E A4x2NB,Scania,12,-3.983,11.038,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),S 450E A4x2NA,Scania,12,-5.565,11.756,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),S 450E A4x2NB,Scania,84,-3.645,13.306,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),S-eWay,Iveco,24,10.709,26.343,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGS 18.449 4x2 BL SA EB,MAN,24,-3.005,7.685,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGS 20.449 4x2 BL SA EB,MAN,24,7.74,15.77,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGS 20.544 4x2 LL SA EB,MAN,12,12.46,22.693,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 18.449 4x2 BL SA EB,MAN,36,-0.713,11.323,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 18.449 4x2 LL SA EB,MAN,36,0.222,7.305,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 18.544 4x2 BL SA EB,MAN,12,-0.864,3.887,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 20.449 4x2 BL SA EB,MAN,48,4.558,15.916,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 20.449 4x2 LL SA EB,MAN,36,5.986,16.788,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 20.544 4x2 BL SA EB,MAN,12,10.923,19.267,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 20.544 4x2 LL SA EB,MAN,24,10.702,20.199,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),XD  270 FT,DAF,8,3.403,7.09,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),XD  310 FT,DAF,36,-3.124,22.868,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),XD  350 FT,DAF,100,-10.59,35.904,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),XF  350 FT,DAF,68,-8.13,32.614,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),ZM42T_HIGH,Renault,36,2.923,8.251,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA own),ZM42T_MED,Renault,314,3.617,10.611,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),Actros,Mercedes-Benz,320,6.525,21.693,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),FH  42T  E,Volvo,660,4.105,9.81,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),FM  42T  E,Volvo,258,2.456,9.321,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),FMX 42T  E,Volvo,48,3.363,6.131,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),G 230E A4x2NB,Scania,8,-10.476,16.455,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),G 360E A4x2NA,Scania,24,6.519,13.016,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),G0100A,DAF,24,-10.823,33.751,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),G0200A,DAF,22,-26.442,33.972,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),P 230E A4x2NA,Scania,16,-8.403,16.678,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),P 230E A4x2NB,Scania,8,-9.942,23.203,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 360E A4x2NB,Scania,36,4.486,12.896,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2LA,Scania,12,-4.027,12.183,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2LB,Scania,24,5.574,14.652,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2NA,Scania,96,-2.37,17.111,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2NB,Scania,264,-3.802,17.467,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 450E A4x2LB,Scania,12,-1.754,7.669,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 450E A4x2NA,Scania,72,-3.389,11.689,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 450E A4x2NB,Scania,96,-3.625,8.929,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),S 400E A4x2NB,Scania,12,-3.983,11.038,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),S 450E A4x2NA,Scania,12,-5.565,11.756,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),S 450E A4x2NB,Scania,84,-3.645,13.306,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),S-eWay,Iveco,24,10.092,25.928,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGS 18.449 4x2 BL SA EB,MAN,24,-3.631,8.01,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGS 20.449 4x2 BL SA EB,MAN,24,7.045,15.338,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGS 20.544 4x2 LL SA EB,MAN,12,11.964,22.354,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 18.449 4x2 BL SA EB,MAN,36,-1.285,11.551,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 18.449 4x2 LL SA EB,MAN,36,-0.337,7.541,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 18.544 4x2 BL SA EB,MAN,12,-1.417,4.129,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 20.449 4x2 BL SA EB,MAN,48,4.05,15.744,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 20.449 4x2 LL SA EB,MAN,36,5.395,16.39,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 20.544 4x2 BL SA EB,MAN,12,10.295,18.853,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 20.544 4x2 LL SA EB,MAN,24,10.09,19.787,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),XD  270 FT,DAF,8,2.864,6.701,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),XD  310 FT,DAF,36,-3.596,23.673,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),XD  350 FT,DAF,100,-11.036,36.563,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),XF  350 FT,DAF,68,-8.567,33.325,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),ZM42T_HIGH,Renault,36,2.206,8.569,
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),ZM42T_MED,Renault,314,2.961,10.84,
+without DAF (32 models),B0 median of all other models,Actros,Mercedes-Benz,320,14.342,39.912,30.0
+without DAF (32 models),B0 median of all other models,FH  42T  E,Volvo,660,15.673,42.941,30.0
+without DAF (32 models),B0 median of all other models,FM  42T  E,Volvo,258,-2.983,9.844,29.9
+without DAF (32 models),B0 median of all other models,FMX 42T  E,Volvo,48,-4.424,9.766,30.0
+without DAF (32 models),B0 median of all other models,G 230E A4x2NB,Scania,8,-13.509,15.556,31.0
+without DAF (32 models),B0 median of all other models,G 360E A4x2NA,Scania,24,1.392,9.019,30.0
+without DAF (32 models),B0 median of all other models,P 230E A4x2NA,Scania,16,-11.214,14.725,31.0
+without DAF (32 models),B0 median of all other models,P 230E A4x2NB,Scania,8,-10.555,18.501,31.0
+without DAF (32 models),B0 median of all other models,R 360E A4x2NB,Scania,36,1.279,10.711,30.0
+without DAF (32 models),B0 median of all other models,R 400E A4x2LA,Scania,12,-7.124,11.204,30.0
+without DAF (32 models),B0 median of all other models,R 400E A4x2LB,Scania,24,-0.917,8.841,30.0
+without DAF (32 models),B0 median of all other models,R 400E A4x2NA,Scania,96,-6.799,19.419,30.0
+without DAF (32 models),B0 median of all other models,R 400E A4x2NB,Scania,264,-8.77,19.481,30.0
+without DAF (32 models),B0 median of all other models,R 450E A4x2LB,Scania,12,-5.61,10.482,30.0
+without DAF (32 models),B0 median of all other models,R 450E A4x2NA,Scania,72,-8.636,15.143,30.0
+without DAF (32 models),B0 median of all other models,R 450E A4x2NB,Scania,96,-10.556,18.136,30.0
+without DAF (32 models),B0 median of all other models,S 400E A4x2NB,Scania,12,-10.673,14.585,30.0
+without DAF (32 models),B0 median of all other models,S 450E A4x2NA,Scania,12,-9.8,13.883,30.0
+without DAF (32 models),B0 median of all other models,S 450E A4x2NB,Scania,84,-9.101,15.116,30.0
+without DAF (32 models),B0 median of all other models,S-eWay,Iveco,24,7.716,17.149,30.0
+without DAF (32 models),B0 median of all other models,TGS 18.449 4x2 BL SA EB,MAN,24,1.143,8.151,30.0
+without DAF (32 models),B0 median of all other models,TGS 20.449 4x2 BL SA EB,MAN,24,13.141,30.735,30.0
+without DAF (32 models),B0 median of all other models,TGS 20.544 4x2 LL SA EB,MAN,12,21.759,32.03,30.0
+without DAF (32 models),B0 median of all other models,TGX 18.449 4x2 BL SA EB,MAN,36,16.335,32.819,30.0
+without DAF (32 models),B0 median of all other models,TGX 18.449 4x2 LL SA EB,MAN,36,14.064,31.639,30.0
+without DAF (32 models),B0 median of all other models,TGX 18.544 4x2 BL SA EB,MAN,12,12.081,25.447,30.0
+without DAF (32 models),B0 median of all other models,TGX 20.449 4x2 BL SA EB,MAN,48,21.65,39.385,30.0
+without DAF (32 models),B0 median of all other models,TGX 20.449 4x2 LL SA EB,MAN,36,18.326,34.317,30.0
+without DAF (32 models),B0 median of all other models,TGX 20.544 4x2 BL SA EB,MAN,12,27.066,40.015,30.0
+without DAF (32 models),B0 median of all other models,TGX 20.544 4x2 LL SA EB,MAN,24,23.599,40.947,30.0
+without DAF (32 models),B0 median of all other models,ZM42T_HIGH,Renault,36,1.63,11.218,30.0
+without DAF (32 models),B0 median of all other models,ZM42T_MED,Renault,314,10.653,35.78,30.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",Actros,Mercedes-Benz,320,25.136,52.765,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",FH  42T  E,Volvo,660,13.137,32.026,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",FM  42T  E,Volvo,258,-11.49,22.424,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",FMX 42T  E,Volvo,48,-12.49,22.089,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",G 230E A4x2NB,Scania,8,-24.404,35.091,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",G 360E A4x2NA,Scania,24,-9.37,20.612,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",P 230E A4x2NA,Scania,16,-22.441,33.157,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",P 230E A4x2NB,Scania,8,-11.899,18.501,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",R 360E A4x2NB,Scania,36,0.329,4.947,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",R 400E A4x2LA,Scania,12,0.247,2.738,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",R 400E A4x2LB,Scania,24,-2.019,5.018,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",R 400E A4x2NA,Scania,96,0.358,29.082,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",R 400E A4x2NB,Scania,264,-2.087,22.561,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",R 450E A4x2LB,Scania,12,3.869,4.361,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",R 450E A4x2NA,Scania,72,0.543,5.065,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",R 450E A4x2NB,Scania,96,-2.034,8.175,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",S 400E A4x2NB,Scania,12,-4.122,6.616,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",S 450E A4x2NA,Scania,12,-1.212,2.563,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",S 450E A4x2NB,Scania,84,-0.446,4.695,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",S-eWay,Iveco,24,17.818,26.521,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",TGS 18.449 4x2 BL SA EB,MAN,24,3.515,16.655,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",TGS 20.449 4x2 BL SA EB,MAN,24,15.527,38.761,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",TGS 20.544 4x2 LL SA EB,MAN,12,7.431,15.099,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",TGX 18.449 4x2 BL SA EB,MAN,36,2.025,3.818,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",TGX 18.449 4x2 LL SA EB,MAN,36,-2.364,6.171,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",TGX 18.544 4x2 BL SA EB,MAN,12,-7.865,12.87,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",TGX 20.449 4x2 BL SA EB,MAN,48,6.614,14.903,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",TGX 20.449 4x2 LL SA EB,MAN,36,2.577,11.259,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",TGX 20.544 4x2 BL SA EB,MAN,12,12.045,18.266,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",TGX 20.544 4x2 LL SA EB,MAN,24,8.989,19.379,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",ZM42T_HIGH,Renault,36,-7.752,13.425,5.0
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",ZM42T_MED,Renault,314,8.164,25.412,5.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",Actros,Mercedes-Benz,320,25.136,52.765,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",FH  42T  E,Volvo,660,13.293,32.026,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",FM  42T  E,Volvo,258,-11.47,22.424,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",FMX 42T  E,Volvo,48,-12.183,22.089,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",G 230E A4x2NB,Scania,8,-24.421,35.113,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",G 360E A4x2NA,Scania,24,0.597,3.092,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",P 230E A4x2NA,Scania,16,-22.458,33.179,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",P 230E A4x2NB,Scania,8,-11.899,18.501,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",R 360E A4x2NB,Scania,36,-0.131,2.371,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",R 400E A4x2LA,Scania,12,2.151,2.908,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",R 400E A4x2LB,Scania,24,-2.115,5.058,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",R 400E A4x2NA,Scania,96,2.509,29.935,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",R 400E A4x2NB,Scania,264,-1.209,26.011,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",R 450E A4x2LB,Scania,12,3.894,4.361,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",R 450E A4x2NA,Scania,72,0.567,5.065,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",R 450E A4x2NB,Scania,96,-2.034,8.175,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",S 400E A4x2NB,Scania,12,-3.265,4.93,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",S 450E A4x2NA,Scania,12,-0.717,2.188,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",S 450E A4x2NB,Scania,84,0.625,5.044,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",S-eWay,Iveco,24,17.818,26.521,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",TGS 18.449 4x2 BL SA EB,MAN,24,3.515,16.655,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",TGS 20.449 4x2 BL SA EB,MAN,24,15.527,38.761,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",TGS 20.544 4x2 LL SA EB,MAN,12,-1.298,3.064,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",TGX 18.449 4x2 BL SA EB,MAN,36,-1.631,8.185,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",TGX 18.449 4x2 LL SA EB,MAN,36,-3.576,7.924,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",TGX 18.544 4x2 BL SA EB,MAN,12,-9.333,13.446,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",TGX 20.449 4x2 BL SA EB,MAN,48,4.675,14.561,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",TGX 20.449 4x2 LL SA EB,MAN,36,1.819,10.94,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",TGX 20.544 4x2 BL SA EB,MAN,12,4.448,6.048,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",TGX 20.544 4x2 LL SA EB,MAN,24,9.469,19.379,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",ZM42T_HIGH,Renault,36,-7.478,13.425,3.0
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",ZM42T_MED,Renault,314,8.522,25.412,3.0
+without DAF (32 models),class-P50 C (CdxA own),Actros,Mercedes-Benz,320,1.89,21.657,
+without DAF (32 models),class-P50 C (CdxA own),FH  42T  E,Volvo,660,0.934,11.742,
+without DAF (32 models),class-P50 C (CdxA own),FM  42T  E,Volvo,258,0.479,10.946,
+without DAF (32 models),class-P50 C (CdxA own),FMX 42T  E,Volvo,48,1.301,4.833,
+without DAF (32 models),class-P50 C (CdxA own),G 230E A4x2NB,Scania,8,-11.92,17.03,
+without DAF (32 models),class-P50 C (CdxA own),G 360E A4x2NA,Scania,24,5.098,9.702,
+without DAF (32 models),class-P50 C (CdxA own),P 230E A4x2NA,Scania,16,-9.834,17.125,
+without DAF (32 models),class-P50 C (CdxA own),P 230E A4x2NB,Scania,8,-11.559,23.815,
+without DAF (32 models),class-P50 C (CdxA own),R 360E A4x2NB,Scania,36,3.062,9.605,
+without DAF (32 models),class-P50 C (CdxA own),R 400E A4x2LA,Scania,12,-6.609,14.082,
+without DAF (32 models),class-P50 C (CdxA own),R 400E A4x2LB,Scania,24,3.626,10.364,
+without DAF (32 models),class-P50 C (CdxA own),R 400E A4x2NA,Scania,96,-5.042,19.117,
+without DAF (32 models),class-P50 C (CdxA own),R 400E A4x2NB,Scania,264,-6.378,19.275,
+without DAF (32 models),class-P50 C (CdxA own),R 450E A4x2LB,Scania,12,-5.776,11.242,
+without DAF (32 models),class-P50 C (CdxA own),R 450E A4x2NA,Scania,72,-7.369,15.294,
+without DAF (32 models),class-P50 C (CdxA own),R 450E A4x2NB,Scania,96,-7.539,12.604,
+without DAF (32 models),class-P50 C (CdxA own),S 400E A4x2NB,Scania,12,-6.478,12.93,
+without DAF (32 models),class-P50 C (CdxA own),S 450E A4x2NA,Scania,12,-9.395,15.235,
+without DAF (32 models),class-P50 C (CdxA own),S 450E A4x2NB,Scania,84,-7.595,16.788,
+without DAF (32 models),class-P50 C (CdxA own),S-eWay,Iveco,24,1.776,13.373,
+without DAF (32 models),class-P50 C (CdxA own),TGS 18.449 4x2 BL SA EB,MAN,24,-5.044,8.891,
+without DAF (32 models),class-P50 C (CdxA own),TGS 20.449 4x2 BL SA EB,MAN,24,6.424,13.109,
+without DAF (32 models),class-P50 C (CdxA own),TGS 20.544 4x2 LL SA EB,MAN,12,9.812,17.558,
+without DAF (32 models),class-P50 C (CdxA own),TGX 18.449 4x2 BL SA EB,MAN,36,-3.834,13.569,
+without DAF (32 models),class-P50 C (CdxA own),TGX 18.449 4x2 LL SA EB,MAN,36,-2.873,9.634,
+without DAF (32 models),class-P50 C (CdxA own),TGX 18.544 4x2 BL SA EB,MAN,12,-3.825,6.606,
+without DAF (32 models),class-P50 C (CdxA own),TGX 20.449 4x2 BL SA EB,MAN,48,3.248,13.238,
+without DAF (32 models),class-P50 C (CdxA own),TGX 20.449 4x2 LL SA EB,MAN,36,4.688,14.192,
+without DAF (32 models),class-P50 C (CdxA own),TGX 20.544 4x2 BL SA EB,MAN,12,8.295,14.58,
+without DAF (32 models),class-P50 C (CdxA own),TGX 20.544 4x2 LL SA EB,MAN,24,7.962,14.996,
+without DAF (32 models),class-P50 C (CdxA own),ZM42T_HIGH,Renault,36,-0.202,10.235,
+without DAF (32 models),class-P50 C (CdxA own),ZM42T_MED,Renault,314,0.207,12.736,
+without DAF (32 models),class-P50 C (CdxA mid),Actros,Mercedes-Benz,320,1.608,22.653,
+without DAF (32 models),class-P50 C (CdxA mid),FH  42T  E,Volvo,660,0.583,11.832,
+without DAF (32 models),class-P50 C (CdxA mid),FM  42T  E,Volvo,258,-0.431,11.336,
+without DAF (32 models),class-P50 C (CdxA mid),FMX 42T  E,Volvo,48,0.459,5.233,
+without DAF (32 models),class-P50 C (CdxA mid),G 230E A4x2NB,Scania,8,-11.92,17.03,
+without DAF (32 models),class-P50 C (CdxA mid),G 360E A4x2NA,Scania,24,5.098,9.702,
+without DAF (32 models),class-P50 C (CdxA mid),P 230E A4x2NA,Scania,16,-9.834,17.125,
+without DAF (32 models),class-P50 C (CdxA mid),P 230E A4x2NB,Scania,8,-11.559,23.815,
+without DAF (32 models),class-P50 C (CdxA mid),R 360E A4x2NB,Scania,36,3.062,9.605,
+without DAF (32 models),class-P50 C (CdxA mid),R 400E A4x2LA,Scania,12,-6.609,14.082,
+without DAF (32 models),class-P50 C (CdxA mid),R 400E A4x2LB,Scania,24,3.626,10.364,
+without DAF (32 models),class-P50 C (CdxA mid),R 400E A4x2NA,Scania,96,-5.042,19.117,
+without DAF (32 models),class-P50 C (CdxA mid),R 400E A4x2NB,Scania,264,-6.378,19.275,
+without DAF (32 models),class-P50 C (CdxA mid),R 450E A4x2LB,Scania,12,-5.776,11.242,
+without DAF (32 models),class-P50 C (CdxA mid),R 450E A4x2NA,Scania,72,-7.369,15.294,
+without DAF (32 models),class-P50 C (CdxA mid),R 450E A4x2NB,Scania,96,-7.539,12.604,
+without DAF (32 models),class-P50 C (CdxA mid),S 400E A4x2NB,Scania,12,-6.478,12.93,
+without DAF (32 models),class-P50 C (CdxA mid),S 450E A4x2NA,Scania,12,-9.395,15.235,
+without DAF (32 models),class-P50 C (CdxA mid),S 450E A4x2NB,Scania,84,-7.595,16.788,
+without DAF (32 models),class-P50 C (CdxA mid),S-eWay,Iveco,24,1.17,13.062,
+without DAF (32 models),class-P50 C (CdxA mid),TGS 18.449 4x2 BL SA EB,MAN,24,-5.529,9.214,
+without DAF (32 models),class-P50 C (CdxA mid),TGS 20.449 4x2 BL SA EB,MAN,24,5.8,12.788,
+without DAF (32 models),class-P50 C (CdxA mid),TGS 20.544 4x2 LL SA EB,MAN,12,9.34,17.243,
+without DAF (32 models),class-P50 C (CdxA mid),TGX 18.449 4x2 BL SA EB,MAN,36,-4.405,13.794,
+without DAF (32 models),class-P50 C (CdxA mid),TGX 18.449 4x2 LL SA EB,MAN,36,-3.43,9.868,
+without DAF (32 models),class-P50 C (CdxA mid),TGX 18.544 4x2 BL SA EB,MAN,12,-4.381,7.65,
+without DAF (32 models),class-P50 C (CdxA mid),TGX 20.449 4x2 BL SA EB,MAN,48,2.741,13.085,
+without DAF (32 models),class-P50 C (CdxA mid),TGX 20.449 4x2 LL SA EB,MAN,36,4.129,13.796,
+without DAF (32 models),class-P50 C (CdxA mid),TGX 20.544 4x2 BL SA EB,MAN,12,7.664,14.172,
+without DAF (32 models),class-P50 C (CdxA mid),TGX 20.544 4x2 LL SA EB,MAN,24,7.345,14.588,
+without DAF (32 models),class-P50 C (CdxA mid),ZM42T_HIGH,Renault,36,-0.928,10.55,
+without DAF (32 models),class-P50 C (CdxA mid),ZM42T_MED,Renault,314,-0.44,12.962,
+without DAF (32 models),class-P50 L4b (CdxA own),Actros,Mercedes-Benz,320,1.188,22.317,
+without DAF (32 models),class-P50 L4b (CdxA own),FH  42T  E,Volvo,660,1.298,10.54,
+without DAF (32 models),class-P50 L4b (CdxA own),FM  42T  E,Volvo,258,-0.106,9.94,
+without DAF (32 models),class-P50 L4b (CdxA own),FMX 42T  E,Volvo,48,1.01,4.931,
+without DAF (32 models),class-P50 L4b (CdxA own),G 230E A4x2NB,Scania,8,-11.403,16.512,
+without DAF (32 models),class-P50 L4b (CdxA own),G 360E A4x2NA,Scania,24,5.619,8.751,
+without DAF (32 models),class-P50 L4b (CdxA own),P 230E A4x2NA,Scania,16,-9.223,16.389,
+without DAF (32 models),class-P50 L4b (CdxA own),P 230E A4x2NB,Scania,8,-9.893,22.486,
+without DAF (32 models),class-P50 L4b (CdxA own),R 360E A4x2NB,Scania,36,3.619,8.63,
+without DAF (32 models),class-P50 L4b (CdxA own),R 400E A4x2LA,Scania,12,-5.556,11.948,
+without DAF (32 models),class-P50 L4b (CdxA own),R 400E A4x2LB,Scania,24,3.144,7.793,
+without DAF (32 models),class-P50 L4b (CdxA own),R 400E A4x2NA,Scania,96,-3.985,17.242,
+without DAF (32 models),class-P50 L4b (CdxA own),R 400E A4x2NB,Scania,264,-5.247,17.214,
+without DAF (32 models),class-P50 L4b (CdxA own),R 450E A4x2LB,Scania,12,-4.395,8.582,
+without DAF (32 models),class-P50 L4b (CdxA own),R 450E A4x2NA,Scania,72,-6.075,12.978,
+without DAF (32 models),class-P50 L4b (CdxA own),R 450E A4x2NB,Scania,96,-6.088,10.583,
+without DAF (32 models),class-P50 L4b (CdxA own),S 400E A4x2NB,Scania,12,-5.336,10.85,
+without DAF (32 models),class-P50 L4b (CdxA own),S 450E A4x2NA,Scania,12,-8.039,12.66,
+without DAF (32 models),class-P50 L4b (CdxA own),S 450E A4x2NB,Scania,84,-6.302,14.444,
+without DAF (32 models),class-P50 L4b (CdxA own),S-eWay,Iveco,24,2.206,14.678,
+without DAF (32 models),class-P50 L4b (CdxA own),TGS 18.449 4x2 BL SA EB,MAN,24,-3.973,8.139,
+without DAF (32 models),class-P50 L4b (CdxA own),TGS 20.449 4x2 BL SA EB,MAN,24,6.487,11.656,
+without DAF (32 models),class-P50 L4b (CdxA own),TGS 20.544 4x2 LL SA EB,MAN,12,9.933,15.96,
+without DAF (32 models),class-P50 L4b (CdxA own),TGX 18.449 4x2 BL SA EB,MAN,36,-1.366,11.131,
+without DAF (32 models),class-P50 L4b (CdxA own),TGX 18.449 4x2 LL SA EB,MAN,36,-0.28,6.815,
+without DAF (32 models),class-P50 L4b (CdxA own),TGX 18.544 4x2 BL SA EB,MAN,12,-2.369,4.954,
+without DAF (32 models),class-P50 L4b (CdxA own),TGX 20.449 4x2 BL SA EB,MAN,48,3.948,11.983,
+without DAF (32 models),class-P50 L4b (CdxA own),TGX 20.449 4x2 LL SA EB,MAN,36,4.965,12.914,
+without DAF (32 models),class-P50 L4b (CdxA own),TGX 20.544 4x2 BL SA EB,MAN,12,8.548,13.152,
+without DAF (32 models),class-P50 L4b (CdxA own),TGX 20.544 4x2 LL SA EB,MAN,24,8.721,13.857,
+without DAF (32 models),class-P50 L4b (CdxA own),ZM42T_HIGH,Renault,36,-0.33,9.069,
+without DAF (32 models),class-P50 L4b (CdxA own),ZM42T_MED,Renault,314,0.189,11.912,
+without DAF (32 models),class-P50 L4b (CdxA mid),Actros,Mercedes-Benz,320,1.67,22.63,
+without DAF (32 models),class-P50 L4b (CdxA mid),FH  42T  E,Volvo,660,1.918,10.313,
+without DAF (32 models),class-P50 L4b (CdxA mid),FM  42T  E,Volvo,258,0.458,10.012,
+without DAF (32 models),class-P50 L4b (CdxA mid),FMX 42T  E,Volvo,48,1.419,5.449,
+without DAF (32 models),class-P50 L4b (CdxA mid),G 230E A4x2NB,Scania,8,-11.403,16.512,
+without DAF (32 models),class-P50 L4b (CdxA mid),G 360E A4x2NA,Scania,24,5.619,8.751,
+without DAF (32 models),class-P50 L4b (CdxA mid),P 230E A4x2NA,Scania,16,-9.223,16.389,
+without DAF (32 models),class-P50 L4b (CdxA mid),P 230E A4x2NB,Scania,8,-9.893,22.486,
+without DAF (32 models),class-P50 L4b (CdxA mid),R 360E A4x2NB,Scania,36,3.619,8.63,
+without DAF (32 models),class-P50 L4b (CdxA mid),R 400E A4x2LA,Scania,12,-5.556,11.948,
+without DAF (32 models),class-P50 L4b (CdxA mid),R 400E A4x2LB,Scania,24,3.144,7.793,
+without DAF (32 models),class-P50 L4b (CdxA mid),R 400E A4x2NA,Scania,96,-3.985,17.242,
+without DAF (32 models),class-P50 L4b (CdxA mid),R 400E A4x2NB,Scania,264,-5.247,17.214,
+without DAF (32 models),class-P50 L4b (CdxA mid),R 450E A4x2LB,Scania,12,-4.395,8.582,
+without DAF (32 models),class-P50 L4b (CdxA mid),R 450E A4x2NA,Scania,72,-6.075,12.978,
+without DAF (32 models),class-P50 L4b (CdxA mid),R 450E A4x2NB,Scania,96,-6.088,10.583,
+without DAF (32 models),class-P50 L4b (CdxA mid),S 400E A4x2NB,Scania,12,-5.336,10.85,
+without DAF (32 models),class-P50 L4b (CdxA mid),S 450E A4x2NA,Scania,12,-8.039,12.66,
+without DAF (32 models),class-P50 L4b (CdxA mid),S 450E A4x2NB,Scania,84,-6.302,14.444,
+without DAF (32 models),class-P50 L4b (CdxA mid),S-eWay,Iveco,24,1.609,14.365,
+without DAF (32 models),class-P50 L4b (CdxA mid),TGS 18.449 4x2 BL SA EB,MAN,24,-4.667,8.463,
+without DAF (32 models),class-P50 L4b (CdxA mid),TGS 20.449 4x2 BL SA EB,MAN,24,6.442,11.855,
+without DAF (32 models),class-P50 L4b (CdxA mid),TGS 20.544 4x2 LL SA EB,MAN,12,10.546,16.37,
+without DAF (32 models),class-P50 L4b (CdxA mid),TGX 18.449 4x2 BL SA EB,MAN,36,-1.93,11.358,
+without DAF (32 models),class-P50 L4b (CdxA mid),TGX 18.449 4x2 LL SA EB,MAN,36,-0.831,7.051,
+without DAF (32 models),class-P50 L4b (CdxA mid),TGX 18.544 4x2 BL SA EB,MAN,12,-2.921,5.969,
+without DAF (32 models),class-P50 L4b (CdxA mid),TGX 20.449 4x2 BL SA EB,MAN,48,3.842,12.412,
+without DAF (32 models),class-P50 L4b (CdxA mid),TGX 20.449 4x2 LL SA EB,MAN,36,4.847,12.636,
+without DAF (32 models),class-P50 L4b (CdxA mid),TGX 20.544 4x2 BL SA EB,MAN,12,8.977,13.43,
+without DAF (32 models),class-P50 L4b (CdxA mid),TGX 20.544 4x2 LL SA EB,MAN,24,8.67,13.815,
+without DAF (32 models),class-P50 L4b (CdxA mid),ZM42T_HIGH,Renault,36,0.115,9.119,
+without DAF (32 models),class-P50 L4b (CdxA mid),ZM42T_MED,Renault,314,0.793,11.731,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),Actros,Mercedes-Benz,320,5.925,21.347,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),FH  42T  E,Volvo,660,3.407,11.802,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),FM  42T  E,Volvo,258,1.646,11.309,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),FMX 42T  E,Volvo,48,2.598,6.071,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),G 230E A4x2NB,Scania,8,-10.471,17.905,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),G 360E A4x2NA,Scania,24,6.359,11.047,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),P 230E A4x2NA,Scania,16,-8.215,17.761,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),P 230E A4x2NB,Scania,8,-9.713,24.165,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 360E A4x2NB,Scania,36,4.308,10.867,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 400E A4x2LA,Scania,12,-3.643,13.425,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 400E A4x2LB,Scania,24,5.427,12.667,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 400E A4x2NA,Scania,96,-2.134,18.695,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 400E A4x2NB,Scania,264,-3.407,18.578,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 450E A4x2LB,Scania,12,-1.328,9.001,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 450E A4x2NA,Scania,72,-3.114,13.428,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),R 450E A4x2NB,Scania,96,-3.333,10.632,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),S 400E A4x2NB,Scania,12,-3.57,12.162,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),S 450E A4x2NA,Scania,12,-5.315,13.485,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),S 450E A4x2NB,Scania,84,-3.373,14.986,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),S-eWay,Iveco,24,10.412,23.518,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGS 18.449 4x2 BL SA EB,MAN,24,-3.06,9.359,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGS 20.449 4x2 BL SA EB,MAN,24,6.325,13.249,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGS 20.544 4x2 LL SA EB,MAN,12,10.985,19.408,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 18.449 4x2 BL SA EB,MAN,36,-2.802,14.841,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 18.449 4x2 LL SA EB,MAN,36,-1.794,10.947,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 18.544 4x2 BL SA EB,MAN,12,-0.759,5.924,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 20.449 4x2 BL SA EB,MAN,48,3.287,13.378,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 20.449 4x2 LL SA EB,MAN,36,4.671,14.159,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 20.544 4x2 BL SA EB,MAN,12,9.512,16.403,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),TGX 20.544 4x2 LL SA EB,MAN,24,9.14,16.683,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),ZM42T_HIGH,Renault,36,1.513,10.451,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA own),ZM42T_MED,Renault,314,2.275,12.738,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),Actros,Mercedes-Benz,320,6.455,21.347,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),FH  42T  E,Volvo,660,4.053,11.551,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),FM  42T  E,Volvo,258,2.527,10.911,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),FMX 42T  E,Volvo,48,3.433,6.071,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),G 230E A4x2NB,Scania,8,-10.471,17.905,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),G 360E A4x2NA,Scania,24,6.359,11.047,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),P 230E A4x2NA,Scania,16,-8.215,17.761,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),P 230E A4x2NB,Scania,8,-9.713,24.165,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 360E A4x2NB,Scania,36,4.308,10.867,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2LA,Scania,12,-3.643,13.425,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2LB,Scania,24,5.427,12.667,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2NA,Scania,96,-2.134,18.695,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2NB,Scania,264,-3.407,18.578,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 450E A4x2LB,Scania,12,-1.328,9.001,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 450E A4x2NA,Scania,72,-3.114,13.428,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),R 450E A4x2NB,Scania,96,-3.333,10.632,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),S 400E A4x2NB,Scania,12,-3.57,12.162,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),S 450E A4x2NA,Scania,12,-5.315,13.485,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),S 450E A4x2NB,Scania,84,-3.373,14.986,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),S-eWay,Iveco,24,9.786,23.096,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGS 18.449 4x2 BL SA EB,MAN,24,-3.414,9.69,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGS 20.449 4x2 BL SA EB,MAN,24,7.027,13.688,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGS 20.544 4x2 LL SA EB,MAN,12,11.669,19.876,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 18.449 4x2 BL SA EB,MAN,36,-2.225,14.609,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 18.449 4x2 LL SA EB,MAN,36,-1.253,10.707,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 18.544 4x2 BL SA EB,MAN,12,-1.321,6.172,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 20.449 4x2 BL SA EB,MAN,48,3.904,13.824,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 20.449 4x2 LL SA EB,MAN,36,5.28,14.563,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 20.544 4x2 BL SA EB,MAN,12,10.145,16.824,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),TGX 20.544 4x2 LL SA EB,MAN,24,9.759,17.103,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),ZM42T_HIGH,Renault,36,2.238,10.128,
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),ZM42T_MED,Renault,314,2.941,12.506,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),Actros,Mercedes-Benz,320,5.343,21.202,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),FH  42T  E,Volvo,660,3.114,10.996,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),FM  42T  E,Volvo,258,1.954,10.203,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),FMX 42T  E,Volvo,48,2.782,5.189,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),G 230E A4x2NB,Scania,8,-11.78,17.865,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),G 360E A4x2NA,Scania,24,5.086,11.21,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),P 230E A4x2NA,Scania,16,-9.646,17.875,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),P 230E A4x2NB,Scania,8,-11.174,24.313,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 360E A4x2NB,Scania,36,3.075,11.086,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 400E A4x2LA,Scania,12,-5.399,13.53,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 400E A4x2LB,Scania,24,4.12,12.783,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 400E A4x2NA,Scania,96,-3.842,18.61,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 400E A4x2NB,Scania,264,-5.107,18.555,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 450E A4x2LB,Scania,12,-3.251,9.154,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 450E A4x2NA,Scania,72,-4.943,13.363,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),R 450E A4x2NB,Scania,96,-5.169,10.642,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),S 400E A4x2NB,Scania,12,-5.347,12.394,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),S 450E A4x2NA,Scania,12,-7.087,13.424,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),S 450E A4x2NB,Scania,84,-5.194,14.942,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),S-eWay,Iveco,24,8.792,23.869,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGS 18.449 4x2 BL SA EB,MAN,24,-4.412,9.288,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGS 20.449 4x2 BL SA EB,MAN,24,6.383,14.189,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGS 20.544 4x2 LL SA EB,MAN,12,10.857,20.631,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 18.449 4x2 BL SA EB,MAN,36,-3.241,14.16,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 18.449 4x2 LL SA EB,MAN,36,-2.315,10.262,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 18.544 4x2 BL SA EB,MAN,12,-2.397,5.641,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 20.449 4x2 BL SA EB,MAN,48,3.229,14.337,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 20.449 4x2 LL SA EB,MAN,36,4.644,15.199,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 20.544 4x2 BL SA EB,MAN,12,9.528,17.831,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),TGX 20.544 4x2 LL SA EB,MAN,24,9.114,18.153,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),ZM42T_HIGH,Renault,36,1.515,9.534,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA own),ZM42T_MED,Renault,314,2.183,11.868,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),Actros,Mercedes-Benz,320,4.974,21.202,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),FH  42T  E,Volvo,660,2.658,11.076,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),FM  42T  E,Volvo,258,1.069,10.589,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),FMX 42T  E,Volvo,48,1.964,4.565,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),G 230E A4x2NB,Scania,8,-11.78,17.865,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),G 360E A4x2NA,Scania,24,5.086,11.21,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),P 230E A4x2NA,Scania,16,-9.646,17.875,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),P 230E A4x2NB,Scania,8,-11.174,24.313,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 360E A4x2NB,Scania,36,3.075,11.086,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2LA,Scania,12,-5.399,13.53,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2LB,Scania,24,4.12,12.783,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2NA,Scania,96,-3.842,18.61,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 400E A4x2NB,Scania,264,-5.107,18.555,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 450E A4x2LB,Scania,12,-3.251,9.154,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 450E A4x2NA,Scania,72,-4.943,13.363,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),R 450E A4x2NB,Scania,96,-5.169,10.642,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),S 400E A4x2NB,Scania,12,-5.347,12.394,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),S 450E A4x2NA,Scania,12,-7.087,13.424,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),S 450E A4x2NB,Scania,84,-5.194,14.942,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),S-eWay,Iveco,24,8.183,23.46,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGS 18.449 4x2 BL SA EB,MAN,24,-5.032,9.609,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGS 20.449 4x2 BL SA EB,MAN,24,5.695,13.762,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGS 20.544 4x2 LL SA EB,MAN,12,10.366,20.297,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 18.449 4x2 BL SA EB,MAN,36,-3.803,14.383,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 18.449 4x2 LL SA EB,MAN,36,-2.864,10.494,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 18.544 4x2 BL SA EB,MAN,12,-2.945,5.881,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 20.449 4x2 BL SA EB,MAN,48,2.727,14.168,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 20.449 4x2 LL SA EB,MAN,36,4.06,14.805,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 20.544 4x2 BL SA EB,MAN,12,8.908,17.423,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),TGX 20.544 4x2 LL SA EB,MAN,24,8.509,17.747,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),ZM42T_HIGH,Renault,36,0.806,9.848,
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),ZM42T_MED,Renault,314,1.536,12.094,

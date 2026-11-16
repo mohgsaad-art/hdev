@@ -1,0 +1,24 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+universe,method,cdxa_for_target,n_models,mean_of_model_mean_err_pct,p10_pct,p50_pct,p90_pct,width_p90_minus_p10_pp,worst_model_mean_abs_err_pct,worst_single_result_abs_err_pct,share_results_too_low,n_results
+all 38 models,B0 median of all other models,n/a,38,1.747,-12.413,0.05,17.775,30.188,25.375,33.053,0.429,2958
+all 38 models,"B1 median of 5 nearest models (mass, kW)",n/a,38,0.874,-12.076,-0.099,14.71,26.786,29.258,52.765,0.39,2958
+all 38 models,"B1 median of 3 nearest models (mass, kW)",n/a,38,0.159,-11.684,0.596,12.057,23.741,25.136,52.765,0.384,2958
+all 38 models,class-P50 C,own fitted CdxA (PR #38),38,-2.643,-10.588,-2.664,5.251,15.839,27.028,38.046,0.49,2958
+all 38 models,class-P50 C,middle of published range,38,-2.968,-10.588,-3.231,5.064,15.652,27.48,38.704,0.525,2958
+all 38 models,class-P50 L4b,own fitted CdxA (PR #38),38,-1.584,-9.741,-1.005,6.051,15.792,26.234,36.249,0.449,2958
+all 38 models,class-P50 L4b,middle of published range,38,-1.559,-9.741,-1.564,6.038,15.779,26.25,36.884,0.426,2958
+all 38 models,class-P50 L1[S3b_IEPC_3speed],own fitted CdxA (PR #38),38,0.407,-8.622,0.18,8.41,17.032,24.818,34.528,0.321,2958
+all 38 models,class-P50 L1[S3b_IEPC_3speed],middle of published range,38,0.626,-8.622,0.452,9.075,17.697,25.276,35.201,0.309,2958
+all 38 models,class-P50 L1b[S3b_IEPC_3speed],own fitted CdxA (PR #38),38,-0.399,-10.102,-0.788,8.629,18.731,25.994,35.904,0.346,2958
+all 38 models,class-P50 L1b[S3b_IEPC_3speed],middle of published range,38,-0.74,-10.102,-1.351,7.959,18.061,26.442,36.563,0.359,2958
+without DAF (32 models),B0 median of all other models,n/a,32,3.162,-10.556,1.211,21.317,31.873,27.066,42.941,0.42,2700
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",n/a,32,0.198,-11.858,0.288,13.028,24.886,25.136,52.765,0.382,2700
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",n/a,32,-0.02,-11.856,0.218,12.911,24.767,25.136,52.765,0.373,2700
+without DAF (32 models),class-P50 C,own fitted CdxA (PR #38),32,-1.64,-9.215,-1.537,6.292,15.507,11.92,23.815,0.477,2700
+without DAF (32 models),class-P50 C,middle of published range,32,-1.95,-9.215,-2.179,5.729,14.944,11.92,23.815,0.511,2700
+without DAF (32 models),class-P50 L4b,own fitted CdxA (PR #38),32,-0.909,-7.866,-0.305,6.4,14.266,11.403,22.486,0.476,2700
+without DAF (32 models),class-P50 L4b,middle of published range,32,-0.881,-7.866,-0.358,6.36,14.226,11.403,22.63,0.441,2700
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed],own fitted CdxA (PR #38),32,0.68,-5.148,0.377,8.862,14.01,10.985,24.165,0.354,2700
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed],middle of published range,32,0.921,-5.148,0.492,9.485,14.633,11.669,24.165,0.341,2700
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed],own fitted CdxA (PR #38),32,-0.268,-6.919,-0.4,8.551,15.47,11.78,24.313,0.37,2700
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed],middle of published range,32,-0.589,-6.919,-1.029,7.935,14.853,11.78,24.313,0.382,2700

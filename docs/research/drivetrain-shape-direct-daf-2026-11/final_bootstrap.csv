@@ -1,0 +1,64 @@
+# Contains data from the European Environment Agency (EEA) HDV CO2 monitoring 2024-25, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived values, not endorsed by the EEA.
+universe,method,n_models,width_pp,width_ci95_lo,width_ci95_hi
+all 38 models,B0 median of all other models,38,30.19,24.97,34.55
+all 38 models,"B1 median of 3 nearest models (mass, kW)",38,23.74,15.0,37.4
+all 38 models,"B1 median of 5 nearest models (mass, kW)",38,26.79,17.38,38.66
+all 38 models,C [CdxA own],38,15.84,11.62,19.66
+all 38 models,L1[S2_busIEPC_ASM] [CdxA own],38,16.34,10.5,19.67
+all 38 models,L1[S2_busIEPC_PSM] [CdxA own],38,18.43,11.13,22.22
+all 38 models,L1[S3a_IEPC_1speed] [CdxA own],38,18.72,11.54,22.62
+all 38 models,L1[S3b_IEPC_3speed] [CdxA own],38,17.03,11.0,21.14
+all 38 models,L1[S4_std_ASM] [CdxA own],38,18.81,11.88,22.86
+all 38 models,L1[arch] [CdxA own],38,19.21,11.64,32.26
+all 38 models,L1b[S2_busIEPC_ASM] [CdxA own],38,18.62,13.1,21.81
+all 38 models,L1b[S2_busIEPC_PSM] [CdxA own],38,18.03,11.12,21.92
+all 38 models,L1b[S3a_IEPC_1speed] [CdxA own],38,18.39,11.42,22.25
+all 38 models,L1b[S3b_IEPC_3speed] [CdxA own],38,18.73,12.32,21.51
+all 38 models,L1b[S4_std_ASM] [CdxA own],38,18.43,11.59,22.41
+all 38 models,L1b[arch] [CdxA own],38,20.87,13.01,31.65
+all 38 models,L4b [CdxA own],38,15.79,11.33,19.96
+all 38 models,class-P50 C (CdxA mid),38,15.65,11.38,19.32
+all 38 models,class-P50 L1[S3b_IEPC_3speed] (CdxA mid),38,17.7,11.33,20.98
+all 38 models,class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),38,18.06,11.94,21.19
+all 38 models,class-P50 L4b (CdxA mid),38,15.78,11.29,19.91
+all 38 models,DIFF B0 median of all other models minus C [CdxA own],38,14.35,9.33,18.87
+all 38 models,"DIFF B1 median of 3 nearest models (mass, kW) minus C [CdxA own]",38,7.9,-1.04,21.3
+all 38 models,"DIFF B1 median of 5 nearest models (mass, kW) minus C [CdxA own]",38,10.95,1.71,23.45
+all 38 models,DIFF L1[S2_busIEPC_ASM] [CdxA own] minus C [CdxA own],38,0.5,-2.01,2.94
+all 38 models,DIFF L1[S2_busIEPC_PSM] [CdxA own] minus C [CdxA own],38,2.59,-1.64,5.67
+all 38 models,DIFF L1[S3a_IEPC_1speed] [CdxA own] minus C [CdxA own],38,2.88,-1.21,6.05
+all 38 models,DIFF L1[S3b_IEPC_3speed] [CdxA own] minus C [CdxA own],38,1.19,-1.66,4.74
+all 38 models,DIFF L1[S4_std_ASM] [CdxA own] minus C [CdxA own],38,2.97,-0.85,6.23
+all 38 models,DIFF L1[arch] [CdxA own] minus C [CdxA own],38,3.38,-1.2,16.95
+all 38 models,DIFF L1b[S2_busIEPC_ASM] [CdxA own] minus C [CdxA own],38,2.78,0.64,4.5
+all 38 models,DIFF L1b[S2_busIEPC_PSM] [CdxA own] minus C [CdxA own],38,2.19,-1.51,5.63
+all 38 models,DIFF L1b[S3a_IEPC_1speed] [CdxA own] minus C [CdxA own],38,2.55,-1.14,5.98
+all 38 models,DIFF L1b[S3b_IEPC_3speed] [CdxA own] minus C [CdxA own],38,2.89,-0.23,5.59
+all 38 models,DIFF L1b[S4_std_ASM] [CdxA own] minus C [CdxA own],38,2.59,-0.93,6.12
+all 38 models,DIFF L1b[arch] [CdxA own] minus C [CdxA own],38,5.03,0.25,16.11
+all 38 models,DIFF L4b [CdxA own] minus C [CdxA own],38,-0.05,-0.73,0.68
+all 38 models,DIFF class-P50 C (CdxA mid) minus C [CdxA own],38,-0.19,-0.62,0.32
+all 38 models,DIFF class-P50 L1[S3b_IEPC_3speed] (CdxA mid) minus C [CdxA own],38,1.86,-1.26,4.78
+all 38 models,DIFF class-P50 L1b[S3b_IEPC_3speed] (CdxA mid) minus C [CdxA own],38,2.22,-0.68,5.08
+all 38 models,DIFF class-P50 L4b (CdxA mid) minus C [CdxA own],38,-0.06,-0.77,0.59
+without DAF (32 models),B0 median of all other models,32,31.87,24.54,34.63
+without DAF (32 models),"B1 median of 3 nearest models (mass, kW)",32,24.77,13.78,37.14
+without DAF (32 models),"B1 median of 5 nearest models (mass, kW)",32,24.89,16.32,37.31
+without DAF (32 models),class-P50 C (CdxA mid),32,14.94,10.66,18.69
+without DAF (32 models),class-P50 C [CdxA own],32,15.51,10.96,19.26
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] (CdxA mid),32,14.63,9.77,19.35
+without DAF (32 models),class-P50 L1[S3b_IEPC_3speed] [CdxA own],32,14.01,9.33,19.04
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] (CdxA mid),32,14.85,10.16,19.5
+without DAF (32 models),class-P50 L1b[S3b_IEPC_3speed] [CdxA own],32,15.47,10.32,20.1
+without DAF (32 models),class-P50 L4b (CdxA mid),32,14.23,9.87,18.38
+without DAF (32 models),class-P50 L4b [CdxA own],32,14.27,9.96,18.17
+without DAF (32 models),DIFF B0 median of all other models minus class-P50 C [CdxA own],32,16.37,9.8,19.72
+without DAF (32 models),"DIFF B1 median of 3 nearest models (mass, kW) minus class-P50 C [CdxA own]",32,9.26,-1.21,21.82
+without DAF (32 models),"DIFF B1 median of 5 nearest models (mass, kW) minus class-P50 C [CdxA own]",32,9.38,1.67,21.84
+without DAF (32 models),DIFF class-P50 C (CdxA mid) minus class-P50 C [CdxA own],32,-0.56,-0.63,0.0
+without DAF (32 models),DIFF class-P50 L1[S3b_IEPC_3speed] (CdxA mid) minus class-P50 C [CdxA own],32,-0.87,-3.4,2.89
+without DAF (32 models),DIFF class-P50 L1[S3b_IEPC_3speed] [CdxA own] minus class-P50 C [CdxA own],32,-1.5,-4.04,2.7
+without DAF (32 models),DIFF class-P50 L1b[S3b_IEPC_3speed] (CdxA mid) minus class-P50 C [CdxA own],32,-0.65,-2.96,2.83
+without DAF (32 models),DIFF class-P50 L1b[S3b_IEPC_3speed] [CdxA own] minus class-P50 C [CdxA own],32,-0.04,-2.32,3.4
+without DAF (32 models),DIFF class-P50 L4b (CdxA mid) minus class-P50 C [CdxA own],32,-1.28,-1.54,0.03
+without DAF (32 models),DIFF class-P50 L4b [CdxA own] minus class-P50 C [CdxA own],32,-1.24,-1.51,0.0
