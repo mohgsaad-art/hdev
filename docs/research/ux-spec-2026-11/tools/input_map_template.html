@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WIREFRAME · EV Scope · all sheets</title>
+<style>
+:root{--ink:#1b1d21;--ink2:#4a4f57;--ink3:#7b818b;--line:#d5d8dd;--line2:#e7e9ec;--bg:#f5f6f8;--paper:#fff;--fill:#eceef1;--accent:#1f4e9e;--soft:#e7edf7}
+*{box-sizing:border-box}html,body{margin:0}body{font:14px/1.4 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--bg)}
+button,input{font:inherit;color:inherit}
+.wf{background:#fff7d6;border-bottom:1px solid #e3d48a;font-size:12px;padding:3px 12px;color:#5c5210}
+.menurow{display:flex;align-items:center;gap:4px;height:34px;padding:0 12px;background:var(--paper);border-bottom:1px solid var(--line2);font-size:13px}
+.brand{font-weight:700;margin-right:14px}.menurow .m{padding:5px 8px;color:var(--ink2)}
+.find{margin-left:auto;border:1px solid var(--line);border-radius:4px;padding:3px 10px;width:260px;background:var(--bg)}
+.projrow{display:flex;align-items:center;gap:16px;height:52px;padding:0 12px;background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:4}
+.ident b{display:block;font-size:15px}.ident span{font-size:12px;color:var(--ink3)}
+.stages{display:flex;margin:0 auto;border:1px solid var(--line2);border-radius:6px;overflow:hidden}
+.stage{padding:4px 11px;border-right:1px solid var(--line2);line-height:1.25}.stage:last-child{border:0}
+.stage b{display:block;font-size:12px;font-weight:600}.stage span{display:block;font-size:11px;color:var(--ink3)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;font-size:12px}
+.seg span{padding:5px 9px;border-right:1px solid var(--line);cursor:pointer;white-space:nowrap}.seg span:last-child{border:0}.seg .on{background:var(--ink);color:#fff}
+.check{border:1px solid var(--ink2);border-radius:4px;padding:5px 12px;background:var(--paper)}
+.run{border:0;border-radius:4px;padding:6px 18px;background:var(--accent);color:#fff;font-weight:600}
+.main{display:flex;align-items:flex-start}
+nav{width:260px;flex:none;position:sticky;top:52px;height:calc(100vh - 52px);overflow:auto;background:var(--paper);border-right:1px solid var(--line);padding:6px 0 30px}
+.grp{padding:10px 14px 2px}.grp b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}.grp span{display:block;font-size:11px;color:var(--ink3)}
+nav a{display:flex;justify-content:space-between;gap:8px;padding:3px 14px 3px 22px;font-size:13px;color:var(--ink);text-decoration:none;border-left:3px solid transparent;cursor:pointer}
+nav a em{font-style:normal;font-size:11px;color:var(--ink3)}nav a.on{background:var(--soft);border-left-color:var(--accent);font-weight:600}
+.divide{border-top:1px solid var(--line);margin:12px 14px 2px}
+.sheet{flex:1;min-width:0;padding:22px 28px 80px}.col{max-width:980px}
+.crumb{font-size:12px;color:var(--ink3);margin-bottom:6px}
+h1{font-size:24px;margin:0 0 4px;font-weight:650}.lead{color:var(--ink2);margin:0 0 18px}
+.note{font-size:12px;color:var(--ink3);margin:-10px 0 18px}
+section{background:var(--paper);border:1px solid var(--line2);border-radius:6px;padding:14px 18px 10px;margin-bottom:16px}
+h2{font-size:15px;margin:0 0 10px;font-weight:650;display:flex;justify-content:space-between;align-items:baseline}
+h2 small{font-weight:400;font-size:12px;color:var(--ink3)}
+.fld{display:grid;grid-template-columns:250px minmax(0,1fr);column-gap:16px;padding:7px 0;border-top:1px solid var(--line2);align-items:start}
+.fld:first-of-type{border-top:0}
+.lab{color:var(--ink2);font-size:13px;padding-top:5px}
+.lab small{display:block;font-size:11px;color:var(--ink3);margin-top:1px}
+.st{display:inline-block;font-size:10px;border:1px solid var(--line);border-radius:3px;padding:0 4px;color:var(--ink3);margin-left:6px;vertical-align:1px}
+.st.OPEN,.st.PROPOSED,.st.PARKED{border-style:dashed}
+.ctl{min-width:0}
+.f{display:inline-flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:4px;height:30px;padding:0 8px;min-width:150px;background:var(--bg);color:var(--ink3);font-size:12px}
+.f.w{min-width:280px}.f u{text-decoration:none}
+.ro{display:inline-block;height:30px;line-height:30px;padding:0 8px;background:var(--fill);border-radius:4px;color:var(--ink3);font-size:12px}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{border:1px solid var(--line);border-radius:5px;padding:5px 9px;font-size:12px;display:flex;gap:6px;align-items:center;max-width:300px}
+.opt i{width:12px;height:12px;border:1.5px solid var(--ink2);border-radius:50%;flex:none}
+.opt.on{border-color:var(--accent)}.opt.on i{border-color:var(--accent);background:radial-gradient(var(--accent) 45%,transparent 50%)}
+.cb{display:inline-flex;gap:6px;align-items:center;font-size:12px;color:var(--ink2)}.cb i{width:13px;height:13px;border:1.5px solid var(--ink2);border-radius:2px}
+.tbl{border:1px solid var(--line);border-radius:4px;overflow:hidden;font-size:11px;color:var(--ink3);max-width:520px}
+.tbl div{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line2)}.tbl div:first-child{border:0;background:var(--fill);color:var(--ink2)}
+.tbl span{padding:4px 6px;border-left:1px solid var(--line2);height:22px}.tbl span:first-child{border:0}
+.up{border:1.5px dashed var(--line);border-radius:5px;padding:10px;font-size:12px;color:var(--ink3);max-width:420px;text-align:center}
+.map{height:110px;max-width:520px;border:1px solid var(--line);border-radius:5px;background:repeating-linear-gradient(45deg,#eef0f3,#eef0f3 10px,#e6e9ed 10px,#e6e9ed 20px);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:12px}
+.chart{height:90px;max-width:520px;border:1px solid var(--line);border-radius:5px;margin-top:6px;display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:12px;background:linear-gradient(transparent 95%,var(--line2) 95%) 0 0/100% 18px}
+.cond{font-size:11px;color:var(--ink3);margin-top:3px}
+details.more{border:1px dashed var(--line);border-radius:6px;margin:4px 0 10px;background:#fcfcfd}
+details.more>summary{list-style:none;cursor:pointer;padding:9px 14px;display:flex;justify-content:space-between;gap:12px;font-size:13px}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary b{font-weight:600}details.more>summary span{color:var(--ink3);font-size:12px}
+details.more[open]>summary{border-bottom:1px solid var(--line2)}
+details.more .inner{padding:4px 14px 8px}
+.expert{border-left:3px solid var(--ink2);padding-left:12px;margin:6px 0 10px}
+.expert h4{margin:4px 0 2px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink2)}
+.ledger{font-size:12px;color:var(--ink3);margin:6px 0 4px}
+.empty{padding:22px;color:var(--ink2);background:var(--paper);border:1px dashed var(--line);border-radius:6px}
+.banner{border:1px solid var(--line);background:var(--paper);border-radius:6px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:var(--ink2)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--paper);border:1px solid var(--line2);border-radius:6px;padding:12px 14px}
+.kpi .v{font-size:26px;font-weight:650;color:var(--ink3);letter-spacing:.02em}.kpi .t{font-size:12.5px;color:var(--ink2);margin-top:2px}
+.kpi .s{font-size:11px;color:var(--ink3);margin-top:6px}
+.line{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-top:1px solid var(--line2);font-size:13px}.line:first-of-type{border:0}
+.line span{color:var(--ink3);font-size:12px;text-align:right}
+@media (max-width:1360px){.stage span{display:none}.find{width:180px}}
+@media (max-width:760px){.menurow .m,.find,.stages,.seg,.check{display:none}.main{display:block}nav{position:static;width:auto;height:auto;border:0;border-bottom:1px solid var(--line)}
+ .sheet{padding:14px}.fld{grid-template-columns:1fr}.projrow{position:static}.f.w{min-width:0;width:100%}}
+</style></head><body>
+<div class="wf"><b>WIREFRAME</b> · every sheet of the tool, generated from inputs_ux.csv and results_ux.csv · click any sheet in the index · switch Client / OEM / Engineering in the top bar · no real numbers</div>
+<div class="menurow"><span class="brand">EV Scope</span><span class="m">File</span><span class="m">Edit</span><span class="m">View</span><span class="m">Project</span><span class="m">Run</span><span class="m">Libraries</span><span class="m">Help</span><input class="find" id="q" placeholder="Find an input…"></div>
+<div class="projrow"><div class="ident"><b>New project</b><span>Base project · <span id="vname">Client</span> view</span></div>
+<div class="stages"><div class="stage"><b>Consumption</b><span>Not run</span></div><div class="stage"><b>Battery</b><span>Not available yet</span></div><div class="stage"><b>Charging</b><span>Not available yet</span></div><div class="stage"><b>Flexibility</b><span>Not available yet</span></div><div class="stage"><b>Cost and CO₂</b><span>Not available yet</span></div></div>
+<span class="seg" id="views"><span class="on" data-v="client">Client</span><span data-v="OEM">OEM</span><span data-v="engineering">Engineering</span></span>
+<button class="check">Check</button><button class="run">Run</button></div>
+<div class="main"><nav id="nav"></nav><div class="sheet"><div class="col" id="sheet"></div></div></div>
+<script>
+const ROWS=__DATA__, PAGES=__PAGES__;
+const PROMISE={"Setup / Start and purpose":"What this project is for, where the modelling starts, the site and the project period.","Setup / Scenarios":"The what-if versions of this project and what each one changes.","Duties / Fleet groups":"Which vehicles do which work: how many, on which route, with which load, equipment and schedule.","Duties / Vehicle":"One vehicle type: where its data comes from, its mass, aerodynamics, tyres, drivetrain and on-board systems.","Duties / Route and stops":"One route: where it comes from, its distance and speeds, and every stop.","Duties / Load and body equipment":"What the vehicle carries along the route, and any body equipment that draws power.","Duties / Schedule and calendar":"When the vehicles work: days, shifts, holidays, shutdowns and exceptions.","Conditions / Weather and cab climate":"The weather the fleet drives in, and the cab heating and cooling that follows from it.","Energy chain / Battery and ageing":"The battery you have or want sized, how it ages, and the year-8 guarantee.","Energy chain / Charging":"The chargers you have or want sized, and how charging is managed.","Site / Depot and grid":"The depot, its grid connection and what else the building uses.","Site / Flexibility":"Whether and how the depot offers flexibility to the grid.","Business case / Prices and tariffs":"Electricity and fuel prices, tariffs and how they change over the years.","Business case / Costs and finance":"What the electric and the diesel option cost, and how they are paid for.","Business case / Taxes and CO2":"Road tax, subsidies and the emission factors.","Business case / Tender and bids":"The buyer's requirements and each supplier's bid (tender projects only).","Findings / Decision":"The answer in one place: does it work, what is needed, and what limits it.","Findings / Energy and duty":"How much energy each route uses and where it goes.","Findings / Battery and payload":"Whether the battery covers the hardest day, new and at year 8.","Findings / Charging and resilience":"When each vehicle charges and whether it leaves on time.","Findings / Site and flexibility":"The depot's load against its connection, and the flexibility it can offer.","Findings / Cost and CO2":"Cost against diesel over the years, and emissions saved.","Findings / Compare":"Two or more runs or scenarios side by side.","Findings / Inputs and sources":"Every value used in a run, with its source.","Findings / Documents":"The six documents you can produce."};
+const GP={"Setup":"What this project is and where it starts","Duties":"What the vehicles do","Conditions":"What the fleet drives in","Energy chain":"Battery and chargers","Site":"The depot and its grid connection","Business case":"Prices, costs, taxes","Findings":"What EV Scope worked out"};
+const esc=s=>(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let cur="Duties / Vehicle", view="client";
+function opts(s){let p=s.split(/\s*\(([A-Za-z0-9]{1,2})\)\s*/).filter((x,i)=>i%2===0).map(x=>x.replace(/[;,]\s*$/,"").trim()).filter(Boolean);
+ if(p.length<2)p=s.split(/\s*\/\s*|\s*;\s*/).map(x=>x.trim()).filter(Boolean);
+ return p.slice(0,7).map(x=>x.replace(/\[[^\]]*\]/g,"").replace(/\s+/g," ").trim()).map(x=>x.length>46?x.slice(0,44)+"…":x)}
+function control(r){const c=r.ctrl,u=esc(r.unit);
+ if(c.startsWith("Number field")||c.startsWith("Grouped number"))return `<span class="f">&nbsp;<u>${u}</u></span>`;
+ if(c.startsWith("Time field"))return `<span class="f">hh:mm</span>`;
+ if(c.startsWith("Text field"))return `<span class="f w">&nbsp;</span>`;
+ if(c.startsWith("Searchable picker"))return `<span class="f w">Search…<u>▾</u></span>`;
+ if(c.startsWith("Read-only"))return `<span class="ro">Calculated${u?" · "+u:""}</span>`;
+ if(c.startsWith("Radio choice")||c.startsWith("Source choice")){const o=opts(r.opt);const ex=c.startsWith("Source choice")?`<div style="margin-top:6px"><span class="f">&nbsp;<u>${u}</u></span></div>`:"";
+   return o.length>1?`<div class="opts">${o.map((x,i)=>`<span class="opt${i===0?" on":""}"><i></i>${esc(x)}</span>`).join("")}</div>${ex}`:`<span class="f">&nbsp;<u>${u}</u></span>`}
+ if(c.startsWith("Checkbox"))return `<span class="cb"><i></i>${esc(r.label)}</span>`;
+ if(c.startsWith("Table")||c.startsWith("Fleet group"))return `<div class="tbl"><div><span>…</span><span>…</span><span>…</span><span>…</span></div><div><span></span><span></span><span></span><span></span></div><div><span></span><span></span><span></span><span></span></div></div>`;
+ if(c.startsWith("File upload"))return `<div class="up">Choose a file or drop it here · preview and column mapping follow</div>`;
+ if(c.startsWith("Map"))return `<div class="map">Map: depot, stops and return, with the ordered list beside it</div>`;
+ if(c.startsWith("Profile table"))return `<div class="tbl"><div><span>time</span><span>power</span><span></span><span></span></div><div><span></span><span></span><span></span><span></span></div></div><div class="chart">preview of the profile</div>`;
+ if(c.startsWith("Parked"))return `<span class="ro">Parked: not designed yet</span>`;
+ return `<span class="f w">${esc(c)}</span>`}
+function cond(r){const a=r.open||"";return a.startsWith("Active page")||a.startsWith("Always")?"":`<div class="cond">${esc(a.length>110?a.slice(0,108)+"…":a)}</div>`}
+function field(r){const st=["FINAL","WIP"].includes(r.st)?"":`<span class="st ${esc(r.st)}">${esc(r.st)}</span>`;
+ const req=/^required/.test(r.req)?' <small>Required'+(r.req!=="required"?" "+esc(r.req.replace("required","")):"")+'</small>':"";
+ const lab=r.ctrl.startsWith("Checkbox")?"":esc(r.label);
+ return `<div class="fld"><div class="lab">${lab}${st}${req}<small style="font-family:ui-monospace,Menlo,monospace">${esc(r.id)}</small></div><div class="ctl">${control(r)}${cond(r)}</div></div>`}
+function visible(r){if(view==="engineering")return true;if(r.views.startsWith("client"))return true;return view==="OEM"&&r.views.startsWith("OEM")}
+function navDraw(){let h="",last="";for(const p of PAGES){const [g,n]=p.split(" / ");if(g!==last){if(g==="Findings")h+='<div class="divide"></div>';h+=`<div class="grp"><b>${esc(g)}</b><span>${esc(GP[g]||"")}</span></div>`;last=g}
+ const rs=ROWS.filter(r=>r.page===p),c=rs.length;const planned=c&&rs.every(r=>(r.st==="PLANNED"||r.st==="planned"));
+ h+=`<a data-p="${esc(p)}" class="${p===cur?"on":""}">${esc(n)}<em>${planned?"Planned":(c?c+(g==="Findings"?" results":" inputs"):"")}</em></a>`}
+ const nv=document.getElementById("nav");nv.innerHTML=h;nv.querySelectorAll("a").forEach(a=>a.onclick=()=>{cur=a.dataset.p;document.getElementById("q").value="";draw();window.scrollTo(0,0)})}
+const LEV=[["headline figure","Headline figures"],["status line","Pass / fail lines"],["section figure","Section figures"],["chart","Charts"],["table","Tables"],["report only","Report only"],["document only","Documents"]];
+function findings(rs){let h="";const now=rs.filter(r=>r.st==="now").length;
+ h+=`<div class="banner">Not run yet. ${now} of ${rs.length} results on this sheet come from the stage that is built today; the other ${rs.length-now} wait for planned stages and will say “Not available yet”.</div>`;
+ for(const [k,t] of LEV){const x=rs.filter(r=>r.sec===k);if(!x.length)continue;
+  if(k==="headline figure")h+=`<div class="kpis">${x.map(r=>`<div class="kpi"><div class="v">— ${esc(r.unit)}</div><div class="t">${esc(r.label)}</div><div class="s">${r.st==="now"?"":"Planned · "}${esc(r.form)}</div></div>`).join("")}</div>`;
+  else if(k==="chart")h+=`<section><h2>${t}<small>${x.length}</small></h2>${x.map(r=>`<div style="margin-bottom:12px"><b style="font-size:13px">${esc(r.label)}</b>${r.st==="now"?"":'<span class="st">planned</span>'}<div class="chart">${esc(r.form)}</div></div>`).join("")}</section>`;
+  else h+=`<section><h2>${t}<small>${x.length}</small></h2>${x.map(r=>`<div class="line"><b style="font-weight:500">${esc(r.label)}${r.st==="now"?"":'<span class="st">planned</span>'}</b><span>${esc(r.form)}${r.unit?" · "+esc(r.unit):""}</span></div>`).join("")}</section>`}
+ return h}
+function draw(){navDraw();const s=document.getElementById("sheet"),term=document.getElementById("q").value.trim().toLowerCase();
+ if(term){const hits=ROWS.filter(r=>r.k==="in"&&(r.label+" "+r.id).toLowerCase().includes(term));
+  s.innerHTML=`<h1>Find: “${esc(term)}”</h1><p class="lead">${hits.length} inputs. Each shows the sheet and section where it lives.</p><section>${hits.map(r=>`<div class="fld"><div class="lab">${esc(r.label)}<small>${esc(r.id)}</small></div><div class="ctl" style="padding-top:5px;font-size:13px">${esc(r.page.replace(" / "," › "))} › ${esc(r.sec)} · <span style="color:var(--ink3)">${esc(r.tier)}</span></div></div>`).join("")}</section>`;return}
+ const [g,n]=cur.split(" / "),rs=ROWS.filter(r=>r.page===cur);let h=`<div class="crumb">${esc(g)} ›</div><h1>${esc(n)}</h1><p class="lead">${esc(PROMISE[cur]||"")}</p>`;
+ if(g==="Findings"){s.innerHTML=h+(rs.length?findings(rs):'<div class="empty">No results registered for this sheet.</div>');return}
+ if(!rs.length){s.innerHTML=h+'<div class="empty"><b>No input IDs in the input map yet.</b><br>Planned fields: project name, client, site, project purpose, project period, and the start point (the five choices from the start chooser). See shell.md question Q7.</div>';return}
+ const vis=rs.filter(visible),hidden=rs.length-vis.length;
+ h+=`<p class="note">${rs.length} inputs on this sheet · ${vis.filter(r=>r.tier==="On the sheet").length} shown directly in this view${hidden?` · ${hidden} only in the OEM or engineering view`:""}. Choices that open and close fields are all drawn open; the grey line under a field says when it appears.</p>`;
+ for(const sec of [...new Set(rs.map(r=>r.sec))]){const x=vis.filter(r=>r.sec===sec),all=rs.filter(r=>r.sec===sec);
+  const on=x.filter(r=>r.tier==="On the sheet"),step=x.filter(r=>r.tier==="One step away"),exp=x.filter(r=>r.tier==="Expert view"),led=all.filter(r=>r.tier.startsWith("Never"));
+  h+=`<section><h2>${esc(sec)}<small>${all.length} inputs</small></h2>${on.map(field).join("")||'<div class="cond">Nothing in this section is shown directly in this view.</div>'}`;
+  if(step.length)h+=`<details class="more"><summary><b>More: ${esc(sec)}</b><span>${step.length} values · ${esc(step.slice(0,4).map(r=>r.label.split("(")[0].trim()).join(" · "))}${step.length>4?" …":""} ›</span></summary><div class="inner">${step.map(field).join("")}</div></details>`;
+  if(exp.length)h+=(view==="engineering"?`<div class="expert"><h4>Engineering detail · ${exp.length}</h4>${exp.map(field).join("")}</div>`:`<div class="ledger">${exp.length} engineering values are hidden in this view. Switch to Engineering to see them.</div>`);
+  if(led.length)h+=`<div class="ledger">${led.length} value${led.length>1?"s are":" is"} never a field: ${esc(led.map(r=>r.label.split("(")[0].trim()).join(", "))}. Listed under Findings › Inputs and sources.</div>`;
+  h+=`</section>`}
+ s.innerHTML=h}
+document.querySelectorAll("#views span").forEach(e=>e.onclick=()=>{view=e.dataset.v;document.querySelectorAll("#views span").forEach(x=>x.classList.toggle("on",x===e));document.getElementById("vname").textContent=e.textContent;draw()});
+document.getElementById("q").oninput=draw;draw();
+</script></body></html>
