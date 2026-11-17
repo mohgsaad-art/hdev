@@ -136,7 +136,7 @@ On a phone there is room for both lines, so every row shows its promise. `[JUDGE
 | `2 missing` | Required values with no default are missing. Blocks Run. | `check(project)` |
 | `1 wrong` | A value fails a parser check. Blocks Run. | `check(project)` |
 | `Not used` | Closed by the start point (section 12). Its values are kept. | project JSON |
-| `Not available yet` | The stage is planned and not built. The sheet still opens and says what it will hold. `[DP-25]` | model status |
+| `Planned` | The stage is planned and not built. The sheet still opens, says "Not available yet" and what it will hold. `[DP-25]` The short word is used in the index because the long one, repeated on nine rows, drowned the rest in the wireframe. | model status |
 
 | On a Findings sheet | Meaning |
 |---|---|
@@ -144,7 +144,7 @@ On a phone there is room for both lines, so every row shows its promise. `[JUDGE
 | `Not run` | No run yet. |
 | `Out of date` | An input changed after the last run (section 8.3). |
 | `Partly` | Some of this sheet's results exist, others wait for a planned stage. |
-| `Not available yet` | Every result on this sheet belongs to a planned stage. |
+| `Planned` | Every result on this sheet belongs to a planned stage. |
 
 Defaulted values do **not** show in the index. They are normal, they do not block Run, and a count of them beside every sheet would make every sheet look unfinished. They are counted once, in the Check panel. `[BOB B3: "i dont like showing the sources or assumptions next to each field"]` `[JUDGEMENT]`
 
