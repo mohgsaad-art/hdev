@@ -1,0 +1,41 @@
+n,task_in_a_users_words,proposal_lands_at,"proposal_found_first_try [JUDGEMENT, paper test by Kiro, not a user test]",current_demo_lands_at,current_demo_first_try,notes
+1,Set the diesel price,Prices,yes,Prices,yes,
+2,Say the battery guarantee is 75 % at year 8,Fleet > Edit vehicle > Battery section (main field),maybe (a user may look under Charging or Costs first),"Fleet > Edit vehicle (main field ""Battery capacity guaranteed at year 8"")",maybe,Mitigation: fleet table vehicle summary shows the year-8 value; Check and run lists it; search box
+3,Enter cab heating set-points,Weather > Cab heating and cooling > Set-points,yes,Weather > Set-points popup,yes,Bob: cab heating belongs with weather
+4,Add 20 more refuse trucks on the same route,Fleet > Count column (or Copy row),yes,Fleet > Count / Copy,yes,
+5,Make stop 12 longer,Fleet > row > Stops,yes,Fleet > row > Stops,yes,
+6,Mark the depot as limited access,Depot and grid > Grid connection > Access,yes,Depot and grid > Access to the grid,yes,
+7,Test a cold year,Weather > Weather year,yes,Weather > Which year,yes,
+8,Upload my GPS log,Fleet > Edit route > Where does the route come from,maybe,Fleet > Edit route,maybe,"""Route"" is a column of the fleet table, so a user who knows the table finds it"
+9,Pick a Volvo FE Electric from the library,Fleet > Edit vehicle > Pick from the vehicle library,maybe,"Disabled in the demo: ""Not part of this demo""",no (not built),Library is planned (EEA data)
+10,Set the tender's battery score curve,Tender page (only for tender projects),yes once the project is marked as a tender,Not in the demo,no (not built),Needs the project purpose choice
+11,Add a second shift,Fleet > schedule template > Days and exceptions (several shifts),maybe,Fleet > add a row with Night shift (not the same vehicle),maybe,Same-vehicle second shift is planned
+12,Say a charger can be out of service,Charging > What if something fails,yes,Not in the demo,no (not built),
+13,Enter the AdBlue price,Prices > Other fuels and public charging,yes,Prices > Other fuels and public charging,yes,
+14,Enter my own hourly prices,Prices > Your own hourly prices,yes,Prices > Your own hourly prices (file),yes,
+15,Say the body has its own electric motor,Fleet > Edit PTO > Efficiency and drive,maybe,Fleet > Edit PTO > Efficiency and drive,maybe,"""PTO"" is jargon; label could read ""Equipment on the body (PTO)"""
+16,Set the interest rate,Costs > Ownership and finance,yes,Costs,yes,
+17,Enter the km-toll rate,"Taxes, grants and CO₂",maybe (could try Prices),Taxes and CO₂ > Road tax,maybe,Page name decides; rename or merge is Question 6
+18,Apply for the Vejdirektoratet subsidy,"Taxes, grants and CO₂ > Subsidy scheme",yes,Taxes and CO₂ > Subsidy,yes,
+19,Set the grid company,Depot and grid > Grid connection,yes,Depot and grid > Grid company,yes,
+20,Say the connection is 250 A,Depot and grid > Connection size (A or kW switch),yes,"Depot and grid > Connection size, kW only",partly,Demo has no ampere switch
+21,Use my building's hourly meter data,Depot and grid > Building load > Eloverblik,yes,Depot and grid > Building load (disabled option),partly,
+22,Set how many chargers,Charging > Chargers,yes,Charging,yes,
+23,Charge only at night,Charging > Charging plan,yes,Charging > Charging plan,yes,
+24,Set the weather location,"Weather > Location (from depot address, with override)",yes,"No field; weather page says ""Nearest to the depot""",no,Conflict listed in the register
+25,Change the shift to start at 05:00,Fleet > Schedule column,maybe (could try Project),Fleet > Edit schedule,maybe,
+26,Change the payload on one route,Fleet > Payload column,yes,Fleet > Payload column,yes,
+27,Set the driver wage,Costs > Operations costs,yes,Costs,yes,
+28,Set the electricity price level to high,Prices > Price level,yes,Prices,yes,
+29,Enter the tyre rolling resistance,Fleet > Edit vehicle > Tyres,maybe,Fleet > Edit vehicle > Tyres,maybe,
+30,Enter the vehicle height,Fleet > Edit vehicle > Air drag and size,maybe,Fleet > Edit vehicle > Air drag and size,maybe,
+31,Add the maker's air-drag file,Fleet > Edit vehicle > Air drag and size (OEM view),maybe,Fleet > Edit vehicle > Air drag and size,maybe,
+32,Enter the battery size I was offered,Fleet > Edit vehicle > Battery > I have a battery size,maybe,Fleet > Edit vehicle > Battery,maybe,
+33,Say trucks can charge at the tip site,Charging > Charging away from the depot,yes,Not in the demo,no (not built),
+34,Run Saturdays at half,Fleet > Edit schedule > Days and exceptions,maybe,Not in the demo,no (not built),
+35,Set the ownership period,Costs > Ownership and finance,yes,Costs,yes,
+36,Set the CO2 of grid electricity,"Taxes, grants and CO₂ > CO2",yes,Taxes and CO₂,yes,
+37,Set fleet growth to 70 trucks within 48 months,Depot and grid > Growth phases,yes,Not in the demo,no (not built),
+38,Compare two scenarios,Compare,yes,Compare,yes,
+39,Get the grid connection application,Documents,yes,Documents,yes,
+40,Test a 50 % grid cut from 22:00 to 02:00,Depot and grid > Limited access what-if,yes,Depot and grid > Limited access what-if popup,yes,
