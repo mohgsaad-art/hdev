@@ -1,0 +1,662 @@
+<title>EV Scope prototype</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: desktop-class workbench. Menu row + project row on top, project index left, one sheet centre, one side panel right. */
+:root{
+  --bg:#F5F6F8; --paper:#FFFFFF; --sunk:#EEF0F4; --ink:#1A1F2B; --ink2:#4A5262; --ink3:#7A8293; --line:#D9DDE4; --line2:#E8EBF0;
+  --accent:#1F4E9E; --accent-ink:#FFFFFF; --accent-soft:#E6EDF8; --good:#2E7D4F; --bad:#B3261E; --bad-soft:#FBEDEC; --warn:#8A5A00;
+  --shadow-up:0 1px 2px rgba(20,30,50,.10),0 2px 6px rgba(20,30,50,.06); --shadow-in:inset 0 1px 2px rgba(20,30,50,.10);
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12161D; --paper:#1A1F28; --sunk:#151A22; --ink:#E7EAF0; --ink2:#B4BBC8; --ink3:#8A93A3; --line:#2F3744; --line2:#262D38;
+  --accent:#6E9BE6; --accent-ink:#0E1420; --accent-soft:#1F2C44; --good:#5DBB84; --bad:#F08A80; --bad-soft:#3A1F1E; --warn:#E0B259;
+  --shadow-up:0 1px 2px rgba(0,0,0,.4); --shadow-in:inset 0 1px 2px rgba(0,0,0,.45); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12161D; --paper:#1A1F28; --sunk:#151A22; --ink:#E7EAF0; --ink2:#B4BBC8; --ink3:#8A93A3; --line:#2F3744; --line2:#262D38;
+  --accent:#6E9BE6; --accent-ink:#0E1420; --accent-soft:#1F2C44; --good:#5DBB84; --bad:#F08A80; --bad-soft:#3A1F1E; --warn:#E0B259;
+  --shadow-up:0 1px 2px rgba(0,0,0,.4); --shadow-in:inset 0 1px 2px rgba(0,0,0,.45); color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--mono)}
+#app{height:100%;display:flex;flex-direction:column;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+
+/* buttons: raised */
+.btn{border:1px solid var(--line);background:var(--paper);border-radius:6px;padding:6px 12px;box-shadow:var(--shadow-up);white-space:nowrap}
+.btn:hover{border-color:var(--ink3)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn.ghost{box-shadow:none;background:transparent;border-color:transparent;color:var(--ink2)}
+.btn.ghost:hover{background:var(--sunk)}
+.btn.small{padding:3px 9px;font-size:12.5px}
+.btn.danger{color:var(--bad)}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--bad);color:#fff;font-size:11.5px;font-weight:600;margin-left:6px}
+.badge.ok{background:var(--sunk);color:var(--ink3)}
+.tag{display:inline-block;font-size:10.5px;letter-spacing:.02em;border:1px solid var(--line);border-radius:4px;padding:0 5px;color:var(--ink3);vertical-align:1px;white-space:nowrap}
+.tag.dash{border-style:dashed}
+
+/* menu row */
+.menurow{display:flex;align-items:center;gap:2px;height:38px;padding:0 max(12px,env(safe-area-inset-right,0px)) 0 12px;background:var(--paper);border-bottom:1px solid var(--line2);position:relative;z-index:30}
+.brand{font-weight:700;letter-spacing:-.01em;margin-right:14px;display:flex;align-items:center;gap:8px}
+.brand i{width:18px;height:18px;border-radius:4px;background:var(--accent);display:inline-block}
+.menu{position:relative}
+.menu>button{border:0;background:none;padding:6px 9px;border-radius:5px;color:var(--ink2);font-size:13.5px}
+.menu>button:hover,.menu.open>button{background:var(--sunk);color:var(--ink)}
+.dd{position:absolute;top:34px;left:0;min-width:250px;background:var(--paper);border:1px solid var(--line);border-radius:8px;box-shadow:0 12px 32px rgba(20,30,50,.18);padding:5px;display:none}
+.menu.open .dd{display:block}
+.dd button{display:flex;justify-content:space-between;gap:20px;width:100%;text-align:left;border:0;background:none;padding:6px 10px;border-radius:5px;font-size:13.5px}
+.dd button:hover{background:var(--accent-soft)}
+.dd button kbd{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.dd button.on::before{content:"✓";position:absolute;margin-left:-12px;color:var(--accent)}
+.dd hr{border:0;border-top:1px solid var(--line2);margin:4px 6px}
+.dd .dis{color:var(--ink3)}
+.findwrap{margin-left:auto;position:relative}
+.find{width:280px;border:1px solid var(--line);border-radius:6px;padding:5px 10px;background:var(--sunk);box-shadow:var(--shadow-in)}
+.findres{position:absolute;right:0;top:36px;width:420px;max-height:60vh;overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:8px;box-shadow:0 12px 32px rgba(20,30,50,.18);display:none;z-index:40}
+.findres.show{display:block}
+.findres button{display:block;width:100%;text-align:left;border:0;background:none;padding:8px 12px;border-bottom:1px solid var(--line2)}
+.findres button:hover,.findres button.hl{background:var(--accent-soft)}
+.findres small{display:block;color:var(--ink3);font-size:12px}
+.menubtn{display:none}
+
+/* project row */
+.projrow{display:flex;align-items:center;gap:14px;min-height:58px;padding:6px 12px;background:var(--paper);border-bottom:1px solid var(--line)}
+.ident{min-width:0}
+.ident b{display:block;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px}
+.ident span{font-size:12px;color:var(--ink3)}
+.save{font-size:12px;color:var(--ink3);white-space:nowrap}
+.save.err{color:var(--bad)}
+.stages{display:flex;margin:0 auto;border:1px solid var(--line2);border-radius:8px;overflow:hidden;background:var(--paper)}
+.stage{padding:5px 12px;border-right:1px solid var(--line2);line-height:1.25;border:0;border-right:1px solid var(--line2);background:none;text-align:left}
+.stage:last-child{border-right:0}
+.stage b{display:block;font-size:12px;font-weight:600}
+.stage span{display:block;font-size:11px;color:var(--ink3)}
+.stage.s-done span{color:var(--good)}.stage.s-run span{color:var(--accent)}.stage.s-stale span{color:var(--warn)}.stage.s-sup span{color:var(--ink2)}
+.stage.s-unused{opacity:.55}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--sunk);box-shadow:var(--shadow-in)}
+.seg button{border:0;background:none;padding:5px 10px;font-size:12.5px;color:var(--ink2)}
+.seg button.on{background:var(--paper);color:var(--ink);box-shadow:var(--shadow-up);font-weight:600}
+
+/* body */
+.work{flex:1;display:flex;min-height:0;position:relative}
+nav.index{width:268px;flex:none;background:var(--paper);border-right:1px solid var(--line);overflow:auto;padding:6px 0 30px}
+.grp{padding:12px 16px 3px}
+.grp b{display:block;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2);font-weight:600}
+.grp span{display:block;font-size:11.5px;color:var(--ink3)}
+.it{display:flex;justify-content:space-between;align-items:baseline;gap:8px;width:100%;border:0;background:none;text-align:left;padding:5px 16px 5px 22px;font-size:13.5px;border-left:3px solid transparent;color:var(--ink)}
+.it:hover{background:var(--sunk)}
+.it em{font-style:normal;font-size:11.5px;color:var(--ink3);white-space:nowrap}
+.it em.miss{color:var(--bad);font-weight:600}
+.it.unused{color:var(--ink3)}
+.it.on{background:var(--accent-soft);border-left-color:var(--accent);font-weight:600}
+.divide{border-top:1px solid var(--line);margin:12px 16px 2px}
+
+.sheet{flex:1;min-width:0;overflow:auto;padding:24px 32px 90px}
+.col{max-width:960px}
+.crumb{font-size:12.5px;color:var(--ink3);margin-bottom:4px}
+h1{font-size:26px;line-height:1.2;margin:0 0 4px;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.lead{color:var(--ink2);margin:0 0 16px;max-width:68ch}
+.banner{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:12px 16px;margin:0 0 16px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.banner p{margin:0;color:var(--ink2);max-width:70ch}
+.banner.info{border-left:4px solid var(--accent)}
+.banner.warn{border-left:4px solid var(--warn)}
+.objbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 20px}
+.objbar .lbl{font-size:12.5px;color:var(--ink3);margin-right:2px}
+.chip{border:1px solid var(--line);border-radius:16px;padding:4px 12px;background:var(--paper);font-size:13px;box-shadow:var(--shadow-up)}
+.chip.on{border-color:var(--accent);color:var(--accent);font-weight:600}
+.chip.add{border-style:dashed;box-shadow:none;color:var(--ink2)}
+section.card{background:var(--paper);border:1px solid var(--line2);border-radius:10px;padding:16px 20px 10px;margin-bottom:16px}
+h2{font-size:16px;margin:0 0 8px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+h2 small{font-weight:400;font-size:12px;color:var(--ink3)}
+.fld{display:grid;grid-template-columns:minmax(180px,250px) minmax(0,1fr);column-gap:20px;padding:9px 0;border-top:1px solid var(--line2);align-items:start}
+.fld:first-of-type{border-top:0}
+.lab{padding-top:6px;color:var(--ink2);font-size:13.5px;cursor:help}
+.lab .req{display:block;font-size:11.5px;color:var(--ink3)}
+.lab .req.miss{color:var(--bad)}
+.ctl{min-width:0}
+.in{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:6px;background:var(--sunk);box-shadow:var(--shadow-in);height:34px;min-width:170px;max-width:100%}
+.in input,.in select{border:0;background:transparent;height:100%;padding:0 10px;min-width:0;flex:1;font-variant-numeric:tabular-nums;outline:none}
+.in u{text-decoration:none;color:var(--ink3);font-size:12.5px;padding-right:10px;white-space:nowrap}
+.in.wide{width:360px}
+.in:focus-within{border-color:var(--accent);box-shadow:var(--shadow-in),0 0 0 3px var(--accent-soft)}
+.in.edited input{color:var(--accent)}
+.in.miss{border-color:var(--bad);background:var(--bad-soft)}
+.in.wrong{border-color:var(--bad)}
+.in.def input::placeholder{color:var(--ink3);font-style:italic}
+.mark{font-size:10.5px;color:var(--ink3);border:1px solid var(--line);border-radius:3px;padding:0 4px;margin-right:8px}
+.reset{border:0;background:none;color:var(--ink3);font-size:12px;padding:0 8px;text-decoration:underline}
+.msg{font-size:12px;margin-top:4px;color:var(--ink3)}
+.msg.err{color:var(--bad)}
+textarea.in{display:block;width:100%;max-width:560px;height:84px;padding:8px 10px;resize:vertical;font-family:var(--mono);font-size:12.5px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:7px 11px;max-width:330px;text-align:left;box-shadow:var(--shadow-up);font-size:13px;line-height:1.3}
+.opt i{width:14px;height:14px;border:1.5px solid var(--ink3);border-radius:50%;flex:none;margin-top:1px}
+.opt.sq i{border-radius:3px}
+.opt.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.opt.on i{border-color:var(--accent);background:radial-gradient(var(--accent) 46%,transparent 52%)}
+.opt.sq.on i{background:var(--accent)}
+.opts.miss .opt{border-color:var(--bad)}
+.sub{margin-top:8px}
+.filled{display:inline-flex;align-items:center;height:34px;padding:0 10px;border-radius:6px;background:var(--sunk);color:var(--ink3);font-size:12.5px;border:1px dashed var(--line)}
+.drop{border:1.5px dashed var(--line);border-radius:8px;padding:14px;max-width:520px;color:var(--ink2);font-size:13px;display:flex;gap:12px;align-items:center;background:var(--paper)}
+.mapbox{height:150px;max-width:560px;border:1px solid var(--line);border-radius:8px;background:repeating-linear-gradient(45deg,var(--sunk),var(--sunk) 10px,var(--bg) 10px,var(--bg) 20px);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:13px;text-align:center;padding:10px}
+details.more{border:1px solid var(--line2);border-radius:8px;margin:6px 0 10px;background:var(--bg)}
+details.more>summary{list-style:none;cursor:pointer;padding:10px 14px;display:flex;justify-content:space-between;gap:12px;font-size:13.5px}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::after{content:"Show";color:var(--accent);font-size:12.5px}
+details.more[open]>summary::after{content:"Hide"}
+details.more>summary span{color:var(--ink3);font-size:12.5px;margin-left:auto}
+details.more[open]>summary{border-bottom:1px solid var(--line2)}
+details.more .inner{padding:2px 14px 6px;background:var(--paper);border-radius:0 0 8px 8px}
+.expert{border-left:3px solid var(--ink3);padding-left:14px;margin:8px 0 10px}
+.expert h3{margin:6px 0 0;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2)}
+.note{font-size:12.5px;color:var(--ink3);margin:6px 0 8px}
+table.grid{border-collapse:collapse;width:100%;font-size:13px}
+table.grid th{text-align:left;font-weight:600;font-size:12px;color:var(--ink2);padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.grid td{padding:4px 6px;border-bottom:1px solid var(--line2);font-variant-numeric:tabular-nums;vertical-align:middle}
+table.grid td input,table.grid td select{width:100%;border:1px solid transparent;background:transparent;padding:4px 6px;border-radius:4px}
+table.grid td input:focus,table.grid td select:focus{border-color:var(--accent);background:var(--paper);outline:none}
+table.grid td.num,table.grid th.num{text-align:right}
+.tblwrap{overflow-x:auto}
+.empty{border:1px dashed var(--line);border-radius:10px;padding:26px;color:var(--ink2);background:var(--paper);text-align:center}
+.empty b{display:block;font-size:16px;color:var(--ink);margin-bottom:4px}
+
+/* findings */
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--paper);border:1px solid var(--line2);border-radius:10px;padding:14px 16px}
+.kpi .v{font-size:28px;font-weight:600;color:var(--ink3);font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:14px;font-weight:500;margin-left:4px}
+.kpi .t{font-size:13px;color:var(--ink2);margin-top:2px}
+.kpi .s{font-size:11.5px;color:var(--ink3);margin-top:8px}
+.rline{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:8px 0;border-top:1px solid var(--line2);font-size:13.5px}
+.rline:first-of-type{border-top:0}
+.rline span{color:var(--ink3);font-size:12.5px;text-align:right}
+.chartph{height:120px;border:1px solid var(--line2);border-radius:8px;margin:6px 0 14px;display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:12.5px;background:linear-gradient(transparent calc(100% - 1px),var(--line2) 0) 0 0/100% 24px;text-align:center;padding:10px}
+
+/* side panel */
+aside.panel{width:360px;flex:none;background:var(--paper);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+aside.panel[hidden]{display:none}
+.ptabs{display:flex;border-bottom:1px solid var(--line);align-items:center}
+.ptabs button{border:0;background:none;padding:10px 12px;color:var(--ink3);font-size:13.5px}
+.ptabs button.on{color:var(--ink);font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
+.ptabs .x{margin-left:auto}
+.pbody{padding:14px 16px;overflow:auto;flex:1}
+.pbody h4{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2);margin:16px 0 6px}
+.pbody h4:first-child{margin-top:0}
+.issue{display:block;width:100%;text-align:left;border:1px solid var(--line2);border-radius:8px;padding:8px 10px;margin-bottom:6px;background:var(--paper)}
+.issue:hover{border-color:var(--accent)}
+.issue small{display:block;color:var(--ink3);font-size:11.5px}
+.kv{display:grid;grid-template-columns:96px 1fr;gap:6px 10px;font-size:12.5px}
+.kv b{color:var(--ink2);font-weight:500}
+
+/* home / chooser */
+.home{flex:1;overflow:auto;padding:28px max(16px,env(safe-area-inset-right,0px)) 60px max(16px,env(safe-area-inset-left,0px))}
+.home .col{max-width:1120px;margin:0 auto}
+.homehead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.homehead h1{margin:0}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.plist{background:var(--paper);border:1px solid var(--line2);border-radius:10px;overflow:hidden}
+.plist table{width:100%;border-collapse:collapse}
+.plist th{font-size:12px;font-weight:600;color:var(--ink2);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
+.plist td{padding:10px 12px;border-bottom:1px solid var(--line2);vertical-align:middle;font-size:13.5px}
+.plist tr.row:hover td{background:var(--sunk);cursor:pointer}
+.plist td small{display:block;color:var(--ink3);font-size:12px}
+.dots{display:inline-flex;gap:3px}.dots i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--line)}.dots i.on{background:var(--good);border-color:var(--good)}
+.starts{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 22px}
+.start{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--paper);text-align:left;box-shadow:var(--shadow-up);display:flex;flex-direction:column;gap:6px}
+.start b{font-size:15px}.start span{color:var(--ink2);font-size:13px}.start em{font-style:normal;color:var(--ink3);font-size:12px;margin-top:auto}
+.start.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.formrow{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px 18px;margin-bottom:8px}
+.formrow label{display:block;font-size:13px;color:var(--ink2);margin-bottom:4px}
+.formrow .in{width:100%}
+
+/* dialog + toast */
+.scrim{position:fixed;inset:0;background:rgba(10,15,25,.45);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px}
+.dlg{background:var(--paper);border-radius:12px;max-width:560px;width:100%;max-height:86vh;overflow:auto;padding:20px 22px;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.dlg h3{margin:0 0 8px;font-size:18px}
+.dlg p{color:var(--ink2);margin:0 0 10px}
+.dlg .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.toast{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;font-size:13.5px;z-index:120;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.proto{font-size:11.5px;color:var(--ink3);background:var(--sunk);border-bottom:1px solid var(--line2);padding:3px 12px}
+
+@media (max-width:1360px){.stage span{display:none}.stage{padding:8px 10px}.find{width:200px}aside.panel{position:absolute;right:0;top:0;bottom:0;box-shadow:-10px 0 24px rgba(20,30,50,.12);z-index:20}}
+@media (max-width:1100px){.stages{display:none}}
+@media (max-width:760px){
+  .menu,.findwrap,.seg,.save,#btnCheck .lbl{display:none}
+  .menubtn{display:inline-block;margin-left:auto}
+  nav.index{position:absolute;inset:0;width:auto;z-index:15;display:none}
+  nav.index.show{display:block}
+  .sheet{padding:16px max(16px,env(safe-area-inset-right,0px)) 80px max(16px,env(safe-area-inset-left,0px))}
+  .fld{grid-template-columns:1fr}.lab{padding-top:0;margin-bottom:6px}
+  .in.wide{width:100%}
+  aside.panel{width:100%}
+  .plist .hide-s{display:none}
+  .ident b{max-width:170px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div id="app"></div>
+
+<script>
+const INPUTS=/*__INPUTS__*/[];
+const RESULTS=/*__RESULTS__*/[];
+
+/* ---------- static model ---------- */
+const PAGES=["Setup / Start and purpose","Setup / Scenarios","Duties / Fleet groups","Duties / Vehicle","Duties / Route and stops","Duties / Load and body equipment","Duties / Schedule and calendar","Conditions / Weather and cab climate","Energy chain / Battery and ageing","Energy chain / Charging","Site / Depot and grid","Site / Flexibility","Business case / Prices and tariffs","Business case / Costs and finance","Business case / Taxes and CO2","Business case / Tender and bids","Findings / Decision","Findings / Energy and duty","Findings / Battery and payload","Findings / Charging and resilience","Findings / Site and flexibility","Findings / Cost and CO2","Findings / Compare","Findings / Inputs and sources","Findings / Documents"];
+const GP={"Setup":"What this project is and where it starts","Duties":"What the vehicles do","Conditions":"What the fleet drives in","Energy chain":"Battery and chargers","Site":"The depot and its grid connection","Business case":"Prices, costs, taxes","Findings":"What EV Scope worked out"};
+const PROMISE={"Setup / Start and purpose":"What this project is for, where the modelling starts, and who it is for.","Setup / Scenarios":"The what-if versions of this project and what each one changes.","Duties / Fleet groups":"Which vehicles do which work: how many, on which route, with which load, equipment and schedule.","Duties / Vehicle":"One vehicle type: where its data comes from, its mass, aerodynamics, tyres, drivetrain and on-board systems.","Duties / Route and stops":"One route: where it comes from, its distance and speeds, and every stop.","Duties / Load and body equipment":"What the vehicle carries along the route, and any body equipment that draws power.","Duties / Schedule and calendar":"When the vehicles work: days, shifts, holidays, shutdowns and exceptions.","Conditions / Weather and cab climate":"The weather the fleet drives in, and the cab heating and cooling that follows from it.","Energy chain / Battery and ageing":"The battery you have or want sized, how it ages, and the year-8 guarantee.","Energy chain / Charging":"The chargers you have or want sized, and how charging is managed.","Site / Depot and grid":"The depot, its grid connection and what else the building uses.","Site / Flexibility":"Whether and how the depot offers flexibility to the grid.","Business case / Prices and tariffs":"Electricity and fuel prices, tariffs and how they change over the years.","Business case / Costs and finance":"What the electric and the diesel option cost, and how they are paid for.","Business case / Taxes and CO2":"Road tax, subsidies and the emission factors.","Business case / Tender and bids":"The buyer's requirements and each supplier's bid.","Findings / Decision":"The answer in one place: does it work, what is needed, and what limits it.","Findings / Energy and duty":"How much energy each route uses and where it goes.","Findings / Battery and payload":"Whether the battery covers the hardest day, new and at year 8.","Findings / Charging and resilience":"When each vehicle charges and whether it leaves on time.","Findings / Site and flexibility":"The depot's load against its connection, and the flexibility it can offer.","Findings / Cost and CO2":"Cost against diesel over the years, and emissions saved.","Findings / Compare":"Two or more runs side by side, with what changed between them.","Findings / Inputs and sources":"Every value in this project, with where it came from.","Findings / Documents":"The six documents you can produce from a run."};
+const OBJ={"Duties / Vehicle":["veh","Vehicle types","Vehicle"],"Duties / Route and stops":["rt","Routes","Route"],"Duties / Load and body equipment":["pl","Load patterns","Load pattern"],"Duties / Schedule and calendar":["sch","Schedules","Schedule"]};
+const STAGES=[["cons","Consumption"],["bat","Battery"],["chg","Charging"],["flex","Flexibility"],["cost","Cost and CO₂"]];
+const STARTS=[
+ {n:1,t:"Work it all out from my routes",d:"You describe vehicles, routes and schedules. EV Scope works out the rest.",at:"Starts at consumption"},
+ {n:2,t:"I know my consumption",d:"You give kWh per km for each route, or kWh per day.",at:"Starts at battery"},
+ {n:3,t:"I know what each vehicle needs to charge",d:"You give a list of charging sessions: arrival, departure, energy needed.",at:"Starts at charging"},
+ {n:4,t:"I already have chargers",d:"You give the chargers, and either the sessions or a load profile.",at:"Starts at flexibility"},
+ {n:5,t:"I only want the cost and CO₂",d:"You give yearly energy, peak power, the equipment and prices.",at:"Starts at cost"}];
+const ALL=[1,2,3,4,5];
+const USE={"Setup / Start and purpose":ALL,"Setup / Scenarios":ALL,"Duties / Fleet groups":[1],"Duties / Vehicle":[1],"Duties / Route and stops":[1],"Duties / Load and body equipment":[1],"Duties / Schedule and calendar":[1],"Conditions / Weather and cab climate":[1],"Energy chain / Battery and ageing":[1,2,3,4],"Energy chain / Charging":[1,2,3,4],"Site / Depot and grid":[1,2,3,4,5],"Site / Flexibility":[1,2,3,4],"Business case / Prices and tariffs":ALL,"Business case / Costs and finance":ALL,"Business case / Taxes and CO2":ALL,"Business case / Tender and bids":ALL};
+const FSTAGE={"Findings / Energy and duty":"cons","Findings / Battery and payload":"bat","Findings / Charging and resilience":"chg","Findings / Site and flexibility":"flex","Findings / Cost and CO2":"cost"};
+/* lock rules from lock_rules_ux.csv, mapped to the choice that triggers them: [input id, option index or list] */
+const RULE={1:["veh.source",0],2:["veh.source",1],3:["veh.source",2],8:["rt.source",0],9:["rt.source",1],10:["rt.source",2],11:["rt.source",3],12:["rt.source",4],15:["pl.shape",0],16:["pl.shape",1],17:["pl.shape",2],20:["pto.use",0],21:["pto.stop_kind",1],22:["pto.stop_kind",2],23:["pto.drive_kind",[1,2]],28:["tyre.cold",1],29:["drv.method",0],30:["drv.method",1],31:["drv.method",2],32:["drv.method",3],35:["aux.sp_mode",1],37:["wx.source",0],39:["wx.source",1],40:["wx.source",2],42:["hv.mode",0],43:["hv.mode",1],44:["hv.mode",2],48:["bat.mode",0],49:["bat.mode",1],52:["chg.mode",0],53:["chg.chargers",0],56:["dep.mode",0],57:["dep.mode",1],58:["dep.building",2],59:["dep.access",1],60:["flex.offer",0],61:["pr.el",1],62:["cost.financing",0],63:["cost.financing",1],64:["cost.financing",2],67:["proj.purpose",1]};
+
+/* prototype-only inputs: Setup fields (not yet in the input map, shell.md Q7) and the entry forms of starts 2 to 5 (input map §D0) */
+const EXTRA=[
+ {id:"proj.name",page:"Setup / Start and purpose",sec:"This project",tier:"sheet",label:"Project name",t:"text",o:[],unit:"",st:"DESIGNED",req:"required",def:"",help:"The name shown on the projects list and on every document.",note:"Not in the input map yet (shell.md Q7)."},
+ {id:"proj.client",page:"Setup / Start and purpose",sec:"This project",tier:"sheet",label:"Client or organisation",t:"text",o:[],unit:"",st:"DESIGNED",req:"optional",def:"",help:"Who the study is for.",note:"Not in the input map yet (shell.md Q7)."},
+ {id:"proj.site",page:"Setup / Start and purpose",sec:"This project",tier:"sheet",label:"Depot or site",t:"text",o:[],unit:"",st:"DESIGNED",req:"optional",def:"",help:"The depot address or name.",note:"Not in the input map yet (shell.md Q7)."},
+ {id:"proj.purpose",page:"Setup / Start and purpose",sec:"This project",tier:"sheet",label:"What is this project for?",t:"radio",o:["Feasibility study","Tender","Other"],unit:"",st:"DESIGNED",req:"optional",def:"",help:"Tender opens the Tender and bids sheet (lock rule 67).",note:"Not in the input map yet (shell.md Q7)."},
+ {id:"sup.c_kind",page:"Energy chain / Battery and ageing",sec:"The consumption you supplied",tier:"sheet",label:"What do you know?",t:"radio",o:["kWh per km for each route or group","kWh per day for the whole fleet"],unit:"",st:"DESIGNED",req:"required",def:"",help:"This replaces the consumption stage (input map §D0).",starts:[2]},
+ {id:"sup.c_table",page:"Energy chain / Battery and ageing",sec:"The consumption you supplied",tier:"sheet",label:"kWh per km and km per day",t:"table",cols:["Route or group","Vehicles","kWh per km","km per day"],o:[],unit:"",st:"DESIGNED",req:"required",def:"",help:"One row per route or group.",starts:[2],gate:["sup.c_kind",0]},
+ {id:"sup.c_day",page:"Energy chain / Battery and ageing",sec:"The consumption you supplied",tier:"sheet",label:"Energy per day for the fleet",t:"num",o:[],unit:"kWh",st:"DESIGNED",req:"required",def:"",help:"Energy taken from the batteries on a working day.",starts:[2],gate:["sup.c_kind",1]},
+ {id:"sup.sessions",page:"Energy chain / Charging",sec:"Your charging sessions",tier:"sheet",label:"Session list",t:"file",o:[],unit:"",st:"DESIGNED",req:"required",def:"",help:"Columns: arrival, departure, energy needed (kWh), state of charge on arrival (input map §D0).",starts:[3,4]},
+ {id:"sup.chargers",page:"Energy chain / Charging",sec:"Your existing chargers",tier:"sheet",label:"Chargers on site",t:"table",cols:["Charger","Count","Power","Smart charging"],o:[],unit:"",st:"DESIGNED",req:"required",def:"",help:"Exact count, power and capabilities (input map §D0, §D5).",starts:[4]},
+ {id:"sup.profile",page:"Energy chain / Charging",sec:"Your existing chargers",tier:"sheet",label:"Load profile (instead of sessions)",t:"file",o:[],unit:"",st:"DESIGNED",req:"optional",def:"",help:"Time and kW, from a meter or the charge-point back office.",starts:[4]},
+ {id:"sup.y_energy",page:"Business case / Costs and finance",sec:"What you supplied",tier:"sheet",label:"Yearly energy",t:"num",o:[],unit:"kWh",st:"DESIGNED",req:"required",def:"",help:"Energy bought from the grid per year (input map §D0).",starts:[5]},
+ {id:"sup.peak",page:"Business case / Costs and finance",sec:"What you supplied",tier:"sheet",label:"Peak power",t:"num",o:[],unit:"kW",st:"DESIGNED",req:"required",def:"",help:"Highest depot demand.",starts:[5]},
+ {id:"sup.equip",page:"Business case / Costs and finance",sec:"What you supplied",tier:"sheet",label:"Equipment",t:"table",cols:["Item","Count","Unit price","Life (years)"],o:[],unit:"",st:"DESIGNED",req:"required",def:"",help:"Vehicles, chargers and grid works to cost.",starts:[5]}];
+EXTRA.forEach(x=>{x.views="all";x.ar=[];x.cr=[];x.extra=true;x.optsRaw="";x.open="";x.close="";x.valid=""});
+const ALLIN=EXTRA.filter(x=>x.page.startsWith("Setup")).concat(INPUTS).concat(EXTRA.filter(x=>!x.page.startsWith("Setup")));
+const BYID=Object.fromEntries(ALLIN.map(x=>[x.id,x]));
+const STOPCOLS=INPUTS.filter(x=>x.id.startsWith("stop."));
+
+/* ---------- storage ---------- */
+const KEY="evscope-proto-v1";
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s&&s.projects)return s}catch(e){}return null}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(DB));return true}catch(e){return false}}
+const uid=()=>Math.random().toString(36).slice(2,9);
+function newProject(name,client,start){const v=uid(),r=uid(),l=uid(),s=uid();
+ return {id:uid(),name:name||"Untitled project",client:client||"",start:start||1,archived:false,created:Date.now(),updated:Date.now(),
+  objects:{veh:[{id:v,name:"Vehicle 1"}],rt:[{id:r,name:"Route 1"}],pl:[{id:l,name:"Load 1"}],sch:[{id:s,name:"Schedule 1"}]},
+  groups:[],values:{p:{"proj.name":name||"","proj.client":client||""}},stops:{},runs:[],notes:"",lastEdit:Date.now()}}
+function sample(){const p=newProject("Refuse collection · sample","Example municipality",1);p.sample=true;
+ p.objects.veh[0].name="Refuse truck 26 t";p.objects.rt=[{id:p.objects.rt[0].id,name:"Round A"},{id:uid(),name:"Round B"}];p.objects.pl[0].name="Household waste";p.objects.sch[0].name="Weekdays 06–14";
+ p.groups=[{id:uid(),name:"Round A trucks",count:6,veh:p.objects.veh[0].id,rt:p.objects.rt[0].id,pl:p.objects.pl[0].id,sch:p.objects.sch[0].id},{id:uid(),name:"Round B trucks",count:4,veh:p.objects.veh[0].id,rt:p.objects.rt[1].id,pl:p.objects.pl[0].id,sch:p.objects.sch[0].id}];
+ p.values.p["proj.site"]="Example depot";p.values.p["proj.purpose"]=0;
+ p.values[p.objects.rt[0].id]={"rt.source":1};p.values[p.objects.veh[0].id]={"veh.source":1};return p}
+let DB=load()||{projects:[sample()],ui:{}};
+let S={screen:"home",pid:null,page:"Duties / Route and stops",obj:{},view:"client",panel:"check",panelOpen:false,focus:null,checked:false,marks:true,find:"",undo:[],redo:[],save:"Saved",running:false,navShow:false,chooser:{start:1,name:"",client:""},importRes:null,sort:"updated"};
+const P=()=>DB.projects.find(p=>p.id===S.pid);
+
+/* ---------- helpers ---------- */
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const grpOf=p=>p.split(" / ")[0], nameOf=p=>p.split(" / ")[1]||p;
+function scopeOf(inp){const o=OBJ[inp.page];if(!o)return "p";const p=P();const list=p.objects[o[0]];let cur=S.obj[o[0]];if(!list.find(x=>x.id===cur))cur=S.obj[o[0]]=list[0]&&list[0].id;return cur}
+function getV(id,scope){const p=P();const inp=BYID[id];const sc=scope||(inp?scopeOf(inp):"p");return (p.values[sc]||{})[id]}
+function used(page,p){p=p||P();if(page==="Business case / Tender and bids")return getV("proj.purpose","p")===1;const u=USE[page];return !u||u.includes(p.start)}
+function ruleActive(n,scope){const r=RULE[n];if(!r)return false;let v=getV(r[0],BYID[r[0]]&&OBJ[BYID[r[0]].page]?scope:"p");if(v&&typeof v==="object"&&!Array.isArray(v))v=v.c;return Array.isArray(r[1])?r[1].includes(v):v===r[1]}
+function visibleBranch(inp,scope){
+ if(inp.starts&&!inp.starts.includes(P().start))return false;
+ if(inp.gate){const gi=BYID[inp.gate[0]];let gv=getV(inp.gate[0],gi&&OBJ[gi.page]?scope:"p");if(gv&&typeof gv==="object"&&!Array.isArray(gv))gv=gv.c;const want=Array.isArray(inp.gate[1])?inp.gate[1]:[inp.gate[1]];if(!want.includes(gv))return false}
+ if(inp.id.startsWith("pto.")&&inp.id!=="pto.use"){let u=getV("pto.use",scope);if(u&&typeof u==="object")u=u.c;if(u!==1)return false}
+ const a=inp.ar.filter(n=>RULE[n]&&RULE[n][0]!==inp.id);if(a.length&&!a.some(n=>ruleActive(n,scope)))return false;
+ const c=inp.cr.filter(n=>RULE[n]&&RULE[n][0]!==inp.id);if(c.some(n=>ruleActive(n,scope)))return false;return true}
+function inView(inp){if(inp.views==="ledger"||inp.tier==="ledger")return false;if(inp.tier==="expert"&&S.view!=="engineering")return false;if(inp.views==="oem"&&S.view==="client")return false;return true}
+function L(inp){let l=inp.label;if(S.view!=="engineering"){l=l.split("|")[0].replace(/\s*\([^)]*→[^)]*\)/g,"").trim()}else l=l.replace(/\s*\|\s*/," · ");return l}
+const isReq=inp=>/^required/i.test(inp.req||"");
+const typedOpt=o=>/typed|own|one typed|declared|value|enter/i.test(o||"");
+function isEmpty(inp,v){if(v===undefined||v===null||v==="")return true;if(inp.t==="src"){if(v.c===undefined)return true;return typedOpt(inp.o[v.c])&&(v.v===undefined||v.v==="")}if(inp.t==="table")return !String(v).trim();if(Array.isArray(v))return !v.length;return false}
+const numOK=s=>/^\s*-?\d{1,3}([. ]?\d{3})*([.,]\d+)?\s*$|^\s*-?\d+([.,]\d+)?\s*$/.test(String(s));
+function scopesFor(page){const o=OBJ[page];if(!o)return [["p",""]];return P().objects[o[0]].map(x=>[x.id,x.name])}
+
+/* ---------- check(project): what the real check() would return; here computed in the browser for the prototype ---------- */
+function check(){const p=P(),miss=[],wrong=[];let def=0;
+ for(const inp of ALLIN){if(!used(inp.page))continue;if(inp.t==="ro"||inp.t==="parked"||inp.t==="map")continue;
+  for(const [sc,on] of scopesFor(inp.page)){if(!visibleBranch(inp,sc))continue;const v=(p.values[sc]||{})[inp.id];
+   if(inp.t==="num"&&v!==undefined&&v!==""&&!numOK(v))wrong.push({inp,sc,on,msg:"Not a number. Use digits, with a comma or a point for decimals."});
+   else if(isEmpty(inp,v)){if(isReq(inp))miss.push({inp,sc,on});else if((inp.req||"").startsWith("default"))def++}}}
+ if(p.start===1&&!p.groups.length)miss.unshift({group:true});
+ return {miss,wrong,def}}
+function pageIssues(page,ck){return ck.miss.filter(m=>(m.group?"Duties / Fleet groups":m.inp.page)===page).length+ck.wrong.filter(m=>m.inp.page===page).length}
+
+/* ---------- state changes ---------- */
+function snapshot(){const p=P();return JSON.stringify({values:p.values,objects:p.objects,groups:p.groups,stops:p.stops,start:p.start})}
+function pushUndo(){S.undo.push(snapshot());if(S.undo.length>80)S.undo.shift();S.redo=[]}
+let saveT;
+function touched(){const p=P();p.updated=Date.now();if(p.runs.length&&!p.runs[p.runs.length-1].stale){p.runs[p.runs.length-1].stale=true}
+ S.save="Saving…";clearTimeout(saveT);saveT=setTimeout(()=>{S.save=persist()?"Saved":"Could not save";paintProjRow()},450)}
+function setV(id,scope,val){const p=P();pushUndo();(p.values[scope]=p.values[scope]||{});if(val===undefined||val==="")delete p.values[scope][id];else p.values[scope][id]=val;touched()}
+function restore(js){const p=P(),o=JSON.parse(js);Object.assign(p,o);touched();render()}
+function undo(){if(!S.undo.length)return toast("Nothing to undo");S.redo.push(snapshot());restore(S.undo.pop())}
+function redo(){if(!S.redo.length)return toast("Nothing to redo");S.undo.push(snapshot());restore(S.redo.pop())}
+
+/* ---------- rendering: fields ---------- */
+function fieldHTML(inp,sc,ck){
+ const v=(P().values[sc]||{})[inp.id];const empty=isEmpty(inp,v);const req=isReq(inp);
+ const showMiss=S.checked&&req&&empty;const wrong=inp.t==="num"&&!empty&&!numOK(v);
+ const dflt=(inp.req||"").startsWith("default")&&empty;
+ const fid=`f-${inp.id}`;const k=`data-id="${esc(inp.id)}" data-sc="${esc(sc)}"`;
+ let st=["FINAL","WIP"].includes(inp.st)?"":` <span class="tag${/OPEN|PROPOSED|PARKED/.test(inp.st)?" dash":""}" title="Status in the input map">${esc(inp.st==="PLANNED"?"Planned":inp.st.charAt(0)+inp.st.slice(1).toLowerCase())}</span>`;
+ let rq=(inp.req||"").replace(/^required\s*/i,"");if(/^in \(/i.test(rq)||/^in [A-Z]$/.test(rq))rq="";let reqTxt=req?`<span class="req${showMiss?" miss":""}">Required${rq?" "+esc(rq):""}</span>`:"";
+ let c="";const u=inp.unit?`<u>${esc(inp.unit)}</u>`:"";
+ switch(inp.t){
+  case "num":case "time":case "text":case "pick":{
+   const ph=dflt?"Default from EV Scope":inp.t==="time"?"hh:mm":inp.t==="pick"?"Search the library…":"";
+   const cls=["in",inp.t==="text"||inp.t==="pick"?"wide":"",showMiss?"miss":"",wrong?"wrong":"",dflt?"def":"",!empty?"edited":""].join(" ");
+   c=`<span class="${cls}">${dflt?'<span class="mark" title="A default will be used">D</span>':""}<input id="${fid}" ${k} data-k="v" value="${esc(v??"")}" placeholder="${ph}" inputmode="${inp.t==="num"?"decimal":"text"}" autocomplete="off">${inp.t==="pick"?"<u>▾</u>":u}</span>${!empty&&!req&&dflt===false&&(inp.req||"").startsWith("default")?`<button class="reset" data-reset="${esc(inp.id)}" data-sc="${esc(sc)}">Reset to default</button>`:""}`;
+   if(wrong)c+=`<div class="msg err">Not a number. Use digits, with a comma or a point for decimals.</div>`;
+   if(inp.t==="pick")c+=`<div class="msg">Library search is not in this prototype; type a name to stand in for a pick.</div>`;
+   break}
+  case "ro":c=`<span class="filled">Calculated by EV Scope${inp.unit?" · "+esc(inp.unit):""}</span>`;break;
+  case "radio":case "cb":{const multi=inp.t==="cb"&&inp.o.length>1;
+   if(inp.t==="cb"&&inp.o.length<2){c=`<button class="opt sq${v?" on":""}" id="${fid}" ${k} data-k="bool"><i></i>${esc(L(inp))}</button>`;break}
+   c=`<div class="opts${showMiss?" miss":""}" id="${fid}" role="${multi?"group":"radiogroup"}">${inp.o.map((o,i)=>{const on=multi?(v||[]).includes(i):v===i;return `<button class="opt${multi?" sq":""}${on?" on":""}" ${k} data-k="${multi?"multi":"opt"}" data-i="${i}" role="${multi?"checkbox":"radio"}" aria-checked="${on}"><i></i><span>${esc(o)}</span></button>`}).join("")}</div>`;break}
+  case "src":{const cv=v&&v.c;c=`<div class="opts${showMiss&&cv===undefined?" miss":""}" id="${fid}" role="radiogroup">${inp.o.map((o,i)=>`<button class="opt${cv===i?" on":""}" ${k} data-k="src" data-i="${i}" role="radio" aria-checked="${cv===i}"><i></i><span>${esc(o)}</span></button>`).join("")}</div>`;
+   if(cv!==undefined){c+= typedOpt(inp.o[cv])?`<div class="sub"><span class="in${showMiss?" miss":""}${v.v?" edited":""}"><input ${k} data-k="srcv" value="${esc(v.v??"")}" inputmode="decimal" placeholder="Your value">${u}</span></div>`:`<div class="sub"><span class="filled">Filled by EV Scope from this source${inp.unit?" · "+esc(inp.unit):""}</span></div>`}
+   break}
+  case "table":{const cols=inp.cols;if(cols){const rows=(v?String(v).split("\n"):[""]).map(r=>r.split("\t"));
+    c=`<div class="tblwrap"><table class="grid"><tr>${cols.map(x=>`<th>${esc(x)}</th>`).join("")}<th></th></tr>${rows.map((r,ri)=>`<tr>${cols.map((x,ci)=>`<td><input ${k} data-k="cell" data-r="${ri}" data-c="${ci}" value="${esc(r[ci]||"")}"></td>`).join("")}<td><button class="btn ghost small" data-delrow="${ri}" ${k}>✕</button></td></tr>`).join("")}</table></div><button class="btn small" style="margin-top:6px" data-addrow ${k}>Add row</button><span class="msg" style="margin-left:10px">Paste rows from a spreadsheet into any cell.</span>`}
+   else{const n=v?String(v).trim().split("\n").filter(Boolean).length:0;c=`<textarea class="in${showMiss?" miss":""}" ${k} data-k="v" placeholder="Paste rows from a spreadsheet, one row per line">${esc(v??"")}</textarea><div class="msg">${n?n+" rows read.":"No rows yet."} The column layout of this table is not defined in the input map yet.</div>`}
+   break}
+  case "profile":c=`<textarea class="in" ${k} data-k="v" placeholder="time;power — one point per line">${esc(v??"")}</textarea><div class="chartph" style="max-width:560px">A preview curve of the profile appears here</div>`;break;
+  case "file":c=`<label class="drop"><button class="btn small" onclick="this.nextElementSibling.click()" type="button">Choose file</button><input type="file" hidden ${k} data-k="file"><span>${v?"<b>"+esc(v)+"</b> chosen. The preview, column mapping and row check would follow.":"No file chosen. A preview and column mapping follow the upload."}</span></label>`;break;
+  case "map":c=`<div class="mapbox">Map for marking the depot, stops and return.<br>Planned: the routing provider is still OPEN, so this prototype has no map.</div>`;break;
+  case "parked":c=`<span class="filled">Parked: not designed yet</span>`;break;
+  case "fleet":c=`<span class="filled">Set per group on the table above</span>`;break;
+  default:c=`<span class="in wide"><input ${k} data-k="v" value="${esc(v??"")}"></span>`}
+ const note=inp.note?`<div class="msg">${esc(inp.note)}</div>`:"";
+ const lab=(inp.t==="cb"&&inp.o.length<2)?"":esc(L(inp));
+ return `<div class="fld" data-row="${esc(inp.id)}"><div class="lab" data-help="${esc(inp.id)}" data-sc="${esc(sc)}">${lab}${st}${reqTxt}</div><div class="ctl">${c}${note}</div></div>`}
+
+/* ---------- rendering: sheets ---------- */
+function sectionsHTML(page,sc,ck){
+ const ins=ALLIN.filter(x=>x.page===page);let h="";
+ const secs=[...new Set(ins.map(x=>x.sec))];
+ for(const sec of secs){if(sec==="Authoritative stop table"){h+=stopTable(sc);continue}
+  const all=ins.filter(x=>x.sec===sec),br=all.filter(x=>visibleBranch(x,sc));if(!br.length)continue;
+  const vis=br.filter(inView),on=vis.filter(x=>x.tier==="sheet"),more=vis.filter(x=>x.tier==="more"),exp=vis.filter(x=>x.tier==="expert");
+  const hiddenOEM=br.filter(x=>x.views==="oem"&&S.view==="client"&&x.tier!=="ledger").length;const hiddenExp=br.filter(x=>x.tier==="expert"&&S.view!=="engineering"&&!(x.views==="oem"&&S.view==="client")).length;
+  const setHidden=br.filter(x=>!inView(x)&&x.tier!=="ledger"&&!isEmpty(x,(P().values[sc]||{})[x.id])).length;
+  h+=`<section class="card"><h2>${esc(sec)}<small>${br.length} input${br.length>1?"s":""}</small></h2>`;
+  h+=on.map(x=>fieldHTML(x,sc,ck)).join("")||(more.length||exp.length?"":`<p class="note">Nothing here is shown in the ${S.view} view.</p>`);
+  if(more.length){const open=S.openMore&&S.openMore[sec+sc];const missN=more.filter(x=>isReq(x)&&isEmpty(x,(P().values[sc]||{})[x.id])).length;
+   h+=`<details class="more" data-more="${esc(sec+sc)}" ${open?"open":""}><summary><b>More: ${esc(sec.toLowerCase())}</b><span>${more.length} values${missN?` · <span style="color:var(--bad)">${missN} required</span>`:" · defaults are used unless you change them"}</span></summary><div class="inner">${more.map(x=>fieldHTML(x,sc,ck)).join("")}</div></details>`}
+  if(exp.length)h+=`<div class="expert"><h3>Engineering detail · ${exp.length}</h3>${exp.map(x=>fieldHTML(x,sc,ck)).join("")}</div>`;
+  if(hiddenOEM||hiddenExp)h+=`<p class="note">${hiddenOEM+hiddenExp} more value${hiddenOEM+hiddenExp>1?"s":""} in this section ${hiddenOEM?"are for the OEM and engineering views":"are in the engineering view"}${setHidden?`, ${setHidden} of them set to your own value`:""}. <button class="reset" data-view="${hiddenOEM?"OEM":"engineering"}">Switch view</button></p>`;
+  const led=br.filter(x=>x.tier==="ledger");if(led.length)h+=`<p class="note">${led.length} calculated value${led.length>1?"s are":" is"} not a field here. ${esc(led.map(x=>x.label.split("(")[0].split("|")[0].trim()).join(", "))} — listed under Findings › Inputs and sources.</p>`;
+  h+=`</section>`}
+ return h}
+function stopTable(sc){const p=P();const src=getV("rt.source",sc);const n=parseInt(String(getV("rt.n_stops",sc)||"").replace(/\D/g,""),10);
+ let h=`<section class="card"><h2>Stops<small>${STOPCOLS.length} columns</small></h2>`;
+ if(src===undefined)return h+`<p class="note">Choose where the route comes from first. The stops follow from it.</p></section>`;
+ if(src===0)return h+`<p class="note">The stops come from the VECTO cycle file. Loading cycle files is not in this prototype.</p></section>`;
+ if(src!==1)return h+`<p class="note">The stops come from the ${esc(BYID["rt.source"].o[src])} source, which is planned.</p></section>`;
+ if(!n)return h+`<p class="note">Enter the number of stops above and a row appears for each stop. You can change any cell.</p></section>`;
+ const rows=Math.min(n,200);const data=(p.stops[sc]=p.stops[sc]||{});
+ const cols=STOPCOLS.filter(c=>visibleBranch(c,sc)&&inView(c));
+ h+=`<div class="tblwrap"><table class="grid"><tr><th class="num">#</th>${cols.map(c=>`<th title="${esc(c.help)}">${esc(c.label.split("(")[0].split("|")[0].trim())}</th>`).join("")}</tr>`;
+ for(let i=0;i<rows;i++){h+=`<tr><td class="num">${i+1}</td>${cols.map(c=>{const val=(data[i]||{})[c.id];return c.t==="cb"||/payload changes|pto/i.test(c.label)?`<td><input type="checkbox" data-stop="${i}" data-col="${esc(c.id)}" data-sc="${esc(sc)}" ${val?"checked":""} style="width:auto"></td>`:`<td><input data-stop="${i}" data-col="${esc(c.id)}" data-sc="${esc(sc)}" value="${esc(val??"")}" placeholder="${c.req==="default"||c.req.startsWith("default")?"default":""}"></td>`}).join("")}</tr>`}
+ return h+`</table></div>${n>200?'<p class="note">Showing the first 200 stops.</p>':""}</section>`}
+function objBar(page){const o=OBJ[page];if(!o)return "";const p=P(),list=p.objects[o[0]],cur=scopeOf({page});
+ const usedBy=id=>p.groups.filter(g=>g[o[0]]===id).length;
+ return `<div class="objbar"><span class="lbl">${esc(o[1])} in this project:</span>${list.map(x=>`<button class="chip${x.id===cur?" on":""}" data-obj="${o[0]}" data-oid="${x.id}">${esc(x.name)}</button>`).join("")}<button class="chip add" data-addobj="${o[0]}">+ Add</button>${list.length?`<button class="btn ghost small" data-renobj="${o[0]}">Rename</button><button class="btn ghost small" data-dupobj="${o[0]}">Duplicate</button>${list.length>1?`<button class="btn ghost small danger" data-delobj="${o[0]}">Delete</button>`:""}<span class="note" style="margin:0 0 0 6px">Used by ${usedBy(cur)} fleet group${usedBy(cur)===1?"":"s"}</span>`:""}</div>`}
+function fleetSheet(){const p=P();const o=k=>p.objects[k];
+ const sel=(g,k)=>`<select data-g="${g.id}" data-gk="${k}">${o(k).map(x=>`<option value="${x.id}" ${g[k]===x.id?"selected":""}>${esc(x.name)}</option>`).join("")}</select>`;
+ let h=`<section class="card"><h2>Fleet groups<small>${p.groups.length} groups · ${p.groups.reduce((a,g)=>a+(+g.count||0),0)} vehicles</small></h2>`;
+ if(!p.groups.length)h+=`<div class="empty"><b>No fleet groups yet</b>A group is a number of identical vehicles doing the same work. Add one; it starts with the first vehicle, route, load and schedule of the project, which you can change.<div style="margin-top:12px"><button class="btn primary" data-addgroup>Add a group</button></div></div>`;
+ else h+=`<div class="tblwrap"><table class="grid"><tr><th>Group</th><th class="num">Vehicles</th><th>Vehicle type</th><th>Route</th><th>Load</th><th>Schedule</th><th></th></tr>${p.groups.map(g=>`<tr><td><input data-g="${g.id}" data-gk="name" value="${esc(g.name)}"></td><td class="num"><input data-g="${g.id}" data-gk="count" value="${esc(g.count)}" style="text-align:right;max-width:70px" inputmode="numeric"></td><td>${sel(g,"veh")}</td><td>${sel(g,"rt")}</td><td>${sel(g,"pl")}</td><td>${sel(g,"sch")}</td><td><button class="btn ghost small" data-delgroup="${g.id}" title="Delete group">✕</button></td></tr>`).join("")}</table></div><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn small" data-addgroup>Add a group</button><span class="note" style="margin:4px 0 0">Vehicle types, routes, loads and schedules are made on their own sheets and picked here. Changing one changes every group that uses it.</span></div>`;
+ return h+`</section>`}
+
+function findingsSheet(page){const p=P(),rs=RESULTS.filter(r=>r.page===page),stage=FSTAGE[page];const run=p.runs[p.runs.length-1];
+ let h="";const skipped=stage&&!stageUsed(stage);
+ if(page==="Findings / Inputs and sources")return ledger();
+ if(page==="Findings / Compare")return `<div class="empty"><b>${p.runs.length<2?"Needs two runs":"Pick two runs to compare"}</b>${p.runs.length<2?`This project has ${p.runs.length} run${p.runs.length===1?"":"s"}. Change an input and run again, or make a scenario, then compare here.`:"Run comparison is planned. It will show which inputs changed beside which results changed."}</div>`;
+ if(page==="Findings / Documents")return `<section class="card"><h2>Documents<small>Planned</small></h2>${["Feasibility report","Grid connection application","Tender annex","Financial model","Grant application data","Client presentation"].map(d=>`<div class="rline"><b style="font-weight:500">${d}</b><span>Not available yet</span></div>`).join("")}</section>`;
+ if(skipped)h+=`<div class="banner warn"><p>This stage is not modelled in this project, because the project starts at a later stage. Results here would rest on what you supplied.</p><button class="btn small" data-gostart>Change start point</button></div>`;
+ else if(!run)h+=`<div class="banner info"><p>Not run yet. Press <b>Run</b> when Check shows nothing missing.</p><button class="btn small primary" data-run>Run</button></div>`;
+ else if(run.stale)h+=`<div class="banner warn"><p>Out of date: you changed inputs after the run of ${new Date(run.at).toLocaleString("en-GB")}. The figures below are from that run.</p><button class="btn small primary" data-run>Run again</button></div>`;
+ else h+=`<div class="banner info"><p>Run of ${new Date(run.at).toLocaleString("en-GB")}. <b>The engine is not connected to this prototype, so no numbers are shown.</b> The layout is what you would see.</p></div>`;
+ const val=r=>!r.now?"Not available yet":(run&&!skipped?"—":"Not run");
+ const L=[["headline figure","Headline figures"],["status line","Checks"],["section figure","Summaries"],["chart","Charts"],["table","Tables"],["report only","In the report only"],["document only","In documents only"]];
+ for(const [k,t] of L){const x=rs.filter(r=>r.lvl===k);if(!x.length)continue;
+  if(k==="headline figure")h+=`<div class="kpis">${x.map(r=>`<div class="kpi"><div class="v">${r.now&&run?"—":"·"}<small>${esc(r.unit)}</small></div><div class="t">${esc(r.label)}</div><div class="s">${val(r)}</div></div>`).join("")}</div>`;
+  else if(k==="chart")h+=`<section class="card"><h2>${t}</h2>${x.map(r=>`<div><b style="font-size:13.5px;font-weight:500">${esc(r.label)}</b> ${r.now?"":'<span class="tag">Planned</span>'}<div class="chartph">${esc(r.form)}<br>${val(r)}</div></div>`).join("")}</section>`;
+  else h+=`<section class="card"><h2>${t}<small>${x.length}</small></h2>${x.map(r=>`<div class="rline"><b style="font-weight:500" title="${esc(r.q)}">${esc(r.label)}</b><span>${val(r)}${r.unit?" · "+esc(r.unit):""}</span></div>`).join("")}</section>`}
+ return h}
+function ledger(){const p=P();let rows=[];
+ for(const inp of ALLIN){if(!used(inp.page))continue;for(const [sc,on] of scopesFor(inp.page)){if(!visibleBranch(inp,sc))continue;const v=(p.values[sc]||{})[inp.id];
+  let shown,mark;if(isEmpty(inp,v)){if(isReq(inp)){shown="—";mark="Missing"}else if((inp.req||"").startsWith("default")){shown="default";mark="Default from EV Scope"}else continue}
+  else{shown=inp.t==="radio"?inp.o[v]:inp.t==="src"?inp.o[v.c]+(v.v?": "+v.v:""):Array.isArray(v)?v.map(i=>inp.o[i]).join(", "):inp.t==="table"?String(v).split("\n").length+" rows":typeof v==="boolean"?(v?"Yes":"No"):v;mark="You entered"}
+  rows.push([nameOf(inp.page)+(on?" › "+on:""),L(inp),inp.id,shown,mark])}}
+ return `<p class="note">${rows.length} values. In the real tool this list is frozen with every run, with the source of each value.</p><section class="card"><div class="tblwrap"><table class="grid"><tr><th>Sheet</th><th>Input</th><th>Value</th><th>Where it comes from</th></tr>${rows.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}<div class="mono" style="font-size:11px;color:var(--ink3)">${esc(r[2])}</div></td><td>${esc(r[3])}</td><td style="color:${r[4]==="Missing"?"var(--bad)":"var(--ink2)"}">${esc(r[4])}</td></tr>`).join("")}</table></div></section>`}
+
+function stageUsed(st){const s=P().start;return {cons:s===1,bat:s<=2,chg:s<=3,flex:s<=4,cost:true}[st]}
+function stageState(st,ck){const p=P(),s=p.start,run=p.runs[p.runs.length-1];const idx=STAGES.findIndex(x=>x[0]===st),startIdx=s-1;
+ if(idx<startIdx)return idx===startIdx-1?["You supplied this","s-sup"]:["Not used","s-unused"];
+ if(st!=="cons")return ["Not available yet",""];
+ if(S.running)return ["Running…","s-run"];
+ if(run&&run.stale)return ["Out of date","s-stale"];
+ if(run)return ["Modelled","s-done"];
+ const n=ck.miss.length+ck.wrong.length;return n?[`Not run · ${n} to fix`,""]:["Ready","s-done"]}
+
+/* ---------- shell ---------- */
+const MENUS=[
+ ["File",[["New project","new","Ctrl Alt N"],["Open…","home"],["Save","save","Ctrl S"],["Duplicate","dup"],["Rename…","rename"],["-"],["Import project…","import"],["Export project…","export"],["Export results","nyi"],["Export documents","docs"],["-"],["Close project","home"]]],
+ ["Edit",[["Undo","undo","Ctrl Z"],["Redo","redo","Ctrl Shift Z"],["-"],["Reset field to default","resetf"],["Reset page to defaults","resetp"],["-"],["Find an input","find","Ctrl K"]]],
+ ["View",[["Client view","v:client"],["OEM view","v:OEM"],["Engineering view","v:engineering"],["-"],["Show or hide the assistant","assistant"],["Show default marks","marks"],["Units and number format","nyi"],["Theme: light / dark","theme"]]],
+ ["Project",[["Start point…","start"],["Scenarios","go:Setup / Scenarios"],["Fleet growth phases","nyi"],["Notes…","notes"]]],
+ ["Run",[["Check","check","Ctrl Shift Enter"],["Run","run","Ctrl Enter"],["Run from a stage","nyi"],["Stop","stop"],["-"],["Run history","history"],["Compare runs","go:Findings / Compare"]]],
+ ["Libraries",[["Vehicles","lib"],["Drivetrain numbers","lib"],["Chargers","lib"],["PTO profiles","lib"],["Routes","lib"],["Payload profiles","lib"],["Schedules","lib"],["-"],["Import into a library","lib"]]],
+ ["Help",[["Getting started","help:start"],["Guide to this page","help:page"],["Glossary","help:gloss"],["Model status","help:status"],["Keyboard shortcuts","help:keys"],["About this prototype","help:about"]]]];
+function menuHTML(){return MENUS.map(([m,items])=>`<div class="menu" data-menu="${m}"><button aria-haspopup="true">${m}</button><div class="dd" role="menu">${items.map(([t,a,k])=>t==="-"?"<hr>":`<button data-act="${a}" class="${(a==="v:"+S.view)||(a==="marks"&&S.marks)?"on":""}">${t}<kbd>${k||""}</kbd></button>`).join("")}</div></div>`).join("")}
+function projRowHTML(ck){const p=P(),n=ck.miss.length+ck.wrong.length;
+ return `<div class="ident"><b title="${esc(p.name)}">${esc(p.name)}</b><span>Base project · ${esc(S.view==="OEM"?"OEM":S.view[0].toUpperCase()+S.view.slice(1))} view</span></div>
+ <span class="save${S.save==="Could not save"?" err":""}" id="saveState">${S.save}</span>
+ <div class="stages" aria-label="Stages">${STAGES.map(([k,t])=>{const [s,c]=stageState(k,ck);return `<button class="stage ${c}" data-stage="${k}" title="${t}: ${s}"><b>${t}</b><span>${esc(s)}</span></button>`}).join("")}</div>
+ <div class="seg" role="radiogroup" aria-label="View">${["client","OEM","engineering"].map(v=>`<button class="${S.view===v?"on":""}" data-view="${v}">${v==="OEM"?"OEM":v[0].toUpperCase()+v.slice(1)}</button>`).join("")}</div>
+ <button class="btn" id="btnCheck" data-act="check"><span class="lbl">Check</span>${n?`<span class="badge">${n}</span>`:'<span class="badge ok">0</span>'}</button>
+ <button class="btn primary" data-act="run">${S.running?"Stop":"Run"}</button>`}
+function navHTML(ck){let h="",last="";for(const pg of PAGES){const g=grpOf(pg);
+  if(pg==="Business case / Tender and bids"&&!used(pg))continue;
+  if(g!==last){if(g==="Findings")h+='<div class="divide"></div>';h+=`<div class="grp"><b>${esc(g)}</b><span>${esc(GP[g])}</span></div>`;last=g}
+  let em="";const run=P().runs[P().runs.length-1];
+  if(g==="Findings"){const st=FSTAGE[pg];em=st&&!stageUsed(st)?"Not modelled":st&&st!=="cons"?"Planned":["Findings / Documents"].includes(pg)?"Planned":(pg==="Findings / Inputs and sources"?"":(run?(run.stale?"Out of date":""):"Not run"))}
+  else if(!used(pg))em="Not used";else{const n=pageIssues(pg,ck);if(n)em=`<em class="miss">${n} to fix</em>`;else{const ins=ALLIN.filter(x=>x.page===pg&&!x.extra);if(ins.length&&ins.every(x=>x.st==="PLANNED"||x.st==="PROPOSED"||x.st==="OPEN"))em="Planned"}}
+  const o=OBJ[pg];const cnt=o?` <span style="color:var(--ink3);font-weight:400">${P().objects[o[0]].length}</span>`:pg==="Duties / Fleet groups"?` <span style="color:var(--ink3);font-weight:400">${P().groups.length}</span>`:"";
+  h+=`<button class="it${pg===S.page?" on":""}${!used(pg)&&g!=="Findings"?" unused":""}" data-page="${esc(pg)}" title="${esc(PROMISE[pg])}"><span>${esc(nameOf(pg))}${cnt}</span>${em.startsWith("<em")?em:em?`<em>${em}</em>`:""}</button>`}
+ return h}
+function sheetHTML(ck){const p=P(),pg=S.page,g=grpOf(pg);
+ let h=`<div class="crumb">${esc(g)} ›</div><h1>${esc(nameOf(pg))}</h1><p class="lead">${esc(PROMISE[pg]||"")}</p>`;
+ if(g==="Findings")return h+findingsSheet(pg);
+ if(!used(pg)){const first=[1,2,3,4,5].find(s=>(USE[pg]||ALL).includes(s));h+=`<div class="banner warn"><p>Not used: this project starts at a later stage (“${esc(STARTS[p.start-1].t)}”), so these inputs are not needed. Anything you typed here is kept.</p><button class="btn small" data-setstart="${first}">Model this stage too</button></div>`}
+ if(pg==="Setup / Start and purpose"){h+=`<section class="card"><h2>Where the modelling starts</h2><div class="rline"><b style="font-weight:500">${esc(STARTS[p.start-1].t)}</b><span>${esc(STARTS[p.start-1].at)} · <button class="reset" data-gostart>Change</button></span></div></section>`}
+ if(pg==="Duties / Fleet groups")return h+fleetSheet();
+ const planned=ALLIN.filter(x=>x.page===pg&&!x.extra);if(planned.length&&planned.every(x=>x.st!=="FINAL"&&x.st!=="WIP")&&used(pg))h+=`<div class="banner info"><p><b>Not available yet.</b> This stage of the engine is planned. You can fill in the inputs to try the screen, but nothing here is calculated yet.</p></div>`;
+ h+=objBar(pg);
+ const o=OBJ[pg];const scopes=o?[scopeOf({page:pg})]:["p"];
+ if(o&&!scopes[0])return h+`<div class="empty"><b>No ${esc(o[1].toLowerCase())} yet</b><button class="btn primary" data-addobj="${o[0]}">Add one</button></div>`;
+ return h+sectionsHTML(pg,scopes[0],ck)}
+function panelHTML(ck){const tabs=[["check","Check"],["sources","Sources"],["help","Help"],["assistant","Assistant"]];
+ let b="";
+ if(S.panel==="check"){const s=(m)=>m.group?["Fleet groups","Add at least one group of vehicles"]:[nameOf(m.inp.page)+(m.on?" › "+m.on:""),L(m.inp)];
+  b=`<h4>Missing · ${ck.miss.length}</h4>${ck.miss.map((m,i)=>{const [w,l]=s(m);return `<button class="issue" data-jump="m${i}"><b>${esc(l)}</b><small>${esc(w)}</small></button>`}).join("")||'<p class="note">Nothing required is missing.</p>'}
+  <h4>Wrong · ${ck.wrong.length}</h4>${ck.wrong.map((m,i)=>`<button class="issue" data-jump="w${i}"><b>${esc(L(m.inp))}</b><small>${esc(m.msg)}</small></button>`).join("")||'<p class="note">Nothing fails a check.</p>'}
+  <h4>Defaults · ${ck.def}</h4><p class="note">${ck.def} values will use EV Scope's defaults. That is normal. The full list is under Findings › Inputs and sources. <button class="reset" data-page="Findings / Inputs and sources">Open</button></p>
+  <p class="note" style="margin-top:16px">In the real tool this list comes from <span class="mono">check(project)</span> in Python. Here the prototype works it out from the input register.</p>`}
+ else if(S.panel==="sources"){const f=S.focus&&BYID[S.focus];
+  b=f?`<h4>${esc(f.label.split("|")[0])}</h4><div class="kv"><b>Input</b><span class="mono">${esc(f.id)}</span><b>Status</b><span>${esc(f.st)}</span><b>Required</b><span>${esc(f.req)}</span><b>Default</b><span>${esc(f.def||"none")}</span><b>Ways to fill</b><span>${esc(f.optsRaw||"—")}</span><b>Appears</b><span>${esc(f.open||"—")}</span><b>Closes</b><span>${esc(f.close||"—")}</span><b>Checks</b><span>${esc(f.valid||"—")}</span></div>`:`<p class="note">Click a field's label to see where its value comes from.</p>`}
+ else if(S.panel==="help"){const f=S.focus&&BYID[S.focus];b=`<h4>${esc(nameOf(S.page))}</h4><p>${esc(PROMISE[S.page]||"")}</p>${f?`<h4>${esc(f.label.split("|")[0])}</h4><p>${esc(f.help)}</p>`:'<p class="note">Click a field label for help on that field.</p>'}`}
+ else b=`<h4>Assistant</h4><p class="note">Planned. It will read data you drop in (a route description, a spec sheet, a spreadsheet) and propose values. Each proposal shows the field, the value and where it was read; nothing enters the project until you accept it. It never chooses a default.</p><div class="drop" style="margin-top:10px">Drop a file or paste text here</div>`;
+ return `<div class="ptabs" role="tablist">${tabs.map(([k,t])=>`<button class="${S.panel===k?"on":""}" data-panel="${k}" role="tab">${t}${k==="check"&&ck.miss.length+ck.wrong.length?` <span class="badge">${ck.miss.length+ck.wrong.length}</span>`:""}</button>`).join("")}<button class="x btn ghost small" data-closepanel aria-label="Close panel">✕</button></div><div class="pbody">${b}</div>`}
+
+/* ---------- screens ---------- */
+function homeHTML(){const list=DB.projects.filter(p=>S.showArch?p.archived:!p.archived);
+ const ks={updated:(a,b)=>b.updated-a.updated,name:(a,b)=>a.name.localeCompare(b.name)};list.sort(ks[S.sort]||ks.updated);
+ const q=(S.homeq||"").toLowerCase();const shown=list.filter(p=>!q||(p.name+" "+p.client).toLowerCase().includes(q));
+ const cur=S.pid;let rows="";
+ for(const p of shown){S.pid=p.id;const ck=check();const run=p.runs[p.runs.length-1];
+  rows+=`<tr class="row" data-open="${p.id}"><td><b>${esc(p.name)}</b>${p.sample?' <span class="tag">Sample</span>':""}<small>${esc(p.client||"—")}</small></td><td class="hide-s">${esc(STARTS[p.start-1].t)}</td><td class="hide-s">${p.start===1?`${p.groups.reduce((a,g)=>a+(+g.count||0),0)} vehicles<small>${p.groups.length} groups</small>`:"—"}</td><td class="hide-s"><span class="dots" title="Stages with results">${STAGES.map(([k])=>`<i class="${k==="cons"&&run&&!run.stale?"on":""}"></i>`).join("")}</span></td><td class="hide-s">${run?new Date(run.at).toLocaleDateString("en-GB")+(run.stale?"<small>Out of date</small>":""):"Not run"}</td><td>${ck.miss.length+ck.wrong.length?`<span style="color:var(--bad);font-weight:600">${ck.miss.length+ck.wrong.length} to fix</span>`:"—"}</td><td class="hide-s">${new Date(p.updated).toLocaleString("en-GB",{dateStyle:"short",timeStyle:"short"})}</td><td style="white-space:nowrap"><button class="btn ghost small" data-pdup="${p.id}">Duplicate</button><button class="btn ghost small" data-pren="${p.id}">Rename</button><button class="btn ghost small" data-pexp="${p.id}">Export</button><button class="btn ghost small" data-parch="${p.id}">${p.archived?"Restore":"Archive"}</button><button class="btn ghost small danger" data-pdel="${p.id}">Delete</button></td></tr>`}
+ S.pid=cur;
+ const body=DB.projects.length?`<div class="plist"><div class="tblwrap"><table><tr><th data-sort="name">Project</th><th class="hide-s">Starts at</th><th class="hide-s">Fleet</th><th class="hide-s">Results</th><th class="hide-s">Last run</th><th>Needs attention</th><th class="hide-s" data-sort="updated">Last edited ▾</th><th></th></tr>${rows||`<tr><td colspan="8" class="note" style="padding:20px">No projects match.</td></tr>`}</table></div></div>`
+  :`<div class="starts"><button class="start" data-act="new"><b>Start a new project</b><span>Choose what you already know and fill in the rest.</span></button><button class="start" data-addsample><b>Open the sample</b><span>A refuse-collection fleet with two routes, to look around.</span></button><button class="start" data-act="import"><b>Import a project file</b><span>A file exported from EV Scope by you or a colleague.</span></button></div>`;
+ return `<div class="menurow"><span class="brand"><i></i>EV Scope</span><span class="note" style="margin:0 0 0 auto">Prototype for testing the UX</span></div><div class="proto">Prototype. Your projects are kept in this browser only. No calculations run.</div>
+ <div class="home"><div class="col"><div class="homehead"><div><h1>Projects</h1><p class="lead" style="margin:4px 0 0">Pick a project to continue, or start a new one.</p></div><div class="tools"><span class="in"><input id="homeq" placeholder="Search projects" value="${esc(S.homeq||"")}"></span><button class="btn" data-act="import">Import project</button><button class="btn primary" data-act="new">New project</button></div></div>
+ ${body}<p class="note" style="margin-top:10px"><button class="reset" data-showarch>${S.showArch?"Show active projects":"Show archived projects"}</button></p></div></div>`}
+function chooserHTML(){const c=S.chooser;return `<div class="menurow"><span class="brand"><i></i>EV Scope</span><button class="btn ghost small" style="margin-left:auto" data-act="home">Cancel</button></div>
+ <div class="home"><div class="col" style="max-width:980px"><div class="crumb">${S.changeStart?"Change start point":"New project"}</div><h1>What do you already know?</h1><p class="lead">This decides where the modelling starts. You can change it later under Project › Start point, and nothing you type is lost.</p>
+ ${S.changeStart?"":`<div class="formrow"><div><label for="cname">Project name</label><span class="in"><input id="cname" value="${esc(c.name)}" placeholder="For example: Refuse collection 2027"></span></div><div><label for="cclient">Client or organisation <span class="note">(optional)</span></label><span class="in"><input id="cclient" value="${esc(c.client)}"></span></div></div>`}
+ <div class="starts">${STARTS.map(s=>`<button class="start${c.start===s.n?" on":""}" data-pickstart="${s.n}" role="radio" aria-checked="${c.start===s.n}"><b>${esc(s.t)}</b><span>${esc(s.d)}</span><em>${esc(s.at)}</em></button>`).join("")}</div>
+ <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn" data-act="${S.changeStart?"back":"home"}">Cancel</button><button class="btn primary" data-create>${S.changeStart?"Use this start point":"Create project"}</button></div></div></div>`}
+function importHTML(){const r=S.importRes;return `<div class="menurow"><span class="brand"><i></i>EV Scope</span></div><div class="home"><div class="col" style="max-width:820px"><div class="crumb">Import project</div><h1>${esc(r.name)}</h1><p class="lead">This is what was read from <span class="mono">${esc(r.file)}</span>. Nothing is opened until you confirm, and it always opens as a new project.</p>
+ <section class="card"><h2>Read</h2><div class="rline"><b style="font-weight:500">Values</b><span>${r.read}</span></div><div class="rline"><b style="font-weight:500">Fleet groups</b><span>${r.groups}</span></div><div class="rline"><b style="font-weight:500">Vehicle types, routes, loads, schedules</b><span>${r.objs}</span></div></section>
+ <section class="card"><h2>Unknown or wrong<small>${r.unknown.length}</small></h2>${r.unknown.length?r.unknown.slice(0,30).map(u=>`<div class="rline"><b class="mono" style="font-weight:400">${esc(u)}</b><span>Not an input EV Scope knows. It will be dropped.</span></div>`).join(""):'<p class="note">Nothing unknown.</p>'}</section>
+ <section class="card"><h2>Changed for this version</h2><p class="note">None. In the real tool, values converted from an older file version are listed here.</p></section>
+ <div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn" data-act="home">Cancel</button><button class="btn primary" data-importok>Open as a new project</button></div></div></div>`}
+
+function render(){const app=document.getElementById("app");
+ if(S.screen==="home"){app.innerHTML=homeHTML();return}
+ if(S.screen==="chooser"){app.innerHTML=chooserHTML();return}
+ if(S.screen==="import"){app.innerHTML=importHTML();return}
+ const ck=check();S.ck=ck;
+ app.innerHTML=`<div class="menurow">${`<span class="brand"><i></i>EV Scope</span>`}${menuHTML()}<div class="findwrap"><input class="find" id="find" placeholder="Find an input…  Ctrl K" value="${esc(S.find)}" autocomplete="off"><div class="findres" id="findres"></div></div><button class="btn small menubtn" data-togglenav>Sheets</button></div>
+ <div class="proto">Prototype for testing the UX. Saved in this browser only. Nothing is calculated.</div>
+ <div class="projrow" id="projrow">${projRowHTML(ck)}</div>
+ <div class="work"><nav class="index${S.navShow?" show":""}" aria-label="Project index">${navHTML(ck)}</nav><main class="sheet" id="sheet"><div class="col">${sheetHTML(ck)}</div></main><aside class="panel" ${S.panelOpen?"":"hidden"} aria-label="Side panel">${panelHTML(ck)}</aside></div>`;
+ if(S.scrollTo){const el=document.getElementById(S.scrollTo)||document.querySelector(`[data-row="${S.scrollTo.slice(2)}"]`);if(el){el.scrollIntoView({block:"center"});const f=el.querySelector?.("input,button")||el;f.focus&&f.focus()}S.scrollTo=null}
+ if(S.find)showFind()}
+function paintProjRow(){const el=document.getElementById("projrow");if(el&&S.screen==="project")el.innerHTML=projRowHTML(check())}
+
+/* ---------- actions ---------- */
+let toastT;function toast(t){let el=document.querySelector(".toast");if(!el){el=document.createElement("div");el.className="toast";el.setAttribute("role","status");document.body.appendChild(el)}el.textContent=t;clearTimeout(toastT);toastT=setTimeout(()=>el.remove(),2600)}
+function dialog(title,body,acts){const d=document.createElement("div");d.className="scrim";d.innerHTML=`<div class="dlg" role="dialog" aria-modal="true" aria-label="${esc(title)}"><h3>${esc(title)}</h3>${body}<div class="acts">${(acts||[["Close"]]).map((a,i)=>`<button class="btn${a[2]?" "+a[2]:""}" data-i="${i}">${esc(a[0])}</button>`).join("")}</div></div>`;
+ document.body.appendChild(d);d.addEventListener("click",e=>{const b=e.target.closest("[data-i]");if(e.target===d||b){const a=b&&(acts||[])[+b.dataset.i];const keep=a&&a[1]&&a[1](d)===false;if(!keep)d.remove()}});const f=d.querySelector("input,textarea,.acts .btn:last-child");f&&f.focus();return d}
+function openProject(id){S.pid=id;S.screen="project";S.undo=[];S.redo=[];S.checked=false;S.save="Saved";const p=P();S.page=p.start===1?"Duties / Fleet groups":p.start===2?"Energy chain / Battery and ageing":p.start<=4?"Energy chain / Charging":"Business case / Costs and finance";if(p.sample)S.page="Duties / Route and stops";render()}
+function doRun(){const p=P();if(S.running){S.running=false;clearTimeout(S.runT);toast("Run stopped. Nothing was kept from it.");render();return}
+ const ck=check();S.checked=true;if(ck.miss.length||ck.wrong.length){S.panelOpen=true;S.panel="check";render();toast(`Run needs ${ck.miss.length+ck.wrong.length} thing${ck.miss.length+ck.wrong.length>1?"s":""} fixed first`);return}
+ if(p.start!==1){toast("The stage this project starts at is not built yet, so there is nothing to run.");return}
+ S.running=true;render();S.runT=setTimeout(()=>{S.running=false;p.runs.push({at:Date.now(),stale:false,start:p.start});persist();render();toast("Run finished. Open Findings › Decision to see the layout.")},1600)}
+function act(a,el){const p=P();
+ if(a.startsWith("v:")){S.view=a.slice(2);return render()}
+ if(a.startsWith("go:")){S.page=a.slice(3);return render()}
+ if(a.startsWith("help:")){const k=a.slice(5);const T={start:["Getting started","<p>Pick a sheet in the index on the left. Each sheet says at the top what it holds. Fill in what you know; press <b>Check</b> to see what is still missing, then <b>Run</b>.</p><p>Grey fields with a D will use a default. Required fields say so under their name.</p>"],page:["Guide to this page",`<p>${esc(PROMISE[S.page]||"")}</p>`],gloss:["Glossary","<p><b>CdxA</b>: drag area, the drag coefficient times the frontal area (m²).</p><p><b>Crr</b>: rolling resistance coefficient of the tyres.</p><p><b>PTO</b>: power take-off, body equipment powered by the vehicle (crane, compactor, cooling).</p><p><b>VECTO</b>: the EU's official simulation tool for heavy vehicle energy use.</p><p><b>Year-8 check</b>: does the battery still cover the hardest day at 8 years old.</p>"],status:["Model status",`<p>Consumption: in work (being finalised). Battery, charging, flexibility, cost and CO₂: planned, not built.</p><p>Status of every input is shown as a small tag beside fields that are not final.</p>`],keys:["Keyboard shortcuts","<p><span class='mono'>Ctrl K</span> find an input · <span class='mono'>Ctrl Z</span> undo · <span class='mono'>Ctrl Shift Z</span> redo · <span class='mono'>Ctrl S</span> save · <span class='mono'>Ctrl Enter</span> run · <span class='mono'>Ctrl Shift Enter</span> check · <span class='mono'>Esc</span> close a menu or the panel</p>"],about:["About this prototype","<p>Built on 17 Nov 2026 from the input register (263 inputs), the result register (162 results), the lock rules and shell.md on branch <span class='mono'>ux-spec-2026-11</span>.</p><p>It tests the experience only. No engine is connected and nothing is calculated. Projects are kept in this browser.</p>"]}[k];return dialog(T[0],T[1])}
+ switch(a){
+  case "home":S.screen="home";S.pid=null;S.changeStart=false;return render();
+  case "back":S.screen="project";S.changeStart=false;return render();
+  case "new":S.chooser={start:1,name:"",client:""};S.changeStart=false;S.screen="chooser";return render();
+  case "start":S.chooser={start:p.start};S.changeStart=true;S.screen="chooser";return render();
+  case "save":S.save=persist()?"Saved":"Could not save";paintProjRow();return toast(S.save);
+  case "dup":{const c=JSON.parse(JSON.stringify(p));c.id=uid();c.name=p.name+" (copy)";c.sample=false;c.runs=[];c.updated=Date.now();DB.projects.push(c);persist();openProject(c.id);return toast("Duplicated. You are now in the copy.")}
+  case "rename":return renameDlg(p);
+  case "import":{const i=document.createElement("input");i.type="file";i.accept=".json,application/json";i.onchange=()=>{const f=i.files[0];if(!f)return;f.text().then(t=>{try{const o=JSON.parse(t);const known=new Set(ALLIN.map(x=>x.id));const unknown=[];let read=0;for(const sc in (o.values||{}))for(const k in o.values[sc]){read++;if(!known.has(k))unknown.push(k)}
+     S.importRes={file:f.name,name:o.name||"Imported project",read,groups:(o.groups||[]).length,objs:Object.values(o.objects||{}).reduce((a,l)=>a+l.length,0),unknown,data:o};S.screen="import";render()}catch(e){dialog("Could not read the file","<p>The file is not an EV Scope project file (it is not valid JSON).</p>")}})};i.click();return}
+  case "export":return dialog("Export project",`<p>Copy this text into a file named <span class="mono">${esc(p.name.replace(/[^\w\- ]/g,"").trim()||"project")}.evscope.json</span>. In the real tool this is a download; the prototype's frame does not allow downloads.</p><textarea class="in" style="height:200px;max-width:none" readonly id="exptxt">${esc(JSON.stringify(p,null,1))}</textarea>`,[["Copy",d=>{const t=d.querySelector("#exptxt");navigator.clipboard?.writeText(t.value).then(()=>toast("Copied"),()=>{t.select();toast("Selected. Press Ctrl C.")});return false}],["Close"]]);
+  case "docs":S.page="Findings / Documents";return render();
+  case "undo":return undo();case "redo":return redo();
+  case "resetf":{if(!S.focus)return toast("Click a field's label first");const f=BYID[S.focus];setV(f.id,scopeOf(f),undefined);render();return toast("Reset to default")}
+  case "resetp":return dialog("Reset this page to defaults?",`<p>Every value you entered on “${esc(nameOf(S.page))}” is removed. You can undo this.</p>`,[["Cancel"],["Reset page",()=>{pushUndo();for(const inp of ALLIN.filter(x=>x.page===S.page)){const sc=scopeOf(inp);if(P().values[sc])delete P().values[sc][inp.id]}touched();render();toast("Page reset")},"primary"]]);
+  case "find":document.getElementById("find")?.focus();return;
+  case "assistant":S.panelOpen=!(S.panelOpen&&S.panel==="assistant");S.panel="assistant";return render();
+  case "marks":S.marks=!S.marks;document.body.classList.toggle("nomarks",!S.marks);return render();
+  case "theme":{const r=document.documentElement;const cur=r.dataset.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");r.dataset.theme=cur==="dark"?"light":"dark";return}
+  case "notes":return dialog("Project notes",`<p>Notes are kept with the project and are not used in any calculation.</p><textarea class="in" style="height:160px;max-width:none" id="notes">${esc(p.notes||"")}</textarea>`,[["Cancel"],["Save notes",d=>{p.notes=d.querySelector("#notes").value;touched();toast("Notes saved")},"primary"]]);
+  case "check":S.checked=true;S.panelOpen=true;S.panel="check";return render();
+  case "run":return doRun();
+  case "stop":if(S.running)return doRun();return toast("Nothing is running");
+  case "history":return dialog("Run history",p.runs.length?p.runs.slice().reverse().map((r,i)=>`<div class="rline"><b style="font-weight:500">Run ${p.runs.length-i}</b><span>${new Date(r.at).toLocaleString("en-GB")}${r.stale?" · out of date":""}</span></div>`).join(""):"<p>No runs yet.</p>");
+  case "lib":return dialog("Libraries","<p>The shared libraries (EEA trucks, VECTO cycles, chargers, PTO profiles) are not in this prototype.</p><p>In a project, vehicle types, routes, loads and schedules are made on their own sheets under Duties and picked per fleet group.</p>");
+  case "nyi":return toast("Not in this prototype")}}
+function renameDlg(p,after){dialog("Rename project",`<span class="in" style="width:100%"><input id="rn" value="${esc(p.name)}"></span>`,[["Cancel"],["Rename",d=>{const v=d.querySelector("#rn").value.trim();if(!v){toast("A project needs a name");return false}p.name=v;p.values.p=p.values.p||{};p.values.p["proj.name"]=v;p.updated=Date.now();persist();after?after():render()},"primary"]])}
+
+function showFind(){const box=document.getElementById("findres"),q=S.find.trim().toLowerCase();if(!box)return;if(!q){box.classList.remove("show");return}
+ const hits=ALLIN.filter(x=>(x.label+" "+x.id+" "+x.help).toLowerCase().includes(q)).slice(0,30);
+ box.innerHTML=hits.map((x,i)=>`<button data-findgo="${esc(x.id)}" class="${i===0?"hl":""}"><b>${esc(L(x))}</b><small>${esc(x.page.replace(" / "," › "))} › ${esc(x.sec)}${x.tier==="more"?" · under More":x.tier==="expert"?" · engineering view":x.tier==="ledger"?" · calculated, in Inputs and sources":""}</small></button>`).join("")||'<p class="note" style="padding:10px 12px">No input matches.</p>';box.classList.add("show")}
+function goField(id){const x=BYID[id];S.find="";S.page=x.tier==="ledger"?"Findings / Inputs and sources":x.page;
+ if(x.tier==="expert")S.view="engineering";else if(x.views==="oem"&&S.view==="client")S.view="OEM";
+ const sc=scopeOf(x);if(x.tier==="more"){S.openMore=S.openMore||{};S.openMore[x.sec+sc]=true}
+ S.focus=id;S.scrollTo="f-"+id;S.navShow=false;render();
+ if(!visibleBranch(x,sc)&&x.tier!=="ledger")toast("This field is closed by a choice on this sheet. Its grey note says which.")}
+
+document.addEventListener("click",e=>{const t=e.target;
+ const m=t.closest(".menu>button");document.querySelectorAll(".menu.open").forEach(x=>{if(!m||x!==m.parentElement)x.classList.remove("open")});if(m){m.parentElement.classList.toggle("open");return}
+ if(!t.closest(".findwrap")){const fr=document.getElementById("findres");fr&&fr.classList.remove("show")}
+ const d=t.closest("[data-act]");if(d){document.querySelectorAll(".menu.open").forEach(x=>x.classList.remove("open"));return act(d.dataset.act,d)}
+ const q=k=>t.closest(`[data-${k}]`);let el;
+ if(el=q("open")){if(t.closest("button"))return;return openProject(el.dataset.open)}
+ if(el=q("pdup")){const s=DB.projects.find(p=>p.id===el.dataset.pdup);const c=JSON.parse(JSON.stringify(s));c.id=uid();c.name=s.name+" (copy)";c.sample=false;c.updated=Date.now();DB.projects.push(c);persist();return render()}
+ if(el=q("pren")){return renameDlg(DB.projects.find(p=>p.id===el.dataset.pren))}
+ if(el=q("pexp")){S.pid=el.dataset.pexp;act("export");S.pid=null;return}
+ if(el=q("parch")){const p=DB.projects.find(p=>p.id===el.dataset.parch);p.archived=!p.archived;persist();toast(p.archived?"Archived. Find it under “Show archived projects”.":"Restored");return render()}
+ if(el=q("pdel")){const p=DB.projects.find(p=>p.id===el.dataset.pdel);return dialog(`Delete “${p.name}”?`,`<p>The project, its scenarios and its ${p.runs.length} run${p.runs.length===1?"":"s"} are deleted. This cannot be undone.</p><p>Archive keeps it out of the list without deleting it.</p>`,[["Cancel"],["Archive instead",()=>{p.archived=true;persist();render()}],["Delete",()=>{DB.projects=DB.projects.filter(x=>x!==p);persist();render();toast("Deleted")},"danger"]])}
+ if(el=q("showarch")){S.showArch=!S.showArch;return render()}
+ if(el=q("sort")){S.sort=el.dataset.sort;return render()}
+ if(el=q("addsample")){DB.projects.push(sample());persist();return render()}
+ if(el=q("pickstart")){S.chooser.start=+el.dataset.pickstart;const n=document.getElementById("cname");if(n){S.chooser.name=n.value;S.chooser.client=document.getElementById("cclient").value}return render()}
+ if(el=q("create")){if(S.changeStart){const p=P();pushUndo();p.start=S.chooser.start;touched();S.changeStart=false;S.screen="project";render();return toast("Start point changed. Sheets you no longer need are marked “Not used”; nothing was deleted.")}
+  const n=document.getElementById("cname").value.trim();if(!n){document.getElementById("cname").focus();return toast("Give the project a name")}const p=newProject(n,document.getElementById("cclient").value.trim(),S.chooser.start);DB.projects.push(p);persist();return openProject(p.id)}
+ if(el=q("importok")){const o=S.importRes.data;const p=newProject(o.name||"Imported project",o.client||"",o.start||1);const known=new Set(ALLIN.map(x=>x.id));
+  for(const k of ["objects","groups","stops"])if(o[k])p[k]=o[k];p.values={};for(const sc in (o.values||{})){p.values[sc]={};for(const k in o.values[sc])if(known.has(k))p.values[sc][k]=o.values[sc][k]}p.name=(o.name||"Imported project")+" (imported)";DB.projects.push(p);persist();S.importRes=null;return openProject(p.id)}
+ if(el=q("page")){S.page=el.dataset.page;S.navShow=false;document.getElementById("sheet")&&(document.getElementById("sheet").scrollTop=0);return render()}
+ if(el=q("togglenav")){S.navShow=!S.navShow;return render()}
+ if(el=q("view")){S.view=el.dataset.view;return render()}
+ if(el=q("panel")){S.panel=el.dataset.panel;return render()}
+ if(el=q("closepanel")){S.panelOpen=false;return render()}
+ if(el=q("stage")){const k=el.dataset.stage,[s]=stageState(k,check());const M={"Not available yet":"This stage of the engine is planned and not built yet.","You supplied this":"You gave this stage's result directly, so it is not modelled.","Not used":"This project starts at a later stage.","Ready":"Everything needed is filled in. Press Run.","Modelled":"Worked out in the last run.","Out of date":"An input changed after the last run. Run again.","Running…":"In progress."};return dialog(STAGES.find(x=>x[0]===k)[1]+": "+s,`<p>${M[s]||"Something still needs fixing. Press Check to see what."}</p><p class="note">The stage strip explains; it is not a way to move around. Use the index on the left.</p>`)}
+ if(el=q("jump")){const ck=check(),j=el.dataset.jump,m=j[0]==="m"?ck.miss[+j.slice(1)]:ck.wrong[+j.slice(1)];if(m.group){S.page="Duties / Fleet groups";return render()}const o=OBJ[m.inp.page];if(o)S.obj[o[0]]=m.sc;return goField(m.inp.id)}
+ if(el=q("findgo"))return goField(el.dataset.findgo);
+ if(el=q("help")){S.focus=el.dataset.help;if(!S.panelOpen||!["sources","help"].includes(S.panel)){S.panel="sources"}S.panelOpen=true;return render()}
+ if(el=q("obj")){S.obj[el.dataset.obj]=el.dataset.oid;return render()}
+ if(el=q("addobj")){const k=el.dataset.addobj,p=P(),o=Object.values(OBJ).find(x=>x[0]===k);pushUndo();const n={id:uid(),name:`${o[2]} ${p.objects[k].length+1}`};p.objects[k].push(n);S.obj[k]=n.id;touched();return render()}
+ if(el=q("renobj")){const k=el.dataset.renobj,p=P(),cur=p.objects[k].find(x=>x.id===S.obj[k]);return dialog("Rename",`<span class="in" style="width:100%"><input id="rn" value="${esc(cur.name)}"></span>`,[["Cancel"],["Rename",d=>{cur.name=d.querySelector("#rn").value.trim()||cur.name;touched();render()},"primary"]])}
+ if(el=q("dupobj")){const k=el.dataset.dupobj,p=P(),cur=p.objects[k].find(x=>x.id===S.obj[k]);pushUndo();const n={id:uid(),name:cur.name+" (copy)"};p.objects[k].push(n);p.values[n.id]=JSON.parse(JSON.stringify(p.values[cur.id]||{}));if(p.stops[cur.id])p.stops[n.id]=JSON.parse(JSON.stringify(p.stops[cur.id]));S.obj[k]=n.id;touched();return render()}
+ if(el=q("delobj")){const k=el.dataset.delobj,p=P(),cur=p.objects[k].find(x=>x.id===S.obj[k]);const n=p.groups.filter(g=>g[k]===cur.id).length;if(n)return dialog("Cannot delete",`<p>“${esc(cur.name)}” is used by ${n} fleet group${n>1?"s":""}. Pick another for ${n>1?"them":"it"} first.</p>`);return dialog(`Delete “${cur.name}”?`,"<p>Its values are removed. You can undo this.</p>",[["Cancel"],["Delete",()=>{pushUndo();p.objects[k]=p.objects[k].filter(x=>x!==cur);delete S.obj[k];touched();render()},"danger"]])}
+ if(el=q("addgroup")){const p=P();pushUndo();p.groups.push({id:uid(),name:`Group ${p.groups.length+1}`,count:1,veh:p.objects.veh[0]?.id,rt:p.objects.rt[0]?.id,pl:p.objects.pl[0]?.id,sch:p.objects.sch[0]?.id});touched();return render()}
+ if(el=q("delgroup")){const p=P();pushUndo();p.groups=p.groups.filter(g=>g.id!==el.dataset.delgroup);touched();return render()}
+ if(el=q("setstart")){const p=P();pushUndo();p.start=+el.dataset.setstart;touched();render();return toast("Start point changed")}
+ if(el=q("gostart"))return act("start");
+ if(el=q("run"))return doRun();
+ if(el=q("reset")&&el.dataset.reset){setV(el.dataset.reset,el.dataset.sc,undefined);return render()}
+ if(el=q("addrow")){const id=el.dataset.id,sc=el.dataset.sc,v=(P().values[sc]||{})[id];setV(id,sc,(v?v+"\n":"\n"));return render()}
+ if(el=q("delrow")){const id=el.dataset.id,sc=el.dataset.sc,rows=String((P().values[sc]||{})[id]||"").split("\n");rows.splice(+el.dataset.delrow,1);setV(id,sc,rows.join("\n"));return render()}
+ if(el=t.closest("[data-k]")){const id=el.dataset.id,sc=el.dataset.sc,k=el.dataset.k,cur=(P().values[sc]||{})[id];
+  if(k==="opt"){setV(id,sc,cur===+el.dataset.i?undefined:+el.dataset.i);S.focus=id;return render()}
+  if(k==="multi"){const a=new Set(cur||[]);const i=+el.dataset.i;a.has(i)?a.delete(i):a.add(i);setV(id,sc,[...a].sort());S.focus=id;return render()}
+  if(k==="bool"){setV(id,sc,!cur);S.focus=id;return render()}
+  if(k==="src"){const i=+el.dataset.i;setV(id,sc,cur&&cur.c===i?undefined:{c:i});S.focus=id;return render()}}
+ if(t.closest("details.more>summary")){const d=t.closest("details");S.openMore=S.openMore||{};S.openMore[d.dataset.more]=!d.open}
+});
+document.addEventListener("change",e=>{const t=e.target;
+ if(t.dataset.g){const p=P(),g=p.groups.find(x=>x.id===t.dataset.g);pushUndo();g[t.dataset.gk]=t.dataset.gk==="count"?t.value.replace(/\D/g,""):t.value;touched();return render()}
+ if(t.dataset.stop!==undefined){const p=P(),sc=t.dataset.sc;pushUndo();const d=(p.stops[sc]=p.stops[sc]||{});(d[t.dataset.stop]=d[t.dataset.stop]||{})[t.dataset.col]=t.type==="checkbox"?t.checked:t.value;touched();return}
+ if(t.dataset.k==="file"){setV(t.dataset.id,t.dataset.sc,t.files[0]?.name);return render()}
+ if(t.dataset.k==="cell"){const id=t.dataset.id,sc=t.dataset.sc,rows=String((P().values[sc]||{})[id]||"").split("\n").map(r=>r.split("\t"));const r=+t.dataset.r,c=+t.dataset.c;while(rows.length<=r)rows.push([]);rows[r][c]=t.value;setV(id,sc,rows.map(x=>x.join("\t")).join("\n"));return render()}
+ if(t.dataset.k==="v"){setV(t.dataset.id,t.dataset.sc,t.value.trim()===""?undefined:t.value);S.focus=t.dataset.id;const keep=t.id;render();return}
+ if(t.dataset.k==="srcv"){const cur=(P().values[t.dataset.sc]||{})[t.dataset.id]||{};setV(t.dataset.id,t.dataset.sc,{c:cur.c,v:t.value});return render()}
+});
+document.addEventListener("paste",e=>{const t=e.target;if(t.dataset&&t.dataset.k==="cell"){const txt=(e.clipboardData||window.clipboardData).getData("text");if(!txt.includes("\t")&&!txt.includes("\n"))return;e.preventDefault();const id=t.dataset.id,sc=t.dataset.sc,r0=+t.dataset.r,c0=+t.dataset.c;
+ const rows=String((P().values[sc]||{})[id]||"").split("\n").map(r=>r.split("\t"));txt.replace(/\r/g,"").split("\n").filter(Boolean).forEach((line,i)=>{const cells=line.split("\t");while(rows.length<=r0+i)rows.push([]);cells.forEach((v,j)=>rows[r0+i][c0+j]=v)});setV(id,sc,rows.map(x=>x.join("\t")).join("\n"));render();toast("Pasted "+txt.split("\n").filter(Boolean).length+" rows")}});
+document.addEventListener("input",e=>{const t=e.target;if(t.id==="find"){S.find=t.value;showFind()}if(t.id==="homeq"){S.homeq=t.value;const pos=t.selectionStart;render();const n=document.getElementById("homeq");n.focus();n.setSelectionRange(pos,pos)}});
+document.addEventListener("keydown",e=>{const mod=e.ctrlKey||e.metaKey;
+ if(e.key==="Escape"){document.querySelectorAll(".menu.open").forEach(x=>x.classList.remove("open"));if(S.find){S.find="";render()}else if(S.panelOpen&&!document.querySelector(".scrim")){S.panelOpen=false;render()}const sc=document.querySelector(".scrim");sc&&sc.remove();return}
+ if(e.target.id==="find"&&e.key==="Enter"){const b=document.querySelector("#findres [data-findgo]");b&&goField(b.dataset.findgo);return}
+ if(S.screen!=="project"||!mod)return;
+ if(e.key.toLowerCase()==="k"){e.preventDefault();act("find")}
+ else if(e.key.toLowerCase()==="z"&&!(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA")){e.preventDefault();e.shiftKey?redo():undo()}
+ else if(e.key.toLowerCase()==="s"){e.preventDefault();act("save")}
+ else if(e.key==="Enter"){e.preventDefault();act(e.shiftKey?"check":"run")}});
+render();
+</script>
