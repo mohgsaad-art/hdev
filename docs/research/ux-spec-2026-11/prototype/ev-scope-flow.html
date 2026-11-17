@@ -47,7 +47,7 @@ input:disabled{opacity:.45}
 .frow{display:flex;align-items:center;gap:6px}
 .unit{color:var(--muted);font-size:13px;min-width:22px}
 .rst{border:0;background:none;color:var(--blue);font-size:16px;padding:0 4px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px 14px}
 /* page */
 .pg{padding-top:20px;max-width:1100px;margin:0 auto}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px}
@@ -104,7 +104,7 @@ tr+tr td{border-top:1px solid var(--line)}
 .db{padding:16px;display:flex;flex-direction:column;gap:14px}
 .df{display:flex;gap:8px;justify-content:flex-end;padding:12px 16px;border-top:1px solid var(--line)}
 .df .sp{flex:1}
-.sums{border:1px solid var(--line);border-radius:8px}
+.shead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
 .sline{display:flex;align-items:center;gap:10px;padding:9px 12px}
 .sline+.sline{border-top:1px solid var(--line)}
 .sline b{flex:1;font-weight:500}
@@ -132,7 +132,7 @@ textarea{font:12px/1.4 ui-monospace,monospace;width:100%;height:220px;background
 <script>
 (function(){
 'use strict';
-var KEY='evscope-flow-v1';
+var KEY='evscope-flow-v2';
 var uid=1;
 function nid(p){return p+(uid++)+Math.random().toString(36).slice(2,6)}
 function $(s,r){return (r||document).querySelector(s)}
@@ -159,46 +159,52 @@ function add(e,c){
 /* ---------- data ---------- */
 var STD=['VECTO Long haul','VECTO Regional delivery','VECTO Urban delivery','VECTO Municipal utility','VECTO Construction'];
 function newGroup(){return {id:nid('g'),name:'',vehicle:'',route:'',schedule:'',count:''}}
-function newVehicle(){return {id:nid('v'),name:'',type:'',gvw:'',empty:'',battery:'',power:'',
-  tyres:{size:'',rrc:''},drive:{gearbox:'',ratio:'',regen:''},cab:{mode:'',power:'',volume:'',heatpump:''},body:{has:'',kind:'',power:'',runs:''}}}
+function newVehicle(){var v={id:nid('v'),name:'',group:''};VSEC.forEach(function(sc){sc.f.concat(sc.expert||[]).forEach(function(f){v[f.k]=''})});return v}
 function newStop(){return {name:'',leg:'',arr:'',dwell:'',load:'none',kg:'',eq:false}}
 function newRoute(){return {id:nid('r'),name:'',stops:[newStop(),newStop()],back:{leg:'',arr:''}}}
 function newSched(){return {id:nid('s'),name:'',days:[false,false,false,false,false,false,false],start:'',end:'',trips:''}}
-function fresh(){return {name:'',page:'fleet',selRoute:'',selSched:'',
+function fresh(){return {name:'',page:'fleet',selRoute:'',selSched:'',selVeh:'',
   vehicles:[],routes:STD.map(function(n,i){return {id:'b'+i,name:n,builtin:true}}),schedules:[],groups:[newGroup()]}}
 function load(){try{var j=JSON.parse(localStorage.getItem(KEY));if(j&&j.groups&&j.routes&&j.vehicles)return j}catch(e){}return fresh()}
 var S=load();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 var selected={};   /* fleet rows ticked for bulk apply */
 
-/* ---------- sections of the vehicle popup ---------- */
-var SEC={
-  tyres:{title:'Tyres',f:function(){return [
-    {k:'size',label:'Tyre size',type:'text'},
-    {k:'rrc',label:'Rolling resistance (RRC)',type:'num'}]}},
-  drive:{title:'Drivetrain',f:function(){return [
-    {k:'gearbox',label:'Gearbox',type:'select',options:['Single speed','Multi-speed']},
-    {k:'ratio',label:'Final drive ratio',type:'num'},
-    {k:'regen',label:'Max regeneration power',type:'num',unit:'kW'}]}},
-  cab:{title:'Cab climate',f:function(o){
-    var a=[{k:'mode',label:'Cab climate',type:'select',options:['Constant','Thermal model'],rebuild:true}];
-    if(o.mode==='Constant')a.push({k:'power',label:'Climate power',type:'num',unit:'kW'});
-    if(o.mode==='Thermal model'){a.push({k:'volume',label:'Cab volume',type:'num',unit:'m³'});
-      a.push({k:'heatpump',label:'Heat pump',type:'select',options:['Yes','No']})}
-    return a}},
-  body:{title:'Body equipment',f:function(o){
-    var a=[{k:'has',label:'Body equipment fitted',type:'select',options:['No','Yes'],rebuild:true}];
-    if(o.has==='Yes'){a.push({k:'kind',label:'Type',type:'select',options:['Refrigeration','Crane','Compactor','Tipper','Other']});
-      a.push({k:'power',label:'Power when running',type:'num',unit:'kW',req:true});
-      a.push({k:'runs',label:'Runs while',type:'select',options:['Driving','Stopped','Both']})}
-    return a}}
-};
+/* ---------- vehicle sections (from the input map: always visible + one step away on the page; expert in a named popup) ---------- */
+var GROUPS=['1','1s','2','3','4','5','9','10','11','12','16'];
+var VSEC=[
+  {title:'Weights',f:[
+    {k:'curb',label:'Empty weight of the chassis',type:'num',unit:'kg',req:true},
+    {k:'gvw',label:'Gross vehicle weight',type:'num',unit:'kg',req:true},
+    {k:'bodyW',label:'Body weight',type:'num',unit:'kg'},
+    {k:'trailW',label:'Trailer weight',type:'num',unit:'kg'},
+    {k:'height',label:'Vehicle height',type:'num',unit:'m'}]},
+  {title:'Tyres',f:[
+    {k:'tsize',label:'Tyre size',type:'text',req:true},
+    {k:'crr',label:'Rolling resistance',type:'num',unit:'N/kN'},
+    {k:'cold',label:'Cold-tyre correction',type:'select',options:['Off','On']},
+    {k:'road',label:'Wet, snow or ice',type:'select',options:['Off','From weather data']}],
+   expert:[{k:'loadIdx',label:'Tyre load index',type:'num'},{k:'wheelJ',label:'Wheel inertia',type:'num',unit:'kg·m²'}]},
+  {title:'Air drag',f:[{k:'cdxa',label:'Air drag area (CdxA)',type:'num',unit:'m²'}]},
+  {title:'Drivetrain',f:[
+    {k:'regenP',label:'Largest regeneration power',type:'num',unit:'kW',req:true},
+    {k:'driveP',label:'Largest drive power',type:'num',unit:'kW',req:true}],
+   expert:[{k:'driveEff',label:'Drive efficiency',type:'num'},{k:'regenEff',label:'Regeneration efficiency',type:'num'},
+     {k:'drag',label:'Constant drivetrain drag at the wheel',type:'num',unit:'N'},{k:'rotorJ',label:'Rotor inertia',type:'num',unit:'kg·m²'},
+     {k:'ratio',label:'Total ratio, motor to wheel',type:'num'}]},
+  {title:'Auxiliaries',f:[
+    {k:'es',label:'Electric system',type:'num',unit:'W'},
+    {k:'ps',label:'Air system',type:'num',unit:'W'},
+    {k:'cond',label:'Motor and battery conditioning',type:'num',unit:'W'}],
+   expert:[{k:'esF',label:'Electric system factor',type:'num'},{k:'psF',label:'Air system factor',type:'num'},{k:'condF',label:'Conditioning factor',type:'num'}]},
+  {title:'Body power',f:[
+    {k:'bodyUse',label:'Does the body use power?',type:'select',options:['No','Yes'],rebuild:true},
+    {k:'stopW',label:'Power while stopped',type:'num',unit:'kW',show:function(v){return v.bodyUse==='Yes'}},
+    {k:'driveW',label:'Power while driving',type:'num',unit:'kW',show:function(v){return v.bodyUse==='Yes'}},
+    {k:'ownMotor',label:'Own electric motor',type:'select',options:['Yes','No'],show:function(v){return v.bodyUse==='Yes'}}]}
+];
+function vFields(sec,v){return sec.f.filter(function(x){return !x.show||x.show(v)})}
 function isEmpty(v){return v===''||v==null}
-function secState(sec,o){
-  var fs=SEC[sec].f(o),empt=fs.filter(function(x){return isEmpty(o[x.k])});
-  return {fs:fs,red:empt.filter(function(x){return x.req}),def:empt.filter(function(x){return !x.req}),
-    text:empt.length===fs.length?'Defaults':empt.length?'Partly set':'Set'};
-}
 
 /* ---------- controls ---------- */
 function control(obj,key,o){
@@ -267,55 +273,44 @@ document.addEventListener('keydown',function(e){
   else{$('#panel').hidden=true;$('#menu').hidden=true}
 });
 
-function openSection(sec,obj,done){
-  var body=el('div',{class:'db',style:'padding:0'});
+function openExpert(sec,v){
+  var body=grid.apply(null,sec.expert.map(function(f){return field(f.label,v,f.k,{type:f.type,options:f.options,unit:f.unit,dataK:'x.'+f.k})}));
+  modal(sec.title+' · expert',body,function(close){return [el('span',{class:'sp'}),el('button',{class:'btn primary',type:'button',onclick:close},'Done')]});
+}
+function vehEditor(v){
+  var root=el('div',{style:'display:flex;flex-direction:column;gap:20px'});
   function build(){
     rebuildHook=build;
-    var st=secState(sec,obj);
-    body.replaceChildren(grid.apply(null,st.fs.map(function(f){
-      return field(f.label,obj,f.k,{type:f.type,options:f.options,unit:f.unit,req:f.req,rebuild:f.rebuild,dataK:'sec.'+f.k})})));
-  }
-  build();
-  return modal(SEC[sec].title,body,function(close){return [el('span',{class:'sp'}),
-    el('button',{class:'btn primary',type:'button',onclick:function(){close();rebuildHook=null;done&&done()}},'Done')]});
-}
-
-function openVehicle(v0,after,focus){
-  var v=v0?JSON.parse(JSON.stringify(v0)):newVehicle();
-  var body=el('div',{style:'display:flex;flex-direction:column;gap:14px'});
-  function build(){
-    rebuildHook=null;
-    body.replaceChildren(
-      grid(
-        field('Name',v,'name',{type:'text',req:true,dataK:'v.name'}),
-        field('Vehicle type',v,'type',{type:'select',req:true,options:['Rigid truck','Tractor + trailer'],dataK:'v.type'}),
-        field('Gross weight',v,'gvw',{type:'num',req:true,unit:'t',dataK:'v.gvw'}),
-        field('Empty weight',v,'empty',{type:'num',req:true,unit:'t',dataK:'v.empty'}),
-        field('Usable battery',v,'battery',{type:'num',req:true,unit:'kWh',dataK:'v.battery'}),
-        field('Motor power',v,'power',{type:'num',req:true,unit:'kW',dataK:'v.power'})),
-      el('div',{class:'sums'},['tyres','drive','cab','body'].map(function(sec){
-        var st=secState(sec,v[sec]);
-        return el('div',{class:'sline','data-k':'sec-'+sec},el('b',{},SEC[sec].title),
-          el('span',{class:'st'},el('span',{class:'dot '+(st.red.length?'r':st.text==='Set'?'':'a'),style:st.text==='Set'?'background:var(--blue)':''}),st.text),
-          el('button',{class:'btn sm',type:'button',onclick:function(){openSection(sec,v[sec],build)}},'Edit'))
+    root.replaceChildren.apply(root,[
+      grid(field('Vehicle name',v,'name',{type:'text',req:true,dataK:'v.name'}),
+        field('Vehicle group',v,'group',{type:'select',req:true,options:GROUPS.map(function(g){return [g,'Group '+g]}),dataK:'v.group'})),
+      ].concat(VSEC.map(function(sec){
+        return el('section',{},
+          el('div',{class:'shead'},el('h3',{style:'margin:0'},sec.title),
+            sec.expert?el('button',{class:'btn sm',type:'button',onclick:function(){openExpert(sec,v)}},'Expert inputs'):null),
+          grid.apply(null,vFields(sec,v).map(function(f){
+            return field(f.label,v,f.k,{type:f.type,options:f.options,unit:f.unit,req:f.req,rebuild:!!f.rebuild,dataK:'v.'+f.k})})));
       })));
   }
-  build();
-  var close=modal(v0?(v0.name||'Vehicle'):'New vehicle',body,function(close){return [
-    v0?(function(){var b=el('button',{class:'btn warn',type:'button'},'Delete');armed(b,'Click again to delete',function(){
-      S.vehicles=S.vehicles.filter(function(x){return x.id!==v0.id});
-      S.groups.forEach(function(g){if(g.vehicle===v0.id)g.vehicle=''});save();close();render()});return b})():null,
-    el('span',{class:'sp'}),
-    el('button',{class:'btn',type:'button',onclick:close},'Cancel'),
-    el('button',{class:'btn primary',type:'button',onclick:function(){
-      if(isEmpty(v.name)){flash('[data-k="v.name"]');toast('Give the vehicle a name first');return}
-      var i=S.vehicles.findIndex(function(x){return x.id===v.id});
-      if(i>=0)S.vehicles[i]=v;else S.vehicles.push(v);
-      save();close();render();after&&after(v.id)}},'Save vehicle')]},false);
-  if(focus){
-    if(focus.sec)openSection(focus.sec,v[focus.sec],build);
-    else if(focus.key)flash('[data-k="v.'+focus.key+'"]');
-  }
+  build();return root;
+}
+function openVehicle(after){
+  var v=newVehicle();
+  modal('New vehicle',grid(field('Vehicle name',v,'name',{type:'text',req:true,dataK:'v.name'}),
+    field('Vehicle group',v,'group',{type:'select',req:true,options:GROUPS.map(function(g){return [g,'Group '+g]}),dataK:'v.group'})),
+    function(close){
+      function make(now){return function(){
+        if(isEmpty(v.name)){flash('[data-k="v.name"]');toast('Give the vehicle a name first');return}
+        S.vehicles.push(v);S.selVeh=v.id;save();close();
+        if(after)after(v.id);
+        if(now){S.page='vehicles';save()}
+        render();
+        toast(now?'Fill in the vehicle details':'Created. It shows on the Vehicles page, red until filled in.');
+      }}
+      return [el('span',{class:'sp'}),el('button',{class:'btn',type:'button',onclick:close},'Cancel'),
+        el('button',{class:'btn',type:'button',onclick:make(false)},'Create, fill in later'),
+        el('button',{class:'btn primary',type:'button',onclick:make(true)},'Create and fill in now')];
+    });
 }
 
 /* ---------- route editor (used on the Routes page and in the popup) ---------- */
@@ -419,10 +414,10 @@ function openSchedule(after){
       if(isEmpty(s.name)){flash('[data-k="sc.name"]');toast('Give the schedule a name first');return}
       S.schedules.push(s);save();close();render();after&&after(s.id)}},'Save schedule')]});
 }
-function openNew(kind,after){(kind==='vehicle'?openVehicle.bind(null,null):kind==='route'?openRoute:openSchedule)(after)}
+function openNew(kind,after){(kind==='vehicle'?openVehicle:kind==='route'?openRoute:openSchedule)(after)}
 
 /* ---------- pages ---------- */
-var PAGES=[['fleet','Fleet'],['routes','Routes'],['ops','Operations'],['weather','Weather'],['depot','Depot & charging'],['costs','Costs'],['results','Results']];
+var PAGES=[['fleet','Fleet'],['vehicles','Vehicles'],['routes','Routes'],['ops','Operations'],['weather','Weather'],['depot','Depot & charging'],['costs','Costs'],['results','Results']];
 
 function pickCell(g,k,kind){
   var c=el('select',{'data-k':g.id+'.'+k,'aria-label':kind});
@@ -478,10 +473,7 @@ function fleetPage(){
         picked.forEach(function(g){['vehicle','route','schedule'].forEach(function(k){if(ap[k])g[k]=ap[k]})});save();render();toast('Applied to '+picked.length+' group'+(picked.length>1?'s':''))}},'Apply'),
       el('button',{class:'btn warn',type:'button',onclick:function(){S.groups=S.groups.filter(function(g){return !selected[g.id]});selected={};save();render()}},'Remove')));
   }
-  root.append(card,el('div',{class:'sec-h'},'Vehicles'),
-    el('div',{class:'chips'},S.vehicles.map(function(v){
-      return el('span',{class:'chip'},v.name||'Unnamed vehicle',el('button',{class:'btn sm',type:'button',onclick:function(){openVehicle(v)}},'Edit'))}),
-      el('button',{class:'btn',type:'button',onclick:function(){openVehicle(null)}},'+ New vehicle')));
+  root.append(card);
   return root;
 }
 
@@ -514,13 +506,18 @@ function routesPage(){
     routeEditor,function(){var r=newRoute();S.routes.push(r);S.selRoute=r.id;save();render()},
     function(r){S.routes=S.routes.filter(function(x){return x!==r});S.groups.forEach(function(g){if(g.route===r.id)g.route=''});S.selRoute='';save();render()},'route');
 }
+function vehiclesPage(){
+  return listEditor('Vehicles',S.vehicles,'selVeh',[{label:'Your vehicles',filter:function(){return true},always:true}],
+    vehEditor,function(){var v=newVehicle();S.vehicles.push(v);S.selVeh=v.id;save();render()},
+    function(v){S.vehicles=S.vehicles.filter(function(x){return x!==v});S.groups.forEach(function(g){if(g.vehicle===v.id)g.vehicle=''});S.selVeh='';save();render()},'vehicle');
+}
 function opsPage(){
   return listEditor('Operations',S.schedules,'selSched',[{label:'Schedules',filter:function(){return true},always:true}],
     schedEditor,function(){var s=newSched();S.schedules.push(s);S.selSched=s.id;save();render()},
     function(s){S.schedules=S.schedules.filter(function(x){return x!==s});S.groups.forEach(function(g){if(g.schedule===s.id)g.schedule=''});S.selSched='';save();render()},'schedule');
 }
 function stubPage(name){return function(){return el('div',{class:'pg'},el('h1',{},name),el('p',{class:'stub'},'Not part of this prototype yet. Fleet, Routes and Operations are the flow to test.'))}}
-var PAGEFN={fleet:fleetPage,routes:routesPage,ops:opsPage,weather:stubPage('Weather'),depot:stubPage('Depot & charging'),costs:stubPage('Costs'),results:stubPage('Results')};
+var PAGEFN={fleet:fleetPage,vehicles:vehiclesPage,routes:routesPage,ops:opsPage,weather:stubPage('Weather'),depot:stubPage('Depot & charging'),costs:stubPage('Costs'),results:stubPage('Results')};
 
 /* ---------- Check ---------- */
 var CK={R:[],Y:[]};
@@ -538,12 +535,16 @@ function compute(){
   });
   S.vehicles.forEach(function(v){
     var G='Vehicle · '+vname(v);
-    [['name','name'],['type','vehicle type'],['gvw','gross weight'],['empty','empty weight'],['battery','usable battery'],['power','motor power']].forEach(function(p){
-      if(isEmpty(v[p[0]]))red(G,p[1].charAt(0).toUpperCase()+p[1].slice(1)+' missing',function(){goVehicle(v.id,{key:p[0]})})});
-    ['tyres','drive','cab','body'].forEach(function(sec){
-      var st=secState(sec,v[sec]);
-      st.red.forEach(function(f){red(G,SEC[sec].title+': '+f.label.toLowerCase()+' missing',function(){goVehicle(v.id,{sec:sec})})});
-      if(st.def.length)yel(G,SEC[sec].title+(st.text==='Defaults'?': defaults used':': '+st.def.length+' value'+(st.def.length>1?'s':'')+' use defaults'),function(){goVehicle(v.id,{sec:sec})});
+    if(isEmpty(v.name))red(G,'Name missing',function(){goVehicle(v.id,'name')});
+    if(isEmpty(v.group))red(G,'Vehicle group missing',function(){goVehicle(v.id,'group')});
+    VSEC.forEach(function(sec){
+      var def=0,first='';
+      vFields(sec,v).forEach(function(f){
+        if(!isEmpty(v[f.k]))return;
+        if(f.req)red(G,f.label+' missing',function(){goVehicle(v.id,f.k)});
+        else{def++;first=first||f.k}
+      });
+      if(def)yel(G,sec.title+': '+def+' value'+(def>1?'s':'')+' use defaults',function(){goVehicle(v.id,first)});
     });
   });
   S.routes.filter(function(r){return !r.builtin}).forEach(function(r){
@@ -590,7 +591,7 @@ function drawPanel(){
 }
 function goPage(p){S.page=p;save();render()}
 function goCell(k){goPage('fleet');flash('[data-k="'+k+'"]')}
-function goVehicle(id,focus){var v=S.vehicles.find(function(x){return x.id===id});if(v)openVehicle(v,null,focus)}
+function goVehicle(id,k){S.page='vehicles';S.selVeh=id;save();render();flash('[data-k="v.'+k+'"]')}
 function goRoute(id,k){S.page='routes';S.selRoute=id;save();render();flash('[data-k="'+k+'"]')}
 function goSched(id,k){S.page='ops';S.selSched=id;save();render();flash('[data-k="'+k+'"]')}
 
