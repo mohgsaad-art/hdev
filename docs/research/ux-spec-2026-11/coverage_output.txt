@@ -1,0 +1,14 @@
+UX input coverage check
+Map: /projects/sandbox/hdev/docs/design/hdev-input-map.md
+CSV: /projects/sandbox/hdev/docs/research/ux-spec-2026-11/inputs_ux.csv
+Inference policy: untagged Part B consumption-facing inputs are WIP; a more specific explicit field/section status overrides WIP; D9a inherits PLANNED. OPEN/PROPOSED/PARKED choices remain unresolved and never become defaults.
+Expected input IDs: 263
+CSV rows: 263
+Missing IDs: 0
+Duplicate IDs: 0
+Unexpected IDs: 0
+Allowed status violations: 0
+Required column errors: 0
+Row contract errors: 0
+Lock rules: checked; errors: 0
+RESULT: PASS
